@@ -8,3 +8,5 @@ Google drive: https://drive.google.com/drive/folders/1asFmWhll3NPPb0TKMrkeHLnq51
 Kanban board: https://trello.com/b/YhedOIx7/nourishnexus
 
 LaTex report: https://www.overleaf.com/read/mvvsfbyktffz
+
+Azure DevOps: https://dev.azure.com/NourishNexus/NourishNexus
