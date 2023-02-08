@@ -10,7 +10,7 @@ on:
         branches: [ "main" ]
 
 jobs:
-    build:
+    buildandtest:
         runs-on: ubuntu-latest
 
         steps:
@@ -24,4 +24,5 @@ jobs:
         - name: Build
           run: dotnet build --no-restore
         - name: Test
+          run: cd test
           run: dotnet test --no-build --verbosity normal
