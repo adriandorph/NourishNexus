@@ -7,7 +7,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowOrigin",
+            pol =>
+            {
+                pol.WithOrigins("https://localhost:7138", "http://localhost:5136", "http://client.localhost", "http://crosshost:5136")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+});
+
 var app = builder.Build();
+app.UseCors("AllowOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -15,8 +27,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
