@@ -1,3 +1,6 @@
+using server.Infrastructure;
+using server.Core.EF.RepositoryInterfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<NourishNexusContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("NourishNexus"))
+);
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddCors(options =>
 {
