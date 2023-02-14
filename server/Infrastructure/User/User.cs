@@ -1,11 +1,11 @@
 namespace server.Infrastructure;
 
-public class User 
+public class User
 {
     public int Id {get;set;}
 
     [StringLength(25)]
-    public string? Nickname {get;set;}
+    public string Nickname {get;set;}
 
     [Required]
     [EmailAddress]
