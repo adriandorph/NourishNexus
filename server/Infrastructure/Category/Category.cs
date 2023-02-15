@@ -12,4 +12,9 @@ public class Category
         this.CategoryName = category;
         this.Recipe = recipe;
     }
+
+#nullable disable
+    public Category(){}
+    public CategoryDTO ToDTO()
+        => new CategoryDTO(Id, CategoryName, Recipe.Id);
 }

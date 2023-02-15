@@ -1,7 +1,7 @@
 namespace server.Infrastructure;
 
 public class Recipe {
-    
+    public int Id {get; set;}
     public string Title {get; set;} = "";
     public bool IsPublic {get; set;}
     public string Description {get; set;} = "";
@@ -16,29 +16,13 @@ public class Recipe {
         this.Method = method;
         this.Author = author;
     }
+
+    #nullable disable
+    public Recipe() {}
+    #nullable enable
+    public RecipeDTO ToDTO() 
+        => new RecipeDTO(Id, Title, IsPublic, Method, Description, Author.Id);
 }
 
-public class RecipeCategory 
-{
-    public int Id {get; set;}
-    public Recipe Recipe {get; set;}
-    public Category Category {get; set;}
 
-    public RecipeCategory(Recipe recipe, Category category)
-    {
-        this.Recipe = recipe;
-        this.Category = category;
-    }
-}
 
-public class RecipeFoodItem
-{
-    public int Id {get; set;}
-    public Recipe recipe {get; set;}
-    public FoodItem foodItem {get; set;}
-    
-    public RecipeFoodItem(Recipe recipe, FoodItem foodItem){
-        this.recipe = recipe;
-        this.foodItem = foodItem;
-    }
-}

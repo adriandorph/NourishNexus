@@ -12,8 +12,14 @@ public class User
     [StringLength(50)]
     public string Email {get;set;}
 
-    public User(string nickname, string email) {
-        this.Nickname = nickname;
-        this.Email = email;
+    public User(string Nickname, string Email) {
+        this.Nickname = Nickname;
+        this.Email = Email;
     }
+
+    #nullable disable
+    public User() {}
+     public UserDTO ToDTO() =>
+        new UserDTO(Id, Email, Nickname);
+
 }

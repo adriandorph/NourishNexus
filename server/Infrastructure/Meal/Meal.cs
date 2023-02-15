@@ -13,6 +13,11 @@ public class Meal //NOT DONE
         this.User = user;
         this.Date = date;
     }
+
+    #nullable disable
+    public Meal() {}
+    public MealDTO ToDTO()
+        => new MealDTO(Id, mealType, User.Id, Date);
 }
 
 

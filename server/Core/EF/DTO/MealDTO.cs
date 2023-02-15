@@ -1,8 +1,8 @@
-namespace server.Core.EF;
+namespace server.Core.EF.DTO;
 
 public record MealDTO(
     int Id,
-    string mealType,
+    int mealType,
     int UserId,
     DateOnly Date
 );

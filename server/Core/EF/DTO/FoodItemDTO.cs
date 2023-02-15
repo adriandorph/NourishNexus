@@ -1,4 +1,4 @@
-namespace server.Core.EF;
+namespace server.Core.EF.DTO;
 
 public record FoodItemDTO(
     int Id,
@@ -16,9 +16,9 @@ public record FoodItemDTO(
 public record FoodItemCreateDTO{
 
     public string Name {get; set;}
-    public Unit unit {get; set;}
-    public float Calories {get; set;}
-    public float Protein {get; set;}
+    public Unit? Unit {get; set;}
+    public float? Calories {get; set;}
+    public float? Protein {get; set;}
 }
 
 public record FoodItemUpdateDTO : FoodItemCreateDTO
