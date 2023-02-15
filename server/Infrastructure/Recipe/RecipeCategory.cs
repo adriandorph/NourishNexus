@@ -10,4 +10,7 @@ public class RecipeCategory
         this.Recipe = recipe;
         this.Category = category;
     }
+
+    #nullable disable
+    public RecipeCategory() {}
 }

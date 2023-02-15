@@ -7,6 +7,8 @@ public class Recipe {
     public string Description {get; set;} = "";
     public string Method {get; set;} = "";
     public User Author {get; set;}
+    //public ICollection<Category> Categories {get; set;}
+    //public ICollection<FoodItem> FoodItems {get; set;}
 
     public Recipe(string title, bool isPublic, string description, string method, User author)
     {
@@ -15,13 +17,16 @@ public class Recipe {
         this.Description = description;
         this.Method = method;
         this.Author = author;
+        //this.Categories = categories;
+        //this.FoodItems = foodItems;
     }
 
     #nullable disable
     public Recipe() {}
     #nullable enable
     public RecipeDTO ToDTO() 
-        => new RecipeDTO(Id, Title, IsPublic, Method, Description, Author.Id);
+        => new RecipeDTO(Id, Title, IsPublic, Description, Method, Author.Id);
+        
 }
 
 

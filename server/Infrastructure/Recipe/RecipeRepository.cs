@@ -9,22 +9,22 @@ public class RecipeRepository : IRecipeRepository
         _context = context;
     }
 
-    public async Task<(Response, RecipeDTO)> CreateAsync(RecipeCreateDTO recipe)
+    public async Task<(Response, RecipeDTO)> CreateAsync(RecipeCreateDTO recipe) //Conflict, NotFound, Created
     {
         var conflict = await _context.Recipes
-        .Where(r => r.Title == recipe.Title)
+        .Where(r => r.Title == recipe.Title && r.Author.Id == recipe.AuthorId)
         .Select(r => r.ToDTO())
         .FirstOrDefaultAsync();
 
-        if( conflict != null) return (Response.Conflict, conflict);
+        if(conflict != null) return (Response.Conflict, conflict);
 
-        var author = await _context.Users.Where(u => u.Id == recipe.authorId).FirstOrDefaultAsync();
-        if (author == null) return (Response.NotFound, new RecipeDTO(-1, recipe.Title, recipe.isPublic ?? false, recipe.Description, recipe.Method, recipe.authorId));
+        var author = await _context.Users.Where(u => u.Id == recipe.AuthorId).FirstOrDefaultAsync();
+        if (author == null) return (Response.NotFound, new RecipeDTO(-1, recipe.Title, recipe.IsPublic ?? false, recipe.Description, recipe.Method, recipe.AuthorId));
 
         var entity = new Recipe
         (
             recipe.Title,
-            recipe.isPublic ?? false,
+            recipe.IsPublic ?? false,
             recipe.Description,
             recipe.Method,
             author
@@ -39,28 +39,36 @@ public class RecipeRepository : IRecipeRepository
     
     }
 
-    public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllAsync()
+    public async Task<Response> UpdateAsync(RecipeUpdateDTO recipe)
     {
-         return(await _context.Recipes
-                        .Select(r => new RecipeDTO(r.Id, r.Title, r.IsPublic, r.Description, r.Method, r.Author.Id))
-                        .ToListAsync())
-                        .AsReadOnly();
-    }
+        var recipeEntity = await _context.Recipes
+            .Where (r => r.Id == recipe.Id)
+            .FirstOrDefaultAsync();
+        
+        if(recipeEntity == null) return Response.NotFound;
+        
+        if(_context.Recipes.Any(r => r.Title.Equals(recipe.Title) && r.Author.Id == recipeEntity.Author.Id))
+            return Response.Conflict;
 
-    public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByAuthorIDAsync(int authorID)
-    {
-        return await ( _context.Recipes
-                        .Where(r => r.Author.Id == authorID)
-                        .Select(r => new RecipeDTO(r.Id, r.Title, r.IsPublic, r.Description, r.Method, r.Author.Id))
-                        .ToListAsync());
-    }
+        if(recipeEntity.Title != null && !recipeEntity.Title.Equals(recipe.Title) && recipe.Title != null){
+            recipeEntity.Title = recipe.Title;
+        }
 
-    public async Task<Option<RecipeDTO>> ReadByIDAsync(int recipeID)
-    {
-        var recipes = from r in _context.Recipes
-                        where r.Id == recipeID
-                        select new RecipeDTO(r.Id, r.Title, r.IsPublic, r.Description, r.Method, r.Author.Id);
-        return await recipes.FirstOrDefaultAsync();
+        if(recipeEntity.Description != null && !recipeEntity.Description.Equals(recipe.Description) && recipe.Description != null){
+            recipeEntity.Description = recipe.Description;
+        }
+
+        if(recipeEntity.Method != null && !recipeEntity.Method.Equals(recipe.Method) && recipe.Method != null){
+            recipeEntity.Method = recipe.Method;
+        }
+
+        if(recipe.IsPublic != null && recipeEntity.IsPublic != recipe.IsPublic){
+            recipeEntity.IsPublic = recipe.IsPublic ?? false;
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Response.Updated;
     }
 
     public async Task<Response> RemoveAsync(int id)
@@ -80,32 +88,36 @@ public class RecipeRepository : IRecipeRepository
         return Response.Deleted;
     }
 
-    public async Task<Response> UpdateAsync(RecipeUpdateDTO recipe)
+
+    public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllAsync()
     {
-        var recipeEntity = await _context.Recipes
-            .Where (r => r.Id == recipe.Id)
-            .FirstOrDefaultAsync();
-        
-        if(recipeEntity == null) return Response.NotFound;
-
-        if(recipeEntity.Title != null && !recipeEntity.Title.Equals(recipe.Title) && recipe.Title != null){
-            recipeEntity.Title = recipe.Title;
-        }
-
-        if(recipeEntity.Description != null && !recipeEntity.Description.Equals(recipe.Description) && recipe.Description != null){
-            recipeEntity.Description = recipe.Description;
-        }
-
-        if(recipeEntity.Method != null && !recipeEntity.Method.Equals(recipe.Method) && recipe.Method != null){
-            recipeEntity.Method = recipe.Method;
-        }
-
-        if(recipe.isPublic != null && recipeEntity.IsPublic != recipe.isPublic){
-            recipeEntity.IsPublic = (bool) recipe.isPublic;
-        }
-
-        await _context.SaveChangesAsync();
-
-        return Response.Updated;
+         return(await _context.Recipes
+                        .Select(r => r.ToDTO())
+                        .ToListAsync())
+                        .AsReadOnly();
     }
+
+    public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByAuthorIDAsync(int authorID)
+    {
+        return await ( _context.Recipes
+                        .Where(r => r.Author.Id == authorID)
+                        .Select(r => r.ToDTO())
+                        .ToListAsync());
+    }
+
+    public async Task<Option<RecipeDTO>> ReadByIDAsync(int recipeID)
+    {
+        var recipes = from r in _context.Recipes
+                        where r.Id == recipeID
+                        select r.ToDTO();
+        return await recipes.FirstOrDefaultAsync();
+    }
+
+    public async Task<Option<RecipeDTO>> ReadByAuthorIDAndTitle(int authorID, string title)
+        => await _context.Recipes
+                .Where(r => r.Author.Id == authorID && r.Title == title)
+                .Select(r => r.ToDTO())
+                .FirstOrDefaultAsync();
+        
+
 }

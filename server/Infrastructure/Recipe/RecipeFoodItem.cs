@@ -9,4 +9,12 @@ public class RecipeFoodItem
         this.recipe = recipe;
         this.foodItem = foodItem;
     }
+
+    #nullable disable
+    public RecipeFoodItem() {}
+    #nullable enable
+
+    public RecipeFoodItemDTO toDTO()
+        => new RecipeFoodItemDTO(Id, recipe.Id, foodItem.Id);
 }
+
