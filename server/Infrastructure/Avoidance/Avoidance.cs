@@ -11,4 +11,10 @@ public class Avoidance {
         this.Keyword = keyword;
         this.User = user;
     }
+
+#nullable disable
+    public Avoidance() {}
+
+    public AvoidanceDTO ToDTO()
+        => new AvoidanceDTO(Id, Keyword, User.Id);
 }

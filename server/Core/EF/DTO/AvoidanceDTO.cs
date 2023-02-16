@@ -1,4 +1,4 @@
-namespace server.Core.EF;
+namespace server.Core.EF.DTO;
 
 public record AvoidanceDTO(
     int Id,

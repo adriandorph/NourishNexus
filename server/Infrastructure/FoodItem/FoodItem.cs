@@ -8,6 +8,7 @@ public class FoodItem
     public Unit Unit {get; set;}
     public float Calories {get; set;}
     public float Protein {get; set;}
+    public List<Recipe> Recipes {get; set;}
     
     //Add the remaining nutrient data
 
@@ -15,12 +16,20 @@ public class FoodItem
         string name, 
         Unit unit, 
         float calories,
-        float protein
+        float protein,
+        List<Recipe> recipes
     )
     {
         this.Name = name;
         this.Unit = unit;
         this.Calories = calories;
         this.Protein = protein;
+        this.Recipes = recipes;
     }
+
+    #nullable disable
+    public FoodItem() {}
+
+    public FoodItemDTO ToDTO() 
+        => new FoodItemDTO(Id, Name, Unit, Calories, Protein);
 }

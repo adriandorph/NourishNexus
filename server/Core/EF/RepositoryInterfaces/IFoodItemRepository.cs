@@ -1,0 +1,20 @@
+namespace server.Core.EF.RepositoryInterfaces;
+
+
+public interface IFoodItemRepository{
+
+    //Create
+    public Task<(Response, FoodItemDTO)> CreateAsync(FoodItemCreateDTO item);
+
+    //Update
+    public Task<Response> UpdateAsync(FoodItemUpdateDTO item);
+
+    //Delete
+    public Task<Response> RemoveAsync(int id);
+    
+    //Read
+    public Task<Option<FoodItemDTO>> ReadByIDAsync(int itemID);
+
+    public Task<IReadOnlyCollection<FoodItemDTO>> ReadAllAsync();
+}
+    

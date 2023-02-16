@@ -4,12 +4,18 @@ using server.Core.EF;
 public class Category 
 {
     public int Id {get; set;}
-    public CategoryEnum CategoryName {get; set;}
-    public Recipe Recipe {get; set;}
+    public string Name {get; set;}
+    public List<Recipe> Recipes {get; set;}
 
-    public Category(CategoryEnum category, Recipe recipe)
+    public Category(string Name)
     {
-        this.CategoryName = category;
-        this.Recipe = recipe;
+        this.Name = Name;
+        this.Recipes = new List<Recipe>();
     }
+
+#nullable disable
+    public Category(){}
+
+    public CategoryDTO ToDTO() 
+        => new CategoryDTO(Id, Name, Recipes.Select(r => r.Id).ToList());
 }

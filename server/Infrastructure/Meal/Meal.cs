@@ -5,14 +5,20 @@ public class Meal //NOT DONE
     public int Id {get; set;}
     public int mealType {get; set;} // Breakfast, Lunch, Dinner, Snack
     public User User {get; set;}
-    public DateOnly Date {get; set;}
+    
+    public DateTime Date {get; set;}
 
-    public Meal(int mealType, User user, DateOnly date)
+    public Meal(int mealType, User user, DateTime date)
     {
         this.mealType = mealType;
         this.User = user;
         this.Date = date;
     }
+
+    #nullable disable
+    public Meal() {}
+    public MealDTO ToDTO()
+        => new MealDTO(Id, mealType, User.Id, Date);
 }
 
 
