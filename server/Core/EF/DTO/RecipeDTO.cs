@@ -1,5 +1,4 @@
 namespace server.Core.EF.DTO;
-#nullable disable
 
 public record RecipeDTO(
     int Id,
@@ -7,15 +6,20 @@ public record RecipeDTO(
     bool IsPublic,
     string Description,
     string Method,
-    int AuthorId
+    int AuthorId,
+    List<int> CategoryIDs,
+    List<int> FoodItemIDs
 );
 
+
 public record RecipeCreateDTO{
-    public string Title {get; set;}
+    public string? Title {get; set;}
     public bool? IsPublic {get; set;}
-    public string Description {get; set;}
-    public string Method {get; set;}
+    public string? Description {get; set;}
+    public string? Method {get; set;}
     public int AuthorId {get; set;} 
+    public List<int>? CategoryIDs {get; set;}
+    public List<int>? FoodItemIDs {get; set;}
 }
 
 public record RecipeUpdateDTO : RecipeCreateDTO

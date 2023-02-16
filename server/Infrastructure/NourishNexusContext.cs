@@ -8,10 +8,11 @@ public class NourishNexusContext : DbContext
     public DbSet<Recipe> Recipes => Set<Recipe>();
     public DbSet<Meal> Meals => Set<Meal>();
     public DbSet <Category> Categories => Set<Category>();
-    public DbSet <RecipeFoodItem> RecipeFoodItems => Set<RecipeFoodItem>();
-    public DbSet <RecipeCategory> RecipeCategories => Set<RecipeCategory>();
 
 
 
-    public NourishNexusContext(DbContextOptions<NourishNexusContext> options) : base(options) {}
+    public NourishNexusContext(DbContextOptions<NourishNexusContext> options) : base(options) 
+    {
+        
+    }
 }

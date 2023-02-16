@@ -81,7 +81,7 @@ public class UserRepository : IUserRepository
     {
         var users = from u in _context.Users
                         where u.Id == Id
-                        select new UserDTO(u.Id, u.Email, u.Nickname);
+                        select u.ToDTO();
 
         return await users.FirstOrDefaultAsync();
     }

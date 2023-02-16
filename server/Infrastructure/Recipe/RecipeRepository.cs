@@ -19,15 +19,19 @@ public class RecipeRepository : IRecipeRepository
         if(conflict != null) return (Response.Conflict, conflict);
 
         var author = await _context.Users.Where(u => u.Id == recipe.AuthorId).FirstOrDefaultAsync();
-        if (author == null) return (Response.NotFound, new RecipeDTO(-1, recipe.Title, recipe.IsPublic ?? false, recipe.Description, recipe.Method, recipe.AuthorId));
+        if (author == null) return (Response.NotFound, new RecipeDTO(-1, recipe.Title ?? "", recipe.IsPublic ?? false, recipe.Description ?? "", recipe.Method ?? "", recipe.AuthorId, recipe.CategoryIDs ?? new List<int>(), recipe.FoodItemIDs ?? new List<int>()));
+
+
 
         var entity = new Recipe
         (
-            recipe.Title,
+            recipe.Title ?? "",
             recipe.IsPublic ?? false,
-            recipe.Description,
-            recipe.Method,
-            author
+            recipe.Description ?? "",
+            recipe.Method ?? "",
+            author,
+            recipe.CategoryIDs != null ? await CategoryIDsToCategories(recipe.CategoryIDs) : new List<Category>(),
+            recipe.FoodItemIDs != null ? await FoodItemIDsToFoodItems(recipe.FoodItemIDs) : new List<FoodItem>()
         );
 
         _context.Recipes.Add(entity);
@@ -66,6 +70,17 @@ public class RecipeRepository : IRecipeRepository
             recipeEntity.IsPublic = recipe.IsPublic ?? false;
         }
 
+        if(recipe.CategoryIDs != null)
+        {
+            var categories = await CategoryIDsToCategories(recipe.CategoryIDs);
+            recipeEntity.Categories = categories;
+        }
+
+        if(recipe.FoodItemIDs != null){
+             var foodItems = await FoodItemIDsToFoodItems(recipe.FoodItemIDs);
+             recipeEntity.FoodItems = foodItems;
+        }
+        
         await _context.SaveChangesAsync();
 
         return Response.Updated;
@@ -120,4 +135,15 @@ public class RecipeRepository : IRecipeRepository
                 .FirstOrDefaultAsync();
         
 
+    //Helper methods
+
+    private async Task<List<Category>> CategoryIDsToCategories(List<int> categoryIDs)
+        => await _context.Categories
+            .Where(c => categoryIDs.Any(cID => cID == c.Id))
+            .ToListAsync();
+
+    private async Task<List<FoodItem>> FoodItemIDsToFoodItems(List<int> foodItemIDs)
+        => await _context.FoodItems
+            .Where(fi => foodItemIDs.Any(fiID => fiID == fi.Id))
+            .ToListAsync();
 }

@@ -2,17 +2,19 @@ namespace server.Core.EF.DTO;
 
 public record CategoryDTO(
     int Id,
-    CategoryEnum CategoryName,
-    int RecipeId
+    string CategoryName,
+    List<int> RecipeID
 );
 
-public record CategoryCreateDTO
-{
-    public CategoryEnum CategoryName {get; set;}
-    public int RecipeId {get; set;}
+#nullable disable
+public record CategoryCreateDTO{
+    public string CategoryName {get; set;}
 }
 
 public record CategoryUpdateDTO : CategoryCreateDTO
 {
     public int Id {get; set;}
+    public List<int> RecipeID {get; set;}
 }
+
+

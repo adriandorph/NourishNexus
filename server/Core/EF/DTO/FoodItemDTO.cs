@@ -2,13 +2,9 @@ namespace server.Core.EF.DTO;
 
 public record FoodItemDTO(
     int Id,
-
     string Name,
-
     Unit Unit,
-
     float Calories,
-
     float Protein
 );
 
