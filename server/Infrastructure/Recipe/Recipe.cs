@@ -24,16 +24,16 @@ public class Recipe {
     #nullable disable
     public Recipe() {}
     #nullable enable
-    public RecipeDTO ToDTO() 
+    public static RecipeDTO ToDTO(Recipe r) 
         => new RecipeDTO(
-            Id, 
-            Title, 
-            IsPublic, 
-            Description, 
-            Method, 
-            Author.Id, 
-            Categories.Select(c => c.Id).ToList(), 
-            FoodItems.Select(fi => fi.Id).ToList()
+            r.Id, 
+            r.Title, 
+            r.IsPublic, 
+            r.Description, 
+            r.Method, 
+            r.Author.Id, 
+            r.Categories == null ? new List<int>() : r.Categories.Select(c => c.Id).ToList(), 
+            r.FoodItems == null ? new List<int>() : r.FoodItems.Select(fi => fi.Id).ToList()
         );
         
 }

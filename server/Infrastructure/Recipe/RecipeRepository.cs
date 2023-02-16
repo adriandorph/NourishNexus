@@ -13,7 +13,7 @@ public class RecipeRepository : IRecipeRepository
     {
         var conflict = await _context.Recipes
         .Where(r => r.Title == recipe.Title && r.Author.Id == recipe.AuthorId)
-        .Select(r => r.ToDTO())
+        .Select(r => Recipe.ToDTO(r))
         .FirstOrDefaultAsync();
 
         if(conflict != null) return (Response.Conflict, conflict);
@@ -38,7 +38,7 @@ public class RecipeRepository : IRecipeRepository
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, entity.ToDTO());
+        return (Response.Created, Recipe.ToDTO(entity));
 
     
     }
@@ -107,7 +107,7 @@ public class RecipeRepository : IRecipeRepository
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllAsync()
     {
          return(await _context.Recipes
-                        .Select(r => r.ToDTO())
+                        .Select(r => Recipe.ToDTO(r))
                         .ToListAsync())
                         .AsReadOnly();
     }
@@ -116,22 +116,22 @@ public class RecipeRepository : IRecipeRepository
     {
         return await ( _context.Recipes
                         .Where(r => r.Author.Id == authorID)
-                        .Select(r => r.ToDTO())
+                        .Select(r => Recipe.ToDTO(r))
                         .ToListAsync());
     }
 
     public async Task<Option<RecipeDTO>> ReadByIDAsync(int recipeID)
     {
-        var recipes = from r in _context.Recipes
-                        where r.Id == recipeID
-                        select r.ToDTO();
-        return await recipes.FirstOrDefaultAsync();
+        return await _context.Recipes
+            .Where(r => r.Id == recipeID)
+            .Select(r => Recipe.ToDTO(r))
+            .FirstOrDefaultAsync();
     }
 
     public async Task<Option<RecipeDTO>> ReadByAuthorIDAndTitle(int authorID, string title)
         => await _context.Recipes
                 .Where(r => r.Author.Id == authorID && r.Title == title)
-                .Select(r => r.ToDTO())
+                .Select(r => Recipe.ToDTO(r))
                 .FirstOrDefaultAsync();
 
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByCategoryIDAsync(int categoryID)
@@ -142,7 +142,7 @@ public class RecipeRepository : IRecipeRepository
         
         if (category == null) return new List<RecipeDTO>{};
         else return category.Recipes
-            .Select(r => r.ToDTO())
+            .Select(r => Recipe.ToDTO(r))
             .ToList();
     }
 
