@@ -334,6 +334,87 @@ public class RecipeRepositoryTests
     }
 
 
+    [Fact]
+    public async void Update_Updated_Categories()
+    {
+        //Arrange
+        var recipeCreateDTO = new RecipeCreateDTO{
+            Title = "Apples and Oranges",
+            IsPublic = false,
+            Description = "A nice bowl of appels and oranges",
+            Method = "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            AuthorId = 1,
+            CategoryIDs = new List<int>{1}
+        };
+
+        var recipeUpdateDTO = new RecipeUpdateDTO
+        {
+            Id = 1,
+            CategoryIDs = new List<int>{1,2}
+        };
+
+        //Act
+        await _repo.CreateAsync(recipeCreateDTO);
+        var response = await _repo.UpdateAsync(recipeUpdateDTO);
+        var entity = await _context.Recipes
+            .Where(r => r.Id == recipeUpdateDTO.Id)
+            .FirstOrDefaultAsync();
+
+        //Assert
+        Assert.Equal(Response.Updated, response);
+        Assert.NotNull(entity);
+        Assert.Equal(1, entity.Id);
+        Assert.Equal(recipeCreateDTO.Title, entity.Title);
+        Assert.Equal(recipeCreateDTO.IsPublic, entity.IsPublic);
+        Assert.Equal(recipeCreateDTO.Description, entity.Description);
+        Assert.Equal(recipeCreateDTO.Method, entity.Method);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.True(Enumerable.SequenceEqual(recipeUpdateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
+        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
+    }
+
+
+    [Fact]
+    public async void Update_Updated_FoodItems()
+    {
+        //Arrange
+        var recipeCreateDTO = new RecipeCreateDTO{
+            Title = "Apples and Oranges",
+            IsPublic = false,
+            Description = "A nice bowl of appels and oranges",
+            Method = "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            AuthorId = 1,
+            FoodItemIDs = new List<int>{1,2}
+        };
+
+        var recipeUpdateDTO = new RecipeUpdateDTO
+        {
+            Id = 1,
+            FoodItemIDs = new List<int>{2}
+        };
+
+        //Act
+        await _repo.CreateAsync(recipeCreateDTO);
+        var response = await _repo.UpdateAsync(recipeUpdateDTO);
+        var entity = await _context.Recipes
+            .Where(r => r.Id == recipeUpdateDTO.Id)
+            .FirstOrDefaultAsync();
+
+        //Assert
+        Assert.Equal(Response.Updated, response);
+        Assert.NotNull(entity);
+        Assert.Equal(1, entity.Id);
+        Assert.Equal(recipeCreateDTO.Title, entity.Title);
+        Assert.Equal(recipeCreateDTO.IsPublic, entity.IsPublic);
+        Assert.Equal(recipeCreateDTO.Description, entity.Description);
+        Assert.Equal(recipeCreateDTO.Method, entity.Method);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
+        Assert.True(Enumerable.SequenceEqual(recipeUpdateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
+    }
+
+
+
     //Remove
 
     [Fact]
