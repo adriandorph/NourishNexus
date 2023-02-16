@@ -4,12 +4,12 @@ using server.Core.EF;
 public class Category 
 {
     public int Id {get; set;}
-    public string CategoryName {get; set;}
+    public string Name {get; set;}
     public List<Recipe> Recipes {get; set;}
 
-    public Category(string CategoryName)
+    public Category(string Name)
     {
-        this.CategoryName = CategoryName;
+        this.Name = Name;
         this.Recipes = new List<Recipe>();
     }
 
@@ -17,5 +17,5 @@ public class Category
     public Category(){}
 
     public CategoryDTO ToDTO() 
-        => new CategoryDTO(Id, CategoryName, Recipes.Select(r => r.Id).ToList());
+        => new CategoryDTO(Id, Name, Recipes.Select(r => r.Id).ToList());
 }

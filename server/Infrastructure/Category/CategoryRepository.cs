@@ -8,20 +8,35 @@ public class CategoryRepository : ICategoryRepository
     public CategoryRepository(NourishNexusContext context){
         _context = context;
     }
-    public Task<(Response, CategoryDTO)> CreateAsync(CategoryCreateDTO category)
+    public async Task<(Response, CategoryDTO)> CreateAsync(CategoryCreateDTO category)
     {
-        throw new NotImplementedException();
+        var conflict = await _context.Categories
+            .Where(c => c.Name == category.Name)
+            .FirstOrDefaultAsync();
+        if (conflict != null) return (Response.Conflict, new CategoryDTO(-1, category.Name, new List<int>()));
+
+        var entity = new Category
+        (
+            category.Name  
+        );
+
+        await _context.Categories.AddAsync(entity);
+
+        await _context.SaveChangesAsync();
+
+        return (Response.Created, entity.ToDTO());
     }
 
-    public Task<Response> UpdateAsync(CategoryUpdateDTO category)
+    public async  Task<Option<CategoryDTO>> ReadByIDAsync(int categoryID)
     {
-        throw new NotImplementedException();
+        var categories = from c in _context.Categories
+                        where c.Id == categoryID
+                        select c.ToDTO();
+
+        return await categories.FirstOrDefaultAsync();
     }
 
-    public Task<Option<CategoryDTO>> ReadByIDAsync(int categoryID)
-    {
-        throw new NotImplementedException();
-    }
+
 
     
 }
