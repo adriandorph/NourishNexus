@@ -684,4 +684,88 @@ public class RecipeRepositoryTests
         //Assert
         Assert.True(result.IsNone);
     }
+
+
+
+
+    [Fact]
+    public async void ReadAllByCategoryID_returns_all_by_category()
+    {
+        //Arrange
+        var recipeCreateDTO1 = new RecipeCreateDTO{
+            Title = "Apples and Oranges",
+            IsPublic = false,
+            Description = "A nice bowl of appels and oranges",
+            Method = "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            AuthorId = 1,
+            CategoryIDs = new List<int>{1}
+        };
+
+        var recipeCreateDTO2 = new RecipeCreateDTO{
+            Title = "Apples and Oranges fruit cup",
+            IsPublic = false,
+            Description = "A nice cup of appels and oranges",
+            Method = "Slice the apples and oranges.\nPut the apples in a cup.\nAdd the oranges into the cup.",
+            AuthorId = 1,
+            CategoryIDs = new List<int>{1, 2}
+        };
+
+        var recipeCreateDTO3 = new RecipeCreateDTO{
+            Title = "Apples and Oranges fruit blend",
+            IsPublic = false,
+            Description = "A nice blend of appels and oranges",
+            Method = "Put the apples and oranges into a blender and blend for 1 minute.",
+            AuthorId = 2,
+            CategoryIDs = new List<int>{2}
+
+        };
+
+        var categoryVegan = new Category("vegan");
+        var categoryVegetarian = new Category("vegetarian");
+        _context.Categories.Add(categoryVegan);
+        _context.Categories.Add(categoryVegetarian);
+        await _context.SaveChangesAsync();
+
+        //Act
+        await _repo.CreateAsync(recipeCreateDTO1);
+        await _repo.CreateAsync(recipeCreateDTO2);
+        var list = await _repo.ReadAllAsync();
+
+        //Assert
+        Assert.NotNull(list);
+        Assert.Collection<RecipeDTO>
+        (
+            list,
+            item => {
+                Assert.Equal(1, item.Id);
+                Assert.Equal(recipeCreateDTO1.Title, item.Title);
+                Assert.Equal(recipeCreateDTO1.IsPublic, item.IsPublic);
+                Assert.Equal(recipeCreateDTO1.Description, item.Description);
+                Assert.Equal(recipeCreateDTO1.Method, item.Method);
+                Assert.Equal(recipeCreateDTO1.AuthorId, item.AuthorId);
+                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
+                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.FoodItemIDs ?? new List<int>{}, item.FoodItemIDs));
+            },
+            item => {
+                Assert.Equal(2, item.Id);
+                Assert.Equal(recipeCreateDTO2.Title, item.Title);
+                Assert.Equal(recipeCreateDTO2.IsPublic, item.IsPublic);
+                Assert.Equal(recipeCreateDTO2.Description, item.Description);
+                Assert.Equal(recipeCreateDTO2.Method, item.Method);
+                Assert.Equal(recipeCreateDTO2.AuthorId, item.AuthorId);
+                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
+                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.FoodItemIDs ?? new List<int>{}, item.FoodItemIDs));
+            }
+        );
+    }
+
+    [Fact]
+    public async void ReadAllByCategoryID_returns_empty_list()
+    {
+        //Act
+        var list = await _repo.ReadAllByCategoryIDAsync(1000);
+
+        //Assert
+        Assert.Empty(list.AsEnumerable());
+    }
 }

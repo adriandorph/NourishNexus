@@ -133,7 +133,18 @@ public class RecipeRepository : IRecipeRepository
                 .Where(r => r.Author.Id == authorID && r.Title == title)
                 .Select(r => r.ToDTO())
                 .FirstOrDefaultAsync();
+
+    public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByCategoryIDAsync(int categoryID)
+    {
+        var category = await _context.Categories
+            .Where(c => c.Id == categoryID)
+            .FirstOrDefaultAsync();
         
+        if (category == null) return new List<RecipeDTO>{};
+        else return category.Recipes
+            .Select(r => r.ToDTO())
+            .ToList();
+    }
 
     //Helper methods
 
