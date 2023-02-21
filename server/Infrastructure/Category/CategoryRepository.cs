@@ -40,10 +40,6 @@ public class CategoryRepository : ICategoryRepository
 
         return await categories.FirstOrDefaultAsync();
     }
-
-
-
-    
 }
 
 

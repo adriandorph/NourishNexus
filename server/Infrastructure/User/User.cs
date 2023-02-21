@@ -12,9 +12,12 @@ public class User
     [StringLength(50)]
     public string Email {get;set;}
 
-    public User(string Nickname, string Email) {
+    public List<Recipe> SavedRecipes {get; set;}
+
+    public User(string Nickname, string Email, List<Recipe> savedRecipes) {
         this.Nickname = Nickname;
         this.Email = Email;
+        this.SavedRecipes = savedRecipes;
     }
 
     #nullable disable

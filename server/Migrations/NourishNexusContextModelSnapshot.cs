@@ -167,7 +167,12 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -245,6 +250,18 @@ namespace server.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("server.Infrastructure.Recipe", b =>
+                {
+                    b.HasOne("server.Infrastructure.User", null)
+                        .WithMany("SavedRecipes")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("server.Infrastructure.User", b =>
+                {
+                    b.Navigation("SavedRecipes");
                 });
 #pragma warning restore 612, 618
         }

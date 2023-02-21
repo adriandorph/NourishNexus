@@ -46,11 +46,13 @@ public class UserRepositoryTests
         Assert.Equal(1, entity.Id);
         Assert.Equal(userCreateDTO.Email, entity.Email);
         Assert.Equal(userCreateDTO.Nickname, entity.Nickname);
+        Assert.True(Enumerable.SequenceEqual(new List<int>(), entity.SavedRecipes.Select(r => r.Id).ToList()));
 
         Assert.Equal(Response.Created, response);
         Assert.Equal(entity.Id, userDTO.Id);
         Assert.Equal(userCreateDTO.Email, userDTO.Email);
         Assert.Equal(userCreateDTO.Nickname, userDTO.Nickname);
+        Assert.True(Enumerable.SequenceEqual(new List<int>(), userDTO.SavedRecipeIds));
     }
 
     [Fact]
@@ -71,6 +73,7 @@ public class UserRepositoryTests
         Assert.Equal(-1, userDTO.Id);
         Assert.Equal(userCreateDTO.Email, userDTO.Email);
         Assert.Equal(userCreateDTO.Nickname, userDTO.Nickname);
+        Assert.True(Enumerable.SequenceEqual(new List<int>(), userDTO.SavedRecipeIds));
     }
 
 
@@ -106,6 +109,7 @@ public class UserRepositoryTests
         Assert.Equal(1, entity.Id);
         Assert.Equal(userUpdateDTO.Email, entity.Email);
         Assert.Equal(userCreateDTO.Nickname, entity.Nickname);
+        Assert.True(Enumerable.SequenceEqual(new List<int>(), entity.SavedRecipes.Select(r => r.Id).ToList()));
     }
 
     [Fact]
@@ -138,6 +142,7 @@ public class UserRepositoryTests
         Assert.Equal(1, entity.Id);
         Assert.Equal(userCreateDTO.Email, entity.Email);
         Assert.Equal(userUpdateDTO.Nickname, entity.Nickname);
+        Assert.True(Enumerable.SequenceEqual(new List<int>(), entity.SavedRecipes.Select(r => r.Id).ToList()));
     }
 
     [Fact]
@@ -171,6 +176,52 @@ public class UserRepositoryTests
         //Assert
         Assert.Equal(Response.Conflict, response);
     }
+
+
+    [Fact]
+    public async void Update_Updated_SavedRecipes()
+    {
+        //Arrange
+        var userCreateDTO = new UserUpdateDTO
+        {
+            Email = "john@johnson.com",
+            Nickname = "Johnny"
+        };
+
+        var recipe = new Recipe(
+            "Apples and Oranges",
+            false,
+            "A nice bowl of appels and oranges",
+            "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            1,
+            new List<Category>(),
+            new List<FoodItem>()
+        );
+
+        var userUpdateDTO = new UserUpdateDTO
+        {
+            Id = 1,
+            SavedRecipeIds = new List<int>{1}
+        };
+
+        //Act
+        await _repo.CreateAsync(userCreateDTO);
+        await _context.Recipes.AddAsync(recipe);
+        await _context.SaveChangesAsync();
+        var response = await _repo.UpdateAsync(userUpdateDTO);
+        var entity = await _context.Users
+            .Where(u => u.Email == userCreateDTO.Email)
+            .FirstOrDefaultAsync();
+
+        //Assert
+        Assert.Equal(Response.Updated, response);
+        Assert.NotNull(entity);
+        Assert.Equal(1, entity.Id);
+        Assert.Equal(userCreateDTO.Email, entity.Email);
+        Assert.Equal(userCreateDTO.Nickname, entity.Nickname);
+        Assert.True(Enumerable.SequenceEqual(userUpdateDTO.SavedRecipeIds, entity.SavedRecipes.Select(r => r.Id).ToList()));
+    }
+
 
     [Fact]
     public async void Update_NotFound()
@@ -233,8 +284,28 @@ public class UserRepositoryTests
             Nickname = "Johnny"
         };
 
+        var recipe = new Recipe(
+            "Apples and Oranges",
+            false,
+            "A nice bowl of appels and oranges",
+            "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            1,
+            new List<Category>(),
+            new List<FoodItem>()
+        );
+
+        var userUpdateDTO = new UserUpdateDTO
+        {
+            Id = 1,
+            SavedRecipeIds = new List<int>{1}
+        };
+
         //Act
         await _repo.CreateAsync(userCreateDTO);
+        await _context.Recipes.AddAsync(recipe);
+        await _context.SaveChangesAsync();
+        await _repo.UpdateAsync(userUpdateDTO);
+        
         var result = await _repo.ReadByIDAsync(1);
         
 
@@ -243,6 +314,7 @@ public class UserRepositoryTests
         Assert.Equal(1, result.Value.Id);
         Assert.Equal(userCreateDTO.Email, result.Value.Email);
         Assert.Equal(userCreateDTO.Nickname, result.Value.Nickname);
+        Assert.True(Enumerable.SequenceEqual(new List<int>{1}, result.Value.SavedRecipeIds));
     }
 
     [Fact]
