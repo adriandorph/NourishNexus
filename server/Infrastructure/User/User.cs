@@ -19,7 +19,5 @@ public class User
 
     #nullable disable
     public User() {}
-     public UserDTO ToDTO() =>
-        new UserDTO(Id, Email, Nickname);
 
 }

@@ -30,7 +30,7 @@ public class UserRepository : IUserRepository
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, entity.ToDTO());
+        return (Response.Created, new UserDTO(entity.Id, entity.Email, entity.Nickname));
 
     }
 
@@ -81,7 +81,7 @@ public class UserRepository : IUserRepository
     {
         var users = from u in _context.Users
                         where u.Id == Id
-                        select u.ToDTO();
+                        select new UserDTO(u.Id, u.Email, u.Nickname);
 
         return await users.FirstOrDefaultAsync();
     }

@@ -12,8 +12,19 @@ public class RecipeRepository : IRecipeRepository
     public async Task<(Response, RecipeDTO)> CreateAsync(RecipeCreateDTO recipe) //Conflict, NotFound, Created
     {
         var conflict = await _context.Recipes
-        .Where(r => r.Title == recipe.Title && r.Author.Id == recipe.AuthorId)
-        .Select(r => Recipe.ToDTO(r))
+        .Where(r => r.Title == recipe.Title && r.AuthorId == recipe.AuthorId)
+        .Select(r => 
+            new RecipeDTO(
+                r.Id,
+                r.Title,
+                r.IsPublic,
+                r.Description,
+                r.Method,
+                r.AuthorId,
+                r.Categories.Select(c => c.Id).ToList(),
+                r.FoodItems.Select(fi => fi.Id).ToList()
+            )
+        )
         .FirstOrDefaultAsync();
 
         if(conflict != null) return (Response.Conflict, conflict);
@@ -29,7 +40,7 @@ public class RecipeRepository : IRecipeRepository
             recipe.IsPublic ?? false,
             recipe.Description ?? "",
             recipe.Method ?? "",
-            author,
+            recipe.AuthorId,
             recipe.CategoryIDs != null ? await CategoryIDsToCategories(recipe.CategoryIDs) : new List<Category>(),
             recipe.FoodItemIDs != null ? await FoodItemIDsToFoodItems(recipe.FoodItemIDs) : new List<FoodItem>()
         );
@@ -38,8 +49,16 @@ public class RecipeRepository : IRecipeRepository
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, Recipe.ToDTO(entity));
-
+        return (Response.Created, new RecipeDTO(
+                                entity.Id,
+                                entity.Title,
+                                entity.IsPublic,
+                                entity.Description,
+                                entity.Method,
+                                entity.AuthorId,
+                                entity.Categories.Select(c => c.Id).ToList(),
+                                entity.FoodItems.Select(fi => fi.Id).ToList()
+                            ));
     
     }
 
@@ -51,7 +70,7 @@ public class RecipeRepository : IRecipeRepository
         
         if(recipeEntity == null) return Response.NotFound;
         
-        if(_context.Recipes.Any(r => r.Title.Equals(recipe.Title) && r.Author.Id == recipeEntity.Author.Id))
+        if(_context.Recipes.Any(r => r.Title.Equals(recipe.Title) && r.AuthorId == recipeEntity.AuthorId))
             return Response.Conflict;
 
         if(recipeEntity.Title != null && !recipeEntity.Title.Equals(recipe.Title) && recipe.Title != null){
@@ -107,7 +126,18 @@ public class RecipeRepository : IRecipeRepository
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllAsync()
     {
          return(await _context.Recipes
-                        .Select(r => Recipe.ToDTO(r))
+                        .Select(r => 
+                            new RecipeDTO(
+                                r.Id,
+                                r.Title,
+                                r.IsPublic,
+                                r.Description,
+                                r.Method,
+                                r.AuthorId,
+                                r.Categories.Select(c => c.Id).ToList(),
+                                r.FoodItems.Select(fi => fi.Id).ToList()
+                            )
+                        )
                         .ToListAsync())
                         .AsReadOnly();
     }
@@ -115,8 +145,19 @@ public class RecipeRepository : IRecipeRepository
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByAuthorIDAsync(int authorID)
     {
         return await ( _context.Recipes
-                        .Where(r => r.Author.Id == authorID)
-                        .Select(r => Recipe.ToDTO(r))
+                        .Where(r => r.AuthorId == authorID)
+                        .Select(r => 
+                            new RecipeDTO(
+                                r.Id,
+                                r.Title,
+                                r.IsPublic,
+                                r.Description,
+                                r.Method,
+                                r.AuthorId,
+                                r.Categories.Select(c => c.Id).ToList(),
+                                r.FoodItems.Select(fi => fi.Id).ToList()
+                            )
+                        )
                         .ToListAsync());
     }
 
@@ -124,14 +165,36 @@ public class RecipeRepository : IRecipeRepository
     {
         return await _context.Recipes
             .Where(r => r.Id == recipeID)
-            .Select(r => Recipe.ToDTO(r))
+            .Select(r => 
+                            new RecipeDTO(
+                                r.Id,
+                                r.Title,
+                                r.IsPublic,
+                                r.Description,
+                                r.Method,
+                                r.AuthorId,
+                                r.Categories.Select(c => c.Id).ToList(),
+                                r.FoodItems.Select(fi => fi.Id).ToList()
+                            )
+                        )
             .FirstOrDefaultAsync();
     }
 
     public async Task<Option<RecipeDTO>> ReadByAuthorIDAndTitle(int authorID, string title)
         => await _context.Recipes
-                .Where(r => r.Author.Id == authorID && r.Title == title)
-                .Select(r => Recipe.ToDTO(r))
+                .Where(r => r.AuthorId == authorID && r.Title == title)
+                .Select(r => 
+                            new RecipeDTO(
+                                r.Id,
+                                r.Title,
+                                r.IsPublic,
+                                r.Description,
+                                r.Method,
+                                r.AuthorId,
+                                r.Categories.Select(c => c.Id).ToList(),
+                                r.FoodItems.Select(fi => fi.Id).ToList()
+                            )
+                        )
                 .FirstOrDefaultAsync();
 
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByCategoryIDAsync(int categoryID)
@@ -142,7 +205,18 @@ public class RecipeRepository : IRecipeRepository
         
         if (category == null) return new List<RecipeDTO>{};
         else return category.Recipes
-            .Select(r => Recipe.ToDTO(r))
+            .Select(r => 
+                            new RecipeDTO(
+                                r.Id,
+                                r.Title,
+                                r.IsPublic,
+                                r.Description,
+                                r.Method,
+                                r.AuthorId,
+                                r.Categories.Select(c => c.Id).ToList(),
+                                r.FoodItems.Select(fi => fi.Id).ToList()
+                            )
+                        )
             .ToList();
     }
 

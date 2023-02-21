@@ -85,7 +85,7 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.IsPublic, entity.IsPublic);
         Assert.Equal(recipeCreateDTO.Description, entity.Description);
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
-        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
 
@@ -181,7 +181,7 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.IsPublic, entity.IsPublic);
         Assert.Equal(recipeCreateDTO.Description, entity.Description);
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
-        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }
@@ -219,7 +219,7 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeUpdateDTO.IsPublic, entity.IsPublic);
         Assert.Equal(recipeCreateDTO.Description, entity.Description);
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
-        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
     }
 
     [Fact]
@@ -255,7 +255,7 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.IsPublic, entity.IsPublic);
         Assert.Equal(recipeUpdateDTO.Description, entity.Description);
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
-        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }
@@ -293,7 +293,7 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.IsPublic, entity.IsPublic);
         Assert.Equal(recipeCreateDTO.Description, entity.Description);
         Assert.Equal(recipeUpdateDTO.Method, entity.Method);
-        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }
@@ -368,7 +368,7 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.IsPublic, entity.IsPublic);
         Assert.Equal(recipeCreateDTO.Description, entity.Description);
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
-        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeUpdateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }
@@ -408,7 +408,7 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.IsPublic, entity.IsPublic);
         Assert.Equal(recipeCreateDTO.Description, entity.Description);
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
-        Assert.Equal(recipeCreateDTO.AuthorId, entity.Author.Id);
+        Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
         Assert.True(Enumerable.SequenceEqual(recipeUpdateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }

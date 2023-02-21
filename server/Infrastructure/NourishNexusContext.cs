@@ -11,8 +11,19 @@ public class NourishNexusContext : DbContext
 
 
 
-    public NourishNexusContext(DbContextOptions<NourishNexusContext> options) : base(options) 
+    public NourishNexusContext(DbContextOptions<NourishNexusContext> options) : base(options) {}
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        //modelBuilder.Entity<Category>.TOTab
+
+        modelBuilder.Entity<Recipe>()
+            .HasMany(r => r.Categories)
+            .WithMany(c => c.Recipes);
         
+        modelBuilder.Entity<Recipe>()
+            .HasMany(r => r.FoodItems)
+            .WithMany(fi => fi.Recipes);
     }
 }
