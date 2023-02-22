@@ -13,18 +13,9 @@ public class RecipeRepository : IRecipeRepository
     {
         var conflict = await _context.Recipes
         .Where(r => r.Title == recipe.Title && r.AuthorId == recipe.AuthorId)
-        .Select(r => 
-            new RecipeDTO(
-                r.Id,
-                r.Title,
-                r.IsPublic,
-                r.Description,
-                r.Method,
-                r.AuthorId,
-                r.Categories.Select(c => c.Id).ToList(),
-                r.FoodItems.Select(fi => fi.Id).ToList()
-            )
-        )
+        .Include(r => r.Categories)
+        .Include(r => r.FoodItems)
+        .Select(r => r.ToDTO())
         .FirstOrDefaultAsync();
 
         if(conflict != null) return (Response.Conflict, conflict);
@@ -49,29 +40,19 @@ public class RecipeRepository : IRecipeRepository
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, new RecipeDTO(
-                                entity.Id,
-                                entity.Title,
-                                entity.IsPublic,
-                                entity.Description,
-                                entity.Method,
-                                entity.AuthorId,
-                                entity.Categories.Select(c => c.Id).ToList(),
-                                entity.FoodItems.Select(fi => fi.Id).ToList()
-                            ));
+        return (Response.Created, entity.ToDTO());
     
     }
 
     public async Task<Response> UpdateAsync(RecipeUpdateDTO recipe)
     {
-        var recipeEntityNullable = await _context.Recipes
+        var recipeEntity = await _context.Recipes
             .Where (r => r.Id == recipe.Id)
             .Include(r => r.Categories)
             .Include(r => r.FoodItems)
             .FirstOrDefaultAsync();
         
-        if(recipeEntityNullable == null) return Response.NotFound;
-        Recipe recipeEntity = recipeEntityNullable;
+        if(recipeEntity == null) return Response.NotFound;
         
         if(_context.Recipes.Any(r => r.Title.Equals(recipe.Title) && r.AuthorId == recipeEntity.AuthorId))
             return Response.Conflict;
@@ -131,18 +112,9 @@ public class RecipeRepository : IRecipeRepository
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllAsync()
     {
          return(await _context.Recipes
-                        .Select(r => 
-                            new RecipeDTO(
-                                r.Id,
-                                r.Title,
-                                r.IsPublic,
-                                r.Description,
-                                r.Method,
-                                r.AuthorId,
-                                r.Categories.Select(c => c.Id).ToList(),
-                                r.FoodItems.Select(fi => fi.Id).ToList()
-                            )
-                        )
+                        .Include(r => r.Categories)
+                        .Include(r => r.FoodItems)
+                        .Select(r => r.ToDTO())
                         .ToListAsync())
                         .AsReadOnly();
     }
@@ -151,18 +123,9 @@ public class RecipeRepository : IRecipeRepository
     {
         return await ( _context.Recipes
                         .Where(r => r.AuthorId == authorID)
-                        .Select(r => 
-                            new RecipeDTO(
-                                r.Id,
-                                r.Title,
-                                r.IsPublic,
-                                r.Description,
-                                r.Method,
-                                r.AuthorId,
-                                r.Categories.Select(c => c.Id).ToList(),
-                                r.FoodItems.Select(fi => fi.Id).ToList()
-                            )
-                        )
+                        .Include(r => r.Categories)
+                        .Include(r => r.FoodItems)
+                        .Select(r => r.ToDTO())
                         .ToListAsync());
     }
 
@@ -170,60 +133,27 @@ public class RecipeRepository : IRecipeRepository
     {
         return await _context.Recipes
             .Where(r => r.Id == recipeID)
-            .Select(r => 
-                            new RecipeDTO(
-                                r.Id,
-                                r.Title,
-                                r.IsPublic,
-                                r.Description,
-                                r.Method,
-                                r.AuthorId,
-                                r.Categories.Select(c => c.Id).ToList(),
-                                r.FoodItems.Select(fi => fi.Id).ToList()
-                            )
-                        )
+            .Include(r => r.Categories)
+            .Include(r => r.FoodItems)
+            .Select(r => r.ToDTO())
             .FirstOrDefaultAsync();
     }
 
     public async Task<Option<RecipeDTO>> ReadByAuthorIDAndTitle(int authorID, string title)
         => await _context.Recipes
                 .Where(r => r.AuthorId == authorID && r.Title == title)
-                .Select(r => 
-                            new RecipeDTO(
-                                r.Id,
-                                r.Title,
-                                r.IsPublic,
-                                r.Description,
-                                r.Method,
-                                r.AuthorId,
-                                r.Categories.Select(c => c.Id).ToList(),
-                                r.FoodItems.Select(fi => fi.Id).ToList()
-                            )
-                        )
+                .Include(r => r.Categories)
+                .Include(r => r.FoodItems)
+                .Select(r => r.ToDTO())
                 .FirstOrDefaultAsync();
 
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByCategoryIDAsync(int categoryID)
-    {
-        var category = await _context.Categories
-            .Where(c => c.Id == categoryID)
-            .FirstOrDefaultAsync();
-        
-        if (category == null) return new List<RecipeDTO>{};
-        else return category.Recipes
-            .Select(r => 
-                            new RecipeDTO(
-                                r.Id,
-                                r.Title,
-                                r.IsPublic,
-                                r.Description,
-                                r.Method,
-                                r.AuthorId,
-                                r.Categories.Select(c => c.Id).ToList(),
-                                r.FoodItems.Select(fi => fi.Id).ToList()
-                            )
-                        )
-            .ToList();
-    }
+        => await _context.Recipes
+            .Include(r => r.Categories)
+            .Include(r => r.FoodItems)
+            .Where(r => r.Categories.Any(c => c.Id == categoryID))
+            .Select(r => r.ToDTO())
+            .ToListAsync();
 
     //Helper methods
 

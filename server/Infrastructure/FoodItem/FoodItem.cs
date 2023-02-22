@@ -29,4 +29,13 @@ public class FoodItem
 
     #nullable disable
     public FoodItem() {}
+
+    public FoodItemDTO ToDTO()
+            => new FoodItemDTO(
+                this.Id,
+                this.Name,
+                this.Unit,
+                this.Calories,
+                this.Protein
+            );
 }

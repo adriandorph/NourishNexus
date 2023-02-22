@@ -2,20 +2,20 @@ namespace server.Core.EF.DTO;
 
 public record UserDTO(
     int Id,
-    
+    string Nickname,
     [EmailAddress]
     string Email,
-
-    string Nickname,
     List<int> SavedRecipeIds
 );
 
 
 public record UserCreateDTO {
     
+    public string? Nickname {get; set;}
+    
     [EmailAddress]
     public string? Email {get; set;}
-    public string? Nickname {get; set;}
+    
 }
 
 public record UserUpdateDTO : UserCreateDTO

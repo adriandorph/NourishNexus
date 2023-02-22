@@ -25,21 +25,15 @@ public class CategoryRepository : ICategoryRepository
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, new CategoryDTO(
-            entity.Id,
-            entity.Name,
-            entity.Recipes.Select(r => r.Id).ToList()
-        ));
+        return (Response.Created, entity.ToDTO());
     }
 
     public async  Task<Option<CategoryDTO>> ReadByIDAsync(int categoryID)
-    {
-        var categories = from c in _context.Categories
-                        where c.Id == categoryID
-                        select new CategoryDTO(c.Id, c.Name, c.Recipes.Select(r => r.Id).ToList());
-
-        return await categories.FirstOrDefaultAsync();
-    }
+        => await _context.Categories
+            .Where(c => c.Id == categoryID)
+            .Include(c => c.Recipes)
+            .Select(c => c.ToDTO())
+            .FirstOrDefaultAsync();
 }
 
 

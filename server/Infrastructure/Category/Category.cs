@@ -15,4 +15,11 @@ public class Category
 
 #nullable disable
     public Category(){}
+
+    public CategoryDTO ToDTO() 
+            => new CategoryDTO(
+                this.Id, 
+                this.Name, 
+                this.Recipes.Select(r => r.Id).ToList()
+            );
 }

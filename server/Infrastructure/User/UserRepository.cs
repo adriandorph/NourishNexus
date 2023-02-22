@@ -16,7 +16,7 @@ public class UserRepository : IUserRepository
             .Where(u => u.Email == user.Email)
             .FirstOrDefaultAsync();
             
-        if (conflict != null) return (Response.Conflict, new UserDTO(-1, user.Email ?? "", user.Nickname ?? "", new List<int>()));
+        if (conflict != null) return (Response.Conflict, new UserDTO(-1, user.Nickname ?? "", user.Email ?? "", new List<int>()));
         if (user.Email == null || user.Nickname == null) return (Response.BadRequest, new UserDTO(-1, user.Email ?? "", user.Nickname ?? "", new List<int>()));
 
         //Create entity and insert it into the database context
@@ -31,7 +31,7 @@ public class UserRepository : IUserRepository
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, new UserDTO(entity.Id, entity.Email, entity.Nickname, entity.SavedRecipes.Select(r => r.Id).ToList()));
+        return (Response.Created, entity.ToDTO());
 
     }
 
@@ -39,6 +39,7 @@ public class UserRepository : IUserRepository
     {
         var userEntity = await _context.Users
             .Where(u => u.Id == user.Id)
+            .Include(u => u.SavedRecipes)
             .FirstOrDefaultAsync();
         
         
@@ -84,18 +85,15 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<Option<UserDTO>> ReadByIDAsync(int Id)
-    {
-        var users = from u in _context.Users
-                        where u.Id == Id
-                        select new UserDTO(u.Id, u.Email, u.Nickname, u.SavedRecipes.Select(r => r.Id).ToList());
-
-        return await users.FirstOrDefaultAsync();
-    }
+        => await _context.Users
+            .Where(u => u.Id == Id)
+            .Include(u => u.SavedRecipes)
+            .Select(u => u.ToDTO())
+            .FirstOrDefaultAsync();
     
 
 
     //Helper functions
-
     private async Task<List<Recipe>> RecipeIDsToRecipes(List<int> recipeIDs)
         => await _context.Recipes
             .Where(r => recipeIDs.Any(rID => rID == r.Id))
