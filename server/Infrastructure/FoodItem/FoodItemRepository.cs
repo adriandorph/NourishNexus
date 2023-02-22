@@ -32,7 +32,7 @@ public class FoodItemRepository : IFoodItemRepository
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, new FoodItemDTO(entity.Id, entity.Name, entity.Unit, entity.Calories, entity.Protein));
+        return (Response.Created, entity.ToDTO());
     }
 
     public async Task<Response> UpdateAsync(FoodItemUpdateDTO item)
@@ -94,7 +94,7 @@ public class FoodItemRepository : IFoodItemRepository
     public async Task<IReadOnlyCollection<FoodItemDTO>> ReadAllAsync()
     {
          return(await _context.FoodItems
-                        .Select(i => new FoodItemDTO(i.Id, i.Name, i.Unit, i.Calories, i.Protein))
+                        .Select(i => i.ToDTO())
                         .ToListAsync())
                         .AsReadOnly();
     }
@@ -104,7 +104,7 @@ public class FoodItemRepository : IFoodItemRepository
     {
         var items = from i in _context.FoodItems
                         where i.Id == itemID
-                        select new FoodItemDTO(i.Id, i.Name, i.Unit, i.Calories, i.Protein);
+                        select i.ToDTO();
 
         return await items.FirstOrDefaultAsync();
     }

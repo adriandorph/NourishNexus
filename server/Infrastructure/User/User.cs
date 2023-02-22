@@ -23,4 +23,12 @@ public class User
     #nullable disable
     public User() {}
 
+    public UserDTO ToDTO()
+            => new UserDTO(
+                this.Id,   
+                this.Nickname,
+                this.Email,
+                this.SavedRecipes.Select(r => r.Id).ToList()
+            );
+
 }

@@ -96,7 +96,7 @@ public class RecipeController : ControllerBase
         }
     }
 
-    [HttpGet("category/{id}")]
+    [HttpGet("category/{categoryID}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetRecipesByCategoryID(int categoryID)
     {

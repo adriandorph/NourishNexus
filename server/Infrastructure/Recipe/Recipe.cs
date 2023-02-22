@@ -24,6 +24,18 @@ public class Recipe {
     #nullable disable
     public Recipe() {}
     #nullable enable
+
+    public RecipeDTO ToDTO()
+        => new RecipeDTO(
+            this.Id, 
+            this.Title, 
+            this.IsPublic, 
+            this.Description, 
+            this.Method, 
+            this.AuthorId, 
+            this.Categories.Select(c => c.Id).ToList(), 
+            this.FoodItems.Select(fi => fi.Id).ToList()
+        );
         
 }
 
