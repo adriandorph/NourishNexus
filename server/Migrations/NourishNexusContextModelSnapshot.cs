@@ -37,6 +37,21 @@ namespace server.Migrations
                     b.ToTable("CategoryRecipe");
                 });
 
+            modelBuilder.Entity("FoodItemRecipe", b =>
+                {
+                    b.Property<int>("FoodItemsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FoodItemsId", "RecipesId");
+
+                    b.HasIndex("RecipesId");
+
+                    b.ToTable("FoodItemRecipe");
+                });
+
             modelBuilder.Entity("server.Infrastructure.Avoidance", b =>
                 {
                     b.Property<int>("Id")
@@ -67,7 +82,7 @@ namespace server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CategoryName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -94,15 +109,10 @@ namespace server.Migrations
                     b.Property<float>("Protein")
                         .HasColumnType("real");
 
-                    b.Property<int?>("RecipeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Unit")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
 
                     b.ToTable("FoodItems");
                 });
@@ -157,9 +167,12 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -202,6 +215,21 @@ namespace server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FoodItemRecipe", b =>
+                {
+                    b.HasOne("server.Infrastructure.FoodItem", null)
+                        .WithMany()
+                        .HasForeignKey("FoodItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Infrastructure.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("RecipesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("server.Infrastructure.Avoidance", b =>
                 {
                     b.HasOne("server.Infrastructure.User", "User")
@@ -211,13 +239,6 @@ namespace server.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("server.Infrastructure.FoodItem", b =>
-                {
-                    b.HasOne("server.Infrastructure.Recipe", null)
-                        .WithMany("FoodItems")
-                        .HasForeignKey("RecipeId");
                 });
 
             modelBuilder.Entity("server.Infrastructure.Meal", b =>
@@ -233,18 +254,14 @@ namespace server.Migrations
 
             modelBuilder.Entity("server.Infrastructure.Recipe", b =>
                 {
-                    b.HasOne("server.Infrastructure.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
+                    b.HasOne("server.Infrastructure.User", null)
+                        .WithMany("SavedRecipes")
+                        .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("server.Infrastructure.Recipe", b =>
+            modelBuilder.Entity("server.Infrastructure.User", b =>
                 {
-                    b.Navigation("FoodItems");
+                    b.Navigation("SavedRecipes");
                 });
 #pragma warning restore 612, 618
         }

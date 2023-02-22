@@ -1,5 +1,4 @@
 namespace server.Infrastructure;
-
 public class FoodItemRepository : IFoodItemRepository
 {
     private readonly NourishNexusContext _context;
@@ -13,7 +12,7 @@ public class FoodItemRepository : IFoodItemRepository
     public async Task<(Response, FoodItemDTO)> CreateAsync(FoodItemCreateDTO item){
         var conflict = await _context.FoodItems
             .Where(i => i.Name == item.Name)
-            .Select(i => i.ToDTO())
+            .Select(i => new FoodItemDTO(i.Id, i.Name, i.Unit, i.Calories, i.Protein))
             .FirstOrDefaultAsync();
 
         if (conflict != null) return (Response.Conflict, conflict);
@@ -33,7 +32,7 @@ public class FoodItemRepository : IFoodItemRepository
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, entity.ToDTO());
+        return (Response.Created, new FoodItemDTO(entity.Id, entity.Name, entity.Unit, entity.Calories, entity.Protein));
     }
 
     public async Task<Response> UpdateAsync(FoodItemUpdateDTO item)
@@ -95,7 +94,7 @@ public class FoodItemRepository : IFoodItemRepository
     public async Task<IReadOnlyCollection<FoodItemDTO>> ReadAllAsync()
     {
          return(await _context.FoodItems
-                        .Select(i => i.ToDTO())
+                        .Select(i => new FoodItemDTO(i.Id, i.Name, i.Unit, i.Calories, i.Protein))
                         .ToListAsync())
                         .AsReadOnly();
     }
@@ -105,7 +104,7 @@ public class FoodItemRepository : IFoodItemRepository
     {
         var items = from i in _context.FoodItems
                         where i.Id == itemID
-                        select i.ToDTO();
+                        select new FoodItemDTO(i.Id, i.Name, i.Unit, i.Calories, i.Protein);
 
         return await items.FirstOrDefaultAsync();
     }

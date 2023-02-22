@@ -11,8 +11,7 @@ public class NourishNexusContext : DbContext
 
 
 
-    public NourishNexusContext(DbContextOptions<NourishNexusContext> options) : base(options) 
-    {
-        
-    }
+    public NourishNexusContext(DbContextOptions<NourishNexusContext> options) : base(options) {}
+
+    
 }

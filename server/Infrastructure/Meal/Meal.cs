@@ -17,8 +17,6 @@ public class Meal //NOT DONE
 
     #nullable disable
     public Meal() {}
-    public MealDTO ToDTO()
-        => new MealDTO(Id, mealType, User.Id, Date);
 }
 
 

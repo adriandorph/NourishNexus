@@ -15,6 +15,4 @@ public class Avoidance {
 #nullable disable
     public Avoidance() {}
 
-    public AvoidanceDTO ToDTO()
-        => new AvoidanceDTO(Id, Keyword, User.Id);
 }

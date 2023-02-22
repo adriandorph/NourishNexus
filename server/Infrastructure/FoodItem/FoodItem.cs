@@ -29,7 +29,4 @@ public class FoodItem
 
     #nullable disable
     public FoodItem() {}
-
-    public FoodItemDTO ToDTO() 
-        => new FoodItemDTO(Id, Name, Unit, Calories, Protein);
 }

@@ -18,4 +18,6 @@ public interface IRecipeRepository{
     public Task<IReadOnlyCollection<RecipeDTO>> ReadAllAsync();
 
     public Task<Option<RecipeDTO>> ReadByAuthorIDAndTitle(int authorID, string title);
+
+    public Task<IReadOnlyCollection<RecipeDTO>> ReadAllByCategoryIDAsync(int categoryID);
 }

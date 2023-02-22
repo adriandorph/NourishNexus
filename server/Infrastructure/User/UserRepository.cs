@@ -16,21 +16,22 @@ public class UserRepository : IUserRepository
             .Where(u => u.Email == user.Email)
             .FirstOrDefaultAsync();
             
-        if (conflict != null) return (Response.Conflict, new UserDTO(-1, user.Email, user.Nickname));
-        
+        if (conflict != null) return (Response.Conflict, new UserDTO(-1, user.Email ?? "", user.Nickname ?? "", new List<int>()));
+        if (user.Email == null || user.Nickname == null) return (Response.BadRequest, new UserDTO(-1, user.Email ?? "", user.Nickname ?? "", new List<int>()));
 
         //Create entity and insert it into the database context
         var entity = new User
         (
             user.Nickname,
-            user.Email
+            user.Email,
+            new List<Recipe>()
         );
 
         await _context.Users.AddAsync(entity);
 
         await _context.SaveChangesAsync();
 
-        return (Response.Created, entity.ToDTO());
+        return (Response.Created, new UserDTO(entity.Id, entity.Email, entity.Nickname, entity.SavedRecipes.Select(r => r.Id).ToList()));
 
     }
 
@@ -53,6 +54,11 @@ public class UserRepository : IUserRepository
         if (userEntity.Nickname != null && !userEntity.Nickname.Equals(user.Nickname) && user.Nickname != null)
         {
             userEntity.Nickname = user.Nickname;
+        }
+
+        if (user.SavedRecipeIds != null)
+        {
+            userEntity.SavedRecipes = await RecipeIDsToRecipes(user.SavedRecipeIds);
         }
 
         await _context.SaveChangesAsync();
@@ -81,8 +87,17 @@ public class UserRepository : IUserRepository
     {
         var users = from u in _context.Users
                         where u.Id == Id
-                        select u.ToDTO();
+                        select new UserDTO(u.Id, u.Email, u.Nickname, u.SavedRecipes.Select(r => r.Id).ToList());
 
         return await users.FirstOrDefaultAsync();
     }
+    
+
+
+    //Helper functions
+
+    private async Task<List<Recipe>> RecipeIDsToRecipes(List<int> recipeIDs)
+        => await _context.Recipes
+            .Where(r => recipeIDs.Any(rID => rID == r.Id))
+            .ToListAsync();
 }

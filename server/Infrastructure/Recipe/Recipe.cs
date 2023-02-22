@@ -6,17 +6,17 @@ public class Recipe {
     public bool IsPublic {get; set;}
     public string Description {get; set;} = "";
     public string Method {get; set;} = "";
-    public User Author {get; set;}
+    public int AuthorId {get; set;}
     public List<Category> Categories {get; set;}
     public List<FoodItem> FoodItems {get; set;}
 
-    public Recipe(string title, bool isPublic, string description, string method, User author, List<Category> categories, List<FoodItem> foodItems)
+    public Recipe(string title, bool isPublic, string description, string method, int authorId, List<Category> categories, List<FoodItem> foodItems)
     {
         this.Title = title;
         this.IsPublic = isPublic;
         this.Description = description;
         this.Method = method;
-        this.Author = author;
+        this.AuthorId = authorId;
         this.Categories = categories;
         this.FoodItems = foodItems;
     }
@@ -24,17 +24,6 @@ public class Recipe {
     #nullable disable
     public Recipe() {}
     #nullable enable
-    public RecipeDTO ToDTO() 
-        => new RecipeDTO(
-            Id, 
-            Title, 
-            IsPublic, 
-            Description, 
-            Method, 
-            Author.Id, 
-            Categories.Select(c => c.Id).ToList(), 
-            FoodItems.Select(fi => fi.Id).ToList()
-        );
         
 }
 
