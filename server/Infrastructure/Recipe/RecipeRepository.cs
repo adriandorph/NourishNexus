@@ -64,11 +64,14 @@ public class RecipeRepository : IRecipeRepository
 
     public async Task<Response> UpdateAsync(RecipeUpdateDTO recipe)
     {
-        var recipeEntity = await _context.Recipes
+        var recipeEntityNullable = await _context.Recipes
             .Where (r => r.Id == recipe.Id)
+            .Include(r => r.Categories)
+            .Include(r => r.FoodItems)
             .FirstOrDefaultAsync();
         
-        if(recipeEntity == null) return Response.NotFound;
+        if(recipeEntityNullable == null) return Response.NotFound;
+        Recipe recipeEntity = recipeEntityNullable;
         
         if(_context.Recipes.Any(r => r.Title.Equals(recipe.Title) && r.AuthorId == recipeEntity.AuthorId))
             return Response.Conflict;
@@ -91,13 +94,15 @@ public class RecipeRepository : IRecipeRepository
 
         if(recipe.CategoryIDs != null)
         {
+            Console.WriteLine("!!! CategoryIDs is not null");
             var categories = await CategoryIDsToCategories(recipe.CategoryIDs);
             recipeEntity.Categories = categories;
+            _context.UpdateRange(recipeEntity.Categories);
         }
 
         if(recipe.FoodItemIDs != null){
-             var foodItems = await FoodItemIDsToFoodItems(recipe.FoodItemIDs);
-             recipeEntity.FoodItems = foodItems;
+            var foodItems = await FoodItemIDsToFoodItems(recipe.FoodItemIDs);
+            recipeEntity.FoodItems = foodItems;
         }
         
         await _context.SaveChangesAsync();

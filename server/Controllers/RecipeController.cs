@@ -49,8 +49,9 @@ public class RecipeController : ControllerBase
             else if (r == Core.Response.BadRequest) return BadRequest("Bad Request");
             else return StatusCode(500, "An unknown error occured");
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogError(e, e.Message);
             return StatusCode(500, "Internal Server Error");
         }
     }
