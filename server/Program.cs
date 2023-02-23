@@ -1,5 +1,6 @@
 using server.Infrastructure;
 using server.Core.EF.RepositoryInterfaces;
+using server.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IFoodItemRepository, FoodItemRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<FoodItemSeeding>();
 
 builder.Services.AddCors(options =>
 {

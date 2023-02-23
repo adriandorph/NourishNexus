@@ -1188,18 +1188,18 @@ public class FoodItemRepositoryTests
     }
 
     [Fact]
-    public async void Update_Updated_Selen()
+    public async void Update_Updated_Selenium()
     {
         //Arrange
         var foodItemCreateDTO = new FoodItemCreateDTO{
             Name = "Apple",
-            Selen = 100.0f,
+            Selenium = 100.0f,
         };
 
         var foodItemUpdateDTO = new FoodItemUpdateDTO
         {
             Id = 1,
-            Selen = 200.0f
+            Selenium = 200.0f
         };
 
         //Act
@@ -1214,7 +1214,7 @@ public class FoodItemRepositoryTests
         Assert.NotNull(entity);
         Assert.Equal(1, entity.Id);
         Assert.Equal(foodItemCreateDTO.Name, entity.Name);
-        Assert.Equal(foodItemUpdateDTO.Selen, entity.Selen);
+        Assert.Equal(foodItemUpdateDTO.Selenium, entity.Selenium);
     }
 
     [Fact]
