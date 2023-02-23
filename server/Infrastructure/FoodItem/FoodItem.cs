@@ -46,16 +46,9 @@ public class FoodItem
     public float Selenium {get; set;}
     public float Calcium {get; set;}
 
-    
-    
-
-    public List<Recipe> Recipes {get; set;}
-    
-    //Add the remaining nutrient data
 
     public FoodItem(
-        string name, 
-        List<Recipe> recipes,
+        string name,
         float calories,
         float protein,
         float carbohydrates,
@@ -92,7 +85,6 @@ public class FoodItem
     )
     {
         this.Name = name;
-        this.Recipes = recipes;
         this.Calories = calories;
         this.Protein = protein;
         this.Carbohydrates = carbohydrates;

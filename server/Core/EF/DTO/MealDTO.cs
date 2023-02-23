@@ -2,7 +2,21 @@ namespace server.Core.EF.DTO;
 
 public record MealDTO(
     int Id,
-    int mealType,
-    int UserId,
-    DateTime Date
+    MealType MealType,
+    int UserID,
+    DateTime Date,
+    List<int> CategoryIDs
 );
+
+public record MealCreateDTO{
+    public MealType? MealType {get; set;}
+    public int UserID {get; set;}
+    public DateTime Date {get; set;}
+    public List<int>? CategoryIDs {get; set;}
+}
+
+public record MealUpdateDTO : MealCreateDTO
+{
+    public int Id {get; set;}
+    public List<FoodItemMealCreateDTO>? FoodItemMeals {get; set;}
+}

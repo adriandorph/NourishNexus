@@ -33,8 +33,7 @@ public class RecipeRepositoryTests
 
         //Add foodItems
         _apple = new FoodItem(
-            "Apple", 
-            new List<Recipe>(),
+            "Apple",
             0f,
             0f,
             0f,
@@ -69,8 +68,7 @@ public class RecipeRepositoryTests
             0f
         );
         _orange = new FoodItem(
-            "Orange", 
-            new List<Recipe>(),
+            "Orange",
             0f,
             0f,
             0f,
@@ -105,8 +103,7 @@ public class RecipeRepositoryTests
             0f
         );;
         _pear = new FoodItem(
-            "Pear", 
-            new List<Recipe>(),
+            "Pear",
             0f,
             0f,
             0f,
@@ -172,8 +169,7 @@ public class RecipeRepositoryTests
             Description = "A nice bowl of appels and oranges",
             Method = "Put the apples in a bowl. \nAdd the oranges into the bowl.",
             AuthorId = 1,
-            CategoryIDs = new List<int>{1, 2},
-            FoodItemIDs = new List<int>{1, 2}
+            CategoryIDs = new List<int>{1, 2}
         };
 
         //Act
@@ -192,13 +188,9 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
         Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
-        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
-
         
         Assert.Equal(entity, entity.Categories[0].Recipes[0]);
         Assert.Equal(entity, entity.Categories[1].Recipes[0]);
-        Assert.Equal(entity, entity.FoodItems[0].Recipes[0]);
-        Assert.Equal(entity, entity.FoodItems[1].Recipes[0]);
 
         Assert.Equal(Response.Created, response);
         Assert.Equal(entity.Id, recipeDTO.Id);
@@ -208,7 +200,6 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.Method, recipeDTO.Method);
         Assert.Equal(recipeCreateDTO.AuthorId, recipeDTO.AuthorId);
         Assert.Equal(recipeCreateDTO.CategoryIDs, recipeDTO.CategoryIDs);
-        Assert.Equal(recipeCreateDTO.FoodItemIDs, recipeDTO.FoodItemIDs);
     }
 
     [Fact]
@@ -288,7 +279,6 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
         Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
-        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }
 
     [Fact]
@@ -362,7 +352,6 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
         Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
-        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }
 
     [Fact]
@@ -400,7 +389,6 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeUpdateDTO.Method, entity.Method);
         Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
-        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }
 
     [Fact]
@@ -428,7 +416,6 @@ public class RecipeRepositoryTests
             Id = 2,
             Title = "Apples and Oranges",
         };
-        Console.WriteLine("Start here");
         //Act
         await _repo.CreateAsync(recipeCreateDTO1);
         await _repo.CreateAsync(recipeCreateDTO2);
@@ -475,7 +462,6 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
         Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeUpdateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
-        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
     }
 
 
@@ -488,14 +474,13 @@ public class RecipeRepositoryTests
             IsPublic = false,
             Description = "A nice bowl of appels and oranges",
             Method = "Put the apples in a bowl. \nAdd the oranges into the bowl.",
-            AuthorId = 1,
-            FoodItemIDs = new List<int>{1,2}
+            AuthorId = 1
         };
 
         var recipeUpdateDTO = new RecipeUpdateDTO
         {
             Id = 1,
-            FoodItemIDs = new List<int>{2}
+            FoodItemRecipes = new List<FoodItemRecipeCreateDTO>{new FoodItemRecipeCreateDTO{Amount = 2, FoodItemID = 2, RecipeID = 1}}
         };
 
         //Act
@@ -515,7 +500,16 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.Method, entity.Method);
         Assert.Equal(recipeCreateDTO.AuthorId, entity.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
-        Assert.True(Enumerable.SequenceEqual(recipeUpdateDTO.FoodItemIDs ?? new List<int>{}, entity.FoodItems.Select(fi => fi.Id).ToList()));
+        
+        Assert.Collection<FoodItemRecipeDTO>
+        (
+            _context.FoodItemRecipes.Where(fir => fir.Recipe.Id == entity.Id).Select(fir => fir.ToDTO()).ToList(),
+            item => {
+                Assert.Equal(2, item.Amount);
+                Assert.Equal(2, item.FoodItemID);
+                Assert.Equal(1, item.RecipeID);
+            }
+        );
     }
 
 
@@ -581,7 +575,6 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO.Method, result.Value.Method);
         Assert.Equal(recipeCreateDTO.AuthorId, result.Value.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.CategoryIDs ?? new List<int>{}, result.Value.CategoryIDs));
-        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO.FoodItemIDs ?? new List<int>{}, result.Value.FoodItemIDs));
     }
 
     [Fact]
@@ -633,7 +626,6 @@ public class RecipeRepositoryTests
                 Assert.Equal(recipeCreateDTO1.Method, item.Method);
                 Assert.Equal(recipeCreateDTO1.AuthorId, item.AuthorId);
                 Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
-                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.FoodItemIDs ?? new List<int>{}, item.FoodItemIDs));
             },
             item => {
                 Assert.Equal(2, item.Id);
@@ -643,7 +635,6 @@ public class RecipeRepositoryTests
                 Assert.Equal(recipeCreateDTO2.Method, item.Method);
                 Assert.Equal(recipeCreateDTO2.AuthorId, item.AuthorId);
                 Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
-                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.FoodItemIDs ?? new List<int>{}, item.FoodItemIDs));
             }
         );
     }
@@ -706,7 +697,6 @@ public class RecipeRepositoryTests
                 Assert.Equal(recipeCreateDTO1.Method, item.Method);
                 Assert.Equal(recipeCreateDTO1.AuthorId, item.AuthorId);
                 Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
-                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.FoodItemIDs ?? new List<int>{}, item.FoodItemIDs));
                 
             },
             item => {
@@ -717,7 +707,6 @@ public class RecipeRepositoryTests
                 Assert.Equal(recipeCreateDTO2.Method, item.Method);
                 Assert.Equal(recipeCreateDTO2.AuthorId, item.AuthorId);
                 Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
-                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.FoodItemIDs ?? new List<int>{}, item.FoodItemIDs));
             }
         );
     }
@@ -777,7 +766,6 @@ public class RecipeRepositoryTests
         Assert.Equal(recipeCreateDTO1.Method, result.Value.Method);
         Assert.Equal(recipeCreateDTO1.AuthorId, result.Value.AuthorId);
         Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.CategoryIDs ?? new List<int>{}, result.Value.CategoryIDs));
-        Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.FoodItemIDs ?? new List<int>{}, result.Value.FoodItemIDs));
     }
 
     [Fact]
@@ -849,7 +837,6 @@ public class RecipeRepositoryTests
                 Assert.Equal(recipeCreateDTO1.Method, item.Method);
                 Assert.Equal(recipeCreateDTO1.AuthorId, item.AuthorId);
                 Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
-                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO1.FoodItemIDs ?? new List<int>{}, item.FoodItemIDs));
             },
             item => {
                 Assert.Equal(2, item.Id);
@@ -859,7 +846,6 @@ public class RecipeRepositoryTests
                 Assert.Equal(recipeCreateDTO2.Method, item.Method);
                 Assert.Equal(recipeCreateDTO2.AuthorId, item.AuthorId);
                 Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
-                Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.FoodItemIDs ?? new List<int>{}, item.FoodItemIDs));
             }
         );
     }

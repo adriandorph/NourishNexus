@@ -8,9 +8,8 @@ public class Recipe {
     public string Method {get; set;} = "";
     public int AuthorId {get; set;}
     public List<Category> Categories {get; set;}
-    public List<FoodItem> FoodItems {get; set;}
 
-    public Recipe(string title, bool isPublic, string description, string method, int authorId, List<Category> categories, List<FoodItem> foodItems)
+    public Recipe(string title, bool isPublic, string description, string method, int authorId, List<Category> categories)
     {
         this.Title = title;
         this.IsPublic = isPublic;
@@ -18,7 +17,6 @@ public class Recipe {
         this.Method = method;
         this.AuthorId = authorId;
         this.Categories = categories;
-        this.FoodItems = foodItems;
     }
 
     #nullable disable
@@ -33,8 +31,7 @@ public class Recipe {
             this.Description, 
             this.Method, 
             this.AuthorId, 
-            this.Categories.Select(c => c.Id).ToList(), 
-            this.FoodItems.Select(fi => fi.Id).ToList()
+            this.Categories.Select(c => c.Id).ToList()
         );
         
 }

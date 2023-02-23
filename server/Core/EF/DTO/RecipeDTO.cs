@@ -7,8 +7,7 @@ public record RecipeDTO(
     string Description,
     string Method,
     int AuthorId,
-    List<int> CategoryIDs,
-    List<int> FoodItemIDs
+    List<int> CategoryIDs
 );
 
 
@@ -19,12 +18,12 @@ public record RecipeCreateDTO{
     public string? Method {get; set;}
     public int AuthorId {get; set;} 
     public List<int>? CategoryIDs {get; set;}
-    public List<int>? FoodItemIDs {get; set;}
 }
 
 public record RecipeUpdateDTO : RecipeCreateDTO
 {
     public int Id {get; set;}
+    public List<FoodItemRecipeCreateDTO>? FoodItemRecipes {get; set;}
 }
 
 

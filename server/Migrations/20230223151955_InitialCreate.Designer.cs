@@ -12,7 +12,7 @@ using server.Infrastructure;
 namespace server.Migrations
 {
     [DbContext(typeof(NourishNexusContext))]
-    [Migration("20230223100702_InitialCreate")]
+    [Migration("20230223151955_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -38,21 +38,6 @@ namespace server.Migrations
                     b.HasIndex("RecipesId");
 
                     b.ToTable("CategoryRecipe");
-                });
-
-            modelBuilder.Entity("FoodItemRecipe", b =>
-                {
-                    b.Property<int>("FoodItemsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecipesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FoodItemsId", "RecipesId");
-
-                    b.HasIndex("RecipesId");
-
-                    b.ToTable("FoodItemRecipe");
                 });
 
             modelBuilder.Entity("server.Infrastructure.Avoidance", b =>
@@ -85,11 +70,16 @@ namespace server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("MealId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MealId");
 
                     b.ToTable("Categories");
                 });
@@ -207,6 +197,58 @@ namespace server.Migrations
                     b.ToTable("FoodItems");
                 });
 
+            modelBuilder.Entity("server.Infrastructure.FoodItemMeal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<int>("FoodItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MealId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodItemId");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("FoodItemMeals");
+                });
+
+            modelBuilder.Entity("server.Infrastructure.FoodItemRecipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<int>("FoodItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodItemId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("FoodItemRecipes");
+                });
+
             modelBuilder.Entity("server.Infrastructure.Meal", b =>
                 {
                     b.Property<int>("Id")
@@ -218,10 +260,10 @@ namespace server.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("MealType")
                         .HasColumnType("int");
 
-                    b.Property<int>("mealType")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -305,21 +347,6 @@ namespace server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FoodItemRecipe", b =>
-                {
-                    b.HasOne("server.Infrastructure.FoodItem", null)
-                        .WithMany()
-                        .HasForeignKey("FoodItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("server.Infrastructure.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("RecipesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("server.Infrastructure.Avoidance", b =>
                 {
                     b.HasOne("server.Infrastructure.User", "User")
@@ -329,6 +356,51 @@ namespace server.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("server.Infrastructure.Category", b =>
+                {
+                    b.HasOne("server.Infrastructure.Meal", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("MealId");
+                });
+
+            modelBuilder.Entity("server.Infrastructure.FoodItemMeal", b =>
+                {
+                    b.HasOne("server.Infrastructure.FoodItem", "FoodItem")
+                        .WithMany()
+                        .HasForeignKey("FoodItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Infrastructure.Meal", "Meal")
+                        .WithMany()
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FoodItem");
+
+                    b.Navigation("Meal");
+                });
+
+            modelBuilder.Entity("server.Infrastructure.FoodItemRecipe", b =>
+                {
+                    b.HasOne("server.Infrastructure.FoodItem", "FoodItem")
+                        .WithMany()
+                        .HasForeignKey("FoodItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Infrastructure.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FoodItem");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("server.Infrastructure.Meal", b =>
@@ -347,6 +419,11 @@ namespace server.Migrations
                     b.HasOne("server.Infrastructure.User", null)
                         .WithMany("SavedRecipes")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("server.Infrastructure.Meal", b =>
+                {
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("server.Infrastructure.User", b =>
