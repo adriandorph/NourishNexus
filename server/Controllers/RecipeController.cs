@@ -78,7 +78,6 @@ public class RecipeController : ControllerBase
 
 
     //GET
-
     [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetRecipeById(int id)

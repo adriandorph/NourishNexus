@@ -12,19 +12,6 @@ namespace server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "FoodItems",
                 columns: table => new
                 {
@@ -109,7 +96,7 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    mealType = table.Column<int>(type: "int", nullable: false),
+                    MealType = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -148,6 +135,79 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MealId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Meals_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meals",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FoodItemMeals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    FoodItemId = table.Column<int>(type: "int", nullable: false),
+                    MealId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodItemMeals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FoodItemMeals_FoodItems_FoodItemId",
+                        column: x => x.FoodItemId,
+                        principalTable: "FoodItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FoodItemMeals_Meals_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FoodItemRecipes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    FoodItemId = table.Column<int>(type: "int", nullable: false),
+                    RecipeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodItemRecipes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FoodItemRecipes_FoodItems_FoodItemId",
+                        column: x => x.FoodItemId,
+                        principalTable: "FoodItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FoodItemRecipes_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CategoryRecipe",
                 columns: table => new
                 {
@@ -171,34 +231,15 @@ namespace server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "FoodItemRecipe",
-                columns: table => new
-                {
-                    FoodItemsId = table.Column<int>(type: "int", nullable: false),
-                    RecipesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FoodItemRecipe", x => new { x.FoodItemsId, x.RecipesId });
-                    table.ForeignKey(
-                        name: "FK_FoodItemRecipe_FoodItems_FoodItemsId",
-                        column: x => x.FoodItemsId,
-                        principalTable: "FoodItems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FoodItemRecipe_Recipes_RecipesId",
-                        column: x => x.RecipesId,
-                        principalTable: "Recipes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Avoidances_UserId",
                 table: "Avoidances",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_MealId",
+                table: "Categories",
+                column: "MealId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryRecipe_RecipesId",
@@ -206,9 +247,24 @@ namespace server.Migrations
                 column: "RecipesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FoodItemRecipe_RecipesId",
-                table: "FoodItemRecipe",
-                column: "RecipesId");
+                name: "IX_FoodItemMeals_FoodItemId",
+                table: "FoodItemMeals",
+                column: "FoodItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodItemMeals_MealId",
+                table: "FoodItemMeals",
+                column: "MealId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodItemRecipes_FoodItemId",
+                table: "FoodItemRecipes",
+                column: "FoodItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodItemRecipes_RecipeId",
+                table: "FoodItemRecipes",
+                column: "RecipeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Meals_UserId",
@@ -231,10 +287,10 @@ namespace server.Migrations
                 name: "CategoryRecipe");
 
             migrationBuilder.DropTable(
-                name: "FoodItemRecipe");
+                name: "FoodItemMeals");
 
             migrationBuilder.DropTable(
-                name: "Meals");
+                name: "FoodItemRecipes");
 
             migrationBuilder.DropTable(
                 name: "Categories");
@@ -244,6 +300,9 @@ namespace server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Recipes");
+
+            migrationBuilder.DropTable(
+                name: "Meals");
 
             migrationBuilder.DropTable(
                 name: "Users");

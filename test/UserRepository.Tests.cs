@@ -194,8 +194,7 @@ public class UserRepositoryTests
             "A nice bowl of appels and oranges",
             "Put the apples in a bowl. \nAdd the oranges into the bowl.",
             1,
-            new List<Category>(),
-            new List<FoodItem>()
+            new List<Category>()
         );
 
         var userUpdateDTO = new UserUpdateDTO
@@ -290,8 +289,7 @@ public class UserRepositoryTests
             "A nice bowl of appels and oranges",
             "Put the apples in a bowl. \nAdd the oranges into the bowl.",
             1,
-            new List<Category>(),
-            new List<FoodItem>()
+            new List<Category>()
         );
 
         var userUpdateDTO = new UserUpdateDTO

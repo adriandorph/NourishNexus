@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 namespace server.Infrastructure;
 public class FoodItemRepository : IFoodItemRepository
 {
@@ -12,7 +13,6 @@ public class FoodItemRepository : IFoodItemRepository
     public async Task<(Response, FoodItemDTO)> CreateAsync(FoodItemCreateDTO item){
         var conflict = await _context.FoodItems
             .Where(i => i.Name == item.Name)
-            .Include(i => i.Recipes)
             .Select(i => i.ToDTO())
             .FirstOrDefaultAsync();
 
@@ -57,7 +57,6 @@ public class FoodItemRepository : IFoodItemRepository
         var entity = new FoodItem
         (
             item.Name,
-            new List<Recipe>(),
             item.Calories ?? 0f,
             item.Protein ?? 0f,
             item.Carbohydrates ?? 0f,
@@ -326,5 +325,10 @@ public class FoodItemRepository : IFoodItemRepository
 
         return await items.FirstOrDefaultAsync();
     }
-    
+
+    public async Task<IReadOnlyCollection<FoodItemRecipeDTO>> ReadAllByRecipeIDAsync(int recipeID)
+        => await _context.FoodItemRecipes
+            .Where(fir => fir.Recipe.Id == recipeID)
+            .Select(fir => fir.ToDTO())
+            .ToListAsync();
 }
