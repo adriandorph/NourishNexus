@@ -43,7 +43,7 @@ public class FoodItem
     public float Copper {get; set;}
     public float Iodine {get; set;}
     public float Nickel {get; set;}
-    public float Selen {get; set;}
+    public float Selenium {get; set;}
     public float Calcium {get; set;}
 
     
@@ -86,7 +86,7 @@ public class FoodItem
         float copper,
         float iodine,
         float nickel,
-        float selen,
+        float selenium,
         float calcium
 
     )
@@ -123,7 +123,7 @@ public class FoodItem
         this.Copper = copper;
         this.Iodine = iodine;
         this.Nickel = nickel;
-        this.Selen = selen;
+        this.Selenium = selenium;
         this.Calcium = calcium;
     }
 
@@ -164,7 +164,7 @@ public class FoodItem
                 this.Copper,
                 this.Iodine,
                 this.Nickel,
-                this.Selen,
+                this.Selenium,
                 this.Calcium
             );
 }

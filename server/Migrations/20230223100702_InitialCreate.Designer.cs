@@ -12,7 +12,7 @@ using server.Infrastructure;
 namespace server.Migrations
 {
     [DbContext(typeof(NourishNexusContext))]
-    [Migration("20230222085214_InitialCreate")]
+    [Migration("20230223100702_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -102,18 +102,105 @@ namespace server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<float>("Calcium")
+                        .HasColumnType("real");
+
                     b.Property<float>("Calories")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Carbohydrates")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Copper")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Fibres")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Folate")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Iodine")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Iron")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Magnesium")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MonounsaturatedFat")
                         .HasColumnType("real");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("Niacin")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Nickel")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Phosphorus")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PolyunsaturatedFat")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Potassium")
+                        .HasColumnType("real");
+
                     b.Property<float>("Protein")
                         .HasColumnType("real");
 
-                    b.Property<int>("Unit")
-                        .HasColumnType("int");
+                    b.Property<float>("Riboflavin")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Salt")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SaturatedFat")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Selenium")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Sugars")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Thiamin")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TotalFat")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TransFat")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VitaminA")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VitaminB12")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VitaminB6")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VitaminC")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VitaminD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VitaminE")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VitaminK1")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Zinc")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 

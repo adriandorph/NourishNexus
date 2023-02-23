@@ -51,7 +51,7 @@ public class FoodItemRepository : IFoodItemRepository
             item.Copper ?? 0f,
             item.Iodine ?? 0f,
             item.Nickel ?? 0f,
-            item.Selen ?? 0f,
+            item.Selenium ?? 0f,
             item.Calcium ?? 0f));
 
         var entity = new FoodItem
@@ -88,7 +88,7 @@ public class FoodItemRepository : IFoodItemRepository
             item.Copper ?? 0f,
             item.Iodine ?? 0f,
             item.Nickel ?? 0f,
-            item.Selen ?? 0f,
+            item.Selenium ?? 0f,
             item.Calcium ?? 0f
         );
 
@@ -265,9 +265,9 @@ public class FoodItemRepository : IFoodItemRepository
             itemEntity.Nickel = (float) item.Nickel;
         }
 
-        if (!itemEntity.Selen.Equals(item.Selen) && item.Selen != null)
+        if (!itemEntity.Selenium.Equals(item.Selenium) && item.Selenium != null)
         {
-            itemEntity.Selen = (float) item.Selen;
+            itemEntity.Selenium = (float) item.Selenium;
         }
 
         if (!itemEntity.Calcium.Equals(item.Calcium) && item.Calcium != null)

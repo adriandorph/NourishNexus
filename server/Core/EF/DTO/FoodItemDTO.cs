@@ -33,7 +33,7 @@ public record FoodItemDTO(
     float Copper,
     float Iodine,
     float Nickel,
-    float Selen,
+    float Selenium,
     float Calcium
 );
 
@@ -70,7 +70,7 @@ public record FoodItemCreateDTO
     public float? Copper {get; set;}
     public float? Iodine {get; set;}
     public float? Nickel {get; set;}
-    public float? Selen {get; set;}
+    public float? Selenium {get; set;}
     public float? Calcium {get; set;}
 }
 
