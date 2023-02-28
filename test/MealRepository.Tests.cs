@@ -293,6 +293,56 @@ public class MealRepositoryTests
 
 
     [Fact]
+    public async void Update_Updated_RecipeMeals()
+    {
+        //Arrange
+         var mealCreateDTO = new MealCreateDTO{
+            MealType = MealType.DINNER,
+            UserID = 1,
+            Date = new DateTime(2023, 02, 28),
+            CategoryIDs = new List<int>{1}
+        };
+
+        var mealUpdateDTO = new MealUpdateDTO
+        {
+            Id = 1,
+            RecipeMeals = new List<RecipeMealCreateDTO>
+            {
+                new RecipeMealCreateDTO
+                {
+                    Amount = 1,
+                    RecipeID = 1,
+                    MealID = 1
+                }
+            }
+        };
+        
+        //Act
+        await _repo.CreateAsync(mealCreateDTO);
+        var response = await _repo.UpdateAsync(mealUpdateDTO);
+        var entity = await _context.Meals
+            .Where(r => r.Id == mealUpdateDTO.Id)
+            .FirstOrDefaultAsync();
+        
+        //Assert
+        Assert.Equal(Response.Updated, response);
+        Assert.NotNull(entity);
+        Assert.Equal(1, entity.Id);
+        Assert.Equal(mealCreateDTO.MealType, entity.MealType);
+        Assert.Equal(mealCreateDTO.UserID, entity.User.Id);
+        Assert.Equal(mealCreateDTO.Date, entity.Date);
+        Assert.True(Enumerable.SequenceEqual(mealCreateDTO.CategoryIDs ?? new List<int>{}, entity.Categories.Select(c => c.Id).ToList()));
+        Assert.Collection<RecipeMeal>(
+            _context.RecipeMeals.ToList(),
+            item => {
+                Assert.Equal(mealUpdateDTO.RecipeMeals[0].Amount, item.Amount);
+                Assert.Equal(mealUpdateDTO.RecipeMeals[0].MealID, item.Meal.Id);
+                Assert.Equal(mealUpdateDTO.RecipeMeals[0].RecipeID, item.Recipe.Id);
+            }
+        );
+    }
+
+    [Fact]
     public async void Update_NotFound()
     {
         //Arrange

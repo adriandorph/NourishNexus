@@ -45,7 +45,7 @@ public class RecipeController : ControllerBase
             Response r = await _recipeRepo.UpdateAsync(recipe);
             if (r == Core.Response.Updated) return Ok("Success");
             else if (r == Core.Response.Conflict) return Conflict("User already has a recipe with that title.");
-            else if (r == Core.Response.NotFound) return NotFound("Could not find the user.");
+            else if (r == Core.Response.NotFound) return NotFound("Could not find the recipe.");
             else if (r == Core.Response.BadRequest) return BadRequest("Bad Request");
             else return StatusCode(500, "An unknown error occured");
         }

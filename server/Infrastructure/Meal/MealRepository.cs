@@ -69,7 +69,8 @@ public class MealRepository : IMealRepository
             mealEntity.Categories = await CategoryIDsToCategories(meal.CategoryIDs);
         }
 
-        if(meal.FoodItemMeals != null){
+        if(meal.FoodItemMeals != null)
+        {
             //Delete all foodItemRecipes that are linked to this recipe
             foreach(var fim in await _context.FoodItemMeals.Where(f => f.Meal.Id == meal.Id).ToListAsync())
             {
@@ -82,6 +83,23 @@ public class MealRepository : IMealRepository
                 if (foodItem == null) return Response.NotFound;
                 FoodItemMeal fimEntity = new FoodItemMeal(foodItem, mealEntity, fimCreateDTO.Amount);
                 await _context.FoodItemMeals.AddAsync(fimEntity);
+            }
+        }
+
+        if(meal.RecipeMeals != null)
+        {
+            //Delete all foodItemRecipes that are linked to this recipe
+            foreach(var rm in await _context.RecipeMeals.Where(r => r.Meal.Id == meal.Id).ToListAsync())
+            {
+                _context.RecipeMeals.Remove(rm);
+            }
+            //Create the foodItemRecipes
+            foreach(var rmCreateDTO in meal.RecipeMeals)
+            {
+                var recipe = await _context.Recipes.Where(rm => rm.Id == rmCreateDTO.RecipeID).FirstOrDefaultAsync();
+                if (recipe == null) return Response.NotFound;
+                RecipeMeal rmEntity = new RecipeMeal(recipe, mealEntity, rmCreateDTO.Amount);
+                await _context.RecipeMeals.AddAsync(rmEntity);
             }
         }
 
