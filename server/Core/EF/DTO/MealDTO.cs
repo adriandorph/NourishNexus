@@ -19,4 +19,5 @@ public record MealUpdateDTO : MealCreateDTO
 {
     public int Id {get; set;}
     public List<FoodItemMealCreateDTO>? FoodItemMeals {get; set;}
+    public List<RecipeMealCreateDTO>? RecipeMeals {get; set;}
 }

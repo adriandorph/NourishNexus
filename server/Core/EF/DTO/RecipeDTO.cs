@@ -27,5 +27,15 @@ public record RecipeUpdateDTO : RecipeCreateDTO
 }
 
 
+public record RecipeMealDTO(int Id, float Amount, int RecipeID, int MealID);
+
+public record RecipeMealCreateDTO
+{
+    public float Amount {get; set;}
+    public int RecipeID {get; set;}
+    public int MealID {get; set;}
+}
+
+
 
 
