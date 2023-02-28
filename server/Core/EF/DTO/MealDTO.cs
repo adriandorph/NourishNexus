@@ -10,8 +10,8 @@ public record MealDTO(
 
 public record MealCreateDTO{
     public MealType? MealType {get; set;}
-    public int UserID {get; set;}
-    public DateTime Date {get; set;}
+    public int? UserID {get; set;}
+    public DateTime? Date {get; set;}
     public List<int>? CategoryIDs {get; set;}
 }
 
