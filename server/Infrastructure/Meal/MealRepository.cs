@@ -12,8 +12,12 @@ public class MealRepository : IMealRepository
 
     public async Task<(Response, MealDTO)> CreateAsync(MealCreateDTO meal) //Conflict, NotFound, Created
     {
+        if (meal.Date == null)  return (Response.BadRequest, new MealDTO(-1, meal.MealType ?? MealType.BREAKFAST, meal.UserID ?? 0, meal.Date ?? DateTime.MinValue, meal.CategoryIDs ?? new List<int>()));
+        if (meal.MealType == null) return (Response.BadRequest, new MealDTO(-1, meal.MealType ?? MealType.BREAKFAST, meal.UserID ?? 0, meal.Date ?? DateTime.MinValue, meal.CategoryIDs ?? new List<int>()));
+        if (meal.UserID == null) return (Response.BadRequest, new MealDTO(-1, meal.MealType ?? MealType.BREAKFAST, meal.UserID ?? 0, meal.Date ?? DateTime.MinValue, meal.CategoryIDs ?? new List<int>()));
+
         var conflict = await _context.Meals
-        .Where(m => m.Date == meal.Date)
+        .Where(m => m.Date.Date == ((DateTime)meal.Date).Date && m.MealType == meal.MealType && m.User.Id == meal.UserID)
         .Include(m => m.Categories)
         .Select(m => m.ToDTO())
         .FirstOrDefaultAsync();
@@ -21,15 +25,13 @@ public class MealRepository : IMealRepository
         if(conflict != null) return (Response.Conflict, conflict);
 
         var user = await _context.Users.Where(u => u.Id == meal.UserID).FirstOrDefaultAsync();
-        if (meal.MealType == null) return (Response.BadRequest, new MealDTO(-1, meal.MealType ?? MealType.BREAKFAST, meal.UserID, meal.Date, meal.CategoryIDs ?? new List<int>()));
-        if (user == null) return (Response.NotFound, new MealDTO(-1, (MealType)meal.MealType, meal.UserID, meal.Date, meal.CategoryIDs ?? new List<int>()));
-
+        if (user == null) return (Response.NotFound, new MealDTO(-1, (MealType)meal.MealType, meal.UserID ?? 0, meal.Date ?? DateTime.MinValue, meal.CategoryIDs ?? new List<int>()));
 
         var entity = new Meal
         (
             (MealType) meal.MealType,
             user,
-            meal.Date,
+            (DateTime) meal.Date,
             meal.CategoryIDs != null ? await CategoryIDsToCategories(meal.CategoryIDs) : new List<Category>()
         );
 
@@ -48,16 +50,23 @@ public class MealRepository : IMealRepository
             .FirstOrDefaultAsync();
         
         if(mealEntity == null) return Response.NotFound;
-
-        if(_context.Meals.Any(m => m.Date.Date == mealEntity.Date.Date && m.User.Id == mealEntity.User.Id && m.MealType == mealEntity.MealType))
+        var allNull = meal.Date == null && meal.UserID == null && meal.MealType == null;
+        if(!allNull && _context.Meals.Any(m => m.Date.Date == (meal.Date ?? mealEntity.Date).Date && m.User.Id == (meal.UserID ?? mealEntity.User.Id) && m.MealType == (meal.MealType ?? mealEntity.MealType)))
             return Response.Conflict;
         
-        if(mealEntity.MealType != meal.MealType && meal.MealType !=null){
+        if(mealEntity.MealType != meal.MealType && meal.MealType !=null)
+        {
             mealEntity.MealType = (MealType) meal.MealType;
         }
 
-        if(mealEntity.Date != meal.Date && meal.Date !=null){
-            mealEntity.Date = meal.Date;
+        if(mealEntity.Date != meal.Date && meal.Date !=null)
+        {
+            mealEntity.Date = (DateTime) meal.Date;
+        }
+
+        if(meal.CategoryIDs != null)
+        {
+            mealEntity.Categories = await CategoryIDsToCategories(meal.CategoryIDs);
         }
 
         if(meal.FoodItemMeals != null){
@@ -103,12 +112,12 @@ public class MealRepository : IMealRepository
         return Response.Deleted;
     }
 
-    public async Task<Option<MealDTO>> ReadAllByDateAndUser(DateTime date, int userID)
-    => await _context.Meals
+    public async Task<IReadOnlyCollection<MealDTO>> ReadAllByDateAndUser(DateTime date, int userID)
+        => await _context.Meals
                 .Where(m => m.User.Id == userID && m.Date.Date == date.Date)
                 .Include(m => m.Categories)
                 .Select(m => m.ToDTO())
-                .FirstOrDefaultAsync();
+                .ToListAsync();
 
 
     public async Task<Option<MealDTO>> ReadByIDAsync(int id)
