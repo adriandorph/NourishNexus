@@ -162,10 +162,24 @@ public class RecipeRepository : IRecipeRepository
             .Select(r => r.ToDTO())
             .ToListAsync();
 
+    
+    public async Task<IReadOnlyCollection<RecipeAmountDTO>> ReadAllByMealId(int mealID)
+        => (await _context.RecipeMeals
+            .Include(r => r.Meal)
+            .Where(rm => rm.Meal.Id == mealID)
+            .Select(rm => new Tuple<float, int>(rm.Amount, rm.Recipe.Id))
+            .ToListAsync())
+            .Join(_context.Recipes, i => i.Item2, r => r.Id, (item, recipe) => new RecipeAmountDTO(item.Item1, recipe.ToDTO()))
+            .ToList();
+
+            
+
     //Helper methods
 
     private async Task<List<Category>> CategoryIDsToCategories(List<int> categoryIDs)
         => await _context.Categories
             .Where(c => categoryIDs.Any(cID => cID == c.Id))
             .ToListAsync();
+
+    
 }

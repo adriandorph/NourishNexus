@@ -136,11 +136,19 @@ public class MealRepository : IMealRepository
                 .Include(m => m.Categories)
                 .Select(m => m.ToDTO())
                 .ToListAsync();
+     
+     public async Task<Option<MealDTO>> ReadByUserIdDateAndMealTypeAsync(DateTime date, int userID, MealType mealType)
+        => await _context.Meals
+                .Where(m => m.User.Id == userID && m.Date.Date == date.Date && m.MealType == mealType)
+                .Include(m => m.Categories)
+                .Select(m => m.ToDTO())
+                .FirstOrDefaultAsync();
 
 
     public async Task<Option<MealDTO>> ReadByIDAsync(int id)
         => await _context.Meals
             .Where(m => m.Id == id)
+            .Include(m => m.Categories)
             .Select(m => m.ToDTO())
             .FirstOrDefaultAsync();
 

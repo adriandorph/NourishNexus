@@ -4,6 +4,16 @@ public class FoodItemRepositoryTests
 {
     NourishNexusContext _context;
     FoodItemRepository _repo;
+
+    Category _vegan;
+
+    Category _fruit;
+
+    User _user1;
+    
+    Meal _christmas;
+
+    Recipe _recipe;
     //Setup
     public FoodItemRepositoryTests()
     {
@@ -16,9 +26,22 @@ public class FoodItemRepositoryTests
 
         var context = new NourishNexusContext(builder.Options);
         context.Database.EnsureCreated();
-
+        
         _context = context;
         _repo = new FoodItemRepository(_context);
+        
+        //Add categories
+        _vegan = new Category("vegan");
+        _fruit = new Category("fruit");
+
+        //Add user
+
+        _user1 = new User("John", "john@johnson.com", new List<Recipe>());
+        
+        //Add meal
+        
+        _christmas = new Meal(MealType.DINNER, _user1, new DateTime(2023, 12, 24), new List<Category>{_vegan, _fruit});
+        _recipe = new Recipe("Apples and Oranges", true, "Good, very good", "Slice and mix", 1, new List<Category>{_vegan, _fruit});
     }
 
 
@@ -1245,5 +1268,92 @@ public class FoodItemRepositoryTests
         Assert.Equal(1, entity.Id);
         Assert.Equal(foodItemCreateDTO.Name, entity.Name);
         Assert.Equal(foodItemUpdateDTO.Calcium, entity.Calcium);
+    }
+
+
+    [Fact]
+    public async void ReadAllByMealId_returns_all()
+    {
+        //Arrange
+        var foodItem1 = new FoodItem("Apple", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem2 = new FoodItem("Orange", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem3 = new FoodItem("Bacon", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        
+        _context.FoodItems.Add(foodItem1);
+        _context.FoodItems.Add(foodItem2);
+        _context.FoodItems.Add(foodItem3);
+
+        _context.Meals.Add(_christmas);
+        _context.SaveChanges();
+
+        FoodItemMeal appleRelation = new FoodItemMeal(foodItem1, _christmas, 2.0f);
+        FoodItemMeal orangeRelation = new FoodItemMeal(foodItem2, _christmas, 1.0f);
+        _context.FoodItemMeals.Add(appleRelation);
+        _context.FoodItemMeals.Add(orangeRelation);
+        _context.SaveChanges();
+
+        //Act
+        var r = await _repo.ReadAllByMealId(_christmas.Id);
+
+
+        //Assert
+        Assert.NotEmpty(r);
+        Assert.Collection<FoodItemAmountDTO>
+        (
+            r,
+            fim => {
+                Assert.Equal(appleRelation.Amount, fim.Amount);
+                Assert.Equal(appleRelation.FoodItem.Id, fim.FoodItem!.Id);
+            },
+            fim => {
+                Assert.Equal(orangeRelation.Amount, fim.Amount);
+                Assert.Equal(orangeRelation.FoodItem.Id, fim.FoodItem!.Id);
+            }
+        );
+    }
+
+
+    [Fact]
+    public async void ReadAllByRecipeId_returns_all()
+    {
+        //Arrange
+        var foodItem1 = new FoodItem("Apple", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem2 = new FoodItem("Orange", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem3 = new FoodItem("Bacon", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        
+        _context.FoodItems.Add(foodItem1);
+        _context.FoodItems.Add(foodItem2);
+        _context.FoodItems.Add(foodItem3);
+
+        _context.Categories.Add(_vegan);
+        _context.Categories.Add(_fruit);
+        _context.SaveChanges();
+        _context.Recipes.Add(_recipe);
+        _context.SaveChanges();
+
+        FoodItemRecipe appleRelation = new FoodItemRecipe(foodItem1, _recipe, 2.0f);
+        FoodItemRecipe orangeRelation = new FoodItemRecipe(foodItem2, _recipe, 1.0f);
+        _context.FoodItemRecipes.Add(appleRelation);
+        _context.FoodItemRecipes.Add(orangeRelation);
+        _context.SaveChanges();
+
+        //Act
+        var r = await _repo.ReadAllByRecipeId(_recipe.Id);
+
+
+        //Assert
+        Assert.NotEmpty(r);
+        Assert.Collection<FoodItemAmountDTO>
+        (
+            r,
+            fir => {
+                Assert.Equal(appleRelation.Amount, fir.Amount);
+                Assert.Equal(appleRelation.FoodItem.Id, fir.FoodItem!.Id);
+            },
+            fir => {
+                Assert.Equal(orangeRelation.Amount, fir.Amount);
+                Assert.Equal(orangeRelation.FoodItem.Id, fir.FoodItem!.Id);
+            }
+        );
     }
 }

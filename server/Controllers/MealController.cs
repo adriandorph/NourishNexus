@@ -18,12 +18,19 @@ public class MealController : ControllerBase
         _service = service;
     }
 
+
     [HttpGet("/{userID}/{date}")]
     public async Task<IActionResult> GetByUserAndDate(int userID, DateTime date)
     {
         try
         {
             var r = await _repo.ReadAllByDateAndUser(date, userID);
+
+
+            var result = new 
+            {
+                Meals = r,
+            };
             return Ok(r);
         }
         catch (Exception e)
@@ -37,7 +44,7 @@ public class MealController : ControllerBase
 
     [HttpPut]
     [AllowAnonymous]
-    public async Task<IActionResult> Put(MealUpdateDTO meal)
+    public async Task<IActionResult> Put(MealReportDTO meal)
     {
         try
         {

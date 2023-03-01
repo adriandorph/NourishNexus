@@ -8,7 +8,8 @@ public record MealDTO(
     List<int> CategoryIDs
 );
 
-public record MealCreateDTO{
+public record MealCreateDTO
+{
     public MealType? MealType {get; set;}
     public int? UserID {get; set;}
     public DateTime? Date {get; set;}
@@ -18,6 +19,12 @@ public record MealCreateDTO{
 public record MealUpdateDTO : MealCreateDTO
 {
     public int Id {get; set;}
+    public List<FoodItemMealCreateDTO>? FoodItemMeals {get; set;}
+    public List<RecipeMealCreateDTO>? RecipeMeals {get; set;}
+}
+
+public record MealReportDTO : MealCreateDTO
+{
     public List<FoodItemMealCreateDTO>? FoodItemMeals {get; set;}
     public List<RecipeMealCreateDTO>? RecipeMeals {get; set;}
 }

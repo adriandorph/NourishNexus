@@ -36,6 +36,8 @@ public record RecipeMealCreateDTO
     public int MealID {get; set;}
 }
 
+public record RecipeAmountDTO(float Amount, RecipeDTO Recipe);
+
 
 
 

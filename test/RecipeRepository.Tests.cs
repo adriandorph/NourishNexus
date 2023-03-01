@@ -1,3 +1,4 @@
+using System.Numerics;
 namespace test;
 
 public class RecipeRepositoryTests
@@ -11,6 +12,8 @@ public class RecipeRepositoryTests
     FoodItem _pear;
     Category _vegan;
     Category _fruit;
+
+    Meal _christmas;
 
     //Setup
     public RecipeRepositoryTests()
@@ -143,10 +146,15 @@ public class RecipeRepositoryTests
 
         //Add categories
         _vegan = new Category("vegan");
-        _fruit = new Category("fruit");
+        _fruit = new Category("fruit"); 
 
         context.Categories.Add(_vegan);
         context.Categories.Add(_fruit);
+
+        //Add meal
+        _christmas = new Meal(MealType.DINNER, _user1, new DateTime(2023, 12, 24), new List<Category>{_vegan, _fruit});
+
+        context.Meals.Add(_christmas);
 
         context.SaveChangesAsync();
 
@@ -709,6 +717,70 @@ public class RecipeRepositoryTests
                 Assert.True(Enumerable.SequenceEqual(recipeCreateDTO2.CategoryIDs ?? new List<int>{}, item.CategoryIDs));
             }
         );
+    }
+
+
+    [Fact]
+    public async void ReadAllByMealId_returns_all()
+    {
+
+        //Arrange
+        var recipe1 = new Recipe(
+            "Apples and Oranges",
+            false,
+            "A nice bowl of appels and oranges",
+            "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            1,
+            new List<Category>{_fruit, _vegan}
+        );
+
+        var recipe2 = new Recipe(
+            "Apples and Oranges fruit cup",
+            false,
+            "A nice apple and oranges fruit cup",
+            "Slice the apples and oranges.\nPut the apples in a cup.\nAdd the oranges into the cup.",
+            1,
+            new List<Category>{_fruit, _vegan}
+        );
+
+        var recipe3 = new Recipe(
+            "Apples and Oranges fruit blend",
+            false,
+            "A nice blend of appels and oranges",
+            "Put the apples and oranges into a blender and blend for 1 minute.",
+            2,
+            new List<Category>{_fruit, _vegan}
+        );
+
+        _context.Recipes.Add(recipe1);
+        _context.Recipes.Add(recipe2);
+        _context.Recipes.Add(recipe3);
+        _context.SaveChanges();
+
+        RecipeMeal rm1 = new RecipeMeal(recipe1, _christmas, 2.0f);
+        RecipeMeal rm2 = new RecipeMeal(recipe2, _christmas, 5.0f);
+        _context.RecipeMeals.Add(rm1);
+        _context.RecipeMeals.Add(rm2);
+        _context.SaveChanges();
+
+        //Act
+        var recipes = await _repo.ReadAllByMealId(1);
+
+        //Assert
+        Assert.NotNull(recipes);
+        Assert.Collection<RecipeAmountDTO>
+        (
+            recipes,
+            item => {
+                Assert.Equal(rm1.Amount, item.Amount);
+                Assert.Equal(rm1.Recipe.Id, item.Recipe.Id);
+            },
+            item => {
+                Assert.Equal(rm2.Amount, item.Amount);
+                Assert.Equal(rm2.Recipe.Id, item.Recipe.Id);
+            }
+        );
+
     }
 
     [Fact]

@@ -16,5 +16,10 @@ public interface IFoodItemRepository{
     public Task<Option<FoodItemDTO>> ReadByIDAsync(int itemID);
 
     public Task<IReadOnlyCollection<FoodItemDTO>> ReadAllAsync();
+
+    public Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByMealId(int mealID);
+
+    public Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByRecipeId(int recipeID);
+
 }
     

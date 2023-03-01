@@ -97,5 +97,11 @@ public record FoodItemRecipeCreateDTO
     public int RecipeID {get; set;}
 }
 
+public record FoodItemAmountDTO
+{
+    public float Amount {get; set;}
+    public FoodItemDTO? FoodItem {get; set;}
+}
+
 
 
