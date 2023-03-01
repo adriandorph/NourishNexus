@@ -331,4 +331,22 @@ public class FoodItemRepository : IFoodItemRepository
             .Where(fir => fir.Recipe.Id == recipeID)
             .Select(fir => fir.ToDTO())
             .ToListAsync();
+
+    public async Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByMealId(int mealID)
+        => (await _context.FoodItemMeals
+            .Include(f => f.Meal)
+            .Where(fim => fim.Meal.Id == mealID)
+            .Select(fim => new Tuple<float, int>(fim.Amount, fim.FoodItem.Id))
+            .ToListAsync())
+            .Join(_context.FoodItems, i => i.Item2, fi => fi.Id, (item, foodItem) => new FoodItemAmountDTO{Amount = item.Item1, FoodItem = foodItem.ToDTO()})
+            .ToList();
+
+    public async Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByRecipeId(int recipeID)
+        => (await _context.FoodItemRecipes
+            .Include(f => f.Recipe)
+            .Where(fir => fir.Recipe.Id == recipeID)
+            .Select(fir => new Tuple<float, int>(fir.Amount, fir.FoodItem.Id))
+            .ToListAsync())
+            .Join(_context.FoodItems, i => i.Item2, fi => fi.Id, (item, foodItem) => new FoodItemAmountDTO{Amount = item.Item1, FoodItem = foodItem.ToDTO()})
+            .ToList();
 }
