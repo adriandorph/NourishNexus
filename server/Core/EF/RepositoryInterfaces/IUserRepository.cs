@@ -12,5 +12,6 @@ public interface IUserRepository{
     
     //Read
     public Task<Option<UserDTO>> ReadByIDAsync(int userID);
+    public Task<Option<UserNutritionDTO>> ReadWithNutritionByIDAsync(int userID);
 
 }
