@@ -80,20 +80,23 @@ public class MealPlanGenerator
         return (await _recipeRepo.ReadAllByAuthorIDAsync(userID)).Count >= MinRecipes;
     }
 
+    //Lower Bounds for a week
     private Task<NutrientTargets> GetLowerBounds(int userID)
     {
         throw new NotImplementedException();
     }
-
+    //Ideal intake for a week
     private Task<NutrientTargets> CalculateIdealIntake(int userID, DateTime startingDate)
     {
         throw new NotImplementedException();
     }
 
+    //Upper Bounds for a week
     private Task<NutrientTargets> GetUpperBounds(int userID)
     {
         throw new NotImplementedException();
     }
+
 
     private Task<List<RecipeAmountDTO>> CreateRecipeList(int userID)
     {
@@ -110,9 +113,10 @@ public class MealPlanGenerator
         throw new NotImplementedException();
     }
 
-    private Task<Response> FailPlan(MealPlan mealPlan)
+    private async Task<Response> FailPlan(MealPlan mealPlan)
     {
-        throw new NotImplementedException();
+        await InsertPlan(mealPlan);
+        return Response.Fail;
     }
 
     private Task<Response> RemoveLowest(MealPlan mealPlan)
@@ -143,51 +147,6 @@ public class MealPlanGenerator
     private Task<Response> InsertPlan(MealPlan mealPlan)
     {
         throw new NotImplementedException();
-    }
-
-
-
-    
-
-    private class MealPlan
-    {
-        private List<Day> days;
-        public List<Day> Days 
-        {
-            get
-            {
-                return days;
-            }
-            set
-            {
-                if (value.Count != 7) throw new Exception($"There can only be 7 days. Tried to update to {value.Count} days");
-                days = value;
-            }
-        }
-
-        public MealPlan()
-        {
-            days = new List<Day>();
-            for (int i = 0; i<7; i++)
-            {
-                days.Add(new Day());
-            }
-        }
-
-        public class Day
-        {
-            MealCreateDTO? Breakfast {get; set;}
-            MealCreateDTO? Lunch {get; set;}
-            MealCreateDTO? Dinner {get; set;}
-            MealCreateDTO? Snacks {get; set;}
-            public Day(MealCreateDTO breakfast, MealCreateDTO lunch, MealCreateDTO dinner, MealCreateDTO snacks){
-                this.Breakfast = breakfast;
-                this.Lunch = lunch;
-                this.Dinner = dinner;
-                this.Snacks = snacks;
-            }
-            public Day(){}
-        }
     }
 
     public class NutrientTargets
