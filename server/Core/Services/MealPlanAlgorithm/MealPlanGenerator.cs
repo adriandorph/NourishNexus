@@ -1,5 +1,5 @@
-using System;
-using System.Formats.Tar;
+using System.Globalization;
+using Microsoft.Extensions.Azure;
 
 namespace server.Core.Services.MealPlan;
 
@@ -24,12 +24,14 @@ public class MealPlanGenerator
     private readonly IMealRepository _mealRepo;
     private readonly IRecipeRepository _recipeRepo;
     private readonly IUserRepository _userRepo;
-    public MealPlanGenerator(IFoodItemRepository foodItemRepo, IMealRepository mealRepo, IRecipeRepository recipeRepo, IUserRepository userRepo)
+    private readonly ICategoryRepository _categoryRepo;
+    public MealPlanGenerator(IFoodItemRepository foodItemRepo, IMealRepository mealRepo, IRecipeRepository recipeRepo, IUserRepository userRepo, ICategoryRepository categoryRepo)
     {
         _foodItemRepo = foodItemRepo;
         _mealRepo = mealRepo;
         _recipeRepo = recipeRepo;
         _userRepo = userRepo;
+        _categoryRepo = categoryRepo;
     }
 
     public async Task<Response> Generate7DayMealPlan(int userID, DateTime startingDate)
@@ -46,25 +48,22 @@ public class MealPlanGenerator
         List<RecipeDTO> recipes = await CreateRecipeList(userID);
 
         //Insert recipes
-        MealPlan mealPlan = await CreateInitialMealPlan(recipes);
+        MealPlan mealPlan = await CreateInitialMealPlan(recipes, userID);
         
         // Ideal Intake met/exceeded?
-        while(!(await IsIdealIntakeMet(mealPlan)))
+        while(!(mealPlan.CalculateNutrientSums() >= IdealIntake))
         {
             if (recipes.Count == 0) return await FailPlan(mealPlan);
-            await RemoveLowest(mealPlan);
-            await InsertNextRecipe(mealPlan);
+            await ReplaceLowest(mealPlan, IdealIntake);
         }
-
-        while(await IsUpperBoundsExceeded(mealPlan))
+        //Is UpperBounds exceeded?
+        while(mealPlan.CalculateNutrientSums() > UpperBounds)
         {
             if (recipes.Count == 0) return await FailPlan(mealPlan);
-            await RemoveHighest(mealPlan);
-            await InsertNextRecipe(mealPlan);
-            while(!(await IsLowerBoundsMet(mealPlan)))
+            await ReplaceHighest(mealPlan, UpperBounds);
+            while(!(mealPlan.CalculateNutrientSums() >= LowerBounds))
             {
-                await RemoveLowest(mealPlan);
-                await InsertNextRecipe(mealPlan);
+                await ReplaceLowest(mealPlan, LowerBounds);
             }
         }
 
@@ -184,6 +183,8 @@ public class MealPlanGenerator
         foreach (var recipeId in user.SavedRecipeIds)
         {
             var recipeResult = await _recipeRepo.ReadByIDAsync(recipeId);
+            if (recipeResult.IsNone) throw new Exception("Recipe is null");
+            savedrecipes.Add(recipeResult.Value);
         }
 
         await OrderRecipesByRecency(savedrecipes);
@@ -205,43 +206,279 @@ public class MealPlanGenerator
         return recipes;
     }
 
-    private Task<MealPlan> CreateInitialMealPlan(List<RecipeDTO> recipes)
+    private async Task<Option<MealPlan>> CreateInitialMealPlan(List<RecipeDTO> recipes, int userID)
     {
-        throw new NotImplementedException();
+        MealPlan mealPlan = new MealPlan();
+        var userResult = await _userRepo.ReadWithNutritionByIDAsync(userID);
+        if (userResult.IsNone) throw new Exception("User is null!");
+        var user = userResult.Value;
+
+        //Find all the meals that exists an insert in the meal plan
+        var date = DateTime.Now.Date;
+        for(int i = 0; i < 7; i++)
+        {
+            var breakfastDTO = await _mealRepo.ReadByUserIdDateAndMealTypeAsync(date, userID, MealType.BREAKFAST);
+            var lunchDTO = await _mealRepo.ReadByUserIdDateAndMealTypeAsync(date, userID, MealType.LUNCH);
+            var dinnerDTO = await _mealRepo.ReadByUserIdDateAndMealTypeAsync(date, userID, MealType.DINNER);
+            var snackDTO = await _mealRepo.ReadByUserIdDateAndMealTypeAsync(date, userID, MealType.SNACK);
+
+            (mealPlan.Days[i].Breakfast, mealPlan.Days[i].BreakfastLocked) = await CreatePlannedMeal(breakfastDTO, userID, MealType.BREAKFAST, date);
+            (mealPlan.Days[i].Lunch, mealPlan.Days[i].LunchLocked) = await CreatePlannedMeal(lunchDTO, userID, MealType.LUNCH, date);
+            (mealPlan.Days[i].Dinner, mealPlan.Days[i].DinnerLocked) = await CreatePlannedMeal(dinnerDTO, userID, MealType.DINNER, date);
+            (mealPlan.Days[i].Snacks, mealPlan.Days[i].SnacksLocked) = await CreatePlannedMeal(snackDTO, userID, MealType.SNACK, date);
+
+            //Find
+            var selectedRecipeBreakfast = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Breakfast!);
+            if(selectedRecipeBreakfast.IsNone) return new Option<MealPlan>(null);
+            
+            //Adjust amount
+            var breakfastFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeBreakfast.Value.Id)).ToList();
+            float breakfastAmount = (float)user.BreakfastCalories! / CountCalories(breakfastFoodItems);
+            var breakfastRecipe = new RecipeAmountWithFoodItemsDTO(
+                breakfastAmount,
+                selectedRecipeBreakfast.Value,
+                breakfastFoodItems
+            );
+            //Insert
+            mealPlan.Days[i].Breakfast!.RecipeMeals!.Add(breakfastRecipe);
+
+            //Find
+            var selectedRecipeLunch = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Lunch!);
+            if(selectedRecipeLunch.IsNone) return new Option<MealPlan>(null);
+            //Adjust amount
+            var lunchFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeLunch.Value.Id)).ToList();
+            float lunchAmount = (float)user.LunchCalories! / CountCalories(lunchFoodItems);
+            var lunchRecipe = new RecipeAmountWithFoodItemsDTO(
+                lunchAmount,
+                selectedRecipeLunch.Value,
+                lunchFoodItems
+            );
+            //Insert
+            mealPlan.Days[i].Lunch!.RecipeMeals!.Add(breakfastRecipe);
+
+            //Find
+            var selectedRecipeDinner = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Dinner!);
+            if(selectedRecipeDinner.IsNone) return new Option<MealPlan>(null);
+            //Adjust amount
+            var dinnerFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeDinner.Value.Id)).ToList();
+            float dinnerAmount = (float)user.BreakfastCalories! / CountCalories(dinnerFoodItems);
+            var dinnerRecipe = new RecipeAmountWithFoodItemsDTO(
+                dinnerAmount,
+                selectedRecipeDinner.Value,
+                dinnerFoodItems
+            );
+            //Insert
+            mealPlan.Days[i].Dinner!.RecipeMeals!.Add(breakfastRecipe);
+            
+            //Find
+            var selectedRecipeSnack = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Snacks!);
+            if(selectedRecipeSnack.IsNone) return new Option<MealPlan>(null);
+            //Adjust amount
+            var snacksFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeSnack.Value.Id)).ToList();
+            float snacksAmount = (float) user.SnackCalories! / CountCalories(snacksFoodItems);
+            var snacksRecipe = new RecipeAmountWithFoodItemsDTO(
+                snacksAmount,
+                selectedRecipeSnack.Value,
+                snacksFoodItems
+            );
+            //Insert
+            mealPlan.Days[i].Snacks!.RecipeMeals!.Add(breakfastRecipe);
+            
+
+            date = date.AddDays(1);
+        }
+
+        return mealPlan;
     }
 
-    private Task<bool> IsIdealIntakeMet(MealPlan mealPlan)
+    private float CountCalories(List<FoodItemAmountDTO> foodItems)
     {
-        throw new NotImplementedException();
+        float sum = 0f;
+        foreach(var foodItem in foodItems)
+        {
+            sum += foodItem.FoodItem!.Calories * foodItem.Amount;
+        }
+        return sum;
     }
 
+    private Option<RecipeDTO> FindAndRemoveRecipe(List<RecipeDTO> recipes, PlannedMeal meal)
+    {
+        for(int i = 0; i <  recipes.Count; i++)
+        {
+            var recipe = recipes[i];
+            //MealType Constraints
+            bool hasCorrectMealtype = false;
+            switch(meal.MealType) 
+            {
+                case MealType.BREAKFAST:
+                    hasCorrectMealtype = recipe.IsBreakfast;
+                    break;
+                case MealType.LUNCH:
+                    hasCorrectMealtype = recipe.IsLunch;
+                    break;
+                case MealType.DINNER:
+                    hasCorrectMealtype = recipe.IsDinner;
+                    break;
+                case MealType.SNACK:
+                    hasCorrectMealtype = recipe.IsSnack;
+                    break;
+                default:
+                    break;
+            }
+            if (!hasCorrectMealtype) continue;
+
+
+            //Category Constraints   
+            bool hasCategories = true;
+            foreach(var categoryID in meal.CategoryIDs)
+            {
+                if (!recipe.CategoryIDs.Contains(categoryID)) hasCategories = false;
+            }
+            if(!hasCategories) continue;
+
+            //At this point the recipe fullfills all criteria and is selected.
+            //Remove
+            recipes.RemoveAt(i);
+            return new Option<RecipeDTO>(recipe);
+        }
+
+        return new Option<RecipeDTO>(null);
+    }
+
+    private async Task<(PlannedMeal meal, bool locked)> CreatePlannedMeal(Option<MealDTO> mealDTO, int userID, MealType mealType, DateTime date)
+    {
+        PlannedMeal plannedMeal;
+
+        if (mealDTO.IsSome)
+        {
+            var foodItemsInMeal = await _foodItemRepo.ReadAllByMealId(mealDTO.Value.Id);
+            var recipesInMeal = new List<RecipeAmountWithFoodItemsDTO>();
+            foreach(var recipe in await _recipeRepo.ReadAllByMealId(mealDTO.Value.Id))
+            {
+                var recipeAmountWithFoodItems = new RecipeAmountWithFoodItemsDTO(
+                    recipe.Amount,
+                    recipe.Recipe,
+                    (await _foodItemRepo.ReadAllByRecipeId(recipe.Recipe.Id)).ToList()
+
+                );
+                recipesInMeal.Add(recipeAmountWithFoodItems);
+            }
+
+            plannedMeal = new PlannedMeal
+            (
+                mealDTO.Value.Id,
+                mealDTO.Value.MealType,
+                mealDTO.Value.UserID,
+                mealDTO.Value.Date,
+                mealDTO.Value.CategoryIDs,
+                foodItemsInMeal.ToList(),
+                recipesInMeal.ToList()
+            );
+        }
+        else
+        {
+
+            plannedMeal = new PlannedMeal
+            (
+                null,
+                mealType,
+                userID,
+                date,
+                new List<int>(),
+                null,
+                null
+            );
+        }
+        
+        //Locked if there are no fooditems or recipes in the meal
+        bool locked = (plannedMeal.FoodItemMeals == null || plannedMeal.FoodItemMeals.Count == 0) &&
+                      (plannedMeal.RecipeMeals == null || plannedMeal.RecipeMeals.Count == 0);
+
+        return (plannedMeal, locked);
+    }
+
+    //Plan to be returned in case of error
     private async Task<Response> FailPlan(MealPlan mealPlan)
     {
         await InsertPlan(mealPlan);
         return Response.Fail;
     }
 
-    private Task<Response> RemoveLowest(MealPlan mealPlan)
+
+    //Replace meal with most nutrient scores that are lower than II
+    private Task<Response> ReplaceLowest(MealPlan mealPlan, NutrientTargets reference)
     {
+        MealType lowestType;
+        int lowestDay;
+        int higestLowerCount = 0;
+
+        for(int i = 0; i < mealPlan.Days.Count; i++)
+        {
+            var day = mealPlan.Days[i];
+            if (!day.BreakfastLocked)
+            {
+                if(day.Breakfast == null) throw new Exception("Breakfast is null");
+                var lowerCount = day.Breakfast.CalculateNutrientSums().lowerCount(reference);
+                if (lowerCount > higestLowerCount)
+                {
+                    higestLowerCount = lowerCount;
+                    lowestDay = i;
+                    lowestType = MealType.BREAKFAST;
+                }
+            }
+
+            if (!day.LunchLocked)
+            {
+                if(day.Lunch == null) throw new Exception("Lunch is null");
+                var lowerCount = day.Lunch.CalculateNutrientSums().lowerCount(reference);
+                if (lowerCount > higestLowerCount)
+                {
+                    higestLowerCount = lowerCount;
+                    lowestDay = i;
+                    lowestType = MealType.LUNCH;
+                }
+            }
+
+            if (!day.DinnerLocked)
+            {
+                if(day.Dinner == null) throw new Exception("Dinner is null");
+                var lowerCount = day.Dinner.CalculateNutrientSums().lowerCount(reference);
+                if (lowerCount > higestLowerCount)
+                {
+                    higestLowerCount = lowerCount;
+                    lowestDay = i;
+                    lowestType = MealType.DINNER;
+                }
+            }
+
+            if (!day.SnacksLocked)
+            {
+                if(day.Snacks == null) throw new Exception("Snacks is null");
+                var lowerCount = day.Snacks.CalculateNutrientSums().lowerCount(reference);
+                if (lowerCount > higestLowerCount)
+                {
+                    higestLowerCount = lowerCount;
+                    lowestDay = i;
+                    lowestType = MealType.SNACK;
+                }
+            }
+        }
+
+        //Replace lowest day
+        //Find next recipe
+        
+        //Insert
+
         throw new NotImplementedException();
     }
 
-    private Task<Response> RemoveHighest(MealPlan mealPlan)
+    //Replace meal with most nutrient scores that are higher than UB
+    private Task<Response> ReplaceHighest(MealPlan mealPlan, NutrientTargets reference)
     {
         throw new NotImplementedException();
     }
 
     private Task<Response> InsertNextRecipe(MealPlan mealPlan)
-    {
-        throw new NotImplementedException();
-    }
-
-    private Task<bool> IsUpperBoundsExceeded(MealPlan mealPlan)
-    {
-        throw new NotImplementedException();
-    }
-
-    private Task<bool> IsLowerBoundsMet(MealPlan mealPlan)
     {
         throw new NotImplementedException();
     }
@@ -393,48 +630,5 @@ public class MealPlanGenerator
         if(user.CalciumUB == null) return false;
 
         return true;
-    }
-
-    public class NutrientTargets
-    {
-        public float Protein {get; set;} = 0f;
-
-        //Carbohydrates
-        public float Carbohydrates {get; set;} = 0f;
-        public float Sugars {get; set;} = 0f;
-        public float Fibres {get; set;} = 0f;
-
-        //Fats
-        public float TotalFat {get; set;} = 0f;
-        public float SaturatedFat {get; set;} = 0f;
-        public float MonounsaturatedFat {get; set;} = 0f;
-        public float PolyunsaturatedFat {get; set;} = 0f;
-        public float TransFat {get; set;} = 0f;
-
-        //Vitamins
-        public float VitaminA {get; set;} = 0f;
-        public float VitaminB6 {get; set;} = 0f;
-        public float VitaminB12 {get; set;} = 0f;
-        public float VitaminC {get; set;} = 0f;
-        public float VitaminD {get; set;} = 0f;
-        public float VitaminE {get; set;} = 0f;
-        public float VitaminK1 {get; set;} = 0f;
-        public float Thiamin {get; set;} = 0f;
-        public float Riboflavin {get; set;} = 0f;
-        public float Niacin {get; set;} = 0f;
-        public float Folate {get; set;} = 0f;
-
-        //Minerals
-        public float Salt {get; set;} = 0f;
-        public float Potassium {get; set;} = 0f;
-        public float Magnesium {get; set;} = 0f;
-        public float Iron {get; set;} = 0f;
-        public float Zinc {get; set;} = 0f;
-        public float Phosphorus {get; set;} = 0f;
-        public float Copper {get; set;} = 0f;
-        public float Iodine {get; set;} = 0f;
-        public float Nickel {get; set;} = 0f;
-        public float Selenium {get; set;} = 0f;
-        public float Calcium {get; set;} = 0f;
     }
 }
