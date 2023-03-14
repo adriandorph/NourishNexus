@@ -370,4 +370,43 @@ public class NutrientTargets
         if(this.Calcium < b.Calcium) count++;
         return count;
     }
+
+    public int HigherCount(NutrientTargets b)
+    {
+        int count = 0;
+        if(this.Protein > b.Protein) count++;
+        if(this.Carbohydrates > b.Carbohydrates) count++;
+        if(this.Sugars > b.Sugars) count++;
+        if(this.Fibres > b.Fibres) count++;
+        if(this.TotalFat > b.TotalFat) count++;
+        if(this.SaturatedFat > b.SaturatedFat) count++;
+        if(this.MonounsaturatedFat > b.MonounsaturatedFat) count++;
+        if(this.PolyunsaturatedFat > b.PolyunsaturatedFat) count++;
+        if(this.TransFat > b.TransFat) count++;
+        if(this.VitaminA > b.VitaminA) count++;
+        if(this.VitaminB6 > b.VitaminB6) count++;
+        if(this.VitaminB12 > b.VitaminB12) count++;
+        if(this.VitaminC > b.VitaminC) count++;
+        if(this.VitaminD > b.VitaminD) count++;
+        if(this.VitaminE > b.VitaminE) count++;
+        if(this.VitaminK1 > b.VitaminK1) count++;
+        if(this.Thiamin > b.Thiamin) count++;
+        if(this.Riboflavin > b.Riboflavin) count++;
+        if(this.Niacin > b.Niacin) count++;
+        if(this.Folate > b.Folate) count++;
+        if(this.Salt > b.Salt) count++;
+        if(this.Potassium > b.Potassium) count++;
+        if(this.Magnesium > b.Magnesium) count++;
+        if(this.Iron > b.Iron) count++;
+        if(this.Zinc > b.Zinc) count++;
+        if(this.Phosphorus > b.Phosphorus) count++;
+        if(this.Copper > b.Copper) count++;
+        if(this.Iodine > b.Iodine) count++;
+        if(this.Nickel > b.Nickel) count++;
+        if(this.Selenium > b.Selenium) count++;
+        if(this.Calcium > b.Calcium) count++;
+        return count;
+    }
+
+
 }
