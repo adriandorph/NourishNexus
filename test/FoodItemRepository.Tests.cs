@@ -41,7 +41,7 @@ public class FoodItemRepositoryTests
         //Add meal
         
         _christmas = new Meal(MealType.DINNER, _user1, new DateTime(2023, 12, 24), new List<Category>{_vegan, _fruit});
-        _recipe = new Recipe("Apples and Oranges", true, "Good, very good", "Slice and mix", 1, new List<Category>{_vegan, _fruit});
+        _recipe = new Recipe("Apples and Oranges", true, "Good, very good", "Slice and mix", 1, new List<Category>{_vegan, _fruit}, false, false, true, false);
     }
 
 

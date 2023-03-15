@@ -238,12 +238,43 @@ public class MealServiceTests
         //3 + 1.5/2 = 3.75
         
         //Recipe
-        var recipe1 = new Recipe("Boiled æggs", true, "Æggs that are boiled", "Boil the æggs for 8 minutes", user1.Id, new List<Category>());
+        var recipe1 = new Recipe(
+            "Boiled æggs", 
+            true, 
+            "Æggs that are boiled", 
+            "Boil the æggs for 8 minutes", 
+            user1.Id, 
+            new List<Category>(), 
+            true, 
+            true, 
+            false, 
+            false
+        );
         // values = 1
 
-        var recipe2 = new Recipe("Appetizer", true, "Appetizing appetizer", "Order it!", user1.Id, new List<Category>());
+        var recipe2 = new Recipe(
+            "Appetizer", 
+            true, 
+            "Appetizing appetizer", "Order it!", 
+            user1.Id, new List<Category>(),
+            false,
+            false,
+            false,
+            true
+        );
         // values = 3
-        var recipe3 = new Recipe("Main dish", true, "The main dish", "Order it!", user1.Id, new List<Category>());
+        var recipe3 = new Recipe(
+            "Main dish", 
+            true, 
+            "The main dish", 
+            "Order it!", 
+            user1.Id, 
+            new List<Category>(),
+            false,
+            false,
+            false,
+            true
+        );
         // values = 1.5
 
         //FoodItem
