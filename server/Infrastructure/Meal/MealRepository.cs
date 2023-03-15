@@ -136,6 +136,13 @@ public class MealRepository : IMealRepository
                 .Include(m => m.Categories)
                 .Select(m => m.ToDTO())
                 .ToListAsync();
+
+    public async Task<IReadOnlyCollection<MealDTO>> ReadAllByDateRangeAndUser(int userID, DateTime startDate, DateTime endDate)
+        => await _context.Meals
+                .Where(m => m.User.Id == userID && m.Date.Date >= startDate.Date && m.Date.Date <= endDate.Date)
+                .Include(m => m.Categories)
+                .Select(m => m.ToDTO())
+                .ToListAsync();
      
      public async Task<Option<MealDTO>> ReadByUserIdDateAndMealTypeAsync(DateTime date, int userID, MealType mealType)
         => await _context.Meals

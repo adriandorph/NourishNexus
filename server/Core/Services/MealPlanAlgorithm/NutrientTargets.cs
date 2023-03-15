@@ -78,6 +78,42 @@ public class NutrientTargets
             Calcium = a.Calcium + b.Calcium
         };
     
+    public static NutrientTargets ToNutrientTargets(FoodItemAmountDTO fi)
+        => new NutrientTargets
+        {
+            Protein = fi.FoodItem!.Protein * fi.Amount,
+            Carbohydrates = fi.FoodItem!.Carbohydrates * fi.Amount,
+            Sugars = fi.FoodItem!.Sugars * fi.Amount,
+            Fibres = fi.FoodItem!.Fibres * fi.Amount,
+            TotalFat = fi.FoodItem!.TotalFat * fi.Amount,
+            SaturatedFat = fi.FoodItem!.SaturatedFat * fi.Amount,
+            MonounsaturatedFat = fi.FoodItem!.MonounsaturatedFat * fi.Amount,
+            PolyunsaturatedFat = fi.FoodItem!.PolyunsaturatedFat * fi.Amount,
+            TransFat = fi.FoodItem!.TransFat * fi.Amount,
+            VitaminA = fi.FoodItem!.VitaminA * fi.Amount,
+            VitaminB6 = fi.FoodItem!.VitaminB6 * fi.Amount,
+            VitaminB12 = fi.FoodItem!.VitaminB12 * fi.Amount,
+            VitaminC = fi.FoodItem!.VitaminC * fi.Amount,
+            VitaminD = fi.FoodItem!.VitaminD * fi.Amount,
+            VitaminE = fi.FoodItem!.VitaminE * fi.Amount,
+            VitaminK1 = fi.FoodItem!.VitaminK1 * fi.Amount,
+            Thiamin = fi.FoodItem!.Thiamin * fi.Amount,
+            Riboflavin = fi.FoodItem!.Riboflavin * fi.Amount,
+            Niacin = fi.FoodItem!.Niacin * fi.Amount,
+            Folate = fi.FoodItem!.Folate * fi.Amount,
+            Salt = fi.FoodItem!.Salt * fi.Amount,
+            Potassium = fi.FoodItem!.Potassium * fi.Amount,
+            Magnesium = fi.FoodItem!.Magnesium * fi.Amount,
+            Iron = fi.FoodItem!.Iron * fi.Amount,
+            Zinc = fi.FoodItem!.Zinc * fi.Amount,
+            Phosphorus = fi.FoodItem!.Phosphorus * fi.Amount,
+            Copper = fi.FoodItem!.Copper * fi.Amount,
+            Iodine = fi.FoodItem!.Iodine * fi.Amount,
+            Nickel = fi.FoodItem!.Nickel * fi.Amount,
+            Selenium = fi.FoodItem!.Selenium * fi.Amount,
+            Calcium = fi.FoodItem!.Calcium * fi.Amount
+        };
+    
     public static NutrientTargets operator /(NutrientTargets a, NutrientTargets b)
         => new NutrientTargets
         {

@@ -1,6 +1,3 @@
-using System.Globalization;
-using Microsoft.Extensions.Azure;
-
 namespace server.Core.Services.MealPlan;
 
 public interface IMealPlanGenerator
@@ -52,7 +49,7 @@ public class MealPlanGenerator
         UserCalories calorieTargets = GetCalorieTargets(user);
 
         // Recipe selection
-        List<RecipeDTO> recipes = await CreateRecipeList(user);
+        List<RecipeDTO> recipes = await CreateRecipeList(user, startingDate);
 
         //Insert recipes
         MealPlan mealPlan = await CreateInitialMealPlan(recipes, userID, calorieTargets);
@@ -133,7 +130,7 @@ public class MealPlanGenerator
     private async Task<NutrientTargets> CalculateIdealIntake(UserNutritionDTO user, DateTime startingDate)
     {
         //Get last 2 weeks intake
-        NutrientTargets previous = await GetPreviousIntake(user.Id);
+        NutrientTargets previous = await GetPreviousIntake(user.Id, startingDate);
 
         //For each nutrient, balance out, but maximum upper bound
         var idealIntake = new NutrientTargets();
@@ -180,9 +177,31 @@ public class MealPlanGenerator
         return balanced;
     }
 
-    private Task<NutrientTargets> GetPreviousIntake(int userID)
+    private async Task<NutrientTargets> GetPreviousIntake(int userID, DateTime endDate)
     {
-        throw new NotImplementedException();
+        DateTime startDate = endDate.Subtract(new TimeSpan(PreviousWeeks * 7, 0, 0));
+        var meals = await _mealRepo.ReadAllByDateRangeAndUser(userID, startDate, endDate);
+        var sum = new NutrientTargets();
+        foreach(var meal in meals)
+        {
+            //Sum all nutrients
+            var recipes = await _recipeRepo.ReadAllByMealId(meal.Id);
+            foreach(var recipe in recipes)
+            {
+                var foodItemsInRecipe = await _foodItemRepo.ReadAllByRecipeId(recipe.Recipe.Id);
+                foreach(var foodItem in foodItemsInRecipe)
+                {
+                    sum += NutrientTargets.ToNutrientTargets(foodItem) * recipe.Amount;
+                }
+            }
+            var foodItems = await _foodItemRepo.ReadAllByMealId(meal.Id);
+            foreach(var foodItem in foodItems)
+            {
+                sum += NutrientTargets.ToNutrientTargets(foodItem);
+            }
+            
+        }
+        return sum;
     }
 
     //Upper Bounds for a week
@@ -237,7 +256,7 @@ public class MealPlanGenerator
     }
 
 
-    private async Task<List<RecipeDTO>> CreateRecipeList(UserNutritionDTO user)
+    private async Task<List<RecipeDTO>> CreateRecipeList(UserNutritionDTO user, DateTime date)
     {
         //Get saved recipes
         var savedrecipes = new List<RecipeDTO>();
@@ -248,7 +267,7 @@ public class MealPlanGenerator
             savedrecipes.Add(recipeResult.Value);
         }
 
-        await OrderRecipesByRecency(savedrecipes);
+        await OrderRecipesByRecency(savedrecipes, date, user.Id);
         
         //First half
         List<RecipeDTO> recipes = new List<RecipeDTO>();
@@ -689,9 +708,37 @@ public class MealPlanGenerator
         if (r != Core.Response.Created) throw new Exception("Could not insert the meal");
     }
 
-    private Task<Response> OrderRecipesByRecency(List<RecipeDTO> recipes)
+    private async Task<Response> OrderRecipesByRecency(List<RecipeDTO> recipes, DateTime date, int userID)
     {
-        throw new NotImplementedException();
+        //Ascending
+        var alreadyAdded = new HashSet<RecipeDTO>();
+
+        List<RecipeDTO> orderedRecipesDescending = new List<RecipeDTO>();
+
+         //Most recent at the start.
+        for(int i = 30; i > 0; i--)
+        {
+            date -= new TimeSpan(1, 0, 0, 0);
+            var meals = await _mealRepo.ReadAllByDateAndUser(date, userID);
+            foreach (var meal in meals)
+            {
+                foreach(var recipe in await _recipeRepo.ReadAllByMealId(meal.Id))
+                {
+                    var recipeDTO = recipes.Where(r => r.Id == recipe.Recipe.Id).FirstOrDefault();
+                    if(recipeDTO != null && !alreadyAdded.Contains(recipeDTO))
+                    {
+                        orderedRecipesDescending.Add(recipeDTO);
+                        alreadyAdded.Add(recipeDTO);
+                    }
+                }
+            }
+        }
+
+        foreach(var recipe in recipes) if (!alreadyAdded.Contains(recipe)) orderedRecipesDescending.Add(recipe);
+
+        orderedRecipesDescending.Reverse();
+        recipes = orderedRecipesDescending;
+        return Response.Success;
     }
 
     private async Task<bool> IsNutritionSet(int userID)
