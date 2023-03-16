@@ -10,13 +10,8 @@ public class MealPlanGeneratorTests
 
     //Categories
     Category _fruit = new Category("Fruit");
-    Category _italian = new Category("Italian");
     Category _meat = new Category("Meat");
-    Category _Vegan = new Category("Vegan");
-    Category _Vegetarian = new Category("Vegetarian");
-    Category _lowFat = new Category("Low fat");
-    Category _highProtein = new Category("High Protein");
-    Category _fish = new Category("Fish");
+    Category _vegetarian = new Category("Vegetarian");
 
     //Breakfast
     Recipe _eggsAndBacon;
@@ -120,10 +115,6 @@ public class MealPlanGeneratorTests
     FoodItem _flour;
     FoodItem _vanillaSugar;
     FoodItem _lemon;
-
-
-
-
     FoodItem _blueberry;
     FoodItem _blackberry;
     FoodItem _strawberry;
@@ -173,9 +164,13 @@ public class MealPlanGeneratorTests
     FoodItem _tortilla;
     FoodItem _lambChop;
     FoodItem _lasagnaSheets;
+    FoodItem _curry;
     
     FoodItem _icebergSalad;
     FoodItem _tomato;
+    FoodItem _bellPepper;
+
+    
     FoodItem _cucumber;
     FoodItem _kebab;
     FoodItem _frenchFries;
@@ -192,6 +187,457 @@ public class MealPlanGeneratorTests
     FoodItem _mozzarella;
     FoodItem _salami;
 
+    FoodItem _mincedVealAndPork;
+
+
+
+    //FOODITEMRECIPES
+
+    //EggsAndBacon
+    FoodItemRecipe _eggsInEggsAndBacon;
+    FoodItemRecipe _baconInEggsAndBacon;
+    FoodItemRecipe _bunsInBunsWithStrawberryJam;
+    FoodItemRecipe _strawberryJamInBunsWithStrawberryJam;
+    FoodItemRecipe _bunsInBunsWithRaspberryJam;
+    FoodItemRecipe _raspberryJamInBunsWithRaspberryJam;
+    FoodItemRecipe _bunsInBunsWithBlackberryJam;
+    //
+    FoodItemRecipe _blackberryJamInBunsWithBlackberryJam;
+    FoodItemRecipe _bunsInBunsWithRhubarbJam;
+    FoodItemRecipe _rhubarbJamInBunsWithRhubarbJam;
+    
+    //buns, buns with cheese    
+    FoodItemRecipe _bunsInBunsWithCheese;
+    FoodItemRecipe _cheeseInBunsWithCheese;
+    
+    //buns, peanut butter
+    FoodItemRecipe _bunsInBunsWithPeanutbutter;
+    FoodItemRecipe _peanutbutterInBunsWithPeanutbutter;
+    
+    //Buns, maple syrup
+    FoodItemRecipe _bunsInBunsWithmapleSyrup;
+    FoodItemRecipe _mapleSyrupInBunsWithmapleSyrup;
+
+    //Buns with spread chicikate
+    FoodItemRecipe _bunsInBunsWithSpreadChocolate;
+    FoodItemRecipe _spreadChocolateInBunsWithSpreadChocolate;
+    
+    //Quinoa bowl
+    FoodItemRecipe _quinoaInQuinoaBowl;
+    FoodItemRecipe _tomatoInQuinoaBowl;
+    FoodItemRecipe _champignonInQuinoaBowl;
+    FoodItemRecipe _eggsInQuinoaBowl;
+    FoodItemRecipe _lemonInQuinoaBowl;
+    
+    //OeatmealBowl
+    FoodItemRecipe _oatsInOatmealBowl;
+    FoodItemRecipe _milkInOatmealBowl;
+    FoodItemRecipe _blueberryInOatmealBowl;
+    FoodItemRecipe _raspberryInOatmealBowl;
+
+    //Oatmeal boiled
+    FoodItemRecipe _oatsInOatmealBoiled;
+    FoodItemRecipe _butterInOatmealBoiled;
+
+    //Bread and salmon
+    FoodItemRecipe _breadInBreadAndSalmon;
+    FoodItemRecipe _salmonInBreadAndSalmon;
+    FoodItemRecipe _butterInBreadAndSalmon;
+    
+    //Bread and ham
+    FoodItemRecipe _breadInBreadAndHam;
+    FoodItemRecipe _hamInBreadAndHam;
+    FoodItemRecipe _butterInBreadAndHam;
+    
+    //Eggs, Bacon, Sausages
+    FoodItemRecipe _eggsInEggsBaconAndSausages;
+    FoodItemRecipe _baconInEggsBaconAndSausages;
+    FoodItemRecipe _sausagesInEggsBaconAndSausages;
+    
+    //Fruit bowl
+    FoodItemRecipe _appleInFruitBowl;
+    FoodItemRecipe _orangeInFruitBowl;
+    FoodItemRecipe _pineapleInFruitBowl;
+    FoodItemRecipe _cornflakesInCereal;
+    FoodItemRecipe _milkInCereal;
+
+    //Pancakes
+    FoodItemRecipe _flourInPancakes;
+    FoodItemRecipe _milkInPancakes;
+    FoodItemRecipe _eggsInPancakes;
+    FoodItemRecipe _sugarInPancakes;
+    FoodItemRecipe _butterInPancakes;
+
+    //Durum kebab
+    FoodItemRecipe _durumWrapInDurumKebab;
+    FoodItemRecipe _kebabInDurumKebab;
+    FoodItemRecipe _dressingInDurumKebab;
+    FoodItemRecipe _icebergInDurumKebab;
+    FoodItemRecipe _onionInDurumKebab;
+    FoodItemRecipe _tomatoInDurumKebab;
+    FoodItemRecipe _cucumberInDurumKebab;
+    
+    //Durum chicken
+    FoodItemRecipe _durumWrapInDurumChicken;
+    FoodItemRecipe _chickenInDurumChicken;
+    FoodItemRecipe _dressingInDurumChicken;
+    FoodItemRecipe _icebergInDurumChicken;
+    FoodItemRecipe _onionInDurumChicken;
+    FoodItemRecipe _tomatoInDurumChicken;
+    FoodItemRecipe _cucumberInDurumChicken;
+    
+    //Durum mix
+    FoodItemRecipe _durumWrapInDurumMix;
+    FoodItemRecipe _kebabInDurumMix;
+    FoodItemRecipe _chickenInDurumMix;
+    FoodItemRecipe _dressingInDurumMix;
+    FoodItemRecipe _icebergInDurumMix;
+    FoodItemRecipe _onionInDurumMix;
+    FoodItemRecipe _tomatoInDurumMix;
+    FoodItemRecipe _cucumberInDurumMix;
+   
+    //kebab box
+    FoodItemRecipe _frenchFriesInKebabBox;
+    FoodItemRecipe _kebabInKebabBox;
+    FoodItemRecipe _dressingInKebabBox;
+    FoodItemRecipe _icebergInKebabBox;
+    FoodItemRecipe _onionInKebabBox;
+    FoodItemRecipe _tomatoInKebabBox;
+    FoodItemRecipe _cucumberInKebabBox;
+
+    //Chicken box
+    FoodItemRecipe _frenchFriesInChickenBox;
+    FoodItemRecipe _chickenInChickenBox;
+    FoodItemRecipe _dressingInChickenBox;
+    FoodItemRecipe _icebergInChickenBox;
+    FoodItemRecipe _onionInChickenBox;
+    FoodItemRecipe _tomatoInChickenBox;
+    FoodItemRecipe _cucumberInChickenBox;
+    
+    //Mix box
+    FoodItemRecipe _frenchFriesInMixBox;
+    FoodItemRecipe _kebabInMixBox;
+    FoodItemRecipe _chickenInMixBox;
+    FoodItemRecipe _dressingInMixBox;
+    FoodItemRecipe _icebergInMixBox;
+    FoodItemRecipe _onionInMixBox;
+    FoodItemRecipe _tomatoInMixBox;
+    FoodItemRecipe _cucumberInMixBox;
+    
+    //Fishfillet
+    FoodItemRecipe _fishFilletInFishFillet;
+    FoodItemRecipe _ryebreadInFishFillet;
+    FoodItemRecipe _remouladeInFishFillet;
+    FoodItemRecipe _butterInFishFillet;
+    
+    //Ryebread salmon
+    FoodItemRecipe _ryebreadInRyebreadWithSalmon;
+    FoodItemRecipe _salmonInRyebreadWithSalmon;
+    FoodItemRecipe _butterInRyebreadWithSalmon;
+
+    //Ryebread avocado
+    FoodItemRecipe _ryebreadInRyebreadWithAvocado;
+    FoodItemRecipe _avocadoInRyebreadWithAvocado;
+    FoodItemRecipe _butterInRyebreadWithAvocado;
+    
+    //Platte
+    FoodItemRecipe _ryebreadInRyebreadPlatte;
+    FoodItemRecipe _butterInRyebreadPlatte;
+    FoodItemRecipe _avocadoInRyebreadPlatte;
+    FoodItemRecipe _salmonInRyebreadPlatte;
+    FoodItemRecipe _liverPateInRyebreadPlatte;
+
+    //Tuna pesto toast
+    FoodItemRecipe _tunaInGrilledToastWithTunaAndPesto;
+    FoodItemRecipe _pestoInGrilledToastWithTunaAndPesto;
+    FoodItemRecipe _butterInGrilledToastWithTunaAndPesto;
+    FoodItemRecipe _toastInGrilledToastWithTunaAndPesto;
+    
+    //Ham and cheese toast
+    FoodItemRecipe _toastInGrilledToastWithHamAndCheese;
+    FoodItemRecipe _butterInGrilledToastWithHamAndCheese;
+    FoodItemRecipe _hamInGrilledToastWithHamAndCheese;
+    FoodItemRecipe _cheeseInGrilledToastWithHamAndCheese;
+    
+    //Panino
+    FoodItemRecipe _breadInPaninoWithTomatoMozzarellaAndSalami;
+    FoodItemRecipe _mayoInPaninoWithTomatoMozzarellaAndSalami;
+    FoodItemRecipe _tomatoInPaninoWithTomatoMozzarellaAndSalami;
+    FoodItemRecipe _mozzarellaInPaninoWithTomatoMozzarellaAndSalami;
+    FoodItemRecipe _salamiInPaninoWithTomatoMozzarellaAndSalami;
+    
+    //ham and cheese sandwich
+    FoodItemRecipe _breadInHamAndCheeseSandwich;
+    FoodItemRecipe _mayoInHamAndCheeseSandwich;
+    FoodItemRecipe _hamInHamAndCheeseSandwich;
+    FoodItemRecipe _cheeseInHamAndCheeseSandwich;
+    
+    //risotto
+    FoodItemRecipe _onionInRisotto;
+    FoodItemRecipe _garlicInRisotto;
+    FoodItemRecipe _risottoRiceInRisotto;
+    FoodItemRecipe _champignonInRisotto;
+    FoodItemRecipe _bouillionInRisotto;
+    FoodItemRecipe _parmesanCheeseInRisotto;
+    
+    //carbonara
+    FoodItemRecipe _eggsInPastaCarbonara;
+    FoodItemRecipe _cheeseInPastaCarbonara;
+    FoodItemRecipe _baconInPastaCarbonara;
+    FoodItemRecipe _pastaInPastaCarbonara;
+    FoodItemRecipe _pepperInPastaCarbonara;
+
+
+    //butterchicken
+    FoodItemRecipe _greekYougurtInButterChicken;
+    FoodItemRecipe _chickenInButterChicken;
+    FoodItemRecipe _cuminInButterChicken;
+    FoodItemRecipe _butterInButterChicken;
+    FoodItemRecipe _creamInButterChicken;
+    FoodItemRecipe _slicedTomatoesInButterChicken;
+    FoodItemRecipe _gingerInButterChicken;
+
+    //chiliconcarne
+    FoodItemRecipe _chiliInCCC;
+    FoodItemRecipe _mincedMeatInCCC;
+    FoodItemRecipe _slicedTomatoesInCCC;
+    FoodItemRecipe _bakedBeansInCCC;
+    FoodItemRecipe _kidneyBeansInCCC;
+    FoodItemRecipe _garlicInCCC;
+    FoodItemRecipe _onionInCCC;
+    FoodItemRecipe _oliveOilInCCC;
+
+    //meatballscurry
+    FoodItemRecipe _mincedVealAndPorkInMBC;
+    FoodItemRecipe _flourInMBC;
+    FoodItemRecipe _onionInMBC;
+    FoodItemRecipe _milkIMBC;
+    FoodItemRecipe _eggInMBC;
+    FoodItemRecipe _butterInMBC;
+    FoodItemRecipe _curryInMBC;
+    FoodItemRecipe _riceInMBC;
+
+    //beef bernaise
+    FoodItemRecipe _steakInBeefBernaise;
+    FoodItemRecipe _potatoesInBeefBernaise;
+    FoodItemRecipe _greenBeansInBeefBernaise;
+    FoodItemRecipe _bernaiseInBeefBernaise;
+
+    //Pasta puttanesca
+    FoodItemRecipe _pastaInPastaPuttanesca;
+    FoodItemRecipe _slicedTomatoesInPastaPuttanesca;
+    FoodItemRecipe _olivesInPastaPuttanesca;
+    FoodItemRecipe _anchoviesInPastaPuttanesca;
+    FoodItemRecipe _garlicInPastaPuttanesca;
+    FoodItemRecipe _capersInPastaPuttanesca;
+
+    //Pasta with tuna
+    FoodItemRecipe _pastaInPastaTuna;
+    FoodItemRecipe _tunaInPastaTuna;
+    FoodItemRecipe _capersInPastaTuna;
+    FoodItemRecipe _lemonInPastaTuna;
+
+    //Steak with pepper sauce
+    FoodItemRecipe _steakInSteakWithPepperSauce;
+    FoodItemRecipe _potatoesInSteakWithPepperSauce;
+    FoodItemRecipe _greenBeansInSteakWithPepperSauce;
+    FoodItemRecipe _pepperSauceInSteakWithPepperSauce;
+
+    //Steak with whiskey sauce
+    FoodItemRecipe _steakInSteakWithWhiskeySauce;
+    FoodItemRecipe _potatoesInSteakWithWhiskeySauce;
+    FoodItemRecipe _greenBeansInSteakWithWhiskeySauce;
+    FoodItemRecipe _whiskeySauceInSteakWithWhiskeySauce;
+
+    //Tacos
+    FoodItemRecipe _tomatosInTacos;
+    FoodItemRecipe _onionInTacos;
+    FoodItemRecipe _avocadoInTacos;
+    FoodItemRecipe _mincedBeefInTacos;
+    FoodItemRecipe _garlicInTacos;
+    FoodItemRecipe _kidneyBeansInTacos;
+    FoodItemRecipe _limeInTacos;
+    FoodItemRecipe _corianderInTacos;
+    FoodItemRecipe _paprikaInTacos;
+    FoodItemRecipe _oreganoInTacos;
+
+    //Honey and Garlic Fried Pork Chops
+    FoodItemRecipe _porkInHoneyGarlicFriedPorkChops;
+    FoodItemRecipe _honeyInHoneyGarlicFriedPorkChops;
+    FoodItemRecipe _garlicInHoneyGarlicFriedPorkChops;
+    FoodItemRecipe _potatoesInHoneyGarlicFriedPorkChops;
+    FoodItemRecipe _broccoliInHoneyGarlicFriedPorkChops;
+    FoodItemRecipe _butterInHoneyGarlicFriedPorkChops;
+    FoodItemRecipe _vinegarInHoneyCarlicFriedPorkChops;
+    
+    //Chicken Fried Rice
+    FoodItemRecipe _chickenInChickenFriedRice;
+    FoodItemRecipe _riceInChickenFriedRice;
+    FoodItemRecipe _onionInChickenFriedRice;
+    FoodItemRecipe _carrotInChickenFriedRice;
+    FoodItemRecipe _garlicInChickenFriedRice;
+    FoodItemRecipe _oilInChickenFriedRice;
+    FoodItemRecipe _soysauceInChickenFriedRice;
+    FoodItemRecipe _eggInChickenFriedRice;
+    FoodItemRecipe _saltInChickenFriedRice;
+    FoodItemRecipe _pepperInChickenFriedRice;
+    
+    //Shrimp Stir Fry
+    FoodItemRecipe _shrimpsInShrimpStirFry;
+    FoodItemRecipe _oilInShrimpStirFry;
+    FoodItemRecipe _garlicInShrimpStirFry;
+    FoodItemRecipe _gingerInShrimpStirFry;
+    FoodItemRecipe _paprikaInShrimpStirFry;
+    FoodItemRecipe _oreganoInShrimpStirFry;
+    FoodItemRecipe _basilInShrimpStirFry;
+    FoodItemRecipe _lemonInShrimpStirFry;
+    FoodItemRecipe _onionInShrimpStirFry;
+    FoodItemRecipe _saltInShrimpStirFry;
+    FoodItemRecipe _pepperInShrimpStirFry;
+    FoodItemRecipe _corianderInShrimpStirFry;
+
+    //Spring Rolls
+    FoodItemRecipe _oilInSpringRolls;
+    FoodItemRecipe _mincedPorkInSpringRolls;
+    FoodItemRecipe _garlicInSpringRolls;
+    FoodItemRecipe _gingerInSpringRolls;
+    FoodItemRecipe _springOnionsInSpringRolls;
+    FoodItemRecipe _scallionsInSpringRolls;
+    FoodItemRecipe _oysterSauceInSpringRolls;
+    FoodItemRecipe _soysauceInSpringRolls;
+    FoodItemRecipe _vinegarInSpringRolls;
+    FoodItemRecipe _phylloDoughInSpringRolls;
+    FoodItemRecipe _limeInSpringRolls;
+    FoodItemRecipe _corianderInSpringRolls;
+    
+    //Baked Salmon and Asparagus
+    FoodItemRecipe _lemonInBakedSalmonAndAsparagus;
+    FoodItemRecipe _salmonInBakedSalmonAndAsparagus;
+    FoodItemRecipe _asparagusInBakedSalmonAndAsparagus;
+    FoodItemRecipe _butterInBakedSalmonAndAsparagus;
+    FoodItemRecipe _garlicInBakedSalmonAndAsparagus;
+    
+    //Crackers with pesti
+    FoodItemRecipe _crackersInCWP;
+    FoodItemRecipe _pestiInCWP;
+
+    //Salami stick, olive, cheese
+    FoodItemRecipe _salamiInSSOAC;
+    FoodItemRecipe _oliveInSSOAC;
+    FoodItemRecipe _cheeseInSSOAC;
+
+    //Salami stick
+    FoodItemRecipe _salamiInSS;
+    
+    //Apple Carrot Orange smoothie
+    FoodItemRecipe _appleinACOS;
+    FoodItemRecipe _orangeinACOS;
+    FoodItemRecipe _carrotinACOS;
+    FoodItemRecipe _milkinACOS;
+
+    //Blueberry smoothie
+    FoodItemRecipe _blueberriesinBS;
+    FoodItemRecipe _milkInBS;
+
+    //Mango smoothie
+    FoodItemRecipe _mangoInMS;
+    FoodItemRecipe _milkInMS;
+
+    //Strawberry banana smoothie
+    FoodItemRecipe _bananaInSBS;
+    FoodItemRecipe _strawberryInSBS;
+    FoodItemRecipe _milkInSBS;
+
+    //Blackberry strawberry fruit mix
+    FoodItemRecipe _blackberryInBSFM;
+    FoodItemRecipe _strawberryInBSFM;
+
+    //Raspberry, Blueberry fruit mix
+    FoodItemRecipe _raspberryInRBFM;
+    FoodItemRecipe _blueberryInRBFM;
+    
+    //Apple orange pear fruit mix
+    FoodItemRecipe _appleInAOPFM;
+    FoodItemRecipe _orangeInAOPFM;
+    FoodItemRecipe _pearInAOPFM;
+
+    //pineapple orange fruit mix
+    FoodItemRecipe _pIneappleInPOFM;
+    FoodItemRecipe _orangeInPOFM;
+
+    //almonds raisin mix
+    FoodItemRecipe _raisinInARM;
+    FoodItemRecipe _almondInARM;
+
+    //pistachio nut mix
+    FoodItemRecipe _pistachioinPNM;
+
+    //cashew peanut mix
+    FoodItemRecipe _peanutInCPM;
+    FoodItemRecipe _cashewInCPM;
+
+    //Frikadeller with rice
+    FoodItemRecipe _mincedVealAndPorkInFWR;
+    FoodItemRecipe _eggInFWR;
+    FoodItemRecipe _flourInFWR;
+    FoodItemRecipe _cuminInFWR;
+    FoodItemRecipe _riceInFWR;
+    FoodItemRecipe _onionInFWR;
+    FoodItemRecipe _oliveOilInFWR;
+    FoodItemRecipe _saltInFWR;
+    FoodItemRecipe _pepperInFWR;
+
+    //Tortillas
+    FoodItemRecipe _tortillasInTortillas;
+    FoodItemRecipe _mincedMeatInTortillas;
+    FoodItemRecipe _bellPepperInTortillas;
+    FoodItemRecipe _cremeFraicheInTortillas;
+    FoodItemRecipe _avocadoInTortillas;
+    FoodItemRecipe _lemonInTortillas;
+    FoodItemRecipe _garlicInTortillas;
+    FoodItemRecipe _cucumberInTortillas;
+    FoodItemRecipe _tomatoInTortillas;
+    
+
+    //Lamb chop with potatoes
+    FoodItemRecipe _lambInLWP;
+    FoodItemRecipe _potatoesInLWP;
+    FoodItemRecipe _oliveOilInLWP;
+    FoodItemRecipe _saltInLWP;
+    FoodItemRecipe _pepperInLWP;
+    FoodItemRecipe _garlicInLWP;
+
+    //veganLasagna
+
+    FoodItemRecipe _pastaInVL;
+    FoodItemRecipe _carrotInVL;
+    FoodItemRecipe _bellPepperInVL;
+    FoodItemRecipe _oliveOilInVL;
+    FoodItemRecipe _garlicInVL;
+    FoodItemRecipe _saltInVL;
+    FoodItemRecipe _slicedTomatoesInVL;
+    FoodItemRecipe _mozzarellaInVL;
+
+    //meat Lasagna
+
+    FoodItemRecipe _mincedMeatInML;
+    FoodItemRecipe _pastaInML;
+    FoodItemRecipe _carrotInML;
+    FoodItemRecipe _bellPepperInML;
+    FoodItemRecipe _oliveOilInML;
+    FoodItemRecipe _garlicInML;
+    FoodItemRecipe _saltInML;
+    FoodItemRecipe _slicedTomatoesInML;
+    FoodItemRecipe _mozzarellaInML;
+
+
+
+
+    
+
+
+
+    
 
     
     public MealPlanGeneratorTests()
@@ -208,6 +654,10 @@ public class MealPlanGeneratorTests
         
         _context = context;
 
+        _context.Categories.Add(_fruit);
+        _context.Categories.Add(_meat);
+        _context.Categories.Add(_vegetarian);
+        _context.SaveChanges();
         InitializeFoodItems();
         InitializeRecipes();
         AddFoodItemsToRecipes();
@@ -298,7 +748,9 @@ public class MealPlanGeneratorTests
         _greekYogurt = new FoodItem("Greek yogurt", 117f, 4.9f, 6.2f, 3.75f, 0f, 7.12f, 4.66f, 1.61f, 0.14f, 0.56f, 58.5f, 0.05f, 0.33f, 0f, 0.13f, 0.39f, 0f, 0.032f, 0.16f, 0.09f, 0f, 0.2f, 150f, 10.4f, 0.03f, 0.44f, 109f, 0.005f, 14.4f, 0.5f, 2.16f, 113.5f);
         _pasta = new FoodItem("Pasta",128f, 5f, 26.9f, 0f, 2f, 0.28f, 0.06f, 0.04f, 0.18f, 0f, 0f, 0.01f, 0f, 0f, 0f, 0.07f, 0f, 0.04f, 0.01f, 0.3f, 2f, 0f, 78f, 24f, 0.6f, 0.7f, 50f, 0.2f, 1f, 0f, 1.8f, 13f);
         _cream = new FoodItem("Whipped Cream", 360f, 2.1f, 3f, 2.98f, 0f, 35.93f, 24.27f, 8.59f, 1.04f, 1.54f, 346.1f, 0.02f, 0.44f, 0.8f, 0.15f, 0.87f, 0f, 0.031f, 0.16f, 0.07f, 10.8f, 0.1f, 94.1f, 6.8f, 0.05f, 0.24f, 57f, 0.022f, 10.1f, 0.2f, 1.47f, 66.8f);
-        
+        _mincedVealAndPork = new FoodItem("Minced veal and pork", 218f, 17.6f, 0f, 0f, 0f, 15.21f, 6.27f, 7f, 1.34f, 0.22f, 9f, 0.27f, 1.31f, 0f, 1.1f, 0.5f, 0f, 0.406f, 0.18f, 4.71f, 8.3f, 0.2f, 293.1f, 18.4f, 1.2f, 2.78f, 170f, 0.072f, 1.5f, 0f, 5.63f, 8.1f);
+        _curry = new FoodItem("Curry", 342f, 12.7f, 25.2f, 0f, 33.2f, 11.05f, 1.6f, 8.8f, 3.1f, 0f, 49.5f, 1.15f, 0f, 11.4f, 0f, 21.99f, 0f, 0.253f, 0.28f, 3.47f, 154f, 0.13f, 1543f, 254f, 29.59f, 4.05f, 349f, 1.04f, 0.5f, 0f, 17.1f, 478f);
+        _bellPepper = new FoodItem("Bell pepper",31f, 0.9f, 5.2f, 5.24f, 1.7f, 0.08f, 0.02f, 0f, 0.06f, 0f, 105.8f, 0.43f, 0f, 162.8f, 0f, 2.26f, 0f, 0.047f, 0.08f, 0.98f, 88f, 0.000974643f, 239f, 11.8f, 0.32f, 0.13f, 25f, 0.051f, 0.1f, 4f, 0.14f, 6.6f);
         var list = new List<FoodItem>();
         list.Add(_bacon);
         list.Add(_buns);
@@ -382,91 +834,460 @@ public class MealPlanGeneratorTests
         list.Add(_pasta);
         list.Add(_cream);
         _context.FoodItems.AddRange(list);
+        _context.SaveChanges();
 
     }
     private void InitializeRecipes()
     {
-        _eggsAndBacon = new Recipe("Eggs and Bacon", true, "", "", 1, new List<Category>{_meat, _highProtein}, true, false, false, false);
-        _bunsWithStrawberryJam = new Recipe("Buns with Strawberry Jam", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _bunsWithRaspberryJam = new Recipe("Buns with Raspberry Jam", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _bunsWithCheese = new Recipe("Buns with Cheese", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _bunsWithPeanutbutter = new Recipe("Buns with Peanutbutter", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _bunsWithMapleSyrup = new Recipe("Buns with Maple Syrup", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _bunswithSpreadChocolate = new Recipe("Buns with Chocolate Spread", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _QuinoaBowl = new Recipe("Quinoa Bowl", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _OatMealBowl = new Recipe("Oatmeal Bowl", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _OatMealBoiled = new Recipe("Oatmeal Boiled", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _BreadAndSalmon = new Recipe("Bread and Salmon", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _BreadAndHam = new Recipe("Bread and Ham", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _EggsBaconAndSausages = new Recipe("Eggs with Bacon and Sausages", true, "", "", 1, new List<Category>{}, true, false, false, false);
-        _FruitBowl = new Recipe("Fruit bowl", true, "", "", 1, new List<Category>{}, true, false, false, true);
-        _Cereal = new Recipe("Cornflakes", true, "", "", 1, new List<Category>{}, true, false, false, false);
-        _pancakes = new Recipe("Pancakes", true, "", "", 1, new List<Category>{}, true, false, false, true);
+        _eggsAndBacon = new Recipe("Eggs and Bacon", true, "", "", 1, new List<Category>{_meat}, true, false, false, false);
+        _bunsWithStrawberryJam = new Recipe("Buns with Strawberry Jam", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _bunsWithRaspberryJam = new Recipe("Buns with Raspberry Jam", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _bunsWithCheese = new Recipe("Buns with Cheese", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _bunsWithPeanutbutter = new Recipe("Buns with Peanutbutter", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _bunsWithMapleSyrup = new Recipe("Buns with Maple Syrup", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _bunswithSpreadChocolate = new Recipe("Buns with Chocolate Spread", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _QuinoaBowl = new Recipe("Quinoa Bowl", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _OatMealBowl = new Recipe("Oatmeal Bowl", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _OatMealBoiled = new Recipe("Oatmeal Boiled", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _BreadAndSalmon = new Recipe("Bread and Salmon", true, "", "", 1, new List<Category>{_meat}, true, false, false, true);
+        _BreadAndHam = new Recipe("Bread and Ham", true, "", "", 1, new List<Category>{_meat}, true, false, false, true);
+        _EggsBaconAndSausages = new Recipe("Eggs with Bacon and Sausages", true, "", "", 1, new List<Category>{_meat}, true, false, false, false);
+        _FruitBowl = new Recipe("Fruit bowl", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, true, false, false, true);
+        _Cereal = new Recipe("Cornflakes", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, false);
+        _pancakes = new Recipe("Pancakes", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
         
         //Lunch 
-        _durumKebab = new Recipe("Durum with Kebab", true, "", "", 1, new List<Category>{}, false, true, true, false);
-        _durumChicken = new Recipe("Durum with Chicken", true, "", "", 1, new List<Category>{}, false, true, true, false);
-        _durumMix = new Recipe("Durum with Mix", true, "", "", 1, new List<Category>{}, false, true, true, false);
-        _mixBox = new Recipe("Mix Box", true, "", "", 1, new List<Category>{}, false, true, true, false);
-        _kebabBox = new Recipe("Kebab Box", true, "", "", 1, new List<Category>{}, false, true, true, false);
-        _chickenBox = new Recipe("Chicken Box", true, "", "", 1, new List<Category>{}, false, true, true, false);
-        _fishFillet = new Recipe("Fish fillets", true, "", "", 1, new List<Category>{}, false, true, false, false);
-        _ryebreadWithSalmon = new Recipe("Ryebread with Salmon", true, "", "", 1, new List<Category>{}, false, true, false, true);
-        _ryebreadWithAvocado = new Recipe("Ryebread with Avocado", true, "", "", 1, new List<Category>{}, false, true, false, true);
-        _ryebreadPlatte = new Recipe("Ryebread Platte", true, "", "", 1, new List<Category>{}, false, true, false, true);
-        _grilledToastWithTunaAndPesto = new Recipe("Grilled Toast with Tuna and Pesto", true, "", "", 1, new List<Category>{}, false, true, false, true);
-        _grilledToastWithHamAndCheese = new Recipe("Grilled Toast with Ham and Cheese", true, "", "", 1, new List<Category>{}, false, true, false, true);
-        _paninoWithTomatoMozzarellaAndSalami = new Recipe("Panino with Tomato Mozzarella and Salami", true, "", "", 1, new List<Category>{}, false, true, false, true);
-        _hamAndCheeseSandwich = new Recipe("Ham and Cheese Sandwich", true, "", "", 1, new List<Category>{}, false, true, false, true);
-
-        /*
-
-        */
+        _durumKebab = new Recipe("Durum with Kebab", true, "", "", 1, new List<Category>{_meat}, false, true, true, false);
+        _durumChicken = new Recipe("Durum with Chicken", true, "", "", 1, new List<Category>{_meat}, false, true, true, false);
+        _durumMix = new Recipe("Durum with Mix", true, "", "", 1, new List<Category>{_meat}, false, true, true, false);
+        _mixBox = new Recipe("Mix Box", true, "", "", 1, new List<Category>{_meat}, false, true, true, false);
+        _kebabBox = new Recipe("Kebab Box", true, "", "", 1, new List<Category>{_meat}, false, true, true, false);
+        _chickenBox = new Recipe("Chicken Box", true, "", "", 1, new List<Category>{_meat}, false, true, true, false);
+        _fishFillet = new Recipe("Fish fillets", true, "", "", 1, new List<Category>{_meat}, false, true, false, false);
+        _ryebreadWithSalmon = new Recipe("Ryebread with Salmon", true, "", "", 1, new List<Category>{_meat}, false, true, false, true);
+        _ryebreadWithAvocado = new Recipe("Ryebread with Avocado", true, "", "", 1, new List<Category>{_vegetarian}, false, true, false, true);
+        _ryebreadPlatte = new Recipe("Ryebread Platte", true, "", "", 1, new List<Category>{_meat}, false, true, false, true);
+        _grilledToastWithTunaAndPesto = new Recipe("Grilled Toast with Tuna and Pesto", true, "", "", 1, new List<Category>{_meat}, false, true, false, true);
+        _grilledToastWithHamAndCheese = new Recipe("Grilled Toast with Ham and Cheese", true, "", "", 1, new List<Category>{_meat}, false, true, false, true);
+        _paninoWithTomatoMozzarellaAndSalami = new Recipe("Panino with Tomato Mozzarella and Salami", true, "", "", 1, new List<Category>{_meat}, false, true, false, true);
+        _hamAndCheeseSandwich = new Recipe("Ham and Cheese Sandwich", true, "", "", 1, new List<Category>{_meat}, false, true, false, true);
         
         //Dinner
-        _risotto = new Recipe("Risotto", true, "Risotto", "Risotto",1, new List<Category>{},false, false, true, false);
-        _pastaCarbonara = new Recipe("Pasta Carbonara", true, "Pasta Carbonara", "Pasta Carbonara", 1, new List<Category>{}, false, false, true, false);
-        _butterChicken = new Recipe("Butter Chicken", true, "Butter Chicken", "Butter Chicken", 1, new List<Category>{}, false, false, true, false);
-        _chiliConCarne = new Recipe("Chili Con Carne", true, "Chili Con Carne", "Chili Con Carne", 1, new List<Category>{}, false, false, true, false);
-        _beefBernaise = new Recipe("Beef Bernaise", true, "Beef Bernaise", "Beef Bernaise", 1, new List<Category>{},false, false, true, false);
-        _pastaPuttanesca = new Recipe("Pasta Putanesca", true, "Pasta Putanesca", "Pasta Putanesca", 1, new List<Category>{}, false, false, true, false);
-        _pastaTuna = new Recipe("Pasta Tuna", true, "Pasta Tuna", "Pasta Tuna", 1, new List<Category>{}, false, false, true, false);
-        _tortillas = new Recipe("Tortillas", true, "Tortillas", "Tortillas", 1, new List<Category>{}, false, false, true, false);
-        _meatballsCurry = new Recipe("Meatballs Curry", true, "Meatballs Curry", "Meatballs Curry", 1, new List<Category>{}, false, false, true, false);
-        _steakWithPepperSauce = new Recipe("Steak with Pepper Sauce", true, "Steak with Pepper Sauce", "", 1, new List<Category>{}, false, false, true, false);
-        _steakWithWhiskeySauce = new Recipe("Steak with Whiskey Sauce", true, "Steak with Whiskey Sauce", "", 1, new List<Category>{}, false, false, true, false);
+        _risotto = new Recipe("Risotto", true, "Risotto", "Risotto",1, new List<Category>{_vegetarian},false, false, true, false);
+        _pastaCarbonara = new Recipe("Pasta Carbonara", true, "Pasta Carbonara", "Pasta Carbonara", 1, new List<Category>{_meat}, false, false, true, false);
+        _butterChicken = new Recipe("Butter Chicken", true, "Butter Chicken", "Butter Chicken", 1, new List<Category>{_meat}, false, false, true, false);
+        _chiliConCarne = new Recipe("Chili Con Carne", true, "Chili Con Carne", "Chili Con Carne", 1, new List<Category>{_meat}, false, false, true, false);
+        _beefBernaise = new Recipe("Beef Bernaise", true, "Beef Bernaise", "Beef Bernaise", 1, new List<Category>{_meat},false, false, true, false);
+        _pastaPuttanesca = new Recipe("Pasta Putanesca", true, "Pasta Putanesca", "Pasta Putanesca", 1, new List<Category>{_meat}, false, false, true, false);
+        _pastaTuna = new Recipe("Pasta Tuna", true, "Pasta Tuna", "Pasta Tuna", 1, new List<Category>{_meat}, false, false, true, false);
+        _tortillas = new Recipe("Tortillas", true, "Tortillas", "Tortillas", 1, new List<Category>{_meat}, false, false, true, false);
+        _meatballsCurry = new Recipe("Meatballs Curry", true, "Meatballs Curry", "Meatballs Curry", 1, new List<Category>{_meat}, false, false, true, false);
+        _steakWithPepperSauce = new Recipe("Steak with Pepper Sauce", true, "Steak with Pepper Sauce", "", 1, new List<Category>{_meat}, false, false, true, false);
+        _steakWithWhiskeySauce = new Recipe("Steak with Whiskey Sauce", true, "Steak with Whiskey Sauce", "", 1, new List<Category>{_meat}, false, false, true, false);
         _tacos = new Recipe("Tacos", true, "Tacos", "Tacos", 1, new List<Category>{}, false, false, true, false);
-        _honeyGarlicFriedPorkChops = new Recipe("Honey-garlic fried pork chops", true,"Honey-garlic fried pork chops", "Honey-garlic fried pork chops", 1, new List<Category>{},false, false, true, false);
-        _chickenFriedRice = new Recipe("Chicken Fried Rice", true, "Chicken stir fry", "Chicken stir fry", 1, new List<Category>{}, false, false, true, false);
-        _shrimpStirFry = new Recipe("Shrimp stir fry", true, "Shrimp stir fry", "Shrimp stir fry", 1, new List<Category>{},false, false, true, false);
-        _springRolls = new Recipe("Spring rolls", true, "Spring rolls", "Spring rolls",1,new List<Category>{},false, false, true, false);
-        _bakedSalmonAndAsparagus = new Recipe("Baked salmon and asparagus", true,"Baked salmon and asparagus", "Baked salmon and asparagus",1, new List<Category>{}, false, false, true, false);
-        _meatLasagna = new Recipe("Meat lasagna", true, "Meat lasagna", "Meat lasagna", 1, new List<Category>{}, false, false, true, false);
-        _veganLasagna = new Recipe("Vegan lasagna", true, "Vegan lasagna", "Vegan lasagna", 1, new List<Category>{}, false, false, true, false);
-        _lambChopWithPotatoes = new Recipe("Lamb chop with potatoes", true, "Lamb chop with potatoes", "Lamb chop with potatoes", 1, new List<Category>{}, false, false, true, false);
-        _frikadellerWithRice = new Recipe ("Frikadeller with rice", true, "Frikadeller with rice", "Frikadeller with rice", 1, new List<Category>{}, false, false, true, false);
-        
+        _honeyGarlicFriedPorkChops = new Recipe("Honey-garlic fried pork chops", true,"Honey-garlic fried pork chops", "Honey-garlic fried pork chops", 1, new List<Category>{_meat},false, false, true, false);
+        _chickenFriedRice = new Recipe("Chicken Fried Rice", true, "Chicken stir fry", "Chicken stir fry", 1, new List<Category>{_meat}, false, false, true, false);
+        _shrimpStirFry = new Recipe("Shrimp stir fry", true, "Shrimp stir fry", "Shrimp stir fry", 1, new List<Category>{_meat},false, false, true, false);
+        _springRolls = new Recipe("Spring rolls", true, "Spring rolls", "Spring rolls",1,new List<Category>{_vegetarian},false, false, true, false);
+        _bakedSalmonAndAsparagus = new Recipe("Baked salmon and asparagus", true,"Baked salmon and asparagus", "Baked salmon and asparagus",1, new List<Category>{_meat}, false, false, true, false);
+        _meatLasagna = new Recipe("Meat lasagna", true, "Meat lasagna", "Meat lasagna", 1, new List<Category>{_meat}, false, false, true, false);
+        _veganLasagna = new Recipe("Vegan lasagna", true, "Vegan lasagna", "Vegan lasagna", 1, new List<Category>{_vegetarian}, false, false, true, false);
+        _lambChopWithPotatoes = new Recipe("Lamb chop with potatoes", true, "Lamb chop with potatoes", "Lamb chop with potatoes", 1, new List<Category>{_meat}, false, false, true, false);
+        _frikadellerWithRice = new Recipe ("Frikadeller with rice", true, "Frikadeller with rice", "Frikadeller with rice", 1, new List<Category>{_meat}, false, false, true, false);
 
-        _cashewPeanutNutMix = new Recipe("Cashew Peanut Mix", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _pistachioNutMix = new Recipe("Pistachio Mix", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _almondRaisinMix = new Recipe("Alomnd Raisin Mix", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _pineappleOrangefruitMix = new Recipe("Pineapple Orange Mix", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _appleOrangePearfruitMix = new Recipe("Apple Orange Pear Mix", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _raspberryBlueberryfruitMix = new Recipe("Raspberry Blueberry Mix", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _blackberryStrawberryfruitMix = new Recipe("Blackberry Strawberry Mix", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _strawberryBananaSmoothie = new Recipe("Strawberry Banana Smoothie", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _mangoSmoothie = new Recipe("Mango smoothie", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _blueberrySmoothie = new Recipe("Blueberry smoothie", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _appleCarrotOrangeSmoothie = new Recipe("Apple Carrot Orange smoothie", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _peanutbutterSandwich = new Recipe("Peanutbutter sandwich", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _salamiSticks = new Recipe("Salami sticks", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _salamiSticksOlivesAndCheese = new Recipe("Salami sticks olives and cheese", true, "", "", 1, new List<Category>{}, false, false, false, true);
-        _crackersWithPesti = new Recipe("Crackers with pesti", true, "", "", 1, new List<Category>{}, false, false, false, true);
+        _cashewPeanutNutMix = new Recipe("Cashew Peanut Mix", true, "", "", 1, new List<Category>{_vegetarian}, false, false, false, true);
+        _pistachioNutMix = new Recipe("Pistachio Mix", true, "", "", 1, new List<Category>{_vegetarian}, false, false, false, true);
+        _almondRaisinMix = new Recipe("Alomnd Raisin Mix", true, "", "", 1, new List<Category>{_vegetarian}, false, false, false, true);
+        _pineappleOrangefruitMix = new Recipe("Pineapple Orange Mix", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, false, false, false, true);
+        _appleOrangePearfruitMix = new Recipe("Apple Orange Pear Mix", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, false, false, false, true);
+        _raspberryBlueberryfruitMix = new Recipe("Raspberry Blueberry Mix", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, false, false, false, true);
+        _blackberryStrawberryfruitMix = new Recipe("Blackberry Strawberry Mix", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, false, false, false, true);
+        _strawberryBananaSmoothie = new Recipe("Strawberry Banana Smoothie", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, false, false, false, true);
+        _mangoSmoothie = new Recipe("Mango smoothie", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, false, false, false, true);
+        _blueberrySmoothie = new Recipe("Blueberry smoothie", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, false, false, false, true);
+        _appleCarrotOrangeSmoothie = new Recipe("Apple Carrot Orange smoothie", true, "", "", 1, new List<Category>{_fruit, _vegetarian}, false, false, false, true);
+        _peanutbutterSandwich = new Recipe("Peanutbutter sandwich", true, "", "", 1, new List<Category>{_vegetarian}, false, false, false, true);
+        _salamiSticks = new Recipe("Salami sticks", true, "", "", 1, new List<Category>{_meat}, false, false, false, true);
+        _salamiSticksOlivesAndCheese = new Recipe("Salami sticks olives and cheese", true, "", "", 1, new List<Category>{_meat}, false, false, false, true);
+        _crackersWithPesti = new Recipe("Crackers with pesti", true, "", "", 1, new List<Category>{_vegetarian}, false, false, false, true);
+
+        var list = new List<Recipe>();
+        list.Add(_bunsWithStrawberryJam);
+        list.Add(_bunsWithRaspberryJam);
+        list.Add(_bunsWithCheese);
+        list.Add(_bunsWithPeanutbutter);
+        list.Add(_bunsWithMapleSyrup);
+        list.Add(_bunswithSpreadChocolate);
+        list.Add(_QuinoaBowl);
+        list.Add(_OatMealBowl);
+        list.Add(_OatMealBoiled);
+        list.Add(_BreadAndSalmon);
+        list.Add(_BreadAndHam);
+        list.Add(_EggsBaconAndSausages);
+        list.Add(_FruitBowl);
+        list.Add(_Cereal);
+        list.Add(_pancakes);
+        list.Add(_durumKebab);
+        list.Add(_durumChicken);
+        list.Add(_durumMix);
+        list.Add(_mixBox);
+        list.Add(_kebabBox);
+        list.Add(_chickenBox);
+        list.Add(_fishFillet);
+        list.Add(_ryebreadWithSalmon);
+        list.Add(_ryebreadWithAvocado);
+        list.Add(_ryebreadPlatte);
+        list.Add(_grilledToastWithTunaAndPesto);
+        list.Add(_grilledToastWithHamAndCheese);
+        list.Add(_paninoWithTomatoMozzarellaAndSalami);
+        list.Add(_hamAndCheeseSandwich);
+        list.Add(_risotto);
+        list.Add(_pastaCarbonara);
+        list.Add(_butterChicken);
+        list.Add(_chiliConCarne);
+        list.Add(_beefBernaise);
+        list.Add(_pastaPuttanesca);
+        list.Add(_pastaTuna);
+        list.Add(_tortillas);
+        list.Add(_meatballsCurry);
+        list.Add(_steakWithPepperSauce);
+        list.Add(_steakWithWhiskeySauce);
+        list.Add(_tacos);
+        list.Add(_honeyGarlicFriedPorkChops);
+        list.Add(_chickenFriedRice);
+        list.Add(_shrimpStirFry);
+        list.Add(_springRolls);
+        list.Add(_bakedSalmonAndAsparagus);
+        list.Add(_meatLasagna);
+        list.Add(_veganLasagna);
+        list.Add(_lambChopWithPotatoes);
+        list.Add(_frikadellerWithRice);
+        list.Add(_cashewPeanutNutMix);
+        list.Add(_pistachioNutMix);
+        list.Add(_almondRaisinMix);
+        list.Add(_pineappleOrangefruitMix);
+        list.Add(_appleOrangePearfruitMix);
+        list.Add(_raspberryBlueberryfruitMix);
+        list.Add(_blackberryStrawberryfruitMix);
+        list.Add(_strawberryBananaSmoothie);
+        list.Add(_mangoSmoothie);
+        list.Add(_blueberrySmoothie);
+        list.Add(_appleCarrotOrangeSmoothie);
+        list.Add(_peanutbutterSandwich);
+        list.Add(_salamiSticks);
+        list.Add(_salamiSticksOlivesAndCheese);
+        list.Add(_crackersWithPesti);
+        _context.Recipes.AddRange(list);
+        _context.SaveChanges();
     }
 
     private void AddFoodItemsToRecipes()
     {
-
+        _eggsInEggsAndBacon = new FoodItemRecipe(_egg, _eggsAndBacon, 1.26f);
+        _baconInEggsAndBacon = new FoodItemRecipe(_bacon, _eggsAndBacon, 0.4);
+        _bunsInBunsWithStrawberryJam = new FoodItemRecipe(_buns, _bunsWithStrawberryJam, 0.8f);
+        _strawberryJamInBunsWithStrawberryJam = new FoodItemRecipe(_strawberryJam, _bunsInBunsWithStrawberryJam, 0.4f);
+        _bunsInBunsWithRaspberryJam = new FoodItemRecipe(_buns, _bunsWithRaspberryJam, 0.8f);
+        _raspberryJamInBunsWithRaspberryJam = new FoodItemRecipe(_raspberryJam, _bunsWithraspberryJam, 0.4f);
+        _bunsInBunsWithBlackberryJam = new FoodItemRecipe(_buns, _bunswithBlackberryJam, 0.8f);
+        _blackberryJamInBunsWithBlackberryJam = new FoodItemRecipe(_blackberryJam, _bunswithBlackberryJam, 0.4f);
+        _bunsInBunsWithRhubarbJam = new FoodItemRecipe(_buns, _bunswithRhubarbJam, 0.8f);
+        _rhubarbJamInBunsWithRhubarbJam = new FoodItemRecipe(_rhubarbJam, _bunswithRhubarbJam, 0.4f);
+        _bunsInBunsWithCheese = new FoodItemRecipe(_buns, _bunsWithCheese, 0.8f);
+        _cheeseInBunsWithCheese = new FoodItemRecipe(_slicedCheese, _bunsWithCheese, 0.4f);
+        _bunsInBunsWithPeanutbutter = new FoodItemRecipe(_buns, _bunsWithPeanutbutter, 0.8f);
+        _peanutbutterInBunsWithPeanutbutter = new FoodItemRecipe(_Peanutbutter, _bunsWithPeanutbutter, 0.4f);
+        _bunsInBunsWithmapleSyrup = new FoodItemRecipe(_buns, _bunsWithMapleSyrup, 0.8f);
+        _mapleSyrupInBunsWithmapleSyrup = new FoodItemRecipe(_mapleSyrup, _bunsWithMapleSyrup, 0.3f);
+        _bunsInBunsWithSpreadChocolate = new FoodItemRecipe(_buns, _bunswithSpreadChocolate, 0.8f);
+        _spreadChocolateInBunsWithSpreadChocolate = new FoodItemRecipe(_spreadChocolate, _bunswithSpreadChocolate, 0.4f);
+        _quinoaInQuinoaBowl = new FoodItemRecipe(_quinoa, _QuinoaBowl, 2.0f);
+        _tomatoInQuinoaBowl = new FoodItemRecipe(_tomato, _QuinoaBowl, 0.5f);
+        _champignonInQuinoaBowl = new FoodItemRecipe(_champignon, _QuinoaBowl, 0.5f);
+        _eggsInQuinoaBowl = new FoodItemRecipe(_egg, _QuinoaBowl, 1.26f);
+        _lemonInQuinoaBowl = new FoodItemRecipe(_lemon, _QuinoaBowl, 0.2f);
+        _oatsInOatmealBowl = new FoodItemRecipe(_oats, _OatMealBowl, 1f);
+        _milkInOatmealBowl = new FoodItemRecipe(_milk, _OatMealBowl, 1f);
+        _blueberryInOatmealBowl = new FoodItemRecipe(_blueberry, _OatMealBowl, 0.2f);
+        _raspberryInOatmealBowl = new FoodItemRecipe(_raspberry, _OatMealBowl, 0.2f);
+        _oatsInOatmealBoiled = new FoodItemRecipe(_oats, _OatMealBoiled, 1f);
+        _butterInOatmealBoiled = new FoodItemRecipe(_butter, _OatMealBoiled, 0.1f);
+        _breadInBreadAndSalmon = new FoodItemRecipe(_flute, _BreadAndSalmon, 1f);
+        _salmonInBreadAndSalmon = new FoodItemRecipe(_smokedSalmon, _BreadAndSalmon, 1f);
+        _butterInBreadAndSalmon = new FoodItemRecipe(_butter, _BreadAndSalmon, 0.1f);
+        _breadInBreadAndHam = new FoodItemRecipe(_flute, _BreadAndHam, 1f);
+        _hamInBreadAndHam = new FoodItemRecipe(_ham, _BreadAndHam, 1f);
+        _butterInBreadAndHam = new FoodItemRecipe(_butter, _BreadAndHam, 0.1f);
+        _eggsInEggsBaconAndSausages = new FoodItemRecipe(_egg, _EggsBaconAndSausages, 1.26f);
+        _baconInEggsBaconAndSausages = new FoodItemRecipe(_bacon, _EggsBaconAndSausages, 0.4f);
+        _sausagesInEggsBaconAndSausages = new FoodItemRecipe(_brunchSausages, _EggsBaconAndSausages, 1f);
+        _appleInFruitBowl = new FoodItemRecipe(_apple, _FruitBowl, 1f);
+        _orangeInFruitBowl = new FoodItemRecipe(_orange, _FruitBowl, 1f);
+        _pineapleInFruitBowl = new FoodItemRecipe(_pineapple, _FruitBowl, 1f);
+        _cornflakesInCereal = new FoodItemRecipe(_cornflakes, _Cereal, 1.25f);
+        _milkInCereal = new FoodItemRecipe(_milk, _Cereal, 1f);
+        _flourInPancakes = new FoodItemRecipe(_flour, _pancakes, 1.2f);
+        _milkInPancakes = new FoodItemRecipe(_milk, _pancakes, 2.5f);
+        _eggsInPancakes = new FoodItemRecipe(_egg, _pancakes, 0.9f);
+        _sugarInPancakes = new FoodItemRecipe(_sugar, _pancakes, 0.1f);
+        _butterInPancakes = new FoodItemRecipe(_butter, _pancakes, 0.3f);
+        _durumWrapInDurumKebab = new FoodItemRecipe(_tortilla, _durumKebab, 1f);
+        _kebabInDurumKebab = new FoodItemRecipe(_kebab, _durumKebab, 1.5f);
+        _dressingInDurumKebab = new FoodItemRecipe(_cremeFraiche, _durumKebab, 0.4f);
+        _icebergInDurumKebab = new FoodItemRecipe(_icebergSalad, _durumKebab, 0.4f);
+        _onionInDurumKebab = new FoodItemRecipe(_onion, _durumKebab, 0.3f);
+        _tomatoInDurumKebab = new FoodItemRecipe(_tomato, _durumKebab, 0.3f);
+        _cucumberInDurumKebab = new FoodItemRecipe(_cucumber, _durumKebab, 0.3f);
+        _durumWrapInDurumChicken = new FoodItemRecipe(_tortilla, _durumChicken, 1f);
+        _chickenInDurumChicken = new FoodItemRecipe(_chickenBreastFilet, _durumChicken, 1.5f);
+        _dressingInDurumChicken = new FoodItemRecipe(_cremeFraiche, _durumChicken, 0.4f);
+        _icebergInDurumChicken = new FoodItemRecipe(_icebergSalad, _durumChicken, 0.4f);
+        _onionInDurumChicken = new FoodItemRecipe(_onion, _durumChicken, 0.3f);
+        _tomatoInDurumChicken = new FoodItemRecipe(_tomato, _durumChicken, 0.3f);
+        _cucumberInDurumChicken = new FoodItemRecipe(_cucumber, _durumChicken, 0.3f);
+        _durumWrapInDurumMix = new FoodItemRecipe(_tortilla, _durumMix, 1f);
+        _kebabInDurumMix = new FoodItemRecipe(_kebab, _durumMix, 0.75f);
+        _chickenInDurumMix = new FoodItemRecipe(_chickenBreastFilet, _durumMix, 0.75f);
+        _dressingInDurumMix = new FoodItemRecipe(_cremeFraiche, _durumMix, 0.4f);
+        _icebergInDurumMix = new FoodItemRecipe(_icebergSalad, _durumMix, 0.4f);
+        _onionInDurumMix = new FoodItemRecipe(_onion, _durumMix, 0.3f);
+        _tomatoInDurumMix = new FoodItemRecipe(_tomato, _durumMix, 0.3f);
+        _cucumberInDurumMix = new FoodItemRecipe(_cucumber, _durumMix, 0.3f);
+        _frenchFriesInKebabBox = new FoodItemRecipe(_frenchFries, _kebabBox, 1f);
+        _kebabInKebabBox = new FoodItemRecipe(_kebab, _kebabBox, 1.5f);
+        _dressingInKebabBox = new FoodItemRecipe(_cremeFraiche, _kebabBox, 0.4f);
+        _icebergInKebabBox = new FoodItemRecipe(_icebergSalad, _kebabBox, 0.4f);
+        _onionInKebabBox = new FoodItemRecipe(_onion, _kebabBox, 0.4f);
+        _tomatoInKebabBox = new FoodItemRecipe(_tomato, _kebabBox, 0.3f);
+        _cucumberInKebabBox = new FoodItemRecipe(_cucumber, _kebabBox, 0.3f);
+        _frenchFriesInChickenBox = new FoodItemRecipe(_frenchFries, _chickenBox, 1f);
+        _chickenInChickenBox = new FoodItemRecipe(_chickenBreastFilet, _chickenBox, 1.5f);
+        _dressingInChickenBox = new FoodItemRecipe(_cremeFraiche, _chickenBox, 0.4f);
+        _icebergInChickenBox = new FoodItemRecipe(_icebergSalad, _chickenBox, 0.4f);
+        _onionInChickenBox = new FoodItemRecipe(_onion, _chickenBox, 0.3f);
+        _tomatoInChickenBox = new FoodItemRecipe(_tomato, _chickenBox, 0.3f);
+        _cucumberInChickenBox = new FoodItemRecipe(_cucumber, _chickenBox, 0.3f);
+        _frenchFriesInMixBox = new FoodItemRecipe(_frenchFries, _mixBox, 1f);
+        _kebabInMixBox = new FoodItemRecipe(_kebab, _mixBox, 0.75f);
+        _chickenInMixBox = new FoodItemRecipe(_chickenBreastFilet, _mixBox, 0.75f);
+        _dressingInMixBox = new FoodItemRecipe(_cremeFraiche, _mixBox, 0.4f);
+        _icebergInMixBox = new FoodItemRecipe(_icebergSalad, _mixBox, 0.4f);
+        _onionInMixBox = new FoodItemRecipe(_onion, _mixBox, 0.3f);
+        _tomatoInMixBox = new FoodItemRecipe(_tomato, _mixBox, 0.3f);
+        _cucumberInMixBox = new FoodItemRecipe(_cucumber, _mixBox, 0.3f);
+        _fishFilletInFishFillet = new FoodItemRecipe(_fishFillets, _fishFillet, 1.5f);
+        _ryebreadInFishFillet = new FoodItemRecipe(_ryebread, _fishFillet, 1f);
+        _remouladeInFishFillet = new FoodItemRecipe(_remoulade, _fishFillet, 0.3f);
+        _butterInFishFillet = new FoodItemRecipe(_butter, _fishFillet, 0.1f);
+        _ryebreadInRyebreadWithSalmon = new FoodItemRecipe(_ryebread, _ryebreadWithSalmon, 1f);
+        _salmonInRyebreadWithSalmon = new FoodItemRecipe(_smokedSalmon, _ryebreadWithSalmon, 1f);
+        _butterInRyebreadWithSalmon = new FoodItemRecipe(_butter, _ryebreadWithSalmon, 0.1f);
+        _ryebreadInRyebreadWithAvocado = new FoodItemRecipe(_ryebread, _ryebreadWithAvocado, 1f);
+        _avocadoInRyebreadWithAvocado = new FoodItemRecipe(_avocado, _ryebreadWithAvocado, 1.5f);
+        _butterInRyebreadWithAvocado = new FoodItemRecipe(_butter, _ryebreadWithAvocado, 0.1f);
+        _ryebreadInRyebreadPlatte = new FoodItemRecipe(_ryebread, _ryebreadPlatte, 1.5f);
+        _butterInRyebreadPlatte = new FoodItemRecipe(_butter, _ryebreadPlatte, 0.15f);
+        _avocadoInRyebreadPlatte = new FoodItemRecipe(_avocado, _ryebreadPlatte, 0.75f);
+        _salmonInRyebreadPlatte = new FoodItemRecipe(_smokedSalmon, _ryebreadPlatte, 0.5f);
+        _liverPateInRyebreadPlatte = new FoodItemRecipe(_liverpate, _ryebreadPlatte, 0.5f);
+        _tunaInGrilledToastWithTunaAndPesto = new FoodItemRecipe(_tunaWater, _grilledToastWithTunaAndPesto, 0.5f);
+        _pestoInGrilledToastWithTunaAndPesto = new FoodItemRecipe(_pesto, _grilledToastWithTunaAndPesto, 0.4f);
+        _butterInGrilledToastWithTunaAndPesto = new FoodItemRecipe(_butter, _grilledToastWithTunaAndPesto, 0.2f);
+        _toastInGrilledToastWithTunaAndPesto = new FoodItemRecipe(_toast, _grilledToastWithTunaAndPesto, 0.6f);
+        _toastInGrilledToastWithHamAndCheese = new FoodItemRecipe(_toast, _grilledToastWithHamAndCheese, 0.6f);
+        _butterInGrilledToastWithHamAndCheese = new FoodItemRecipe(_butter, _grilledToastWithHamAndCheese, 0.2f);
+        _hamInGrilledToastWithHamAndCheese = new FoodItemRecipe(_ham, _grilledToastWithHamAndCheese, 0.5f);
+        _cheeseInGrilledToastWithHamAndCheese = new FoodItemRecipe(_slicedCheese, _grilledToastWithHamAndCheese, 0.5f);
+        _breadInPaninoWithTomatoMozzarellaAndSalami = new FoodItemRecipe(_flute, _paninoWithTomatoMozzarellaAndSalami, 1f);
+        _mayoInPaninoWithTomatoMozzarellaAndSalami = new FoodItemRecipe(_mayonaise, _paninoWithTomatoMozzarellaAndSalami, 0.25f);
+        _tomatoInPaninoWithTomatoMozzarellaAndSalami = new FoodItemRecipe(_tomato, _paninoWithTomatoMozzarellaAndSalami, 0.4f);
+        _mozzarellaInPaninoWithTomatoMozzarellaAndSalami = new FoodItemRecipe(_mozzarella, _paninoWithTomatoMozzarellaAndSalami, 0.5f);
+        _salamiInPaninoWithTomatoMozzarellaAndSalami = new FoodItemRecipe(_salami, _paninoWithTomatoMozzarellaAndSalami, 0.5f);
+        _breadInHamAndCheeseSandwich = new FoodItemRecipe(_flute, _hamAndCheeseSandwich, 1f);
+        _mayoInHamAndCheeseSandwich = new FoodItemRecipe(_mayonaise, _hamAndCheeseSandwich, 0.25f);
+        _hamInHamAndCheeseSandwich = new FoodItemRecipe(_ham, _hamAndCheeseSandwich, 0.5f);
+        _cheeseInHamAndCheeseSandwich = new FoodItemRecipe(_slicedCheese, _hamAndCheeseSandwich, 0.5f);
+        _onionInRisotto = new FoodItemRecipe(_onion, _risotto, 0.25f);
+        _garlicInRisotto = new FoodItemRecipe(_garlic, _risotto, 0.01f);
+        _risottoRiceInRisotto = new FoodItemRecipe(_risottoRice, _risotto, 1f);
+        _champignonInRisotto = new FoodItemRecipe(_champignon, _risotto, 0.75f);
+        _bouillionInRisotto = new FoodItemRecipe(_vegetableBouillion, _risotto, 0.025f);
+        _parmesanCheeseInRisotto = new FoodItemRecipe(_parmesanCheese, _risotto, 0.125f);
+        _eggsInPastaCarbonara = new FoodItemRecipe(_egg, _pastaCarbonara, 0.8f);
+        _cheeseInPastaCarbonara = new FoodItemRecipe(_parmesanCheese, _pastaCarbonara, 0.2f);
+        _baconInPastaCarbonara = new FoodItemRecipe(_bacon, _pastaCarbonara, 0.25f);
+        _pastaInPastaCarbonara = new FoodItemRecipe(_pasta, _pastaCarbonara, 1f);
+        _pepperInPastaCarbonara = new FoodItemRecipe(_pepper, _pastaCarbonara, 0.025f);
+        _greekYougurtInButterChicken = new FoodItemRecipe(_greekYogurt, _butterChicken, 0.25f);
+        _chickenInButterChicken = new FoodItemRecipe(_chickenBreastFilet, _butterChicken, 1.25f);
+        _cuminInButterChicken = new FoodItemRecipe(_cumin, _butterChicken, 0.01f);
+        _butterInButterChicken = new FoodItemRecipe(_butter, _butterChicken, 0.125f);
+        _creamInButterChicken = new FoodItemRecipe(_cream, _butterChicken, 0.125f);
+        _slicedTomatoesInButterChicken = new FoodItemRecipe(_slicedTomatoes, _butterChicken, 1f);
+        _gingerInButterChicken = new FoodItemRecipe(_ginger, _butterChicken, 0.025f);
+        _chiliInCCC = new FoodItemRecipe(, , );
+        _mincedMeatInCCC = new FoodItemRecipe(, , );
+        _slicedTomatoesInCCC = new FoodItemRecipe(, , );
+        _bakedBeansInCCC = new FoodItemRecipe(, , );
+        _kidneyBeansInCCC = new FoodItemRecipe(, , );
+        _garlicInCCC = new FoodItemRecipe(, , );
+        _onionInCCC = new FoodItemRecipe(, , );
+        _oliveOilInCCC = new FoodItemRecipe(, , );
+        _mincedVealAndPorkInMBC = new FoodItemRecipe(, , );
+        _flourInMBC = new FoodItemRecipe(, , );
+        _onionInMBC = new FoodItemRecipe(, , );
+        _milkIMBC = new FoodItemRecipe(, , );
+        _eggInMBC = new FoodItemRecipe(, , );
+        _butterInMBC = new FoodItemRecipe(, , );
+        _curryInMBC = new FoodItemRecipe(, , );
+        _riceInMBC = new FoodItemRecipe(, , );
+        _steakInBeefBernaise = new FoodItemRecipe(, , );
+        _potatoesInBeefBernaise = new FoodItemRecipe(, , );
+        _greenBeansInBeefBernaise = new FoodItemRecipe(, , );
+        _bernaiseInBeefBernaise = new FoodItemRecipe(, , );
+        _pastaInPastaPuttanesca = new FoodItemRecipe(, , );
+        _slicedTomatoesInPastaPuttanesca = new FoodItemRecipe(, , );
+        _olivesInPastaPuttanesca = new FoodItemRecipe(, , );
+        _anchoviesInPastaPuttanesca = new FoodItemRecipe(, , );
+        _garlicInPastaPuttanesca = new FoodItemRecipe(, , );
+        _capersInPastaPuttanesca = new FoodItemRecipe(, , );
+        _pastaInPastaTuna = new FoodItemRecipe(, , );
+        _tunaInPastaTuna = new FoodItemRecipe(, , );
+        _capersInPastaTuna = new FoodItemRecipe(, , );
+        _lemonInPastaTuna = new FoodItemRecipe(, , );
+        _steakInSteakWithPepperSauce = new FoodItemRecipe(, , );
+        _potatoesInSteakWithPepperSauce = new FoodItemRecipe(, , );
+        _greenBeansInSteakWithPepperSauce = new FoodItemRecipe(, , );
+        _pepperSauceInSteakWithPepperSauce = new FoodItemRecipe(, , );
+        _steakInSteakWithWhiskeySauce = new FoodItemRecipe(, , );
+        _potatoesInSteakWithWhiskeySauce = new FoodItemRecipe(, , );
+        _greenBeansInSteakWithWhiskeySauce = new FoodItemRecipe(, , );
+        _whiskeySauceInSteakWithWhiskeySauce = new FoodItemRecipe(, , );
+        _tomatosInTacos = new FoodItemRecipe(, , );
+        _onionInTacos = new FoodItemRecipe(, , );
+        _avocadoInTacos = new FoodItemRecipe(, , );
+        _mincedBeefInTacos = new FoodItemRecipe(, , );
+        _garlicInTacos = new FoodItemRecipe(, , );
+        _kidneyBeansInTacos = new FoodItemRecipe(, , );
+        _limeInTacos = new FoodItemRecipe(, , );
+        _corianderInTacos = new FoodItemRecipe(, , );
+        _paprikaInTacos = new FoodItemRecipe(, , );
+        _oreganoInTacos = new FoodItemRecipe(, , );
+        _porkInHoneyGarlicFriedPorkChops = new FoodItemRecipe(, , );
+        _honeyInHoneyGarlicFriedPorkChops = new FoodItemRecipe(, , );
+        _garlicInHoneyGarlicFriedPorkChops = new FoodItemRecipe(, , );
+        _potatoesInHoneyGarlicFriedPorkChops = new FoodItemRecipe(, , );
+        _broccoliInHoneyGarlicFriedPorkChops = new FoodItemRecipe(, , );
+        _butterInHoneyGarlicFriedPorkChops = new FoodItemRecipe(, , );
+        _vinegarInHoneyCarlicFriedPorkChops = new FoodItemRecipe(, , );
+        _chickenInChickenFriedRice = new FoodItemRecipe(, , );
+        _riceInChickenFriedRice = new FoodItemRecipe(, , );
+        _onionInChickenFriedRice = new FoodItemRecipe(, , );
+        _carrotInChickenFriedRice = new FoodItemRecipe(, , );
+        _garlicInChickenFriedRice = new FoodItemRecipe(, , );
+        _oilInChickenFriedRice = new FoodItemRecipe(, , );
+        _soysauceInChickenFriedRice = new FoodItemRecipe(, , );
+        _eggInChickenFriedRice = new FoodItemRecipe(, , );
+        _saltInChickenFriedRice = new FoodItemRecipe(, , );
+        _pepperInChickenFriedRice = new FoodItemRecipe(, , );
+        _shrimpsInShrimpStirFry = new FoodItemRecipe(, , );
+        _oilInShrimpStirFry = new FoodItemRecipe(, , );
+        _garlicInShrimpStirFry = new FoodItemRecipe(, , );
+        _gingerInShrimpStirFry = new FoodItemRecipe(, , );
+        _paprikaInShrimpStirFry = new FoodItemRecipe(, , );
+        _oreganoInShrimpStirFry = new FoodItemRecipe(, , );
+        _basilInShrimpStirFry = new FoodItemRecipe(, , );
+        _lemonInShrimpStirFry = new FoodItemRecipe(, , );
+        _onionInShrimpStirFry = new FoodItemRecipe(, , );
+        _saltInShrimpStirFry = new FoodItemRecipe(, , );
+        _pepperInShrimpStirFry = new FoodItemRecipe(, , );
+        _corianderInShrimpStirFry = new FoodItemRecipe(, , );
+        _oilInSpringRolls = new FoodItemRecipe(, , );
+        _mincedPorkInSpringRolls = new FoodItemRecipe(, , );
+        _garlicInSpringRolls = new FoodItemRecipe(, , );
+        _gingerInSpringRolls = new FoodItemRecipe(, , );
+        _springOnionsInSpringRolls = new FoodItemRecipe(, , );
+        _scallionsInSpringRolls = new FoodItemRecipe(, , );
+        _oysterSauceInSpringRolls = new FoodItemRecipe(, , );
+        _soysauceInSpringRolls = new FoodItemRecipe(, , );
+        _vinegarInSpringRolls = new FoodItemRecipe(, , );
+        _phylloDoughInSpringRolls = new FoodItemRecipe(, , );
+        _limeInSpringRolls = new FoodItemRecipe(, , );
+        _corianderInSpringRolls = new FoodItemRecipe(, , );
+        _lemonInBakedSalmonAndAsparagus = new FoodItemRecipe(_lemon, _bakedSalmonAndAsparagus, 0.3f);
+        _salmonInBakedSalmonAndAsparagus = new FoodItemRecipe(_salmon,_bakedSalmonAndAsparagus, 2.5f);
+        _asparagusInBakedSalmonAndAsparagus = new FoodItemRecipe(_asparagus,_bakedSalmonAndAsparagus, 1f);
+        _butterInBakedSalmonAndAsparagus = new FoodItemRecipe(_butter,_bakedSalmonAndAsparagus, 0.1);
+        _garlicInBakedSalmonAndAsparagus = new FoodItemRecipe(_garlic,_bakedSalmonAndAsparagus ,0.05);
+        _crackersInCWP = new FoodItemRecipe(_crackers,_crackerswithpesti ,0.5);
+        _pestiInCWP = new FoodItemRecipe(_pesto,_crackerswithpesti,0.2);
+        _salamiInSSOAC = new FoodItemRecipe(_salami,_salamisticksolivecheese,0.25);
+        _oliveInSSOAC = new FoodItemRecipe(_olive,_salamisticksolivecheese,0.25);
+        _cheeseInSSOAC = new FoodItemRecipe(_cheese,_salamisticksolivecheese,0.25);
+        _salamiInSS = new FoodItemRecipe(_salami,_salamiSticks, 0.25);
+        _appleinACOS = new FoodItemRecipe(_apple,_applecarrotorangesmoothie, 1);
+        _orangeinACOS = new FoodItemRecipe(_orange,_applecarrotorangesmoothie, 1);
+        _carrotinACOS = new FoodItemRecipe(_carrot, _applecarrotorangesmoothie,1);
+        _milkinACOS = new FoodItemRecipe(_milk,_applecarrotorangesmoothie,1);
+        _blueberriesinBS = new FoodItemRecipe(_blueberry,_blueberrysmoothie,1);
+        _milkInBS = new FoodItemRecipe(_milk,_blueberrysmoothie,1);
+        _mangoInMS = new FoodItemRecipe(_mango, _mangosmoothie, 1.5);
+        _milkInMS = new FoodItemRecipe(_milk, _mangosmoothie, 1);
+        _bananaInSBS = new FoodItemRecipe(_banana,_strawberryBananaSmoothie, 1);
+        _strawberryInSBS = new FoodItemRecipe(_strawberry,_strawberryBananaSmoothie, 1);
+        _milkInSBS = new FoodItemRecipe(_milk,_strawberryBananaSmoothie, 1);
+        _blackberryInBSFM = new FoodItemRecipe(_blackberry,_blackberryStrawberryfruitMix,0.3);
+        _strawberryInBSFM = new FoodItemRecipe(_strawberry,_blackberryStrawberryfruitMix,0.3);
+        _raspberryInRBFM = new FoodItemRecipe(_raspberry,_raspberryBlueberryfruitMix,0.6);
+        _blueberryInRBFM = new FoodItemRecipe(_blueberry, _raspberryBlueberryfruitMix,0.3);
+        _appleInAOPFM = new FoodItemRecipe(_apple,_appleOrangePearfruitMix, 0.2);
+        _orangeInAOPFM = new FoodItemRecipe(_orange,_appleOrangePearfruitMix, 0.2);
+        _pearInAOPFM = new FoodItemRecipe(_pear,_appleOrangePearfruitMix, 0.2);
+        _pineappleInPOFM = new FoodItemRecipe(_pineapple,_pineappleOrangefruitMix,0.3); 
+        _orangeInPOFM = new FoodItemRecipe(_orange,_pineappleOrangefruitMix,0.3);
+        _raisinInARM = new FoodItemRecipe(_raisin,_almondRaisinMix,0.3);
+        _almondInARM = new FoodItemRecipe(_almond,_almondRaisinMix,0.3);
+        _pistachioinPNM = new FoodItemRecipe(_pistachio,_pistachioNutMix,0.6);
+        _peanutInCPM = new FoodItemRecipe(_peanut,_cashewPeanutNutMix,0.3);
+        _cashewInCPM = new FoodItemRecipe(_cashewnut,_cashewPeanutNutMix,0.3);
+        _mincedVealAndPorkInFWR = new FoodItemRecipe(_mincedVealAndPork,_frikadellerWithRice,1);
+        _eggInFWR = new FoodItemRecipe(_egg,_frikadellerWithRice,0.35);
+        _flourInFWR = new FoodItemRecipe(_flour,_frikadellerWithRice, 0.10);
+        _riceInFWR = new FoodItemRecipe(_rice,_frikadellerWithRice ,0.5);
+        _onionInFWR = new FoodItemRecipe(_onion,_frikadellerWithRice,0.2);
+        _oliveOilInFWR = new FoodItemRecipe(_oliveOil,_frikadellerWithRice, 0.1);
+        _saltInFWR = new FoodItemRecipe(_salt,_frikadellerWithRice, 0.005);
+        _pepperInFWR = new FoodItemRecipe(_pepper,_frikadellerWithRice,0.005);
+        _tortillasInTortillas = new FoodItemRecipe(_tortillas,_tortillas,1);
+        _mincedMeatInTortillas = new FoodItemRecipe(_mincedmeat,tortillas, 0.6);
+        _bellPepperInTortillas = new FoodItemRecipe(_bellpepper,_tortillas, 0.5);
+        _cremeFraicheInTortillas = new FoodItemRecipe(_cremeFraiche,_tortillas,0.15);
+        _avocadoInTortillas = new FoodItemRecipe(_avocado,_tortillas,1);
+        _lemonInTortillas = new FoodItemRecipe(_lemon,_tortillas,0.1);
+        _garlicInTortillas = new FoodItemRecipe(_garlic,_tortillas,0.1);
+        _cucumberInTortillas = new FoodItemRecipe(_cucumber,_tortillas, 0.5);
+        _tomatoInTortillas = new FoodItemRecipe(_tomato,_tortillas,0.5);
+        _lambInLWP = new FoodItemRecipe(_lamb,_lambChopWithPotatoes,1.5);
+        _potatoesInLWP = new FoodItemRecipe(_potatoes,_lambChopWithPotatoes,1.5);
+        _oliveOilInLWP = new FoodItemRecipe(_oliveOil,_lambChopWithPotatoes, 0.005);
+        _saltInLWP = new FoodItemRecipe(_salt,_lambChopWithPotatoes, 0.005);
+        _pepperInLWP = new FoodItemRecipe(_pepper,_lambChopWithPotatoes, 0.005);
+        _garlicInLWP = new FoodItemRecipe(_garlic,_lambChopWithPotatoes, 0.1);
+        _pastaInVL = new FoodItemRecipe(_pasta, meatLasagna, 1);
+        _carrotInVL = new FoodItemRecipe(_carrot, meatLasagna, 0.25);
+        _bellPepperInVL = new FoodItemRecipe(_bellPepper, meatLasagna, 0.25);
+        _garlicInVL = new FoodItemRecipe(garlic,meatLasagna, 0.08);
+        _saltInVL = new FoodItemRecipe(salt,_meatLasagna, 0.005);
+        _slicedTomatoesInVL = new FoodItemRecipe(_slicedTomatoes, _meatLasagna,0.25);
+        _mozzarellaInVL = new FoodItemRecipe(_mozzarella,_meatLasagna,0.25);
+        _mincedMeatInML = new FoodItemRecipe(_mincedMeat,meatLasagna, 1);
+        _pastaInML = new FoodItemRecipe(_pasta, meatLasagna, 1);
+        _carrotInML = new FoodItemRecipe(_carrot, meatLasagna, 0.25);
+        _bellPepperInML = new FoodItemRecipe(_bellPepper, meatLasagna, 0.25);
+        _garlicInML = new FoodItemRecipe(garlic,meatLasagna, 0.08);
+        _saltInML = new FoodItemRecipe(salt,_meatLasagna, 0.005);
+        _slicedTomatoesInML = new FoodItemRecipe(_slicedTomatoes, _meatLasagna,0.25);
+        _mozzarellaInML = new FoodItemRecipe(_mozzarella,_meatLasagna,0.25);
     }
 
 
