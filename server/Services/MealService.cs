@@ -1,4 +1,5 @@
-namespace server.Core.Services;
+namespace server.Services;
+using server.Core.EF;
 
 public interface IMealService
 {

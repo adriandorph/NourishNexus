@@ -1,6 +1,6 @@
 using server.Infrastructure;
 using server.Core.EF.RepositoryInterfaces;
-using server.Core.Services;
+using server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

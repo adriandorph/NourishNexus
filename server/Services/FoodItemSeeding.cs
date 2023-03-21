@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace server.Core.Services;
+namespace server.Services;
 
 
 public class FoodItemSeeding

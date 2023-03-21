@@ -1,0 +1,109 @@
+@page "/createRecipe"
+@using Microsoft.AspNetCore.Components.Web
+@using server.Core.EF.DTO;
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Recipe</PageTitle>
+
+<h1>Create Recipe</h1>
+
+
+        <EditForm Model="@recipe" OnValidSubmit="@HandleValidSubmit" class="pb-4" Context="formContext">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <InputText id="Title" @bind-Value="recipe.Title" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <InputTextArea id="Description" @bind-Value="recipe.Description" class="form-control" rows="7"/>
+            </div>
+
+            <div class="form-group">
+                <label for="Method">Method</label>
+                <InputTextArea id="Method" class="form-control" @bind-Value="recipe.Method" rows="7"/>
+            </div>
+
+            <InputSelect id="Categories" class="mt-2 form-control" @bind-Value="recipe.CategoryIDs">
+                @foreach (var category in AllCategories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </InputSelect>
+
+            <div class="row">&#8205;</div>
+
+            <div class="form-group">
+                <div>Recipe visibility</div>
+                <InputRadioGroup @bind-Value="recipe.IsPublic">
+                    <InputRadio id="Public" Value="true" class="form-check-input" /><label class="form-check-label" for="Public">Public</label>
+                    <InputRadio id="Private" Value="false" class="form-check-input" /><label class="form-check-label" for="Private">Private</label>
+                </InputRadioGroup>
+            </div>
+            <div class="form-group">
+                <p>If you choose to create a private recipe, it will not be visible to other users.</p>
+            </div>
+            <div class="form-group">
+                <br />
+                <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
+                <button type="submit" class="btn btn-success btn-block">Post</button>
+            </div>
+        </EditForm>
+
+@code{
+    private RecipeCreateDTO recipe = new();
+    private ISet<string> AllTags = new HashSet<string>();
+    private ISet<string> CreatedTags = new HashSet<string>();
+    private ICollection<CategoryDTO> AllCategories = new List<CategoryDTO>();
+    private UserDTO Author;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            this.AllCategories = await GetAllCategories();
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(":((( {0}",exception.Message);
+        }
+
+        //recipe.CategoryIDs = [1];
+    }
+    private async Task HandleValidSubmit()
+    {   
+        Console.WriteLine("This is executed!");
+        recipe.AuthorId = Author.Id;
+
+        var response = await Http.PostAsJsonAsync("api/Recipes/Post", recipe);
+        if (response.IsSuccessStatusCode)
+        {   
+            var created = await response.Content.ReadFromJsonAsync<RecipeDTO>();
+
+            var uri = $"{NavigationManager.BaseUri}recipes/{created?.Id}";
+
+            NavigationManager.NavigateTo(uri);
+        }
+    }
+
+    private void Cancel()
+    {
+        var uri = $"{NavigationManager.BaseUri}";
+
+        NavigationManager.NavigateTo(uri);
+    }
+
+    private void Save()
+    {
+        
+    }
+
+    //this will probably not be very smart in case of a lot of categories existing. Limit to a small number? Optimal would be to add search method
+    private async Task<ICollection<CategoryDTO>> GetAllCategories()
+    {
+        return await Http.GetFromJsonAsync<ICollection<CategoryDTO>>($"api/Categories");
+    }
+}
