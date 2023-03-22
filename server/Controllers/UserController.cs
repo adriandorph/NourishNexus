@@ -23,7 +23,7 @@ public class UserController : ControllerBase
         {
             (Response r, UserDTO dto) = await _userRepo.CreateAsync(user);
             if (r == Core.Response.Created) return Ok("Success");
-            else if (r == Core.Response.Conflict) return Conflict("User already has a user with that email.");
+            else if (r == Core.Response.Conflict) return Conflict("System already has a user with that email.");
             else if (r == Core.Response.BadRequest) return BadRequest("Bad Request");
             else return StatusCode(500, "An unknown error occured");
         }

@@ -1,41 +1,33 @@
 @page "/register"
-
-@using System.Net.Http.Json
 @using server.Core.EF.DTO
-@inject HttpClient httpClient
-@inject NavigationManager navigationManager
+@inject UserService UserService
 
 <PageTitle> Register </PageTitle>
 
 <h1>Register</h1>
 
 <EditForm Model="user" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator/>
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" required />
-    </div>
-
-    <div class="mb-3">
-        <label for="password">Password</label>
-        <InputText id="password" @bind-Value="user.Email" />
-    </div>
+        <InputText id="email" @bind-Value="user.Email" class ="form-control"/>
+        <ValidationMessage For="@(() => user.Email)" />   
+        </div>
 
     <button type="submit" class="btn btn-primary">Register</button>
+    <div class ="text-danger">
+        <span>@errorMessage</span>
+    </div>
 </EditForm>
 
 @code {
     private UserCreateDTO user = new UserCreateDTO();
 
+    string errorMessage = string.Empty;
+
+
     private async Task HandleRegistration()
     {
-        var response = await httpClient.PostAsJsonAsync("/api/user", user);
-        if (response.IsSuccessStatusCode)
-        {
-            navigationManager.NavigateTo("/login");
-        }
-        else
-        {
-            // Handle error response
-        }
+       var result = await UserService.RegisterUser(user);
     }
 }
