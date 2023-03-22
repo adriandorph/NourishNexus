@@ -79,10 +79,6 @@ public class User
     public float? VitaminEII {get; set;}
     public float? VitaminEUB {get; set;}
 
-    public float? VitaminK1LB {get; set;}
-    public float? VitaminK1II {get; set;}
-    public float? VitaminK1UB {get; set;}
-
     public float? ThiaminLB {get; set;}
     public float? ThiaminII {get; set;}
     public float? ThiaminUB {get; set;}
@@ -130,10 +126,6 @@ public class User
     public float? IodineLB {get; set;}
     public float? IodineII {get; set;}
     public float? IodineUB {get; set;}
-
-    public float? NickelLB {get; set;}
-    public float? NickelII {get; set;}
-    public float? NickelUB {get; set;}
 
     public float? SeleniumLB {get; set;}
     public float? SeleniumII {get; set;}
@@ -217,9 +209,6 @@ public class User
                 this.VitaminELB,
                 this.VitaminEII,
                 this.VitaminEUB,
-                this.VitaminK1LB,
-                this.VitaminK1II,
-                this.VitaminK1UB,
                 this.ThiaminLB,
                 this.ThiaminII,
                 this.ThiaminUB,
@@ -256,9 +245,6 @@ public class User
                 this.IodineLB,
                 this.IodineII,
                 this.IodineUB,
-                this.NickelLB,
-                this.NickelII,
-                this.NickelUB,
                 this.SeleniumLB,
                 this.SeleniumII,
                 this.SeleniumUB,

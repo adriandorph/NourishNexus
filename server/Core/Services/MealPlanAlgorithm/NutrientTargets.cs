@@ -23,7 +23,6 @@ public class NutrientTargets
     public float VitaminC {get; set;} = 0f;
     public float VitaminD {get; set;} = 0f;
     public float VitaminE {get; set;} = 0f;
-    public float VitaminK1 {get; set;} = 0f;
     public float Thiamin {get; set;} = 0f;
     public float Riboflavin {get; set;} = 0f;
     public float Niacin {get; set;} = 0f;
@@ -38,7 +37,6 @@ public class NutrientTargets
     public float Phosphorus {get; set;} = 0f;
     public float Copper {get; set;} = 0f;
     public float Iodine {get; set;} = 0f;
-    public float Nickel {get; set;} = 0f;
     public float Selenium {get; set;} = 0f;
     public float Calcium {get; set;} = 0f;
 
@@ -60,7 +58,6 @@ public class NutrientTargets
             VitaminC = a.VitaminC + b.VitaminC,
             VitaminD = a.VitaminD + b.VitaminD,
             VitaminE = a.VitaminE + b.VitaminE,
-            VitaminK1 = a.VitaminK1 + b.VitaminK1,
             Thiamin = a.Thiamin + b.Thiamin,
             Riboflavin = a.Riboflavin + b.Riboflavin,
             Niacin = a.Niacin + b.Niacin,
@@ -73,7 +70,6 @@ public class NutrientTargets
             Phosphorus = a.Phosphorus + b.Phosphorus,
             Copper = a.Copper + b.Copper,
             Iodine = a.Iodine + b.Iodine,
-            Nickel = a.Nickel + b.Nickel,
             Selenium = a.Selenium + b.Selenium,
             Calcium = a.Calcium + b.Calcium
         };
@@ -96,7 +92,6 @@ public class NutrientTargets
             VitaminC = fi.FoodItem!.VitaminC * fi.Amount,
             VitaminD = fi.FoodItem!.VitaminD * fi.Amount,
             VitaminE = fi.FoodItem!.VitaminE * fi.Amount,
-            VitaminK1 = fi.FoodItem!.VitaminK1 * fi.Amount,
             Thiamin = fi.FoodItem!.Thiamin * fi.Amount,
             Riboflavin = fi.FoodItem!.Riboflavin * fi.Amount,
             Niacin = fi.FoodItem!.Niacin * fi.Amount,
@@ -109,7 +104,6 @@ public class NutrientTargets
             Phosphorus = fi.FoodItem!.Phosphorus * fi.Amount,
             Copper = fi.FoodItem!.Copper * fi.Amount,
             Iodine = fi.FoodItem!.Iodine * fi.Amount,
-            Nickel = fi.FoodItem!.Nickel * fi.Amount,
             Selenium = fi.FoodItem!.Selenium * fi.Amount,
             Calcium = fi.FoodItem!.Calcium * fi.Amount
         };
@@ -132,7 +126,6 @@ public class NutrientTargets
             VitaminC = a.VitaminC / b.VitaminC,
             VitaminD = a.VitaminD / b.VitaminD,
             VitaminE = a.VitaminE / b.VitaminE,
-            VitaminK1 = a.VitaminK1 / b.VitaminK1,
             Thiamin = a.Thiamin / b.Thiamin,
             Riboflavin = a.Riboflavin / b.Riboflavin,
             Niacin = a.Niacin / b.Niacin,
@@ -145,7 +138,6 @@ public class NutrientTargets
             Phosphorus = a.Phosphorus / b.Phosphorus,
             Copper = a.Copper / b.Copper,
             Iodine = a.Iodine / b.Iodine,
-            Nickel = a.Nickel / b.Nickel,
             Selenium = a.Selenium / b.Selenium,
             Calcium = a.Calcium / b.Calcium
         };
@@ -168,7 +160,6 @@ public class NutrientTargets
             VitaminC = a.VitaminC * b.VitaminC,
             VitaminD = a.VitaminD * b.VitaminD,
             VitaminE = a.VitaminE * b.VitaminE,
-            VitaminK1 = a.VitaminK1 * b.VitaminK1,
             Thiamin = a.Thiamin * b.Thiamin,
             Riboflavin = a.Riboflavin * b.Riboflavin,
             Niacin = a.Niacin * b.Niacin,
@@ -181,7 +172,6 @@ public class NutrientTargets
             Phosphorus = a.Phosphorus * b.Phosphorus,
             Copper = a.Copper * b.Copper,
             Iodine = a.Iodine * b.Iodine,
-            Nickel = a.Nickel * b.Nickel,
             Selenium = a.Selenium * b.Selenium,
             Calcium = a.Calcium * b.Calcium,
         };
@@ -204,7 +194,6 @@ public class NutrientTargets
             VitaminC = a.VitaminC * scale,
             VitaminD = a.VitaminD * scale,
             VitaminE = a.VitaminE * scale,
-            VitaminK1 = a.VitaminK1 * scale,
             Thiamin = a.Thiamin * scale,
             Riboflavin = a.Riboflavin * scale,
             Niacin = a.Niacin * scale,
@@ -217,7 +206,6 @@ public class NutrientTargets
             Phosphorus = a.Phosphorus * scale,
             Copper = a.Copper * scale,
             Iodine = a.Iodine * scale,
-            Nickel = a.Nickel * scale,
             Selenium = a.Selenium * scale,
             Calcium = a.Calcium * scale
         };
@@ -240,7 +228,6 @@ public class NutrientTargets
         if(a.VitaminC < b.VitaminC) return false;
         if(a.VitaminD < b.VitaminD) return false;
         if(a.VitaminE < b.VitaminE) return false;
-        if(a.VitaminK1 < b.VitaminK1) return false;
         if(a.Thiamin < b.Thiamin) return false;
         if(a.Riboflavin < b.Riboflavin) return false;
         if(a.Niacin < b.Niacin) return false;
@@ -253,7 +240,6 @@ public class NutrientTargets
         if(a.Phosphorus < b.Phosphorus) return false;
         if(a.Copper < b.Copper) return false;
         if(a.Iodine < b.Iodine) return false;
-        if(a.Nickel < b.Nickel) return false;
         if(a.Selenium < b.Selenium) return false;
         if(a.Calcium < b.Calcium) return false;
         return true;
@@ -277,7 +263,6 @@ public class NutrientTargets
         if(a.VitaminC > b.VitaminC) return false;
         if(a.VitaminD > b.VitaminD) return false;
         if(a.VitaminE > b.VitaminE) return false;
-        if(a.VitaminK1 > b.VitaminK1) return false;
         if(a.Thiamin > b.Thiamin) return false;
         if(a.Riboflavin > b.Riboflavin) return false;
         if(a.Niacin > b.Niacin) return false;
@@ -290,7 +275,6 @@ public class NutrientTargets
         if(a.Phosphorus > b.Phosphorus) return false;
         if(a.Copper > b.Copper) return false;
         if(a.Iodine > b.Iodine) return false;
-        if(a.Nickel > b.Nickel) return false;
         if(a.Selenium > b.Selenium) return false;
         if(a.Calcium > b.Calcium) return false;
         return true;
@@ -314,7 +298,6 @@ public class NutrientTargets
         if(a.VitaminC <= b.VitaminC) return false;
         if(a.VitaminD <= b.VitaminD) return false;
         if(a.VitaminE <= b.VitaminE) return false;
-        if(a.VitaminK1 <= b.VitaminK1) return false;
         if(a.Thiamin <= b.Thiamin) return false;
         if(a.Riboflavin <= b.Riboflavin) return false;
         if(a.Niacin <= b.Niacin) return false;
@@ -327,7 +310,6 @@ public class NutrientTargets
         if(a.Phosphorus <= b.Phosphorus) return false;
         if(a.Copper <= b.Copper) return false;
         if(a.Iodine <= b.Iodine) return false;
-        if(a.Nickel <= b.Nickel) return false;
         if(a.Selenium <= b.Selenium) return false;
         if(a.Calcium <= b.Calcium) return false;
         return true;
@@ -350,7 +332,6 @@ public class NutrientTargets
         if(a.VitaminC >= b.VitaminC) return false;
         if(a.VitaminD >= b.VitaminD) return false;
         if(a.VitaminE >= b.VitaminE) return false;
-        if(a.VitaminK1 >= b.VitaminK1) return false;
         if(a.Thiamin >= b.Thiamin) return false;
         if(a.Riboflavin >= b.Riboflavin) return false;
         if(a.Niacin >= b.Niacin) return false;
@@ -363,7 +344,6 @@ public class NutrientTargets
         if(a.Phosphorus >= b.Phosphorus) return false;
         if(a.Copper >= b.Copper) return false;
         if(a.Iodine >= b.Iodine) return false;
-        if(a.Nickel >= b.Nickel) return false;
         if(a.Selenium >= b.Selenium) return false;
         if(a.Calcium >= b.Calcium) return false;
         return true;
@@ -388,7 +368,6 @@ public class NutrientTargets
         if(this.VitaminC < b.VitaminC) count++;
         if(this.VitaminD < b.VitaminD) count++;
         if(this.VitaminE < b.VitaminE) count++;
-        if(this.VitaminK1 < b.VitaminK1) count++;
         if(this.Thiamin < b.Thiamin) count++;
         if(this.Riboflavin < b.Riboflavin) count++;
         if(this.Niacin < b.Niacin) count++;
@@ -401,7 +380,6 @@ public class NutrientTargets
         if(this.Phosphorus < b.Phosphorus) count++;
         if(this.Copper < b.Copper) count++;
         if(this.Iodine < b.Iodine) count++;
-        if(this.Nickel < b.Nickel) count++;
         if(this.Selenium < b.Selenium) count++;
         if(this.Calcium < b.Calcium) count++;
         return count;
@@ -425,7 +403,6 @@ public class NutrientTargets
         if(this.VitaminC > b.VitaminC) count++;
         if(this.VitaminD > b.VitaminD) count++;
         if(this.VitaminE > b.VitaminE) count++;
-        if(this.VitaminK1 > b.VitaminK1) count++;
         if(this.Thiamin > b.Thiamin) count++;
         if(this.Riboflavin > b.Riboflavin) count++;
         if(this.Niacin > b.Niacin) count++;
@@ -438,7 +415,6 @@ public class NutrientTargets
         if(this.Phosphorus > b.Phosphorus) count++;
         if(this.Copper > b.Copper) count++;
         if(this.Iodine > b.Iodine) count++;
-        if(this.Nickel > b.Nickel) count++;
         if(this.Selenium > b.Selenium) count++;
         if(this.Calcium > b.Calcium) count++;
         return count;

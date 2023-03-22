@@ -278,10 +278,10 @@ public class MealServiceTests
         // values = 1.5
 
         //FoodItem
-        var foodItem1 = new FoodItem("Kiwi",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
-        var foodItem2 = new FoodItem("Apple",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
-        var ægg = new FoodItem("Ægg", 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
-        var pasta = new FoodItem("Pasta", 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
+        var foodItem1 = new FoodItem("Kiwi",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
+        var foodItem2 = new FoodItem("Apple",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
+        var ægg = new FoodItem("Ægg", 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
+        var pasta = new FoodItem("Pasta", 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
         //Relations
         var rm1 = new RecipeMeal(recipe1, meal1, 2);
         var rm2 = new RecipeMeal(recipe2, meal2, 1);
@@ -347,7 +347,6 @@ public class MealServiceTests
                 Assert.Equal(3, mni.VitaminC);
                 Assert.Equal(3, mni.VitaminD);
                 Assert.Equal(3, mni.VitaminE);
-                Assert.Equal(3, mni.VitaminK1);
                 Assert.Equal(3, mni.Thiamin);
                 Assert.Equal(3, mni.Riboflavin);
                 Assert.Equal(3, mni.Niacin);
@@ -360,7 +359,6 @@ public class MealServiceTests
                 Assert.Equal(3, mni.Phosphorus);
                 Assert.Equal(3, mni.Copper);
                 Assert.Equal(3, mni.Iodine);
-                Assert.Equal(3, mni.Nickel);
                 Assert.Equal(3, mni.Selenium);
                 Assert.Equal(3, mni.Calcium);
             },
@@ -382,7 +380,6 @@ public class MealServiceTests
                 Assert.Equal(3.75f, mni.VitaminC);
                 Assert.Equal(3.75f, mni.VitaminD);
                 Assert.Equal(3.75f, mni.VitaminE);
-                Assert.Equal(3.75f, mni.VitaminK1);
                 Assert.Equal(3.75f, mni.Thiamin);
                 Assert.Equal(3.75f, mni.Riboflavin);
                 Assert.Equal(3.75f, mni.Niacin);
@@ -395,7 +392,6 @@ public class MealServiceTests
                 Assert.Equal(3.75f, mni.Phosphorus);
                 Assert.Equal(3.75f, mni.Copper);
                 Assert.Equal(3.75f, mni.Iodine);
-                Assert.Equal(3.75f, mni.Nickel);
                 Assert.Equal(3.75f, mni.Selenium);
                 Assert.Equal(3.75f, mni.Calcium);
             }

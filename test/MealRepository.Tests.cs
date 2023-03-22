@@ -34,8 +34,8 @@ public class MealRepositoryTests
 
         _recipe = new Recipe("Apples and Oranges", true, "Both apples and oranges in one", "Slice and eat", 1, new List<Category>{_category1, _category2}, false, false, false, true);
 
-        _foodItem1 = new FoodItem("Apple", 100, 2, 50, 30, 5, 0, 0, 0, 0, 0, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
-        _foodItem2 = new FoodItem("Orange", 100, 2, 50, 30, 5, 0, 0, 0, 0, 0, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
+        _foodItem1 = new FoodItem("Apple", 100, 2, 50, 30, 5, 0, 0, 0, 0, 0, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
+        _foodItem2 = new FoodItem("Orange", 100, 2, 50, 30, 5, 0, 0, 0, 0, 0, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
 
         context.Users.Add(_user);
         context.Categories.Add(_category1);

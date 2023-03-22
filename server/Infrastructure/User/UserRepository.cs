@@ -129,10 +129,6 @@ public class UserRepository : IUserRepository
         if(user.VitaminEII != null) userEntity.VitaminEII = user.VitaminEII;
         if(user.VitaminEUB != null) userEntity.VitaminEUB = user.VitaminEUB;
 
-        if(user.VitaminK1LB != null) userEntity.VitaminK1LB = user.VitaminK1LB;
-        if(user.VitaminK1II != null) userEntity.VitaminK1II = user.VitaminK1II;
-        if(user.VitaminK1UB != null) userEntity.VitaminK1UB = user.VitaminK1UB;
-
         if(user.ThiaminLB != null) userEntity.ThiaminLB = user.ThiaminLB;
         if(user.ThiaminII != null) userEntity.ThiaminII = user.ThiaminII;
         if(user.ThiaminUB != null) userEntity.ThiaminUB = user.ThiaminUB;
@@ -180,10 +176,6 @@ public class UserRepository : IUserRepository
         if(user.IodineLB != null) userEntity.IodineLB = user.IodineLB;
         if(user.IodineII != null) userEntity.IodineII = user.IodineII;
         if(user.IodineUB != null) userEntity.IodineUB = user.IodineUB;
-
-        if(user.NickelLB != null) userEntity.NickelLB = user.NickelLB;
-        if(user.NickelII != null) userEntity.NickelII = user.NickelII;
-        if(user.NickelUB != null) userEntity.NickelUB = user.NickelUB;
 
         if(user.SeleniumLB != null) userEntity.SeleniumLB = user.SeleniumLB;
         if(user.SeleniumII != null) userEntity.SeleniumII = user.SeleniumII;

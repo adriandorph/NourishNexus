@@ -88,10 +88,6 @@ public record UserUpdateDTO : UserCreateDTO
     public float? VitaminEII {get; set;}
     public float? VitaminEUB {get; set;}
 
-    public float? VitaminK1LB {get; set;}
-    public float? VitaminK1II {get; set;}
-    public float? VitaminK1UB {get; set;}
-
     public float? ThiaminLB {get; set;}
     public float? ThiaminII {get; set;}
     public float? ThiaminUB {get; set;}
@@ -139,10 +135,6 @@ public record UserUpdateDTO : UserCreateDTO
     public float? IodineLB {get; set;}
     public float? IodineII {get; set;}
     public float? IodineUB {get; set;}
-
-    public float? NickelLB {get; set;}
-    public float? NickelII {get; set;}
-    public float? NickelUB {get; set;}
 
     public float? SeleniumLB {get; set;}
     public float? SeleniumII {get; set;}
@@ -226,10 +218,6 @@ public record UserNutritionDTO(
     float? VitaminEII,
     float? VitaminEUB,
 
-    float? VitaminK1LB,
-    float? VitaminK1II,
-    float? VitaminK1UB,
-
     float? ThiaminLB,
     float? ThiaminII,
     float? ThiaminUB,
@@ -277,10 +265,6 @@ public record UserNutritionDTO(
     float? IodineLB,
     float? IodineII,
     float? IodineUB,
-
-    float? NickelLB,
-    float? NickelII,
-    float? NickelUB,
 
     float? SeleniumLB,
     float? SeleniumII,

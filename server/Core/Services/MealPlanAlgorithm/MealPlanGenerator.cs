@@ -1,3 +1,5 @@
+using Microsoft.IdentityModel.Tokens;
+
 namespace server.Core.Services.MealPlan;
 
 public interface IMealPlanGenerator
@@ -32,10 +34,10 @@ public class MealPlanGenerator
         _categoryRepo = categoryRepo;
     }
 
-    public async Task<Response> Generate7DayMealPlan(int userID, DateTime startingDate)
+    public async Task<DietReport> Generate7DayMealPlan(int userID, DateTime startingDate)
     {
         //Initial checks
-        if (!(await UserPrerequisites(userID))) return Response.Cancelled;
+        if (!(await UserPrerequisites(userID))) return new DietReport(null,null,null,null, Response.Cancelled);
 
         var userResult = await _userRepo.ReadWithNutritionByIDAsync(userID);
         if (userResult.IsNone) throw new Exception("User not found");
@@ -52,27 +54,68 @@ public class MealPlanGenerator
         List<RecipeDTO> recipes = await CreateRecipeList(user, startingDate);
 
         //Insert recipes
-        MealPlan mealPlan = await CreateInitialMealPlan(recipes, userID, calorieTargets);
+        MealPlan mealPlan = await CreateInitialMealPlan(recipes, userID, calorieTargets, startingDate);
         
         // Ideal Intake met/exceeded?
         while(!(mealPlan.CalculateNutrientSums() >= IdealIntake))
         {
-            if (recipes.Count == 0) return await FailPlan(mealPlan);
-            await ReplaceLowest(mealPlan, IdealIntake, recipes, calorieTargets);
+            Console.WriteLine("\nReplace lowest");
+            var r = await ReplaceLowestMeals(mealPlan, IdealIntake, recipes, calorieTargets);
+            if (r == Response.Fail)
+            {
+                await InsertPlan(mealPlan);
+                return new DietReport(
+                    LowerBounds,
+                    IdealIntake,
+                    UpperBounds,
+                    mealPlan.CalculateNutrientSums(),
+                    Response.Fail
+                );
+            }
         }
         //Is UpperBounds exceeded?
         while(mealPlan.CalculateNutrientSums() > UpperBounds)
         {
-            if (recipes.Count == 0) return await FailPlan(mealPlan);
-            await ReplaceHighest(mealPlan, UpperBounds, recipes, calorieTargets);
+            Console.WriteLine("\nReplace highest");
+            var r = await ReplaceHighest(mealPlan, UpperBounds, recipes, calorieTargets);
+            if (r == Response.Fail) 
+            {
+                await InsertPlan(mealPlan);
+                return new DietReport(
+                    LowerBounds,
+                    IdealIntake,
+                    UpperBounds,
+                    mealPlan.CalculateNutrientSums(),
+                    Response.Fail
+                );
+            }
             while(!(mealPlan.CalculateNutrientSums() >= LowerBounds))
             {
-                await ReplaceLowest(mealPlan, LowerBounds, recipes, calorieTargets);
+                Console.WriteLine("\nReplace lowest after replacing highest");
+                r = await ReplaceLowestMeals(mealPlan, LowerBounds, recipes, calorieTargets);
+                if (r == Response.Fail)
+                {
+                    await InsertPlan(mealPlan);
+                    return new DietReport(
+                        LowerBounds,
+                        IdealIntake,
+                        UpperBounds,
+                        mealPlan.CalculateNutrientSums(),
+                        Response.Fail
+                    );
+                }
             }
         }
 
+        var response = await InsertPlan(mealPlan);
         //Insert meal plan
-        return await InsertPlan(mealPlan);
+        return new DietReport(
+            LowerBounds,
+            IdealIntake,
+            UpperBounds,
+            mealPlan.CalculateNutrientSums(),
+            response
+        );
     }
 
     //Helper methods
@@ -80,7 +123,6 @@ public class MealPlanGenerator
     {
         //Check if intake targets are set
         if (!(await IsNutritionSet(userID))) return false;
-        //TODO: Add upper bounds, lower bound and ideal intake to User
 
         //Check if user has enough recipes
         return (await _recipeRepo.ReadAllByAuthorIDAsync(userID)).Count >= MinRecipes;
@@ -106,7 +148,6 @@ public class MealPlanGenerator
         lowerBounds.VitaminC = user.VitaminCLB ?? 0f;
         lowerBounds.VitaminD = user.VitaminDLB ?? 0f;
         lowerBounds.VitaminE = user.VitaminELB ?? 0f;
-        lowerBounds.VitaminK1 = user.VitaminK1LB ?? 0f;
         lowerBounds.Thiamin = user.ThiaminLB ?? 0f;
         lowerBounds.Riboflavin = user.RiboflavinLB ?? 0f;
         lowerBounds.Niacin = user.NiacinLB ?? 0f;
@@ -119,52 +160,86 @@ public class MealPlanGenerator
         lowerBounds.Phosphorus = user.PhosphorusLB ?? 0f;
         lowerBounds.Copper = user.CopperLB ?? 0f;
         lowerBounds.Iodine = user.IodineLB ?? 0f;
-        lowerBounds.Nickel = user.NickelLB ?? 0f;
         lowerBounds.Selenium = user.SeleniumLB ?? 0f;
         lowerBounds.Calcium = user.CalciumLB ?? 0f;
         
-        return lowerBounds;
+        return lowerBounds * 7; //times 7 to convert to nutrients / week
     }
 
     //Ideal intake for a week, based on previous weeks' intake levels.
     private async Task<NutrientTargets> CalculateIdealIntake(UserNutritionDTO user, DateTime startingDate)
     {
         //Get last 2 weeks intake
-        NutrientTargets previous = await GetPreviousIntake(user.Id, startingDate);
+        NutrientTargets previous = await GetPreviousIntake(user.Id, startingDate, GetDailyIdealIntake(user));
 
         //For each nutrient, balance out, but maximum upper bound
         var idealIntake = new NutrientTargets();
-        idealIntake.Protein = BalanceOut(idealIntake.Protein, previous.Protein, (float)user.ProteinLB!, (float)user.ProteinUB!);
-        idealIntake.Carbohydrates = BalanceOut(idealIntake.Carbohydrates, previous.Carbohydrates, (float)user.CarbohydratesLB!, (float)user.CarbohydratesUB!);
-        idealIntake.Sugars = BalanceOut(idealIntake.Sugars, previous.Sugars, (float)user.SugarsLB!, (float)user.SugarsUB!);
-        idealIntake.Fibres = BalanceOut(idealIntake.Fibres, previous.Fibres, (float)user.FibresLB!, (float)user.FibresUB!);
-        idealIntake.TotalFat = BalanceOut(idealIntake.TotalFat, previous.TotalFat, (float)user.TotalFatLB!, (float)user.TotalFatUB!);
-        idealIntake.SaturatedFat = BalanceOut(idealIntake.SaturatedFat, previous.SaturatedFat, (float)user.SaturatedFatLB!, (float)user.SaturatedFatUB!);
-        idealIntake.MonounsaturatedFat = BalanceOut(idealIntake.MonounsaturatedFat, previous.MonounsaturatedFat, (float)user.MonounsaturatedFatLB!, (float)user.MonounsaturatedFatUB!);
-        idealIntake.PolyunsaturatedFat = BalanceOut(idealIntake.PolyunsaturatedFat, previous.PolyunsaturatedFat, (float)user.PolyunsaturatedFatLB!, (float)user.PolyunsaturatedFatUB!);
-        idealIntake.TransFat = BalanceOut(idealIntake.TransFat, previous.TransFat, (float)user.TransFatLB!, (float)user.TransFatUB!);
-        idealIntake.VitaminA = BalanceOut(idealIntake.VitaminA, previous.VitaminA, (float)user.VitaminALB!, (float)user.VitaminAUB!);
-        idealIntake.VitaminB6 = BalanceOut(idealIntake.VitaminB6, previous.VitaminB6, (float)user.VitaminB6LB!, (float)user.VitaminB6UB!);
-        idealIntake.VitaminB12 = BalanceOut(idealIntake.VitaminB12, previous.VitaminB12, (float)user.VitaminB12LB!, (float)user.VitaminB12UB!);
-        idealIntake.VitaminC = BalanceOut(idealIntake.VitaminC, previous.VitaminC, (float)user.VitaminCLB!, (float)user.VitaminCUB!);
-        idealIntake.VitaminD = BalanceOut(idealIntake.VitaminD, previous.VitaminD, (float)user.VitaminDLB!, (float)user.VitaminDUB!);
-        idealIntake.VitaminE = BalanceOut(idealIntake.VitaminE, previous.VitaminE, (float)user.VitaminELB!, (float)user.VitaminEUB!);
-        idealIntake.VitaminK1 = BalanceOut(idealIntake.VitaminK1, previous.VitaminK1, (float)user.VitaminK1LB!, (float)user.VitaminK1UB!);
-        idealIntake.Thiamin = BalanceOut(idealIntake.Thiamin, previous.Thiamin, (float)user.ThiaminLB!, (float)user.ThiaminUB!);
-        idealIntake.Riboflavin = BalanceOut(idealIntake.Riboflavin, previous.Riboflavin, (float)user.RiboflavinLB!, (float)user.RiboflavinUB!);
-        idealIntake.Niacin = BalanceOut(idealIntake.Niacin, previous.Niacin, (float)user.NiacinLB!, (float)user.NiacinUB!);
-        idealIntake.Folate = BalanceOut(idealIntake.Folate, previous.Folate, (float)user.FolateLB!, (float)user.FolateUB!);
-        idealIntake.Salt = BalanceOut(idealIntake.Salt, previous.Salt, (float)user.SaltLB!, (float)user.SaltUB!);
-        idealIntake.Potassium = BalanceOut(idealIntake.Potassium, previous.Potassium, (float)user.PotassiumLB!, (float)user.PotassiumUB!);
-        idealIntake.Magnesium = BalanceOut(idealIntake.Magnesium, previous.Magnesium, (float)user.MagnesiumLB!, (float)user.MagnesiumUB!);
-        idealIntake.Iron = BalanceOut(idealIntake.Iron, previous.Iron, (float)user.IronLB!, (float)user.IronUB!);
-        idealIntake.Zinc = BalanceOut(idealIntake.Zinc, previous.Zinc, (float)user.ZincLB!, (float)user.ZincUB!);
-        idealIntake.Phosphorus = BalanceOut(idealIntake.Phosphorus, previous.Phosphorus, (float)user.PhosphorusLB!, (float)user.PhosphorusUB!);
-        idealIntake.Copper = BalanceOut(idealIntake.Copper, previous.Copper, (float)user.CopperLB!, (float)user.CopperUB!);
-        idealIntake.Iodine = BalanceOut(idealIntake.Iodine, previous.Iodine, (float)user.IodineLB!, (float)user.IodineUB!);
-        idealIntake.Nickel = BalanceOut(idealIntake.Nickel, previous.Nickel, (float)user.NickelLB!, (float)user.NickelUB!);
-        idealIntake.Selenium = BalanceOut(idealIntake.Selenium, previous.Selenium, (float)user.SeleniumLB!, (float)user.SeleniumUB!);
-        idealIntake.Calcium = BalanceOut(idealIntake.Calcium, previous.Calcium, (float)user.CalciumLB!, (float)user.CalciumUB!);
+        idealIntake.Protein = BalanceOut((float)user.ProteinII! * 7, previous.Protein, (float)user.ProteinLB!, (float)user.ProteinUB!);
+        idealIntake.Carbohydrates = BalanceOut((float)user.CarbohydratesII! * 7, previous.Carbohydrates, (float)user.CarbohydratesLB!, (float)user.CarbohydratesUB!);
+        idealIntake.Sugars = BalanceOut((float)user.SugarsII! * 7, previous.Sugars, (float)user.SugarsLB!, (float)user.SugarsUB!);
+        idealIntake.Fibres = BalanceOut((float)user.FibresII! * 7, previous.Fibres, (float)user.FibresLB!, (float)user.FibresUB!);
+        idealIntake.TotalFat = BalanceOut((float)user.TotalFatII! * 7, previous.TotalFat, (float)user.TotalFatLB!, (float)user.TotalFatUB!);
+        idealIntake.SaturatedFat = BalanceOut((float)user.SaturatedFatII! * 7, previous.SaturatedFat, (float)user.SaturatedFatLB!, (float)user.SaturatedFatUB!);
+        idealIntake.MonounsaturatedFat = BalanceOut((float)user.MonounsaturatedFatII! * 7, previous.MonounsaturatedFat, (float)user.MonounsaturatedFatLB!, (float)user.MonounsaturatedFatUB!);
+        idealIntake.PolyunsaturatedFat = BalanceOut((float)user.PolyunsaturatedFatII! * 7, previous.PolyunsaturatedFat, (float)user.PolyunsaturatedFatLB!, (float)user.PolyunsaturatedFatUB!);
+        idealIntake.TransFat = BalanceOut((float)user.TransFatII! * 7, previous.TransFat, (float)user.TransFatLB!, (float)user.TransFatUB!);
+        idealIntake.VitaminA = BalanceOut((float)user.VitaminAII! * 7, previous.VitaminA, (float)user.VitaminALB!, (float)user.VitaminAUB!);
+        idealIntake.VitaminB6 = BalanceOut((float)user.VitaminB6II! * 7, previous.VitaminB6, (float)user.VitaminB6LB!, (float)user.VitaminB6UB!);
+        idealIntake.VitaminB12 = BalanceOut((float)user.VitaminB12II! * 7, previous.VitaminB12, (float)user.VitaminB12LB!, (float)user.VitaminB12UB!);
+        idealIntake.VitaminC = BalanceOut((float)user.VitaminCII! * 7, previous.VitaminC, (float)user.VitaminCLB!, (float)user.VitaminCUB!);
+        idealIntake.VitaminD = BalanceOut((float)user.VitaminDII! * 7, previous.VitaminD, (float)user.VitaminDLB!, (float)user.VitaminDUB!);
+        idealIntake.VitaminE = BalanceOut((float)user.VitaminEII! * 7, previous.VitaminE, (float)user.VitaminELB!, (float)user.VitaminEUB!);
+        idealIntake.Thiamin = BalanceOut((float)user.ThiaminII! * 7, previous.Thiamin, (float)user.ThiaminLB!, (float)user.ThiaminUB!);
+        idealIntake.Riboflavin = BalanceOut((float)user.RiboflavinII! * 7, previous.Riboflavin, (float)user.RiboflavinLB!, (float)user.RiboflavinUB!);
+        idealIntake.Niacin = BalanceOut((float)user.NiacinII! * 7, previous.Niacin, (float)user.NiacinLB!, (float)user.NiacinUB!);
+        idealIntake.Folate = BalanceOut((float)user.FolateII!, previous.Folate, (float)user.FolateLB!, (float)user.FolateUB!);
+        idealIntake.Salt = BalanceOut((float)user.SaltII! * 7, previous.Salt, (float)user.SaltLB!, (float)user.SaltUB!);
+        idealIntake.Potassium = BalanceOut((float)user.PotassiumII! * 7, previous.Potassium, (float)user.PotassiumLB!, (float)user.PotassiumUB!);
+        idealIntake.Magnesium = BalanceOut((float)user.MagnesiumII! * 7, previous.Magnesium, (float)user.MagnesiumLB!, (float)user.MagnesiumUB!);
+        idealIntake.Iron = BalanceOut((float)user.IronII! * 7, previous.Iron, (float)user.IronLB!, (float)user.IronUB!);
+        idealIntake.Zinc = BalanceOut((float)user.ZincII! * 7, previous.Zinc, (float)user.ZincLB!, (float)user.ZincUB!);
+        idealIntake.Phosphorus = BalanceOut((float)user.PhosphorusII! * 7, previous.Phosphorus, (float)user.PhosphorusLB!, (float)user.PhosphorusUB!);
+        idealIntake.Copper = BalanceOut((float)user.CopperII! * 7, previous.Copper, (float)user.CopperLB!, (float)user.CopperUB!);
+        idealIntake.Iodine = BalanceOut((float)user.IodineII! * 7, previous.Iodine, (float)user.IodineLB!, (float)user.IodineUB!);
+        idealIntake.Selenium = BalanceOut((float)user.SeleniumII! * 7, previous.Selenium, (float)user.SeleniumLB!, (float)user.SeleniumUB!);
+        idealIntake.Calcium = BalanceOut((float)user.CalciumII! * 7, previous.Calcium, (float)user.CalciumLB!, (float)user.CalciumUB!);
+
+        return idealIntake;
+    }
+
+    private NutrientTargets GetDailyIdealIntake(UserNutritionDTO user)
+    {
+        var idealIntake = new NutrientTargets();
+
+        idealIntake.Protein = user.ProteinII ?? 0f;
+        idealIntake.Carbohydrates = user.CarbohydratesII ?? 0f;
+        idealIntake.Sugars = user.SugarsII ?? 0f;
+        idealIntake.Fibres = user.FibresII ?? 0f;
+        idealIntake.TotalFat = user.TotalFatII ?? 0f;
+        idealIntake.SaturatedFat = user.SaturatedFatII ?? 0f;
+        idealIntake.MonounsaturatedFat = user.MonounsaturatedFatII ?? 0f;
+        idealIntake.PolyunsaturatedFat = user.PolyunsaturatedFatII ?? 0f;
+        idealIntake.TransFat = user.TransFatII ?? 0f;
+        idealIntake.VitaminA = user.VitaminAII ?? 0f;
+        idealIntake.VitaminB6 = user.VitaminB6II ?? 0f;
+        idealIntake.VitaminB12 = user.VitaminB12II ?? 0f;
+        idealIntake.VitaminC = user.VitaminCII ?? 0f;
+        idealIntake.VitaminD = user.VitaminDII ?? 0f;
+        idealIntake.VitaminE = user.VitaminEII ?? 0f;
+        idealIntake.Thiamin = user.ThiaminII ?? 0f;
+        idealIntake.Riboflavin = user.RiboflavinII ?? 0f;
+        idealIntake.Niacin = user.NiacinII ?? 0f;
+        idealIntake.Folate = user.FolateII ?? 0f;
+        idealIntake.Salt = user.SaltII ?? 0f;
+        idealIntake.Potassium = user.PotassiumII ?? 0f;
+        idealIntake.Magnesium = user.MagnesiumII ?? 0f;
+        idealIntake.Iron = user.IronII ?? 0f;
+        idealIntake.Zinc = user.ZincII ?? 0f;
+        idealIntake.Phosphorus = user.PhosphorusII ?? 0f;
+        idealIntake.Copper = user.CopperII ?? 0f;
+        idealIntake.Iodine = user.IodineII ?? 0f;
+        idealIntake.Selenium = user.SeleniumII ?? 0f;
+        idealIntake.Calcium = user.CalciumII ?? 0f;
 
         return idealIntake;
     }
@@ -177,30 +252,49 @@ public class MealPlanGenerator
         return balanced;
     }
 
-    private async Task<NutrientTargets> GetPreviousIntake(int userID, DateTime endDate)
+    private async Task<NutrientTargets> GetPreviousIntake(int userID, DateTime endDate, NutrientTargets idealIntake)
     {
-        DateTime startDate = endDate.Subtract(new TimeSpan(PreviousWeeks * 7, 0, 0));
-        var meals = await _mealRepo.ReadAllByDateRangeAndUser(userID, startDate, endDate);
+        TimeSpan oneDay = new TimeSpan(1,0,0,0);
+        var date = endDate.Subtract(oneDay);
         var sum = new NutrientTargets();
-        foreach(var meal in meals)
+
+        for(int i = 0; i < PreviousWeeks * 7; i++)
         {
-            //Sum all nutrients
-            var recipes = await _recipeRepo.ReadAllByMealId(meal.Id);
-            foreach(var recipe in recipes)
+            var meals = await _mealRepo.ReadAllByDateAndUser(date, userID);
+
+            if (meals.IsNullOrEmpty())
             {
-                var foodItemsInRecipe = await _foodItemRepo.ReadAllByRecipeId(recipe.Recipe.Id);
-                foreach(var foodItem in foodItemsInRecipe)
+                //Add ideal days worth of nutrients
+                sum += idealIntake;
+            }
+            else
+            {
+                foreach(var meal in meals)
                 {
-                    sum += NutrientTargets.ToNutrientTargets(foodItem) * recipe.Amount;
+                    //Sum all nutrients
+                    var recipes = await _recipeRepo.ReadAllByMealId(meal.Id);
+                    foreach(var recipe in recipes)
+                    {
+                        var foodItemsInRecipe = await _foodItemRepo.ReadAllByRecipeId(recipe.Recipe.Id);
+                        foreach(var foodItem in foodItemsInRecipe)
+                        {
+                            sum += NutrientTargets.ToNutrientTargets(foodItem) * recipe.Amount;
+                        }
+                    }
+                    var foodItems = await _foodItemRepo.ReadAllByMealId(meal.Id);
+                    foreach(var foodItem in foodItems)
+                    {
+                        sum += NutrientTargets.ToNutrientTargets(foodItem);
+                    }
+                    
                 }
             }
-            var foodItems = await _foodItemRepo.ReadAllByMealId(meal.Id);
-            foreach(var foodItem in foodItems)
-            {
-                sum += NutrientTargets.ToNutrientTargets(foodItem);
-            }
             
+            date = date.Subtract(oneDay);
         }
+
+
+        
         return sum;
     }
 
@@ -223,7 +317,6 @@ public class MealPlanGenerator
         upperBounds.VitaminC = user.VitaminCUB ?? 0f;
         upperBounds.VitaminD = user.VitaminDUB ?? 0f;
         upperBounds.VitaminE = user.VitaminEUB ?? 0f;
-        upperBounds.VitaminK1 = user.VitaminK1UB ?? 0f;
         upperBounds.Thiamin = user.ThiaminUB ?? 0f;
         upperBounds.Riboflavin = user.RiboflavinUB ?? 0f;
         upperBounds.Niacin = user.NiacinUB ?? 0f;
@@ -236,11 +329,10 @@ public class MealPlanGenerator
         upperBounds.Phosphorus = user.PhosphorusUB ?? 0f;
         upperBounds.Copper = user.CopperUB ?? 0f;
         upperBounds.Iodine = user.IodineUB ?? 0f;
-        upperBounds.Nickel = user.NickelUB ?? 0f;
         upperBounds.Selenium = user.SeleniumUB ?? 0f;
         upperBounds.Calcium = user.CalciumUB ?? 0f;
 
-        return upperBounds;
+        return upperBounds * 7;
     }
 
     private UserCalories GetCalorieTargets(UserNutritionDTO user)
@@ -286,12 +378,11 @@ public class MealPlanGenerator
         return recipes;
     }
 
-    private async Task<Option<MealPlan>> CreateInitialMealPlan(List<RecipeDTO> recipes, int userID, UserCalories calories)
+    private async Task<Option<MealPlan>> CreateInitialMealPlan(List<RecipeDTO> recipes, int userID, UserCalories calories, DateTime date)
     {
         MealPlan mealPlan = new MealPlan();
 
-        //Find all the meals that exists an insert in the meal plan
-        var date = DateTime.Now.Date;
+        //Find all the meals that exists and insert in the meal plan
         for(int i = 0; i < 7; i++)
         {
             var breakfastDTO = await _mealRepo.ReadByUserIdDateAndMealTypeAsync(date, userID, MealType.BREAKFAST);
@@ -304,66 +395,80 @@ public class MealPlanGenerator
             (mealPlan.Days[i].Dinner, mealPlan.Days[i].DinnerLocked) = await CreatePlannedMeal(dinnerDTO, userID, MealType.DINNER, date);
             (mealPlan.Days[i].Snacks, mealPlan.Days[i].SnacksLocked) = await CreatePlannedMeal(snackDTO, userID, MealType.SNACK, date);
 
-            //Find
-            var selectedRecipeBreakfast = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Breakfast!);
-            if(selectedRecipeBreakfast.IsNone) return new Option<MealPlan>(null);
-            
-            //Adjust amount
-            var breakfastFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeBreakfast.Value.Id)).ToList();
-            float breakfastAmount = calories.Breakfast / CountCalories(breakfastFoodItems);
-            var breakfastRecipe = new RecipeAmountWithFoodItemsDTO(
-                breakfastAmount,
-                selectedRecipeBreakfast.Value,
-                breakfastFoodItems
-            );
-            
-            //Insert
-            mealPlan.Days[i].Breakfast!.RecipeMeals!.Add(breakfastRecipe);
+            //Find the next selected recipe in the list
+            if (!mealPlan.Days[i].BreakfastLocked)
+            {
+                var selectedRecipeBreakfast = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Breakfast!);
+                if(selectedRecipeBreakfast.IsNone) return new Option<MealPlan>(null);
+                
+                //Adjust amount
+                var breakfastFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeBreakfast.Value.Id)).ToList();
+                float breakfastAmount = calories.Breakfast / CountCalories(breakfastFoodItems);
+                var breakfastRecipe = new RecipeAmountWithFoodItemsDTO(
+                    breakfastAmount,
+                    selectedRecipeBreakfast.Value,
+                    breakfastFoodItems
+                );
 
-            //Find
-            var selectedRecipeLunch = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Lunch!);
-            if(selectedRecipeLunch.IsNone) return new Option<MealPlan>(null);
-            //Adjust amount
-            var lunchFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeLunch.Value.Id)).ToList();
-            float lunchAmount = calories.Lunch / CountCalories(lunchFoodItems);
-            var lunchRecipe = new RecipeAmountWithFoodItemsDTO(
-                lunchAmount,
-                selectedRecipeLunch.Value,
-                lunchFoodItems
-            );
-            //Insert
-            mealPlan.Days[i].Lunch!.RecipeMeals!.Add(lunchRecipe);
-
-            //Find
-            var selectedRecipeDinner = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Dinner!);
-            if(selectedRecipeDinner.IsNone) return new Option<MealPlan>(null);
-            //Adjust amount
-            var dinnerFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeDinner.Value.Id)).ToList();
-            float dinnerAmount = calories.Dinner / CountCalories(dinnerFoodItems);
-            var dinnerRecipe = new RecipeAmountWithFoodItemsDTO(
-                dinnerAmount,
-                selectedRecipeDinner.Value,
-                dinnerFoodItems
-            );
-            //Insert
-            mealPlan.Days[i].Dinner!.RecipeMeals!.Add(dinnerRecipe);
+                //Insert
+                mealPlan.Days[i].Breakfast!.RecipeMeals!.Add(breakfastRecipe);
+            }
             
-            //Find
-            var selectedRecipeSnack = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Snacks!);
-            if(selectedRecipeSnack.IsNone) return new Option<MealPlan>(null);
-            //Adjust amount
-            var snacksFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeSnack.Value.Id)).ToList();
-            float snacksAmount = calories.Snacks / CountCalories(snacksFoodItems);
-            var snacksRecipe = new RecipeAmountWithFoodItemsDTO(
-                snacksAmount,
-                selectedRecipeSnack.Value,
-                snacksFoodItems
-            );
-            //Insert
-            mealPlan.Days[i].Snacks!.RecipeMeals!.Add(snacksRecipe);
+            
+            if (!mealPlan.Days[i].LunchLocked)
+            {
+                //Find
+                var selectedRecipeLunch = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Lunch!);
+                if(selectedRecipeLunch.IsNone) return new Option<MealPlan>(null);
+                //Adjust amount
+                var lunchFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeLunch.Value.Id)).ToList();
+                float lunchAmount = calories.Lunch / CountCalories(lunchFoodItems);
+                var lunchRecipe = new RecipeAmountWithFoodItemsDTO(
+                    lunchAmount,
+                    selectedRecipeLunch.Value,
+                    lunchFoodItems
+                );
+                //Insert
+                mealPlan.Days[i].Lunch!.RecipeMeals!.Add(lunchRecipe);
+            }
+
+            
+            if(!mealPlan.Days[i].DinnerLocked)
+            {
+                //Find
+                var selectedRecipeDinner = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Dinner!);
+                if(selectedRecipeDinner.IsNone) return new Option<MealPlan>(null);
+                //Adjust amount
+                var dinnerFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeDinner.Value.Id)).ToList();
+                float dinnerAmount = calories.Dinner / CountCalories(dinnerFoodItems);
+                var dinnerRecipe = new RecipeAmountWithFoodItemsDTO(
+                    dinnerAmount,
+                    selectedRecipeDinner.Value,
+                    dinnerFoodItems
+                );
+                //Insert
+                mealPlan.Days[i].Dinner!.RecipeMeals!.Add(dinnerRecipe);
+            }
+            
+            if(!mealPlan.Days[i].SnacksLocked)
+            {
+                //Find
+                var selectedRecipeSnack = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Snacks!);
+                if(selectedRecipeSnack.IsNone) return new Option<MealPlan>(null);
+                //Adjust amount
+                var snacksFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeSnack.Value.Id)).ToList();
+                float snacksAmount = calories.Snacks / CountCalories(snacksFoodItems);
+                var snacksRecipe = new RecipeAmountWithFoodItemsDTO(
+                    snacksAmount,
+                    selectedRecipeSnack.Value,
+                    snacksFoodItems
+                );
+                //Insert
+                mealPlan.Days[i].Snacks!.RecipeMeals!.Add(snacksRecipe);
+            }
             
 
-            date = date.AddDays(1);
+            date = date.AddDays(1); //To continue in the next iteration
         }
 
         return mealPlan;
@@ -381,6 +486,8 @@ public class MealPlanGenerator
 
     private Option<RecipeDTO> FindAndRemoveRecipe(List<RecipeDTO> recipes, PlannedMeal meal)
     {
+        Console.WriteLine($"Recipes in list: {recipes.Count()}");
+
         for(int i = 0; i <  recipes.Count; i++)
         {
             var recipe = recipes[i];
@@ -417,9 +524,10 @@ public class MealPlanGenerator
             //At this point the recipe fullfills all criteria and is selected.
             //Remove
             recipes.RemoveAt(i);
+            Console.WriteLine("Success");
             return new Option<RecipeDTO>(recipe);
         }
-
+        Console.WriteLine(meal.MealType);
         return new Option<RecipeDTO>(null);
     }
 
@@ -463,14 +571,13 @@ public class MealPlanGenerator
                 userID,
                 date,
                 new List<int>(),
-                null,
-                null
+                new List<FoodItemAmountDTO>(),
+                new List<RecipeAmountWithFoodItemsDTO>()
             );
         }
         
-        //Locked if there are no fooditems or recipes in the meal
-        bool locked = (plannedMeal.FoodItemMeals == null || plannedMeal.FoodItemMeals.Count == 0) &&
-                      (plannedMeal.RecipeMeals == null || plannedMeal.RecipeMeals.Count == 0);
+        //Locked if there are any fooditems or recipes in the meal
+        bool locked = (plannedMeal.FoodItemMeals.Count != 0) || (plannedMeal.RecipeMeals.Count != 0);
 
         return (plannedMeal, locked);
     }
@@ -484,11 +591,17 @@ public class MealPlanGenerator
 
 
     //Replace meal with most nutrient scores that are lower than II
-    private async Task<Response> ReplaceLowest(MealPlan mealPlan, NutrientTargets reference, List<RecipeDTO> recipes, UserCalories calorieTargets)
+    private async Task<Response> ReplaceLowestMeals(MealPlan mealPlan, NutrientTargets weeklyReference, List<RecipeDTO> recipes, UserCalories calorieTargets)
     {
-        int mostLowerCount = 0;
+        int mostLowerBreakfast = 0;
+        int mostLowerLunch = 0;
+        int mostLowerDinner = 0;
+        int mostLowerSnacks = 0;
 
-        PlannedMeal? meal = null;
+        PlannedMeal? breakfast = null;
+        PlannedMeal? lunch = null;
+        PlannedMeal? dinner = null;
+        PlannedMeal? snacks = null;
 
         for(int i = 0; i < mealPlan.Days.Count; i++)
         {
@@ -496,76 +609,71 @@ public class MealPlanGenerator
             if (!day.BreakfastLocked)
             {
                 if(day.Breakfast == null) throw new Exception("Breakfast is null");
-                var lowerCount = day.Breakfast.CalculateNutrientSums().lowerCount(reference);
-                if (lowerCount > mostLowerCount)
+                var breakfastReference = weeklyReference * (1f/7f) * (calorieTargets.Breakfast / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var lowerCount = day.Breakfast.CalculateNutrientSums().lowerCount(breakfastReference);
+                if (lowerCount > mostLowerBreakfast)
                 {
-                    mostLowerCount = lowerCount;
-                    meal = day.Breakfast;
+                    mostLowerBreakfast = lowerCount;
+                    breakfast = day.Breakfast;
                 }
             }
 
             if (!day.LunchLocked)
             {
                 if(day.Lunch == null) throw new Exception("Lunch is null");
-                var lowerCount = day.Lunch.CalculateNutrientSums().lowerCount(reference);
-                if (lowerCount > mostLowerCount)
+                var lunchReference = weeklyReference * (1f/7f) * (calorieTargets.Lunch / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var lowerCount = day.Lunch.CalculateNutrientSums().lowerCount(lunchReference);
+                if (lowerCount > mostLowerLunch)
                 {
-                    mostLowerCount = lowerCount;
-                    meal = day.Lunch;
+                    mostLowerLunch = lowerCount;
+                    lunch = day.Lunch;
                 }
             }
 
             if (!day.DinnerLocked)
             {
                 if(day.Dinner == null) throw new Exception("Dinner is null");
-                var lowerCount = day.Dinner.CalculateNutrientSums().lowerCount(reference);
-                if (lowerCount > mostLowerCount)
+                var dinnerReference = weeklyReference * (1f/7f) * (calorieTargets.Dinner / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var lowerCount = day.Dinner.CalculateNutrientSums().lowerCount(dinnerReference);
+                if (lowerCount > mostLowerDinner)
                 {
-                    mostLowerCount = lowerCount;
-                    meal = day.Dinner;
+                    mostLowerDinner = lowerCount;
+                    dinner = day.Dinner;
                 }
             }
 
             if (!day.SnacksLocked)
             {
                 if(day.Snacks == null) throw new Exception("Snacks is null");
-                var lowerCount = day.Snacks.CalculateNutrientSums().lowerCount(reference);
-                if (lowerCount > mostLowerCount)
+                var snackReference = weeklyReference * (1f/7f) * (calorieTargets.Snacks / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var lowerCount = day.Snacks.CalculateNutrientSums().lowerCount(snackReference);
+                if (lowerCount > mostLowerSnacks)
                 {
-                    mostLowerCount = lowerCount;
-                    meal = day.Snacks;
+                    mostLowerSnacks = lowerCount;
+                    snacks = day.Snacks;
                 }
             }
         }
+        
+        //Replace lowest
+        var breakfastResult = breakfast == null ? Response.Fail : await Replace(recipes, breakfast, calorieTargets.Breakfast);
+        var lunchResult = lunch == null ? Response.Fail : await Replace(recipes, lunch, calorieTargets.Lunch);
+        var dinnerResult = dinner == null ? Response.Fail : await Replace(recipes, dinner, calorieTargets.Dinner);
+        var snacksResult = snacks == null ? Response.Fail : await Replace(recipes, snacks, calorieTargets.Snacks);
 
-        //Replace lowest meal
-        if (meal == null) throw new Exception("No lowest meal!?");
+        return breakfastResult == Response.Success || 
+               lunchResult == Response.Success ||
+               dinnerResult == Response.Success ||
+               snacksResult == Response.Success
+               ? Response.Success : Response.Fail;
+    }
+
+    private async Task<Response> Replace(List<RecipeDTO> recipes, PlannedMeal meal, float calorieTarget)
+    {
         //Find next recipe
         var recipe = FindAndRemoveRecipe(recipes, meal);
-        float calorieTarget;
+        if (recipe.IsNone) return Response.Fail;
         //Adjust amount
-        switch (meal.MealType)
-        {
-            case MealType.BREAKFAST:
-                calorieTarget = calorieTargets.Breakfast;
-                break;
-
-            case MealType.LUNCH:
-                calorieTarget = calorieTargets.Lunch;   
-                break;
-
-            case MealType.DINNER:
-                calorieTarget = calorieTargets.Dinner;
-                break;
-
-            case MealType.SNACK:
-                calorieTarget = calorieTargets.Snacks;
-                break;
-            
-            default:
-                throw new Exception("Could not match meal type");
-        }
-
         var recipeFoodItems = (await _foodItemRepo.ReadAllByRecipeId(recipe.Value.Id)).ToList();
         float amount = calorieTarget / CountCalories(recipeFoodItems);
         var recipeAmount = new RecipeAmountWithFoodItemsDTO(
@@ -579,16 +687,22 @@ public class MealPlanGenerator
         {
             recipeAmount
         };
-        
+
         return Response.Success;
     }
 
     //Replace meal with most nutrient scores that are higher than UB
-    private async Task<Response> ReplaceHighest(MealPlan mealPlan, NutrientTargets reference, List<RecipeDTO> recipes, UserCalories calorieTargets)
+    private async Task<Response> ReplaceHighest(MealPlan mealPlan, NutrientTargets weeklyReference, List<RecipeDTO> recipes, UserCalories calorieTargets)
     {
-        int mostHigherCount = 0;
+        int mostHigherBreakfast = 0;
+        int mostHigherLunch = 0;
+        int mostHigherDinner = 0;
+        int mostHigherSnacks = 0;
 
-        PlannedMeal? meal = null;
+        PlannedMeal? breakfast = null;
+        PlannedMeal? lunch = null;
+        PlannedMeal? dinner = null;
+        PlannedMeal? snacks = null;
 
         for(int i = 0; i < mealPlan.Days.Count; i++)
         {
@@ -596,91 +710,63 @@ public class MealPlanGenerator
             if (!day.BreakfastLocked)
             {
                 if(day.Breakfast == null) throw new Exception("Breakfast is null");
-                var higherCount = day.Breakfast.CalculateNutrientSums().HigherCount(reference);
-                if (higherCount > mostHigherCount)
+                var breakfastReference = weeklyReference * (1f/7f) * (calorieTargets.Breakfast / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var higherCount = day.Breakfast.CalculateNutrientSums().HigherCount(breakfastReference);
+                if (higherCount > mostHigherBreakfast)
                 {
-                    mostHigherCount = higherCount;
-                    meal = day.Breakfast;
+                    mostHigherBreakfast = higherCount;
+                    breakfast = day.Breakfast;
                 }
             }
 
             if (!day.LunchLocked)
             {
                 if(day.Lunch == null) throw new Exception("Lunch is null");
-                var higherCount = day.Lunch.CalculateNutrientSums().HigherCount(reference);
-                if (higherCount > mostHigherCount)
+                var lunchReference = weeklyReference * (1f/7f) * (calorieTargets.Lunch / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var higherCount = day.Lunch.CalculateNutrientSums().HigherCount(lunchReference);
+                if (higherCount > mostHigherLunch)
                 {
-                    mostHigherCount = higherCount;
-                    meal = day.Lunch;
+                    mostHigherLunch = higherCount;
+                    lunch = day.Lunch;
                 }
             }
 
             if (!day.DinnerLocked)
             {
                 if(day.Dinner == null) throw new Exception("Dinner is null");
-                var higherCount = day.Dinner.CalculateNutrientSums().HigherCount(reference);
-                if (higherCount > mostHigherCount)
+                var dinnerReference = weeklyReference * (1f/7f) * (calorieTargets.Dinner / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var higherCount = day.Dinner.CalculateNutrientSums().HigherCount(dinnerReference);
+                if (higherCount > mostHigherDinner)
                 {
-                    mostHigherCount = higherCount;
-                    meal = day.Dinner;
+                    mostHigherDinner = higherCount;
+                    dinner = day.Dinner;
                 }
             }
 
             if (!day.SnacksLocked)
             {
                 if(day.Snacks == null) throw new Exception("Snacks is null");
-                var higherCount = day.Snacks.CalculateNutrientSums().HigherCount(reference);
-                if (higherCount > mostHigherCount)
+                var snackReference = weeklyReference * (1f/7f) * (calorieTargets.Snacks / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var higherCount = day.Snacks.CalculateNutrientSums().HigherCount(snackReference);
+                if (higherCount > mostHigherSnacks)
                 {
-                    mostHigherCount = higherCount;
-                    meal = day.Snacks;
+                    mostHigherSnacks = higherCount;
+                    snacks = day.Snacks;
                 }
             }
         }
-
-        //Replace lowest meal
-        if (meal == null) throw new Exception("No lowest meal!?");
-        //Find next recipe
-        var recipe = FindAndRemoveRecipe(recipes, meal);
-        float calorieTarget;
-        //Adjust amount
-        switch (meal.MealType)
-        {
-            case MealType.BREAKFAST:
-                calorieTarget = calorieTargets.Breakfast;
-                break;
-
-            case MealType.LUNCH:
-                calorieTarget = calorieTargets.Lunch;   
-                break;
-
-            case MealType.DINNER:
-                calorieTarget = calorieTargets.Dinner;
-                break;
-
-            case MealType.SNACK:
-                calorieTarget = calorieTargets.Snacks;
-                break;
-            
-            default:
-                throw new Exception("Could not match meal type");
-        }
-
-        var recipeFoodItems = (await _foodItemRepo.ReadAllByRecipeId(recipe.Value.Id)).ToList();
-        float amount = calorieTarget / CountCalories(recipeFoodItems);
-        var recipeAmount = new RecipeAmountWithFoodItemsDTO(
-            amount,
-            recipe.Value,
-            recipeFoodItems
-        );
-
-        //Insert
-        meal.RecipeMeals = new List<RecipeAmountWithFoodItemsDTO>
-        {
-            recipeAmount
-        };
         
-        return Response.Success;
+        //Replace highest
+        var breakfastResult = breakfast == null ? Response.Fail : await Replace(recipes, breakfast, calorieTargets.Breakfast);
+        var lunchResult = lunch == null ? Response.Fail : await Replace(recipes, lunch, calorieTargets.Lunch);
+        var dinnerResult = dinner == null ? Response.Fail : await Replace(recipes, dinner, calorieTargets.Dinner);
+        var snacksResult = snacks == null ? Response.Fail : await Replace(recipes, snacks, calorieTargets.Snacks);
+
+        return breakfastResult == Response.Success || 
+               lunchResult == Response.Success ||
+               dinnerResult == Response.Success ||
+               snacksResult == Response.Success
+               ? Response.Success : Response.Fail;
     }
 
     private async Task<Response> InsertPlan(MealPlan mealPlan)
@@ -702,10 +788,33 @@ public class MealPlanGenerator
             MealType = meal.MealType,
             UserID = meal.UserID,
             Date = meal.Date,
-            CategoryIDs = meal.CategoryIDs
+            CategoryIDs = meal.CategoryIDs,
+            
         };
         (Core.Response r, MealDTO dto) = await _mealRepo.CreateAsync(mealCreate);
         if (r != Core.Response.Created) throw new Exception("Could not insert the meal");
+
+        //Update the fooditems and recipes linked to this meal
+        var recipeMeals = new List<RecipeMealCreateDTO>();
+        foreach(var recipe in meal.RecipeMeals)
+        {
+            recipeMeals.Add(
+                new RecipeMealCreateDTO
+                {
+                    Amount = recipe.Amount,
+                    RecipeID = recipe.Recipe.Id,
+                    MealID = dto.Id
+                }
+            );
+        }
+
+        var mealUpdateDTO = new MealUpdateDTO
+        {
+            Id = dto.Id,
+            RecipeMeals = recipeMeals
+        };
+        r = await _mealRepo.UpdateAsync(mealUpdateDTO);
+        if (r != Core.Response.Updated) throw new Exception("Could not update the meal");
     }
 
     private async Task<Response> OrderRecipesByRecency(List<RecipeDTO> recipes, DateTime date, int userID)
@@ -813,10 +922,6 @@ public class MealPlanGenerator
         if(user.VitaminEII == null) return false;
         if(user.VitaminEUB == null) return false;
 
-        if(user.VitaminK1LB == null) return false;
-        if(user.VitaminK1II == null) return false;
-        if(user.VitaminK1UB == null) return false;
-
         if(user.ThiaminLB == null) return false;
         if(user.ThiaminII == null) return false;
         if(user.ThiaminUB == null) return false;
@@ -864,10 +969,6 @@ public class MealPlanGenerator
         if(user.IodineLB == null) return false;
         if(user.IodineII == null) return false;
         if(user.IodineUB == null) return false;
-
-        if(user.NickelLB == null) return false;
-        if(user.NickelII == null) return false;
-        if(user.NickelUB == null) return false;
 
         if(user.SeleniumLB == null) return false;
         if(user.SeleniumII == null) return false;

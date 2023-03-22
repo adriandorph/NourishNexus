@@ -143,7 +143,6 @@ public class MealService : IMealService
         mealTotal.VitaminC += foodItem.FoodItem.VitaminC * foodItem.Amount;
         mealTotal.VitaminD += foodItem.FoodItem.VitaminD * foodItem.Amount;
         mealTotal.VitaminE += foodItem.FoodItem.VitaminE * foodItem.Amount;
-        mealTotal.VitaminK1 += foodItem.FoodItem.VitaminK1 * foodItem.Amount;
         mealTotal.Thiamin += foodItem.FoodItem.Thiamin * foodItem.Amount;
         mealTotal.Riboflavin += foodItem.FoodItem.Riboflavin * foodItem.Amount;
         mealTotal.Niacin += foodItem.FoodItem.Niacin * foodItem.Amount;
@@ -156,7 +155,6 @@ public class MealService : IMealService
         mealTotal.Phosphorus += foodItem.FoodItem.Phosphorus * foodItem.Amount;
         mealTotal.Copper += foodItem.FoodItem.Copper * foodItem.Amount;
         mealTotal.Iodine += foodItem.FoodItem.Iodine * foodItem.Amount;
-        mealTotal.Nickel += foodItem.FoodItem.Nickel * foodItem.Amount;
         mealTotal.Selenium += foodItem.FoodItem.Selenium * foodItem.Amount;
         mealTotal.Calcium += foodItem.FoodItem.Calcium * foodItem.Amount;
     }
@@ -189,7 +187,6 @@ public class MealNutrientInfo
     public float VitaminC {get; set;} = 0f;
     public float VitaminD {get; set;} = 0f;
     public float VitaminE {get; set;} = 0f;
-    public float VitaminK1 {get; set;} = 0f;
     public float Thiamin {get; set;} = 0f;
     public float Riboflavin {get; set;} = 0f;
     public float Niacin {get; set;} = 0f;
@@ -204,7 +201,6 @@ public class MealNutrientInfo
     public float Phosphorus {get; set;} = 0f;
     public float Copper {get; set;} = 0f;
     public float Iodine {get; set;} = 0f;
-    public float Nickel {get; set;} = 0f;
     public float Selenium {get; set;} = 0f;
     public float Calcium {get; set;} = 0f;
 

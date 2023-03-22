@@ -1,7 +1,7 @@
-using Azure;
 using server.Core.Services.MealPlan;
 
 namespace test;
+#pragma warning disable CS8618
 
 public class MealPlanGeneratorTests
 {
@@ -16,7 +16,7 @@ public class MealPlanGeneratorTests
 
 
     //Author
-    User _author = new User("Author", "author@recipes.cook", new List<Recipe>());
+    User _author;
 
     //Categories
     Category _fruit = new Category("Fruit");
@@ -27,8 +27,8 @@ public class MealPlanGeneratorTests
     Recipe _eggsAndBacon;
     Recipe _bunsWithStrawberryJam;
     Recipe _bunsWithRaspberryJam;
-    Recipe _bunswithBlackberryJam;
-    Recipe _bunswithRhubarbJam;
+    Recipe _bunsWithBlackberryJam;
+    Recipe _bunsWithRhubarbJam;
     Recipe _bunsWithCheese;
     Recipe _bunsWithPeanutbutter;
     Recipe _bunsWithMapleSyrup;
@@ -123,7 +123,6 @@ public class MealPlanGeneratorTests
     FoodItem _brunchSausages;
     FoodItem _cornflakes;
     FoodItem _flour;
-    FoodItem _vanillaSugar;
     FoodItem _lemon;
     FoodItem _blueberry;
     FoodItem _blackberry;
@@ -220,6 +219,7 @@ public class MealPlanGeneratorTests
     FoodItem _honey;
     FoodItem _broccoli;
     FoodItem _asparagus;
+    FoodItem _soySauce;
     
 
 
@@ -429,6 +429,7 @@ public class MealPlanGeneratorTests
     FoodItemRecipe _creamInButterChicken;
     FoodItemRecipe _slicedTomatoesInButterChicken;
     FoodItemRecipe _gingerInButterChicken;
+    FoodItemRecipe _riceInButterChicken;
 
     //chiliconcarne
     FoodItemRecipe _chiliInCCC;
@@ -523,12 +524,12 @@ public class MealPlanGeneratorTests
     FoodItemRecipe _gingerInShrimpStirFry;
     FoodItemRecipe _paprikaInShrimpStirFry;
     FoodItemRecipe _oreganoInShrimpStirFry;
-    FoodItemRecipe _basilInShrimpStirFry;
     FoodItemRecipe _lemonInShrimpStirFry;
     FoodItemRecipe _onionInShrimpStirFry;
     FoodItemRecipe _saltInShrimpStirFry;
     FoodItemRecipe _pepperInShrimpStirFry;
     FoodItemRecipe _corianderInShrimpStirFry;
+    FoodItemRecipe _riceInShrimpStirFry;
 
     //Spring Rolls
     FoodItemRecipe _oilInSpringRolls;
@@ -537,7 +538,6 @@ public class MealPlanGeneratorTests
     FoodItemRecipe _gingerInSpringRolls;
     FoodItemRecipe _springOnionsInSpringRolls;
     FoodItemRecipe _scallionsInSpringRolls;
-    FoodItemRecipe _oysterSauceInSpringRolls;
     FoodItemRecipe _soysauceInSpringRolls;
     FoodItemRecipe _vinegarInSpringRolls;
     FoodItemRecipe _phylloDoughInSpringRolls;
@@ -562,6 +562,11 @@ public class MealPlanGeneratorTests
 
     //Salami stick
     FoodItemRecipe _salamiInSS;
+
+    //Peanutbutter Sandwich
+
+    FoodItemRecipe _peanutbutterInPeanutbutterSandwich;
+    FoodItemRecipe _toastInPeanutbutterSandwich;
     
     //Apple Carrot Orange smoothie
     FoodItemRecipe _appleinACOS;
@@ -699,129 +704,267 @@ public class MealPlanGeneratorTests
         _context.Categories.Add(_meat);
         _context.Categories.Add(_vegetarian);
         _context.SaveChanges();
+        InitializeUser();
         InitializeFoodItems();
         InitializeRecipes();
         AddFoodItemsToRecipes();
     }
 
     //SETUP
+    private void InitializeUser()
+    {
+        _author = new User("Author", "author@recipes.cook", new List<Recipe>());
+
+        _author.BreakfastCalories = 500;
+        _author.LunchCalories = 650;
+        _author.DinnerCalories = 800;
+        _author.SnackCalories = 700;
+        //Total = 2650
+        //100E% fedt = 2650 / 9 = 294.4444 g
+        //100E% kulhydrater og protein = 2650 / 4 = 662.5g 
+        
+        _author.ProteinLB = 62.5f; //10 E%
+        _author.ProteinII = 99.375f; //15 E%
+        _author.ProteinUB = 132.5f; //20 E%
+
+        _author.CarbohydratesLB = 298.125f;//45 E%
+        _author.CarbohydratesII = 347.8125f;//52.5 E%
+        _author.CarbohydratesUB = 397.5f;//60 E%
+
+        _author.SugarsLB = 0f;
+        _author.SugarsII = 0f;
+        _author.SugarsUB = 62.5f; //10E%
+
+        _author.FibresLB = 25f;
+        _author.FibresII = 33.285f; //3g/MJ = 0.01256018421g/kcal
+        _author.FibresUB = 70f; //ChatGPT
+
+        _author.TotalFatLB = 73.61f; //25 E%
+        _author.TotalFatII = 95.694443f; //32.5 E%
+        _author.TotalFatUB = 117.777776f; //40 E%
+
+        _author.SaturatedFatLB = 0f; //0 E%
+        _author.SaturatedFatII = 0f; //0 E%
+        _author.SaturatedFatUB = 29.444f; //10 E% 
+
+        _author.MonounsaturatedFatLB = 29.444f; //10 E%
+        _author.MonounsaturatedFatII = 44.1666f; //15 E%
+        _author.MonounsaturatedFatUB = 58.888888f; //20 E% 
+
+        _author.PolyunsaturatedFatLB = 14.72222f; //5 E%
+        _author.PolyunsaturatedFatII = 22.083333f; //7.5 E%
+        _author.PolyunsaturatedFatUB = 29.444f; //10 E%
+
+        _author.TransFatLB = 0f; //0 E%
+        _author.TransFatII = 0f; //0 E%
+        _author.TransFatUB = 14.72222f; //5 E% ?
+
+        _author.VitaminALB = 0f;
+        _author.VitaminAII = 900f;
+        _author.VitaminAUB = 1800f;
+
+        _author.VitaminB6LB = 0f;
+        _author.VitaminB6II = 1.5f;
+        _author.VitaminB6UB = 3f;
+
+        _author.VitaminB12LB = 0f;
+        _author.VitaminB12II = 2.0f;
+        _author.VitaminB12UB = 4f;
+
+        _author.VitaminCLB = 0f;
+        _author.VitaminCII = 75f;
+        _author.VitaminCUB = 150f;
+
+        _author.VitaminDLB = 0f;
+        _author.VitaminDII = 10f;
+        _author.VitaminDUB = 20f;
+
+        _author.VitaminELB = 0f;
+        _author.VitaminEII = 10f;
+        _author.VitaminEUB = 20f;
+
+        _author.ThiaminLB = 0f;
+        _author.ThiaminII = 1.4f;
+        _author.ThiaminUB = 2.8f;
+
+        _author.RiboflavinLB = 0f;
+        _author.RiboflavinII = 1.6f;
+        _author.RiboflavinUB = 3.2f;
+
+        _author.NiacinLB = 0f;
+        _author.NiacinII = 19f;
+        _author.NiacinUB = 38f;
+
+        _author.FolateLB = 0f;
+        _author.FolateII = 300f;
+        _author.FolateUB = 600f;
+
+        _author.SaltLB = 0f;
+        _author.SaltII = 3f;
+        _author.SaltUB = 6f;
+
+        _author.PotassiumLB = 0f;
+        _author.PotassiumII = 3.5f;
+        _author.PotassiumUB = 7f;
+
+        _author.MagnesiumLB = 0f;
+        _author.MagnesiumII = 350f;
+        _author.MagnesiumUB = 700f;
+
+        _author.IronLB = 0f;
+        _author.IronII = 9f;
+        _author.IronUB = 18f;
+
+        _author.ZincLB = 0f;
+        _author.ZincII = 9f;
+        _author.ZincUB = 18f;
+
+        _author.PhosphorusLB = 0f;
+        _author.PhosphorusII = 600f;
+        _author.PhosphorusUB = 1200f;
+
+        _author.CopperLB = 0f;
+        _author.CopperII = 0.9f;
+        _author.CopperUB = 1.8f;
+
+        _author.IodineLB = 0f;
+        _author.IodineII = 150f;
+        _author.IodineUB = 300f;
+
+        _author.SeleniumLB = 0f;
+        _author.SeleniumII = 60f;
+        _author.SeleniumUB = 120f;
+
+        _author.CalciumLB = 0f;
+        _author.CalciumII = 800f;
+        _author.CalciumUB = 1600f;
+    
+        _context.Users.Add(_author);
+        _context.SaveChanges();
+    }
     private void InitializeFoodItems()
     {
-        _egg = new FoodItem("Eggs", 139f, 12.3f, 1.3f, 0f, 0f, 7.74f, 2.6f, 3.42f, 1.61f, 0.02f, 80.5f, 0.11f, 1.57f, 0.2f, 1.77f, 3.71f, 0f, 0.083f, 0.46f, 0.08f, 0f, 0.3f, 131.4f, 11.6f, 1.73f, 1.14f, 176f, 0.054f, 24.5f, 0f, 24.44f, 46.9f);
-        _bacon = new FoodItem("Bacon", 430f, 13f, 0f, 0f, 0f, 39.06f, 17.09f, 18.9f, 3.07f, 0f, 0f, 0.15f, 0.65f, 0.8f, 0.43f, 0.3f, 0f, 0.48f, 0.16f, 3f, 2f, 2.85f, 185f, 15f, 0.51f, 1.98f, 220f, 0.063f, 0.7f, 0.8f, 8.3f, 5.1f);
-        _buns = new FoodItem("Buns", 294f, 9.7f, 51.7f, 0.35f, 3.5f, 2.59f, 0.68f, 0.63f, 1.29f, 0f, 0f, 0.08f, 0f, 0f, 0f, 0.5f, 0f, 0.157f, 0.09f, 1.2f, 62.1f, 1.1f, 153.1f, 25.6f, 1.32f, 0.79f, 116f, 0.143f, 2.5f, 23.6f, 3.1f, 66.7f);
-        _butter = new FoodItem("Butter", 741f, 0.7f, 0.6f, 0.58f, 0f, 77.02f, 53.54f, 16.98f, 2.2f, 3.52f, 749.3f, 0f, 0.17f, 0f, 0.41f, 1.76f, 0f, 0.007f, 0.04f, 0.1f, 3f, 0.9f, 29.1f, 1.6f, 0.01f, 0.04f, 21f, 0.022f, 2.7f, 0.6f, 1.56f, 16.8f);
-        _strawberryJam = new FoodItem("Strawberry Jam", 226f, 0.5f, 54.3f, 58f, 1.2f, 0.4f, 0.04f, 0.07f, 0.29f, 0f, 4.2f, 0.03f, 0f, 14f, 0f, 0.2f, 0f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 10f, 0.3f, 25f);
-        _raspberryJam = new FoodItem("Raspberry Jam", 203f, 0.6f, 48.1f, 46f, 1.2f, 0.48f, 0.05f, 0.05f, 0.39f, 0f, 4.2f, 0.03f, 0f, 5f, 0f, 0.15f, 0f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 10f, 0.3f, 15f);
-        _slicedCheese = new FoodItem("Sliced Cheese", 325f, 23.7f, 1.6f, 0.18f, 0f, 21.54f, 14.54f, 5.14f, 0.53f, 0.99f, 212f, 0f, 0f, 0f, 0.35f, 0.5f, 0f, 0f, 0f, 0f, 0f, 1.6f, 60.5f, 27.2f, 0.09f, 3.37f, 446f, 0.049f, 14.1f, 1f, 14.17f, 682.7f);
-        _Peanutbutter = new FoodItem("Peanut butter", 637f, 22.6f, 12.2f, 6.38f, 7.6f, 51.55f, 10.69f, 27.35f, 13.51f, 0f, 0f, 0.5f, 0f, 0f, 0f, 4.7f, 0f, 0.17f, 0.1f, 15f, 53f, 0.9f, 700f, 180f, 2.1f, 3f, 330f, 0.7f, 0.5f, 0f, 6.9f, 37f);
-        _mapleSyrup = new FoodItem("Maple Syrup", 308f, 0.3f, 76.7f, 76.7f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.01f, 0.1f, 0f, 0.2f, 220f, 34f, 2.5f, 0.13f, 3f, 0.24f, 5f, 30f, 1f, 75f);
-        _spreadChocolate = new FoodItem("Chocolate Spread", 900f, 0f, 0f, 0f, 0f, 95.6f, 59.45f, 33.22f, 2.94f, 0f, 0f, 0f, 0f, 0f, 0f, 1.8f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f);
-        _quinoa = new FoodItem("Quinoa", 347f, 13.7f, 42.3f, 3.2f, 13.9f, 4.4f, 0.51f, 1.18f, 2.71f, 0f, 0f, 0.14f, 0f, 0f, 0f, 2.33f, 3.1f, 0.064f, 0.29f, 0.73f, 195.5f, 0f, 870f, 175f, 3.75f, 2.8f, 415f, 0.515f, 0f, 60f, 4.6f, 46.5f);
-        _oats = new FoodItem("Oat", 366f, 12.9f, 58.9f, 1.03f, 9.9f, 6.47f, 1.19f, 2.38f, 2.81f, 0f, 0f, 0.14f, 0f, 0f, 0f, 0.75f, 0f, 0.416f, 0.11f, 0.8f, 50.4f, 0.00405f, 386.3f, 154.5f, 3.86f, 2.99f, 440f, 0.39f, 0.5f, 121.1f, 5f, 115.3f);
-        _milk = new FoodItem("Milk", 37f, 3.5f, 4.8f, 4.75f, 0f, 0.47f, 0.35f, 0.11f, 0.01f, 0f, 4.4f, 0.05f, 0.48f, 1.3f, 0.08f, 0.01f, 0f, 0.041f, 0.17f, 0.09f, 5.8f, 0.1f, 157.2f, 12.1f, 0.03f, 0.41f, 97f, 0.01f, 23.3f, 0.8f, 1.64f, 123.6f);
-        _flute = new FoodItem("Flute", 259f, 8.1f, 47.9f, 0f, 4f, 2.33f, 0.94f, 0.73f, 0.66f, 0f, 0f, 0.1f, 0.07f, 0f, 0f, 0.5f, 0f, 0.192f, 0.07f, 1.57f, 39.3f, 1.1498611f, 161.5f, 28f, 1.16f, 0.82f, 112f, 0.134f, 23f, 3.5f, 2.06f, 35.2f);
-        _ham = new FoodItem("Ham", 109f, 17.9f, 0.3f, 0f, 0f, 3.4f, 1.34f, 1.62f, 0.44f, 0f, 0f, 0.32f, 0.54f, 29f, 0.09f, 0.33f, 0f, 0.9f, 0.16f, 5.5f, 1.3f, 0f, 327f, 21f, 0.69f, 1.69f, 302f, 0.08f, 0f, 2f, 7.5f, 6.3f);
-        _brunchSausages = new FoodItem("Brunch Sausages", 292f, 14f, 4.3f, 2.83f, 0.2f, 23.14f, 9.01f, 11.45f, 2.68f, 0f, 0f, 0.15f, 1.1f, 0f, 0.3f, 0.1f, 0f, 0.358f, 0.1f, 1.8f, 4f, 2.7f, 208.7f, 18.7f, 0.79f, 1.31f, 184f, 0.067f, 14f, 19f, 7.2f, 21.9f);
-        _cornflakes = new FoodItem("Corn Flakes", 374f, 7.5f, 82f, 7.06f, 3.1f, 1.26f, 0.21f, 0.39f, 0.66f, 0f, 0f, 0.12f, 0f, 0f, 0f, 0.02f, 0f, 0.659f, 0.57f, 1.1f, 26.7f, 1.5195689f, 102.9f, 15.2f, 2.89f, 0.27f, 57f, 0.067f, 0.9f, 7.2f, 2.6f, 4.3f);
-        _flour = new FoodItem("Flour", 343f, 9.7f, 56.5f, 1.13f, 6f, 1.24f, 0.38f, 0f, 0.85f, 0f, 0f, 0.07f, 0f, 0f, 0f, 0.43f, 0f, 0.164f, 0.03f, 0.37f, 30.6f, 0f, 154.7f, 25.4f, 1.17f, 0.87f, 115f, 0.134f, 1.4f, 3.7f, 4.23f, 17.6f);
-        _lemon = new FoodItem("Lemon", 44f, 0.5f, 3.1f, 3.11f, 1.2f, 0.88f, 0.24f, 0.07f, 0.57f, 0f, 1.7f, 0.06f, 0f, 49f, 0f, 0.8f, 0f, 0.045f, 0.03f, 0.2f, 32f, 0.0075f, 175f, 9f, 0.08f, 0.13f, 21f, 0.053f, 0.3f, 6.6f, 0.12f, 35.1f);
-        _blueberry = new FoodItem("Blueberry", 52f, 0.7f, 10.4f, 9.5f, 1.5f, 0.4f, 0.03f, 0.09f, 0.52f, 0f, 1.1f, 0.06f, 0f, 44f, 0f, 0f, 0f, 0.03f, 0.03f, 0.4f, 6f, 0.0075f, 103f, 7f, 0.8f, 0.1f, 9f, 0.11f, 1.2f, 0f, 0f, 15f);
-        _blackberry = new FoodItem("Blackberry", 37f, 1.4f, 4.5f, 4.5f, 4.3f, 0.8f, 0.01f, 0.02f, 0.3f, 0f, 16.7f, 0.05f, 0f, 15f, 0f, 5.5f, 0f, 0.017f, 0.05f, 0.5f, 34f, 0.005f, 266f, 23f, 0.55f, 0.53f, 37f, 0.12f, 0.4f, 0f, 0.1f, 27f);
-        _strawberry = new FoodItem("Strawberry", 38f, 0.7f, 6.1f, 6.07f, 1.5f, 0.48f, 0.05f, 0.08f, 0.35f, 0f, 3.3f, 0.05f, 0f, 66.9f, 0f, 0.41f, 20f, 0.015f, 0.01f, 0.43f, 117f, 0.0012695f, 178.6f, 12.5f, 0.25f, 0.1f, 24f, 0.038f, 0.1f, 3.5f, 0.18f, 18.5f);
-        _raspberry = new FoodItem("Raspberry", 51f, 1.4f, 4.1f, 4.05f, 4.4f, 1.08f, 0.1f, 0.1f, 0.87f, 0f, 3.5f, 0.09f, 0f, 24f, 0f, 1.4f, 0f, 0.03f, 0.05f, 0.5f, 44f, 0.005f, 228f, 17f, 0.55f, 0.34f, 38f, 0.105f, 0.4f, 17.9f, 0.19f, 19.7f);
-        _almond = new FoodItem("Almond", 606f, 21.2f, 6.6f, 6.55f, 10.6f, 46.91f, 4.05f, 31.4f, 11.36f, 0f, 0f, 0.13f, 0f, 0.8f, 0f, 23.35f, 0f, 0.137f, 0.94f, 1.88f, 76.1f, 0.00175f, 730f, 263.8f, 3.4f, 3.3f, 489f, 1f, 0.2f, 76f, 2.15f, 256.5f);
-        _raisin = new FoodItem("Raisin", 333f, 3.2f, 69f, 68.85f, 3.6f, 1.06f, 0.52f, 0.06f, 0.47f, 0f, 2.3f, 0.11f, 0f, 3.3f, 0f, 0f, 0f, 0.085f, 0.03f, 0.5f, 4f, 0f, 785f, 35f, 2.4f, 0.3f, 107f, 0.32f, 2f, 17.8f, 0.4f, 45.1f);
-        _cashewnut = new FoodItem("Cashew", 603f, 15.3f, 26.9f, 0f, 3f, 44.31f, 8.81f, 27.58f, 7.92f, 0f, 0f, 0.26f, 0f, 0f, 0f, 0.84f, 0f, 0.2f, 0.2f, 1.4f, 69f, 0.04f, 565f, 260f, 6f, 5.6f, 490f, 2.22f, 0f, 0f, 14.63f, 45f);
-        _peanut = new FoodItem("Peanut", 596f, 25.8f, 8.1f, 3.1f, 7.7f, 46.78f, 6.83f, 24.42f, 15.55f, 0f, 0f, 0.35f, 0f, 0f, 0f, 8.2f, 0f, 0.91f, 0.1f, 20f, 106f, 0.005f, 703f, 170f, 1.9f, 3.1f, 409f, 0.86f, 0.5f, 60f, 6.9f, 55.6f);
-        _mango = new FoodItem("Mango", 67f, 0.5f, 14.2f, 10.19f, 1.9f, 0.38f, 0.11f, 0.18f, 0.09f, 0f, 46.1f, 0.13f, 0f, 40.1f, 0f, 1.1f, 0f, 0.058f, 0.06f, 0.58f, 71.1f, 0.0051875f, 105.3f, 8.8f, 0.24f, 0.08f, 16f, 0.11f, 0.3f, 0f, 0.6f, 13.9f);
-        _banana = new FoodItem("Banana", 93f, 1.1f, 19.7f, 15.37f, 1.6f, 0.15f, 0.08f, 0.04f, 0.03f, 0f, 4.4f, 0.31f, 0f, 11.2f, 0f, 0.27f, 0.5f, 0.04f, 0.01f, 0.6f, 38f, 0f, 348.1f, 28.1f, 0.25f, 0.17f, 26f, 0.106f, 0f, 4.1f, 0.35f, 6.6f);
-        _apple = new FoodItem("Apple", 55f, 0.3f, 11.3f, 10.89f, 2.2f, 0.18f, 0.04f, 0.01f, 0.13f, 0f, 2.1f, 0.05f, 0f, 8.3f, 0f, 0.25f, 3f, 0.013f, 0.01f, 0.12f, 9f, 0.001503f, 117.9f, 4.5f, 0.12f, 0.02f, 10f, 0.031f, 0.1f, 0.5f, 0.01f, 4.1f);
-        _orange = new FoodItem("Orange", 49f, 0.9f, 8.2f, 8.2f, 2f, 0.09f, 0.02f, 0.02f, 0.05f, 0f, 4f, 0.08f, 0f, 54.4f, 0f, 0.31f, 0f, 0.1f, 0.03f, 0.39f, 46.2f, 0.002846667f, 157.8f, 10.3f, 0.12f, 0.06f, 21f, 0.04f, 0.1f, 2.3f, 0.05f, 29.6f);
-        _carrot = new FoodItem("Carrot", 29f, 0.3f, 4.4f, 4.4f, 2.5f, 0.04f, 0.01f, 0f, 0.03f, 0f, 524f, 0.07f, 0f, 2.5f, 0f, 0.33f, 2.2f, 0.008f, 0.03f, 0.28f, 11f, 0.095f, 233.3f, 9.1f, 0.21f, 0.24f, 19f, 0.05f, 0f, 3.4f, 0f, 29.5f);
-        _pistachionut = new FoodItem("Pistachio", 606f, 21.6f, 8.1f, 7.2f, 8.8f, 45.53f, 5.81f, 25.33f, 14.28f, 0f, 0f, 0.9f, 0f, 5f, 0f, 1.64f, 26.2f, 0.424f, 0.24f, 1.1f, 68.4f, 0f, 1000f, 110f, 2.8f, 2.45f, 470f, 1.3f, 0f, 65.5f, 6.75f, 91.5f);
-        _pineapple = new FoodItem("Pineapple", 55f, 0.5f, 10.8f, 10.77f, 1.4f, 0.32f, 0.01f, 0.01f, 0.02f, 0f, 5f, 0.09f, 0f, 25f, 0f, 0.1f, 0f, 0.08f, 0.02f, 0.2f, 12.1f, 0.01f, 174f, 14f, 0.2f, 0.08f, 14f, 0.09f, 1.4f, 50f, 0.6f, 18.9f);
-        _bakedBeans= new FoodItem("Backed Beans", 88f, 5.1f, 9.6f, 5f, 6.6f, 0.38f, 0.08f, 0.05f, 0.25f, 0f, 0f, 0.12f, 0f, 0f, 0f, 0.6f, 0f, 0.07f, 0.05f, 0.5f, 29f, 1.2f, 300f, 31f, 1.4f, 0.7f, 91f, 0.21f, 0.6f, 0f, 3f, 45f);
-        _kidneyBeans = new FoodItem("Kidney Beans", 312f, 18.9f, 45.6f, 3.2f, 17.8f, 1.6f, 0.2f, 0.1f, 0.9f, 0f, 1.1f, 0.42f, 0f, 0f, 0f, 0.34f, 170f, 0.35f, 0.14f, 2f, 140f, 0.02f, 1327f, 131f, 5f, 2f, 477f, 0.5f, 1.9f, 273.1f, 8.8f, 77.3f);
-        _slicedTomatoes = new FoodItem("Sliced Tomatoes, canned", 21f, 1.2f, 3f, 2.3f, 0.9f, 0.24f, 0.06f, 0.04f, 0.15f, 0f, 29.3f, 0.11f, 0f, 11.3f, 0f, 0.74f, 0f, 0.045f, 0.06f, 0.58f, 24f, 0.3575f, 188f, 11f, 0.97f, 0.3f, 19f, 0.11f, 0f, 0.6f, 0.1f, 31f);
-        _mincedBeef = new FoodItem("Minced Beef", 163f, 19.5f, 0f, 0f, 0f, 7.97f, 3.6f, 3.65f, 0.22f, 0.21f, 6.9f, 0.27f, 2.32f, 0f, 0.51f, 0.48f, 0f, 0.047f, 0.17f, 4.32f, 9.6f, 0.2f, 312f, 19.7f, 2.26f, 4.34f, 177f, 0.073f, 0.8f, 0f, 6.8f, 7.1f);
-        _basmatiRice = new FoodItem("Basmati Rice", 354f, 8.4f, 78.1f, 0f, 0.7f, 0.98f, 0.27f, 0.29f, 0.42f, 0f, 0f, 0.11f, 0f, 0f, 0f, 0.05f, 0f, 0.07f, 0.04f, 1.4f, 31f, 0f, 150f, 35f, 1.2f, 1.7f, 130f, 0.2f, 2.2f, 35.6f, 6f, 52.7f);
-        _cremeFraiche = new FoodItem("Creme Fraiche", 192f, 2.8f, 2.8f, 2.84f, 0f, 17.56f, 12.43f, 3.73f, 0.47f, 0.73f, 125.8f, 0.03f, 0.2f, 0.1f, 0.22f, 0.26f, 0f, 0.032f, 0.18f, 0.07f, 10f, 0.075f, 122.5f, 9.9f, 0.02f, 0.34f, 77f, 0.015f, 10.1f, 0.9f, 2.2f, 98.4f);
-        _onion = new FoodItem("Onion", 43f, 1.2f, 5.4f, 5.36f, 1.9f, 0.07f, 0.02f, 0.01f, 0.04f, 0f, 2.5f, 0.17f, 0f, 8.1f, 0f, 0.06f, 0f, 0.038f, 0.01f, 0.19f, 36f, 0.006752632f, 186.1f, 9.2f, 0.28f, 0.19f, 31f, 0.037f, 0.2f, 2.9f, 0.13f, 23.3f);
-        _garlic = new FoodItem("Garlic", 158f, 6.4f, 30.9f, 0f, 2.1f, 0.35f, 0.09f, 0.01f, 0.25f, 0f, 0f, 1.24f, 0f, 8.2f, 0f, 0.01f, 0f, 0.2f, 0.11f, 0.7f, 103f, 0.0425f, 401f, 25f, 1.7f, 1.16f, 160f, 0.299f, 0.2f, 0f, 2f, 20.6f);
-        _risottoRice = new FoodItem("Risotto Rice", 362f, 6.8f, 76.3f, 0.2f, 2.4f, 2.24f, 0.54f, 0.97f, 0.96f, 0f, 0f, 0.51f, 0f, 0f, 0f, 0f, 0f, 0.413f, 0.04f, 0f, 20f, 0f, 268f, 143f, 1.8f, 2.02f, 307f, 0f, 2.1f, 0f, 0f, 12.1f);
-        _chickenBreastFilet = new FoodItem("Chicken Breast Fillet", 149f, 21.5f, 0f, 0f, 0f, 6.31f, 1.96f, 2.88f, 1.48f, 0f, 24f, 0.53f, 0.34f, 1f, 1.5f, 0.5f, 0f, 0.06f, 0.09f, 9.9f, 4f, 0.2f, 220f, 25f, 0.9f, 0.8f, 198f, 0f, 0f, 0.3f, 10f, 11f);
-        _champignon = new FoodItem("Champignon", 23f, 1.6f, 0.1f, 0.08f, 0.8f, 0.1f, 0.03f, 0f, 0.07f, 0f, 0f, 0.07f, 0f, 0f, 0f, 0f, 0f, 0.041f, 0.35f, 3.01f, 23.1f, 0f, 348.8f, 9.2f, 0.16f, 0.36f, 85f, 0.2f, 0f, 0.3f, 16.8f, 3.1f);
-        _whiteWine = new FoodItem("White Wine", 83f, 0.1f, 2.6f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.05f, 0f, 0f, 0f, 0f, 0f, 0.005f, 0.02f, 0.11f, 1f, 0.0125f, 71f, 10f, 0.27f, 0.12f, 18f, 0.004f, 0.3f, 0f, 0.1f, 9f);
-        _eggplant = new FoodItem("Eggplant", 17f, 0.9f, 2.4f, 2.15f, 2.2f, 0f, 0f, 0f, 0f, 0f, 2.6f, 0.05f, 0f, 1.3f, 0f, 0f, 0.6f, 0.02f, 0.03f, 0.36f, 6.1f, 0.003333333f, 217.5f, 13.6f, 0.17f, 0.14f, 25f, 0.046f, 0f, 0.4f, 0f, 10.5f);
-        _parmesanCheese = new FoodItem("Parmesan Cheese", 357f, 33.6f, 0.1f, 0.05f, 0f, 22.77f, 15.61f, 6.49f, 0.68f, 0f, 213.8f, 0.09f, 1.6f, 0f, 0.24f, 0.61f, 0f, 0.039f, 0.33f, 0.27f, 7f, 2.495f, 92f, 44f, 0.82f, 2.75f, 930f, 0.03f, 13.8f, 4f, 11f, 1180f);
-        _vegetableBouillion = new FoodItem("Vegetable Bouillion", 4f, 0.3f, 0.3f, 0f, 0f, 0.21f, 0.05f, 0.08f, 0.07f, 0f, 0f, 0f, 0f, 0f, 0.01f, 0.01f, 0f, 0.002f, 0.01f, 0.04f, 1f, 0.7825f, 6f, 2f, 0.02f, 0.01f, 3f, 0.01f, 0.3f, 0f, 0.5f, 6f);
-        _steak = new FoodItem("Steak", 265f, 18.2f, 0f, 0f, 0f, 20.02f, 8.99f, 10.17f, 0.86f, 0f, 25f, 0.4f, 1.4f, 0f, 0.8f, 0.66f, 0f, 0.039f, 0.16f, 5.3f, 5f, 0.1f, 293f, 19f, 1.9f, 3.9f, 170f, 0.062f, 1.1f, 0.7f, 6.5f, 4f);
-        _potatoes = new FoodItem("Potatoes", 77f, 2f, 17.9f, 1.24f, 1.4f, 0.23f, 0.06f, 0.01f, 0.16f, 0f, 0.8f, 0.2f, 0f, 26.4f, 0f, 0.1f, 16f, 0.055f, 0.06f, 1.6f, 36f, 0.0175f, 413.5f, 20.4f, 1.04f, 0.3f, 55f, 0.052f, 1.2f, 5.8f, 0.27f, 6.8f);
-        _salami = new FoodItem("Salami",  509f, 13.9f, 2.8f, 0f, 0f, 45.27f, 18.07f, 21.65f, 5.39f, 0f, 0f, 0.15f, 1.3f, 0f, 0.47f, 0.02f, 0f, 0.14f, 0.18f, 2.3f, 3f, 4.9689903f, 203.6f, 10f, 1.1f, 1.67f, 119f, 0.11f, 4.1f, 24f, 5f, 11.1f);
-        _mozzarella = new FoodItem("Mozzarella", 326f, 24.1f, 0f, 0f, 0f, 23.72f, 16.25f, 6.76f, 0.71f, 0f, 222.2f, 0.09f, 1.38f, 0.5f, 0.25f, 0.64f, 0f, 0.05f, 0.33f, 0.1f, 60f, 1.395f, 65f, 27f, 0.11f, 3.2f, 390f, 0.086f, 10.4f, 1.4f, 8f, 720f);
-        _tuna = new FoodItem("Canned tuna in water", 107f, 23.9f, 0f, 0f, 0f, 0.96f, 0.23f, 0.11f, 0.31f, 0f, 5.1f, 0.25f, 3.4f, 0f, 2.81f, 0.6f, 0f, 0f, 0.06f, 11.75f, 15f, 0.68625f, 224.5f, 27.1f, 1f, 0.58f, 164f, 0.047f, 15.6f, 0.8f, 82f, 8.9f);
-        _toast = new FoodItem("Fine-grained toast bread", 255f, 7.9f, 47f, 0f, 3.3f, 2.55f, 0.79f, 0.96f, 0.8f, 0f, 0f, 0.06f, 0f, 0f, 0f, 0.5f, 0f, 0.161f, 0.05f, 1.18f, 25f, 1.1346428f, 110.6f, 17.8f, 0.96f, 0.58f, 80f, 0.102f, 18.6f, 3.2f, 1.57f, 46.2f);
-        _gherkins = new FoodItem("Gherkins",76f, 0.5f, 17f, 12.5f, 0.5f, 0.4f, 0.03f, 0f, 0.04f, 0f, 0.6f, 0.01f, 0f, 4f, 0f, 0.1f, 0f, 0.01f, 0.02f, 0.04f, 8f, 0.7275f, 99f, 6.5f, 0.55f, 0.18f, 15f, 0.057f, 1f, 0.6f, 0.03f, 15.3f);
-        _liverpate = new FoodItem("Liverpate",238f, 11.3f, 4.7f, 3.7f, 0.4f, 17.36f, 6.9f, 8.2f, 2.26f, 0f, 3950f, 0.21f, 9.9f, 29f, 0f, 0.26f, 10f, 0.13f, 1.02f, 4.4f, 170f, 1.8f, 170f, 12.5f, 5.57f, 2.5f, 164f, 0.41f, 3.1f, 1.2f, 19.2f, 26f);
-        _mayonaise = new FoodItem("Mayonaise",730f, 1.1f, 0.1f, 0.1f, 0f, 76f, 6.88f, 43.88f, 25.23f, 0f, 60f, 0.1f, 1f, 0f, 1f, 7.6f, 75f, 0.008f, 0.03f, 0.1f, 14f, 1.5f, 34f, 7f, 0.3f, 0.4f, 59f, 0.03f, 6f, 0f, 1.6f, 8f);
-        _mackarelInTomatoes = new FoodItem("Mackerel in tomatoes", 155f, 11.7f, 3.9f, 0f, 0f, 9.57f, 2.21f, 4.1f, 3f, 0f, 29.1f, 0.17f, 5.85f, 0f, 2.6f, 1.52f, 0f, 0.045f, 0.17f, 4.75f, 19f, 0.9f, 357f, 23.1f, 0.7f, 0.59f, 122f, 0.107f, 12.4f, 2.6f, 19.5f, 16f);
-        _avocado = new FoodItem("Avocado", 155f, 1.6f, 1.2f, 1.14f, 5.5f, 12.53f, 2.77f, 7.69f, 1.74f, 0f, 5.6f, 0.14f, 0f, 2.9f, 0f, 1.94f, 13.7f, 0.044f, 0.11f, 1.22f, 99.3f, 0.006f, 433.8f, 28.9f, 0.47f, 0.54f, 45f, 0.253f, 0f, 59.7f, 0f, 14.6f);
-        _smokedSalmon = new FoodItem("Smoked Salmon", 170f, 20.9f, 1.6f, 0f, 0f, 7.04f, 1.1f, 3.7f, 2.02f, 0f, 6.5f, 0.66f, 4.6f, 0f, 3.1f, 2.24f, 0f, 0.26f, 0.08f, 7.5f, 0f, 3f, 408f, 28.2f, 0.22f, 0.34f, 248f, 0.036f, 5.9f, 0.8f, 17.33f, 5.9f);
-        _ryebread = new FoodItem("Ryebread", 170f, 20.9f, 1.6f, 0f, 0f, 7.04f, 1.1f, 3.7f, 2.02f, 0f, 6.5f, 0.66f, 4.6f, 0f, 3.1f, 2.24f, 0f, 0.26f, 0.08f, 7.5f, 0f, 3f, 408f, 28.2f, 0.22f, 0.34f, 248f, 0.036f, 5.9f, 0.8f, 17.33f, 5.9f);
-        _fishFillets = new FoodItem("Fish Fillet", 283f, 12.7f, 22.9f, 0f, 0f, 14.1f, 3.04f, 7.4f, 3.59f, 0f, 0f, 0.08f, 0.74f, 0f, 1.65f, 3.8f, 0f, 0.13f, 0.07f, 1.53f, 0f, 1.1f, 185f, 21.5f, 0.58f, 0.42f, 134f, 0.067f, 15.6f, 3.4f, 20f, 48.5f);
-        _frenchFries = new FoodItem("French Fries",311f, 3.7f, 39f, 0f, 3.2f, 14.07f, 3.65f, 7.49f, 2.88f, 0.05f, 0f, 0.18f, 0f, 23.3f, 0f, 0.1f, 0f, 0.128f, 0.06f, 1.2f, 10f, 0.9f, 587.4f, 32.7f, 0.79f, 0.51f, 120f, 0.171f, 0f, 41f, 2.3f, 13.2f);
-        _kebab = new FoodItem("Durum with kebab, salad and dressing", 225f, 12.6f, 20.3f, 0f, 2.1f, 8.56f, 2.69f, 4f, 1.53f, 0.32f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.098f, 0.1f, 0f, 0f, 1.3f, 286.3f, 20.6f, 1.25f, 2.6f, 134f, 0.08f, 0f, 0f, 0f, 19f);
-        _cucumber = new FoodItem("Cucumber", 12f, 0.7f, 1.6f, 1.56f, 0.8f, 0.02f, 0.01f, 0f, 0.01f, 0f, 5.2f, 0.04f, 0f, 10.4f, 0f, 0.05f, 16.4f, 0.015f, 0.01f, 0.18f, 17.6f, 0.006015893f, 147.4f, 9.5f, 0.2f, 0.13f, 27f, 0.027f, 0.5f, 0.6f, 0.03f, 17.7f);
-        _tomato = new FoodItem("Tomato",  20f, 0.7f, 3.2f, 3.18f, 1.9f, 0.24f, 0.06f, 0.04f, 0.15f, 0f, 82.7f, 0.09f, 0f, 15f, 0f, 1.1f, 7.9f, 0.043f, 0.02f, 0.73f, 31f, 0.01625f, 216f, 6.5f, 0.24f, 0.09f, 27f, 0.043f, 0f, 0.7f, 0.3f, 7.4f);
-        _icebergSalad = new FoodItem("Iceberg Salad", 16f, 0.8f, 2.1f, 2.15f, 1.1f, 0.07f, 0.01f, 0f, 0.05f, 0f, 12.5f, 0.04f, 0f, 5.5f, 0f, 0.15f, 112f, 0.044f, 0.03f, 0.23f, 89f, 0.007075f, 186f, 7.3f, 0.27f, 0.16f, 22f, 0.012f, 1f, 0.3f, 0f, 15.5f);
-        _lasagnaSheets = new FoodItem("Lasagna Sheets",128f, 5f, 26.9f, 0f, 2f, 0.28f, 0.06f, 0.04f, 0.18f, 0f, 0f, 0.01f, 0f, 0f, 0f, 0.07f, 0f, 0.04f, 0.01f, 0.3f, 2f, 0f, 78f, 24f, 0.6f, 0.7f, 50f, 0.2f, 1f, 0f, 1.8f, 13f);
-        _lambChop = new FoodItem("Lamb chop", 128f, 19.6f, 0f, 0f, 0f, 4.38f, 2.21f, 1.65f, 0.15f, 0.21f, 45f, 0.2f, 1.2f, 0f, 0.4f, 0.7f, 0f, 0.18f, 0.31f, 4.3f, 1.4f, 0.195f, 350f, 27f, 2.2f, 3.3f, 210f, 0.122f, 0.7f, 2.1f, 6.05f, 12.8f);
-        _tortilla = new FoodItem("Tortilla", 267f, 9.6f, 39.1f, 0f, 5.3f, 4.91f, 1.31f, 1.55f, 2.05f, 0f, 0f, 0.08f, 0.12f, 0f, 0f, 0.5f, 0f, 0.218f, 0.08f, 1.12f, 26f, 1.1f, 194.8f, 43.4f, 1.5f, 1.14f, 147f, 0.205f, 16.6f, 14.2f, 3.57f, 33.2f);
-        _sugar = new FoodItem("Sugar", 399f, 0.5f, 99.3f, 99.3f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 89f, 15f, 0.9f, 0.1f, 20f, 0.06f, 0f, 0f, 0f, 53f);
-        _pepper = new FoodItem("Pepper",304f, 11f, 44.5f, 0f, 26.5f, 3.12f, 1.39f, 0.74f, 1f, 0f, 9.5f, 0.34f, 0f, 21f, 0f, 0.72f, 0f, 0.109f, 0.24f, 1.14f, 10f, 0.11f, 1259f, 194f, 28.86f, 1.42f, 173f, 1.13f, 0f, 0f, 3.1f, 437f);
-        _salt = new FoodItem("Salt", 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 97.125f, 0f, 290f, 0.2f, 0.08f, 8f, 0.16f, 1556.4f, 3f, 0.5f, 29f);
-        _oliveOil = new FoodItem("Olive oil", 900f, 0f, 0f, 0f, 0f, 95.7f, 12.24f, 74.73f, 8.73f, 0f, 0f, 0f, 0f, 0f, 0f, 5.1f, 0f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 0.56f, 0f, 0f, 0f, 0f, 5.5f, 0f, 1f);
-        _coriander = new FoodItem("Coriander",  346f, 12.4f, 13.1f, 0f, 41.9f, 16.31f, 0.94f, 13.62f, 1.75f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.239f, 0.29f, 2.13f, 0f, 0.0875f, 1267f, 330f, 16.32f, 4.7f, 409f, 0f, 2.3f, 0f, 26.2f, 709f);
-        _chili = new FoodItem("Chili", 44f, 2f, 7.7f, 0f, 1.8f, 0.14f, 0.02f, 0.01f, 0.11f, 0f, 365.8f, 0.28f, 0f, 166f, 0f, 2.9f, 0f, 0.09f, 0.09f, 0.9f, 23f, 0.0175f, 340f, 25f, 1.2f, 0.3f, 68f, 0.174f, 0f, 0f, 0.5f, 14f);
-        _cumin = new FoodItem("Cumin", 428f, 17.8f, 30.6f, 2.25f, 10.5f, 0f, 0f, 0f, 0f, 0f, 63.5f, 0.44f, 0f, 7.7f, 0f, 3.33f, 5.4f, 0.628f, 0.33f, 4.58f, 10f, 0.4f, 1788f, 366f, 66.36f, 4.8f, 499f, 0.867f, 0f, 0f, 5.2f, 931f);
-        _ginger = new FoodItem("Ginger", 83f, 1.8f, 16.7f, 0f, 1f, 0.53f, 0.21f, 0.15f, 0.16f, 0f, 0f, 0.16f, 0f, 5f, 0f, 0f, 0f, 0.025f, 0.03f, 0.75f, 11f, 0.0325f, 415f, 43f, 0.6f, 0.34f, 34f, 0.226f, 0.5f, 0f, 1f, 16f);
-        _greekYogurt = new FoodItem("Greek yogurt", 117f, 4.9f, 6.2f, 3.75f, 0f, 7.12f, 4.66f, 1.61f, 0.14f, 0.56f, 58.5f, 0.05f, 0.33f, 0f, 0.13f, 0.39f, 0f, 0.032f, 0.16f, 0.09f, 0f, 0.2f, 150f, 10.4f, 0.03f, 0.44f, 109f, 0.005f, 14.4f, 0.5f, 2.16f, 113.5f);
-        _pasta = new FoodItem("Pasta",128f, 5f, 26.9f, 0f, 2f, 0.28f, 0.06f, 0.04f, 0.18f, 0f, 0f, 0.01f, 0f, 0f, 0f, 0.07f, 0f, 0.04f, 0.01f, 0.3f, 2f, 0f, 78f, 24f, 0.6f, 0.7f, 50f, 0.2f, 1f, 0f, 1.8f, 13f);
-        _cream = new FoodItem("Whipped Cream", 360f, 2.1f, 3f, 2.98f, 0f, 35.93f, 24.27f, 8.59f, 1.04f, 1.54f, 346.1f, 0.02f, 0.44f, 0.8f, 0.15f, 0.87f, 0f, 0.031f, 0.16f, 0.07f, 10.8f, 0.1f, 94.1f, 6.8f, 0.05f, 0.24f, 57f, 0.022f, 10.1f, 0.2f, 1.47f, 66.8f);
-        _mincedVealAndPork = new FoodItem("Minced veal and pork", 218f, 17.6f, 0f, 0f, 0f, 15.21f, 6.27f, 7f, 1.34f, 0.22f, 9f, 0.27f, 1.31f, 0f, 1.1f, 0.5f, 0f, 0.406f, 0.18f, 4.71f, 8.3f, 0.2f, 293.1f, 18.4f, 1.2f, 2.78f, 170f, 0.072f, 1.5f, 0f, 5.63f, 8.1f);
-        _curry = new FoodItem("Curry", 342f, 12.7f, 25.2f, 0f, 33.2f, 11.05f, 1.6f, 8.8f, 3.1f, 0f, 49.5f, 1.15f, 0f, 11.4f, 0f, 21.99f, 0f, 0.253f, 0.28f, 3.47f, 154f, 0.13f, 1543f, 254f, 29.59f, 4.05f, 349f, 1.04f, 0.5f, 0f, 17.1f, 478f);
-        _bellPepper = new FoodItem("Bell pepper",31f, 0.9f, 5.2f, 5.24f, 1.7f, 0.08f, 0.02f, 0f, 0.06f, 0f, 105.8f, 0.43f, 0f, 162.8f, 0f, 2.26f, 0f, 0.047f, 0.08f, 0.98f, 88f, 0.000974643f, 239f, 11.8f, 0.32f, 0.13f, 25f, 0.051f, 0.1f, 4f, 0.14f, 6.6f);
-        _vinegar = new FoodItem("Vinegar", 20f, 0.4f, 0.4f, 0.6f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.05f, 89f, 22f, 0.5f, 0.01f, 32f, 0.007f, 1.4f, 0f, 0.1f, 12f);
-        _springOnion = new FoodItem("Spring onion",33f, 1.8f, 4.7f, 0f, 2.6f, 0.13f, 0.03f, 0.03f, 0.07f, 0f, 250f, 0.06f, 0f, 22.1f, 0f, 0f, 0f, 0.055f, 0.08f, 0.53f, 64f, 0.04f, 276f, 20f, 1.48f, 0.39f, 37f, 0.083f, 2f, 0f, 0.6f, 72f);
-        _scallion = new FoodItem("Scallion", 27f, 2.1f, 3f, 0.8f, 1.9f, 0.22f, 0.06f, 0.02f, 0.13f, 0f, 1.7f, 0.15f, 0f, 66f, 0f, 0.15f, 170f, 0.05f, 0f, 0.3f, 73f, 0.015f, 249f, 9f, 0.4f, 0.2f, 32f, 0.07f, 0.3f, 6.4f, 0.77f, 33.7f);
-        _mincedPork = new FoodItem("Minced pork", 169f, 18.9f, 0f, 0f, 0f, 9.08f, 3.57f, 4.25f, 1.05f, 0.05f, 7.2f, 0.32f, 0.72f, 0f, 0.59f, 0.54f, 0f, 0.723f, 0.19f, 5.98f, 4.3f, 0.1f, 331.4f, 20.8f, 0.88f, 2.18f, 190f, 0.07f, 0.9f, 0f, 7.15f, 7.7f);
-        _shrimp = new FoodItem("Shrimp",69f, 15.3f, 0f, 0f, 0f, 0.66f, 0.15f, 0.22f, 0.29f, 0f, 0f, 0f, 2.05f, 0f, 0f, 4f, 0f, 0.015f, 0.01f, 0.49f, 20f, 1.67875f, 53.5f, 22.3f, 0.11f, 0.78f, 109f, 0.146f, 7.6f, 1.1f, 19f, 43.7f);
-        _tacosItem = new FoodItem("Tacos", 361f, 6.8f, 88.3f, 1.26f, 3.2f, 2.63f, 0.44f, 0.8f, 1.39f, 0f, 8.1f, 0.33f, 0f, 0f, 0f, 1.11f, 0f, 0.33f, 0.11f, 5.7f, 20f, 0f, 120f, 47f, 1.1f, 0.5f, 99f, 0f, 0.6f, 29f, 3.2f, 6f);
-        _salmon = new FoodItem("Salmon", 228f, 15.8f, 0f, 0f, 0f, 15.28f, 2.21f, 8.05f, 4.5f, 0f, 7.1f, 0.64f, 4.1f, 2f, 6.79f, 3.3f, 0f, 0.25f, 0.07f, 7.65f, 0f, 0.1f, 361.6f, 25.6f, 0.22f, 0.32f, 219f, 0.038f, 2.7f, 2.6f, 16.6f, 8.7f);
-        _remoulade = new FoodItem("Remoulade", 380f, 1.1f, 12f, 12f, 0.5f, 35.22f, 3.1f, 20.19f, 11.94f, 0f, 54f, 0.04f, 1.1f, 2f, 1.02f, 7.5f, 0f, 0.025f, 0.04f, 0f, 7f, 0.7f, 49f, 3f, 1.2f, 0.6f, 55f, 0.1f, 5f, 0f, 1.6f, 14f);
-        _pesto = new FoodItem("Pesto", 678f, 14f, 9.8f, 4.85f, 6.4f, 56.37f, 4.34f, 15.67f, 25.67f, 0f, 1.5f, 0.22f, 0f, 0.8f, 0f, 11.85f, 4.9f, 0.485f, 0.26f, 3.33f, 63.4f, 0.003125f, 602.9f, 205f, 4.85f, 5.75f, 490f, 1.299f, 0f, 235f, 1f, 9.9f);
-        _greenBeans = new FoodItem("Green Beans", 30f, 1.9f, 5.9f, 2.76f, 3f, 0.19f, 0.07f, 0.01f, 0.11f, 0f, 8.7f, 0.1f, 0f, 15f, 0f, 0.3f, 14.4f, 0.09f, 0.11f, 0.7f, 64f, 0.00425f, 237f, 17f, 1f, 0.39f, 39f, 0.057f, 0.8f, 13.5f, 0.3f, 60f);
-        _olives = new FoodItem("Olives", 165f, 1f, -1.5f, 0f, 6.2f, 13.76f, 2.08f, 10.2f, 1.51f, 0f, 0f, 0.03f, 0f, 0f, 0f, 6.1f, 0f, 0.017f, 0f, 0f, 0f, 0f, 19f, 16f, 8.5f, 0.14f, 17f, 0f, 0f, 0f, 0.9f, 103f);
-        _anchovies = new FoodItem("Anchovies", 215f, 13.4f, 10f, 10f, 0f, 10.35f, 3.34f, 4.33f, 2.68f, 0f, 390f, 0.18f, 3.5f, 0f, 14f, 0.9f, 0f, 0.006f, 0.12f, 1.1f, 16f, 9f, 165f, 18.3f, 1.8f, 3.4f, 210f, 0.16f, 30f, 5f, 20f, 145f);
-        _pear = new FoodItem("Pear", 49f, 0.3f, 10.6f, 8.33f, 3.2f, 0.05f, 0.01f, 0.01f, 0.03f, 0f, 5.4f, 0.01f, 0f, 6.1f, 0f, 0.58f, 0f, 0.01f, 0.01f, 0.23f, 16f, 0.001945625f, 122.3f, 6.5f, 0.1f, 0.11f, 11f, 0.065f, 0.2f, 8.5f, 0.1f, 10.1f);
-        _capers = new FoodItem("Capers", 17f, 1.2f, 2.1f, 0f, 1.3f, 0.08f, 0f, 0f, 0f, 0f, 23f, 0.04f, 0f, 11f, 0f, 0f, 0f, 0.01f, 0.05f, 0.2f, 18f, 0f, 230f, 15f, 0.3f, 0.2f, 40f, 0f, 0.5f, 0f, 0f, 32f);
-        _pepperSauce = new FoodItem("Pepper Sauce", 360f, 2.1f, 3f, 2.98f, 0f, 35.93f, 24.27f, 8.59f, 1.04f, 1.54f, 346.1f, 0.02f, 0.44f, 0.8f, 0.15f, 0.87f, 0f, 0.031f, 0.16f, 0.07f, 10.8f, 0.1f, 94.1f, 6.8f, 0.05f, 0.24f, 57f, 0.022f, 10.1f, 0.2f, 1.47f, 66.8f);
-        _whiskeySauce = new FoodItem("Whiskey Sauce", 360f, 2.1f, 3f, 2.98f, 0f, 35.93f, 24.27f, 8.59f, 1.04f, 1.54f, 346.1f, 0.02f, 0.44f, 0.8f, 0.15f, 0.87f, 0f, 0.031f, 0.16f, 0.07f, 10.8f, 0.1f, 94.1f, 6.8f, 0.05f, 0.24f, 57f, 0.022f, 10.1f, 0.2f, 1.47f, 66.8f);
-        _lime = new FoodItem("Lime", 37f, 0.7f, 3.2f, 0f, 2.8f, 0.11f, 0.02f, 0.02f, 0.06f, 0f, 0.5f, 0.04f, 0f, 29.1f, 0f, 0.24f, 0f, 0.03f, 0.02f, 0.2f, 8f, 0.005f, 102f, 6f, 0.6f, 0.11f, 18f, 0.065f, 0f, 0f, 0.2f, 33f);
-        _paprika = new FoodItem("Paprika", 44f, 2f, 7.7f, 0f, 1.8f, 0.14f, 0.02f, 0.01f, 0.11f, 0f, 365.8f, 0.28f, 0f, 166f, 0f, 2.9f, 0f, 0.09f, 0.09f, 0.9f, 23f, 0.0175f, 340f, 25f, 1.2f, 0.3f, 68f, 0.174f, 0f, 0f, 0.5f, 14f);
-        _oregano = new FoodItem("Oregano", 18f, 1.7f, 0.7f, 0.6f, 1.2f, 0.16f, 0.08f, 0.02f, 0.13f, 0f, 334.2f, 0.13f, 0f, 60f, 0f, 1f, 0f, 0.1f, 0.1f, 0.6f, 9f, 0.15f, 310f, 17f, 1.6f, 0.2f, 68f, 0.14f, 13.5f, 0f, 1f, 82.8f);
-        _crackers = new FoodItem("Crackers", 443f, 9.4f, 64.2f, 4.95f, 3f, 12.88f, 7.21f, 4.13f, 1.5f, 0.04f, 0f, 0.06f, 0f, 0f, 0f, 0f, 0f, 0.13f, 0.08f, 1.5f, 0f, 2f, 120f, 25f, 1.7f, 0.87f, 110f, 0.19f, 1.6f, 10f, 3f, 110f);
-        _porkChops = new FoodItem("Pork Chops", 182f, 17.4f, 0f, 0f, 0f, 11.44f, 5.12f, 5.48f, 0.81f, 0.03f, 6.2f, 0.26f, 0.82f, 0f, 0.22f, 0.55f, 0f, 0.747f, 0.21f, 5.18f, 4.4f, 0.1f, 327f, 20.3f, 0.99f, 2.65f, 172f, 0.1f, 1f, 0.4f, 9.2f, 6.1f);
-        _honey = new FoodItem("Honey", 327f, 0.3f, 75.1f, 75.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.16f, 0f, 1.1f, 0f, 0f, 25f, 0f, 0.1f, 0.1f, 0f, 0f, 51f, 2.9f, 0.4f, 0.35f, 7f, 0.031f, 0.5f, 9f, 0f, 5f);
-        _broccoli = new FoodItem("Broccoli", 35f, 3.6f, 2.1f, 2.07f, 3.2f, 0.19f, 0f, 0f, 0f, 0f, 44.4f, 0.22f, 0f, 116.7f, 0f, 1.45f, 260f, 0.087f, 0.11f, 0.57f, 239f, 0.031117857f, 389f, 20.8f, 0.7f, 0.42f, 78f, 0.05f, 0.2f, 9.5f, 2.44f, 44.4f);
-        _asparagus = new FoodItem("Asparagus", 26f, 1.8f, 3.1f, 0f, 1.8f, 0.24f, 0.07f, 0.01f, 0.16f, 0f, 0f, 0.15f, 0f, 10f, 0f, 1.98f, 0f, 0.11f, 0.12f, 0f, 150f, 0.00925f, 267f, 12.2f, 0.7f, 0.9f, 86f, 0f, 4f, 0f, 0.2f, 22.8f);
+        _egg = new FoodItem("Eggs", 139f, 12.3f, 1.3f, 0f, 0f, 7.74f, 2.6f, 3.42f, 1.61f, 0.02f, 80.5f, 0.11f, 1.57f, 0.2f, 1.77f, 3.71f, 0.083f, 0.46f, 0.08f, 0f, 0.3f, 131.4f, 11.6f, 1.73f, 1.14f, 176f, 0.054f, 24.5f, 24.44f, 46.9f);
+        _bacon = new FoodItem("Bacon", 430f, 13f, 0f, 0f, 0f, 39.06f, 17.09f, 18.9f, 3.07f, 0f, 0f, 0.15f, 0.65f, 0.8f, 0.43f, 0.3f, 0.48f, 0.16f, 3f, 2f, 2.85f, 185f, 15f, 0.51f, 1.98f, 220f, 0.063f, 0.7f, 8.3f, 5.1f);
+        _buns = new FoodItem("Buns", 294f, 9.7f, 51.7f, 0.35f, 3.5f, 2.59f, 0.68f, 0.63f, 1.29f, 0f, 0f, 0.08f, 0f, 0f, 0f, 0.5f, 0.157f, 0.09f, 1.2f, 62.1f, 1.1f, 153.1f, 25.6f, 1.32f, 0.79f, 116f, 0.143f, 2.5f, 3.1f, 66.7f);
+        _butter = new FoodItem("Butter", 741f, 0.7f, 0.6f, 0.58f, 0f, 77.02f, 53.54f, 16.98f, 2.2f, 3.52f, 749.3f, 0f, 0.17f, 0f, 0.41f, 1.76f, 0.007f, 0.04f, 0.1f, 3f, 0.9f, 29.1f, 1.6f, 0.01f, 0.04f, 21f, 0.022f, 2.7f, 1.56f, 16.8f);
+        _strawberryJam = new FoodItem("Strawberry Jam", 226f, 0.5f, 54.3f, 58f, 1.2f, 0.4f, 0.04f, 0.07f, 0.29f, 0f, 4.2f, 0.03f, 0f, 14f, 0f, 0.2f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 25f);
+        _raspberryJam = new FoodItem("Raspberry Jam", 203f, 0.6f, 48.1f, 46f, 1.2f, 0.48f, 0.05f, 0.05f, 0.39f, 0f, 4.2f, 0.03f, 0f, 5f, 0f, 0.15f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 15f);
+        _blackberryJam = new FoodItem("Blackberry Jam", 203f, 0.6f, 48.1f, 46f, 1.2f, 0.48f, 0.05f, 0.05f, 0.39f, 0f, 4.2f, 0.03f, 0f, 5f, 0f, 0.15f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 15f);
+        _rhubarbJam = new FoodItem("Rhubarb Jam", 203f, 0.6f, 48.1f, 46f, 1.2f, 0.48f, 0.05f, 0.05f, 0.39f, 0f, 4.2f, 0.03f, 0f, 5f, 0f, 0.15f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 15f);
+        _slicedCheese = new FoodItem("Sliced Cheese", 325f, 23.7f, 1.6f, 0.18f, 0f, 21.54f, 14.54f, 5.14f, 0.53f, 0.99f, 212f, 0f, 0f, 0f, 0.35f, 0.5f, 0f, 0f, 0f, 0f, 1.6f, 60.5f, 27.2f, 0.09f, 3.37f, 446f, 0.049f, 14.1f, 14.17f, 682.7f);
+        _Peanutbutter = new FoodItem("Peanut butter", 637f, 22.6f, 12.2f, 6.38f, 7.6f, 51.55f, 10.69f, 27.35f, 13.51f, 0f, 0f, 0.5f, 0f, 0f, 0f, 4.7f, 0.17f, 0.1f, 15f, 53f, 0.9f, 700f, 180f, 2.1f, 3f, 330f, 0.7f, 0.5f, 6.9f, 37f);
+        _mapleSyrup = new FoodItem("Maple Syrup", 308f, 0.3f, 76.7f, 76.7f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.01f, 0.1f, 0f, 0.2f, 220f, 34f, 2.5f, 0.13f, 3f, 0.24f, 5f, 1f, 75f);
+        _spreadChocolate = new FoodItem("Chocolate Spread", 900f, 0f, 0f, 0f, 0f, 95.6f, 59.45f, 33.22f, 2.94f, 0f, 0f, 0f, 0f, 0f, 0f, 1.8f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f);
+        _quinoa = new FoodItem("Quinoa", 347f, 13.7f, 42.3f, 3.2f, 13.9f, 4.4f, 0.51f, 1.18f, 2.71f, 0f, 0f, 0.14f, 0f, 0f, 0f, 2.33f, 0.064f, 0.29f, 0.73f, 195.5f, 0f, 870f, 175f, 3.75f, 2.8f, 415f, 0.515f, 0f, 4.6f, 46.5f);
+        _oats = new FoodItem("Oat", 366f, 12.9f, 58.9f, 1.03f, 9.9f, 6.47f, 1.19f, 2.38f, 2.81f, 0f, 0f, 0.14f, 0f, 0f, 0f, 0.75f, 0.416f, 0.11f, 0.8f, 50.4f, 0.00405f, 386.3f, 154.5f, 3.86f, 2.99f, 440f, 0.39f, 0.5f, 5f, 115.3f);
+        _milk = new FoodItem("Milk", 37f, 3.5f, 4.8f, 4.75f, 0f, 0.47f, 0.35f, 0.11f, 0.01f, 0f, 4.4f, 0.05f, 0.48f, 1.3f, 0.08f, 0.01f, 0.041f, 0.17f, 0.09f, 5.8f, 0.1f, 157.2f, 12.1f, 0.03f, 0.41f, 97f, 0.01f, 23.3f, 1.64f, 123.6f);
+        _flute = new FoodItem("Flute", 259f, 8.1f, 47.9f, 0f, 4f, 2.33f, 0.94f, 0.73f, 0.66f, 0f, 0f, 0.1f, 0.07f, 0f, 0f, 0.5f, 0.192f, 0.07f, 1.57f, 39.3f, 1.1498611f, 161.5f, 28f, 1.16f, 0.82f, 112f, 0.134f, 23f, 2.06f, 35.2f);
+        _ham = new FoodItem("Ham", 109f, 17.9f, 0.3f, 0f, 0f, 3.4f, 1.34f, 1.62f, 0.44f, 0f, 0f, 0.32f, 0.54f, 29f, 0.09f, 0.33f, 0.9f, 0.16f, 5.5f, 1.3f, 0f, 327f, 21f, 0.69f, 1.69f, 302f, 0.08f, 0f, 7.5f, 6.3f);
+        _brunchSausages = new FoodItem("Brunch Sausages", 292f, 14f, 4.3f, 2.83f, 0.2f, 23.14f, 9.01f, 11.45f, 2.68f, 0f, 0f, 0.15f, 1.1f, 0f, 0.3f, 0.1f, 0.358f, 0.1f, 1.8f, 4f, 2.7f, 208.7f, 18.7f, 0.79f, 1.31f, 184f, 0.067f, 14f, 7.2f, 21.9f);
+        _cornflakes = new FoodItem("Corn Flakes", 374f, 7.5f, 82f, 7.06f, 3.1f, 1.26f, 0.21f, 0.39f, 0.66f, 0f, 0f, 0.12f, 0f, 0f, 0f, 0.02f, 0.659f, 0.57f, 1.1f, 26.7f, 1.5195689f, 102.9f, 15.2f, 2.89f, 0.27f, 57f, 0.067f, 0.9f, 2.6f, 4.3f);
+        _flour = new FoodItem("Flour", 343f, 9.7f, 56.5f, 1.13f, 6f, 1.24f, 0.38f, 0f, 0.85f, 0f, 0f, 0.07f, 0f, 0f, 0f, 0.43f, 0.164f, 0.03f, 0.37f, 30.6f, 0f, 154.7f, 25.4f, 1.17f, 0.87f, 115f, 0.134f, 1.4f, 4.23f, 17.6f);
+        _lemon = new FoodItem("Lemon", 44f, 0.5f, 3.1f, 3.11f, 1.2f, 0.88f, 0.24f, 0.07f, 0.57f, 0f, 1.7f, 0.06f, 0f, 49f, 0f, 0.8f, 0.045f, 0.03f, 0.2f, 32f, 0.0075f, 175f, 9f, 0.08f, 0.13f, 21f, 0.053f, 0.3f, 0.12f, 35.1f);
+        _blueberry = new FoodItem("Blueberry", 52f, 0.7f, 10.4f, 9.5f, 1.5f, 0.4f, 0.03f, 0.09f, 0.52f, 0f, 1.1f, 0.06f, 0f, 44f, 0f, 0f, 0.03f, 0.03f, 0.4f, 6f, 0.0075f, 103f, 7f, 0.8f, 0.1f, 9f, 0.11f, 1.2f, 0f, 15f);
+        _blackberry = new FoodItem("Blackberry", 37f, 1.4f, 4.5f, 4.5f, 4.3f, 0.8f, 0.01f, 0.02f, 0.3f, 0f, 16.7f, 0.05f, 0f, 15f, 0f, 5.5f, 0.017f, 0.05f, 0.5f, 34f, 0.005f, 266f, 23f, 0.55f, 0.53f, 37f, 0.12f, 0.4f, 0.1f, 27f);
+        _strawberry = new FoodItem("Strawberry", 38f, 0.7f, 6.1f, 6.07f, 1.5f, 0.48f, 0.05f, 0.08f, 0.35f, 0f, 3.3f, 0.05f, 0f, 66.9f, 0f, 0.41f, 0.015f, 0.01f, 0.43f, 117f, 0.0012695f, 178.6f, 12.5f, 0.25f, 0.1f, 24f, 0.038f, 0.1f, 0.18f, 18.5f);
+        _raspberry = new FoodItem("Raspberry", 51f, 1.4f, 4.1f, 4.05f, 4.4f, 1.08f, 0.1f, 0.1f, 0.87f, 0f, 3.5f, 0.09f, 0f, 24f, 0f, 1.4f, 0.03f, 0.05f, 0.5f, 44f, 0.005f, 228f, 17f, 0.55f, 0.34f, 38f, 0.105f, 0.4f, 0.19f, 19.7f);
+        _almond = new FoodItem("Almond", 606f, 21.2f, 6.6f, 6.55f, 10.6f, 46.91f, 4.05f, 31.4f, 11.36f, 0f, 0f, 0.13f, 0f, 0.8f, 0f, 23.35f, 0.137f, 0.94f, 1.88f, 76.1f, 0.00175f, 730f, 263.8f, 3.4f, 3.3f, 489f, 1f, 0.2f, 2.15f, 256.5f);
+        _raisin = new FoodItem("Raisin", 333f, 3.2f, 69f, 68.85f, 3.6f, 1.06f, 0.52f, 0.06f, 0.47f, 0f, 2.3f, 0.11f, 0f, 3.3f, 0f, 0f, 0.085f, 0.03f, 0.5f, 4f, 0f, 785f, 35f, 2.4f, 0.3f, 107f, 0.32f, 2f, 0.4f, 45.1f);
+        _cashewnut = new FoodItem("Cashew", 603f, 15.3f, 26.9f, 0f, 3f, 44.31f, 8.81f, 27.58f, 7.92f, 0f, 0f, 0.26f, 0f, 0f, 0f, 0.84f, 0.2f, 0.2f, 1.4f, 69f, 0.04f, 565f, 260f, 6f, 5.6f, 490f, 2.22f, 0f, 14.63f, 45f);
+        _peanut = new FoodItem("Peanut", 596f, 25.8f, 8.1f, 3.1f, 7.7f, 46.78f, 6.83f, 24.42f, 15.55f, 0f, 0f, 0.35f, 0f, 0f, 0f, 8.2f, 0.91f, 0.1f, 20f, 106f, 0.005f, 703f, 170f, 1.9f, 3.1f, 409f, 0.86f, 0.5f, 6.9f, 55.6f);
+        _mango = new FoodItem("Mango", 67f, 0.5f, 14.2f, 10.19f, 1.9f, 0.38f, 0.11f, 0.18f, 0.09f, 0f, 46.1f, 0.13f, 0f, 40.1f, 0f, 1.1f, 0.058f, 0.06f, 0.58f, 71.1f, 0.0051875f, 105.3f, 8.8f, 0.24f, 0.08f, 16f, 0.11f, 0.3f, 0.6f, 13.9f);
+        _banana = new FoodItem("Banana", 93f, 1.1f, 19.7f, 15.37f, 1.6f, 0.15f, 0.08f, 0.04f, 0.03f, 0f, 4.4f, 0.31f, 0f, 11.2f, 0f, 0.27f, 0.04f, 0.01f, 0.6f, 38f, 0f, 348.1f, 28.1f, 0.25f, 0.17f, 26f, 0.106f, 0f, 0.35f, 6.6f);
+        _apple = new FoodItem("Apple", 55f, 0.3f, 11.3f, 10.89f, 2.2f, 0.18f, 0.04f, 0.01f, 0.13f, 0f, 2.1f, 0.05f, 0f, 8.3f, 0f, 0.25f, 0.013f, 0.01f, 0.12f, 9f, 0.001503f, 117.9f, 4.5f, 0.12f, 0.02f, 10f, 0.031f, 0.1f, 0.01f, 4.1f);
+        _orange = new FoodItem("Orange", 49f, 0.9f, 8.2f, 8.2f, 2f, 0.09f, 0.02f, 0.02f, 0.05f, 0f, 4f, 0.08f, 0f, 54.4f, 0f, 0.31f, 0.1f, 0.03f, 0.39f, 46.2f, 0.002846667f, 157.8f, 10.3f, 0.12f, 0.06f, 21f, 0.04f, 0.1f, 0.05f, 29.6f);
+        _carrot = new FoodItem("Carrot", 29f, 0.3f, 4.4f, 4.4f, 2.5f, 0.04f, 0.01f, 0f, 0.03f, 0f, 524f, 0.07f, 0f, 2.5f, 0f, 0.33f, 0.008f, 0.03f, 0.28f, 11f, 0.095f, 233.3f, 9.1f, 0.21f, 0.24f, 19f, 0.05f, 0f, 0f, 29.5f);
+        _pistachionut = new FoodItem("Pistachio", 606f, 21.6f, 8.1f, 7.2f, 8.8f, 45.53f, 5.81f, 25.33f, 14.28f, 0f, 0f, 0.9f, 0f, 5f, 0f, 1.64f, 0.424f, 0.24f, 1.1f, 68.4f, 0f, 1000f, 110f, 2.8f, 2.45f, 470f, 1.3f, 0f, 6.75f, 91.5f);
+        _pineapple = new FoodItem("Pineapple", 55f, 0.5f, 10.8f, 10.77f, 1.4f, 0.32f, 0.01f, 0.01f, 0.02f, 0f, 5f, 0.09f, 0f, 25f, 0f, 0.1f, 0.08f, 0.02f, 0.2f, 12.1f, 0.01f, 174f, 14f, 0.2f, 0.08f, 14f, 0.09f, 1.4f, 0.6f, 18.9f);
+        _bakedBeans= new FoodItem("Backed Beans", 88f, 5.1f, 9.6f, 5f, 6.6f, 0.38f, 0.08f, 0.05f, 0.25f, 0f, 0f, 0.12f, 0f, 0f, 0f, 0.6f, 0.07f, 0.05f, 0.5f, 29f, 1.2f, 300f, 31f, 1.4f, 0.7f, 91f, 0.21f, 0.6f, 3f, 45f);
+        _kidneyBeans = new FoodItem("Kidney Beans", 312f, 18.9f, 45.6f, 3.2f, 17.8f, 1.6f, 0.2f, 0.1f, 0.9f, 0f, 1.1f, 0.42f, 0f, 0f, 0f, 0.34f, 0.35f, 0.14f, 2f, 140f, 0.02f, 1327f, 131f, 5f, 2f, 477f, 0.5f, 1.9f, 8.8f, 77.3f);
+        _slicedTomatoes = new FoodItem("Sliced Tomatoes, canned", 21f, 1.2f, 3f, 2.3f, 0.9f, 0.24f, 0.06f, 0.04f, 0.15f, 0f, 29.3f, 0.11f, 0f, 11.3f, 0f, 0f, 0.045f, 0.06f, 0.58f, 24f, 0.3575f, 188f, 11f, 0.97f, 0.3f, 19f, 0.11f, 0f, 0.1f, 31f);
+        _mincedBeef = new FoodItem("Minced Beef", 163f, 19.5f, 0f, 0f, 0f, 7.97f, 3.6f, 3.65f, 0.22f, 0.21f, 6.9f, 0.27f, 2.32f, 0f, 0.51f, 0.48f, 0.047f, 0.17f, 4.32f, 9.6f, 0.2f, 312f, 19.7f, 2.26f, 4.34f, 177f, 0.073f, 0.8f, 6.8f, 7.1f);
+        _basmatiRice = new FoodItem("Basmati Rice", 354f, 8.4f, 78.1f, 0f, 0.7f, 0.98f, 0.27f, 0.29f, 0.42f, 0f, 0f, 0.11f, 0f, 0f, 0f, 0.05f, 0.07f, 0.04f, 1.4f, 31f, 0f, 150f, 35f, 1.2f, 1.7f, 130f, 0.2f, 2.2f, 6f, 52.7f);
+        _cremeFraiche = new FoodItem("Creme Fraiche", 192f, 2.8f, 2.8f, 2.84f, 0f, 17.56f, 12.43f, 3.73f, 0.47f, 0.73f, 125.8f, 0.03f, 0.2f, 0.1f, 0.22f, 0.26f, 0.032f, 0.18f, 0.07f, 10f, 0.075f, 122.5f, 9.9f, 0.02f, 0.34f, 77f, 0.015f, 10.1f, 2.2f, 98.4f);
+        _onion = new FoodItem("Onion", 43f, 1.2f, 5.4f, 5.36f, 1.9f, 0.07f, 0.02f, 0.01f, 0.04f, 0f, 2.5f, 0.17f, 0f, 8.1f, 0f, 0.06f, 0.038f, 0.01f, 0.19f, 36f, 0.006752632f, 186.1f, 9.2f, 0.28f, 0.19f, 31f, 0.037f, 0.2f, 0.13f, 23.3f);
+        _garlic = new FoodItem("Garlic", 158f, 6.4f, 30.9f, 0f, 2.1f, 0.35f, 0.09f, 0.01f, 0.25f, 0f, 0f, 1.24f, 0f, 8.2f, 0f, 0.01f, 0.2f, 0.11f, 0.7f, 103f, 0.0425f, 401f, 25f, 1.7f, 1.16f, 160f, 0.299f, 0.2f, 2f, 20.6f);
+        _risottoRice = new FoodItem("Risotto Rice", 362f, 6.8f, 76.3f, 0.2f, 2.4f, 2.24f, 0.54f, 0.97f, 0.96f, 0f, 0f, 0.51f, 0f, 0f, 0f, 0f, 0.413f, 0.04f, 0f, 20f, 0f, 268f, 143f, 1.8f, 2.02f, 307f, 0f, 2.1f, 0f, 12.1f);
+        _chickenBreastFilet = new FoodItem("Chicken Breast Fillet", 149f, 21.5f, 0f, 0f, 0f, 6.31f, 1.96f, 2.88f, 1.48f, 0f, 24f, 0.53f, 0.34f, 1f, 1.5f, 0.5f, 0.06f, 0.09f, 9.9f, 4f, 0.2f, 220f, 25f, 0.9f, 0.8f, 198f, 0f, 0f, 10f, 11f);
+        _champignon = new FoodItem("Champignon", 23f, 1.6f, 0.1f, 0.08f, 0.8f, 0.1f, 0.03f, 0f, 0.07f, 0f, 0f, 0.07f, 0f, 0f, 0f, 0f, 0.041f, 0.35f, 3.01f, 23.1f, 0f, 348.8f, 9.2f, 0.16f, 0.36f, 85f, 0.2f, 0f, 16.8f, 3.1f);
+        _whiteWine = new FoodItem("White Wine", 83f, 0.1f, 2.6f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.05f, 0f, 0f, 0f, 0f, 0.005f, 0.02f, 0.11f, 1f, 0.0125f, 71f, 10f, 0.27f, 0.12f, 18f, 0.004f, 0.3f, 0.1f, 9f);
+        _eggplant = new FoodItem("Eggplant", 17f, 0.9f, 2.4f, 2.15f, 2.2f, 0f, 0f, 0f, 0f, 0f, 2.6f, 0.05f, 0f, 1.3f, 0f, 0f, 0.02f, 0.03f, 0.36f, 6.1f, 0.003333333f, 217.5f, 13.6f, 0.17f, 0.14f, 25f, 0.046f, 0f, 0f, 10.5f);
+        _parmesanCheese = new FoodItem("Parmesan Cheese", 357f, 33.6f, 0.1f, 0.05f, 0f, 22.77f, 15.61f, 6.49f, 0.68f, 0f, 213.8f, 0.09f, 1.6f, 0f, 0.24f, 0.61f, 0.039f, 0.33f, 0.27f, 7f, 2.495f, 92f, 44f, 0.82f, 2.75f, 930f, 0.03f, 13.8f, 11f, 1180f);
+        _vegetableBouillion = new FoodItem("Vegetable Bouillion", 4f, 0.3f, 0.3f, 0f, 0f, 0.21f, 0.05f, 0.08f, 0.07f, 0f, 0f, 0f, 0f, 0f, 0.01f, 0.01f, 0.002f, 0.01f, 0.04f, 1f, 0.7825f, 6f, 2f, 0.02f, 0.01f, 3f, 0.01f, 0.3f, 0.5f, 6f);
+        _steak = new FoodItem("Steak", 265f, 18.2f, 0f, 0f, 0f, 20.02f, 8.99f, 10.17f, 0.86f, 0f, 25f, 0.4f, 1.4f, 0f, 0.8f, 0.66f, 0.039f, 0.16f, 5.3f, 5f, 0.1f, 293f, 19f, 1.9f, 3.9f, 170f, 0.062f, 1.1f, 6.5f, 4f);
+        _potatoes = new FoodItem("Potatoes", 77f, 2f, 17.9f, 1.24f, 1.4f, 0.23f, 0.06f, 0.01f, 0.16f, 0f, 0.8f, 0.2f, 0f, 26.4f, 0f, 0.1f, 0.055f, 0.06f, 1.6f, 36f, 0.0175f, 413.5f, 20.4f, 1.04f, 0.3f, 55f, 0.052f, 1.2f, 0.27f, 6.8f);
+        _salami = new FoodItem("Salami",  509f, 13.9f, 2.8f, 0f, 0f, 45.27f, 18.07f, 21.65f, 5.39f, 0f, 0f, 0.15f, 1.3f, 0f, 0.47f, 0.02f, 0.14f, 0.18f, 2.3f, 3f, 4.9689903f, 203.6f, 10f, 1.1f, 1.67f, 119f, 0.11f, 4.1f, 5f, 11.1f);
+        _mozzarella = new FoodItem("Mozzarella", 326f, 24.1f, 0f, 0f, 0f, 23.72f, 16.25f, 6.76f, 0.71f, 0f, 222.2f, 0.09f, 1.38f, 0.5f, 0.25f, 0.64f, 0.05f, 0.33f, 0.1f, 60f, 1.395f, 65f, 27f, 0.11f, 3.2f, 390f, 0.086f, 10.4f, 8f, 720f);
+        _tuna = new FoodItem("Canned tuna in water", 107f, 23.9f, 0f, 0f, 0f, 0.96f, 0.23f, 0.11f, 0.31f, 0f, 5.1f, 0.25f, 3.4f, 0f, 2.81f, 0.6f, 0f, 0.06f, 11.75f, 15f, 0.68625f, 224.5f, 27.1f, 1f, 0.58f, 164f, 0.047f, 15.6f, 82f, 8.9f);
+        _toast = new FoodItem("Fine-grained toast bread", 255f, 7.9f, 47f, 0f, 3.3f, 2.55f, 0.79f, 0.96f, 0.8f, 0f, 0f, 0.06f, 0f, 0f, 0f, 0.5f, 0.161f, 0.05f, 1.18f, 25f, 1.1346428f, 110.6f, 17.8f, 0.96f, 0.58f, 80f, 0.102f, 18.6f, 1.57f, 46.2f);
+        _gherkins = new FoodItem("Gherkins",76f, 0.5f, 17f, 12.5f, 0.5f, 0.4f, 0.03f, 0f, 0.04f, 0f, 0.6f, 0.01f, 0f, 4f, 0f, 0.1f, 0.01f, 0.02f, 0.04f, 8f, 0.7275f, 99f, 6.5f, 0.55f, 0.18f, 15f, 0.057f, 1f, 0.03f, 15.3f);
+        _liverpate = new FoodItem("Liverpate",238f, 11.3f, 4.7f, 3.7f, 0.4f, 17.36f, 6.9f, 8.2f, 2.26f, 0f, 3950f, 0.21f, 9.9f, 29f, 0f, 0.26f, 0.13f, 1.02f, 4.4f, 170f, 1.8f, 170f, 12.5f, 5.57f, 2.5f, 164f, 0.41f, 3.1f, 19.2f, 26f);
+        _mayonaise = new FoodItem("Mayonaise",730f, 1.1f, 0.1f, 0.1f, 0f, 76f, 6.88f, 43.88f, 25.23f, 0f, 60f, 0.1f, 1f, 0f, 1f, 7.6f, 0.008f, 0.03f, 0.1f, 14f, 1.5f, 34f, 7f, 0.3f, 0.4f, 59f, 0.03f, 6f, 1.6f, 8f);
+        _mackarelInTomatoes = new FoodItem("Mackerel in tomatoes", 155f, 11.7f, 3.9f, 0f, 0f, 9.57f, 2.21f, 4.1f, 3f, 0f, 29.1f, 0.17f, 5.85f, 0f, 2.6f, 1.52f, 0.045f, 0.17f, 4.75f, 19f, 0.9f, 357f, 23.1f, 0.7f, 0.59f, 122f, 0.107f, 12.4f, 19.5f, 16f);
+        _avocado = new FoodItem("Avocado", 155f, 1.6f, 1.2f, 1.14f, 5.5f, 12.53f, 2.77f, 7.69f, 1.74f, 0f, 5.6f, 0.14f, 0f, 2.9f, 0f, 1.94f, 0.044f, 0.11f, 1.22f, 99.3f, 0.006f, 433.8f, 28.9f, 0.47f, 0.54f, 45f, 0.253f, 0f, 0f, 14.6f);
+        _smokedSalmon = new FoodItem("Smoked Salmon", 170f, 20.9f, 1.6f, 0f, 0f, 7.04f, 1.1f, 3.7f, 2.02f, 0f, 6.5f, 0.66f, 4.6f, 0f, 3.1f, 2.24f, 0.26f, 0.08f, 7.5f, 0f, 3f, 408f, 28.2f, 0.22f, 0.34f, 248f, 0.036f, 5.9f, 17.33f, 5.9f);
+        _ryebread = new FoodItem("Ryebread", 170f, 20.9f, 1.6f, 0f, 0f, 7.04f, 1.1f, 3.7f, 2.02f, 0f, 6.5f, 0.66f, 4.6f, 0f, 3.1f, 2.24f, 0.26f, 0.08f, 7.5f, 0f, 3f, 408f, 28.2f, 0.22f, 0.34f, 248f, 0.036f, 5.9f, 17.33f, 5.9f);
+        _fishFillets = new FoodItem("Fish Fillet", 283f, 12.7f, 22.9f, 0f, 0f, 14.1f, 3.04f, 7.4f, 3.59f, 0f, 0f, 0.08f, 0.74f, 0f, 1.65f, 3.8f, 0.13f, 0.07f, 1.53f, 0f, 1.1f, 185f, 21.5f, 0.58f, 0.42f, 134f, 0.067f, 15.6f, 20f, 48.5f);
+        _frenchFries = new FoodItem("French Fries",311f, 3.7f, 39f, 0f, 3.2f, 14.07f, 3.65f, 7.49f, 2.88f, 0.05f, 0f, 0.18f, 0f, 23.3f, 0f, 0.1f, 0.128f, 0.06f, 1.2f, 10f, 0.9f, 587.4f, 32.7f, 0.79f, 0.51f, 120f, 0.171f, 0f, 2.3f, 13.2f);
+        _kebab = new FoodItem("Durum with kebab, salad and dressing", 225f, 12.6f, 20.3f, 0f, 2.1f, 8.56f, 2.69f, 4f, 1.53f, 0.32f, 0f, 0f, 0f, 0f, 0f, 0f, 0.098f, 0.1f, 0f, 0f, 1.3f, 286.3f, 20.6f, 1.25f, 2.6f, 134f, 0.08f, 0f, 0f, 19f);
+        _cucumber = new FoodItem("Cucumber", 12f, 0.7f, 1.6f, 1.56f, 0.8f, 0.02f, 0.01f, 0f, 0.01f, 0f, 5.2f, 0.04f, 0f, 10.4f, 0f, 0.05f, 0.015f, 0.01f, 0.18f, 17.6f, 0.006015893f, 147.4f, 9.5f, 0.2f, 0.13f, 27f, 0.027f, 0.5f, 0.03f, 17.7f);
+        _tomato = new FoodItem("Tomato",  20f, 0.7f, 3.2f, 3.18f, 1.9f, 0.24f, 0.06f, 0.04f, 0.15f, 0f, 82.7f, 0.09f, 0f, 15f, 0f, 1.1f, 0.043f, 0.02f, 0.73f, 31f, 0.01625f, 216f, 6.5f, 0.24f, 0.09f, 27f, 0.043f, 0f, 0.3f, 7.4f);
+        _icebergSalad = new FoodItem("Iceberg Salad", 16f, 0.8f, 2.1f, 2.15f, 1.1f, 0.07f, 0.01f, 0f, 0.05f, 0f, 12.5f, 0.04f, 0f, 5.5f, 0f, 0.15f, 0.044f, 0.03f, 0.23f, 89f, 0.007075f, 186f, 7.3f, 0.27f, 0.16f, 22f, 0.012f, 1f, 0f, 15.5f);
+        _lasagnaSheets = new FoodItem("Lasagna Sheets",128f, 5f, 26.9f, 0f, 2f, 0.28f, 0.06f, 0.04f, 0.18f, 0f, 0f, 0.01f, 0f, 0f, 0f, 0.07f, 0.04f, 0.01f, 0.3f, 2f, 0f, 78f, 24f, 0.6f, 0.7f, 50f, 0.2f, 1f, 1.8f, 13f);
+        _lambChop = new FoodItem("Lamb chop", 128f, 19.6f, 0f, 0f, 0f, 4.38f, 2.21f, 1.65f, 0.15f, 0.21f, 45f, 0.2f, 1.2f, 0f, 0.4f, 0.7f, 0.18f, 0.31f, 4.3f, 1.4f, 0.195f, 350f, 27f, 2.2f, 3.3f, 210f, 0.122f, 0.7f, 6.05f, 12.8f);
+        _tortilla = new FoodItem("Tortilla", 267f, 9.6f, 39.1f, 0f, 5.3f, 4.91f, 1.31f, 1.55f, 2.05f, 0f, 0f, 0.08f, 0.12f, 0f, 0f, 0.5f, 0.218f, 0.08f, 1.12f, 26f, 1.1f, 194.8f, 43.4f, 1.5f, 1.14f, 147f, 0.205f, 16.6f, 3.57f, 33.2f);
+        _sugar = new FoodItem("Sugar", 399f, 0.5f, 99.3f, 99.3f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 89f, 15f, 0.9f, 0.1f, 20f, 0.06f, 0f, 0f, 53f);
+        _pepper = new FoodItem("Pepper",304f, 11f, 44.5f, 0f, 26.5f, 3.12f, 1.39f, 0.74f, 1f, 0f, 9.5f, 0.34f, 0f, 21f, 0f, 0.72f, 0.109f, 0.24f, 1.14f, 10f, 0.11f, 1259f, 194f, 28.86f, 1.42f, 173f, 1.13f, 0f, 3.1f, 437f);
+        _salt = new FoodItem("Salt", 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 97.125f, 0f, 290f, 0.2f, 0.08f, 8f, 0.16f, 1556.4f, 0.5f, 29f);
+        _oliveOil = new FoodItem("Olive oil", 900f, 0f, 0f, 0f, 0f, 95.7f, 12.24f, 74.73f, 8.73f, 0f, 0f, 0f, 0f, 0f, 0f, 5.1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 0.56f, 0f, 0f, 0f, 0f, 0f, 1f);
+        _coriander = new FoodItem("Coriander",  346f, 12.4f, 13.1f, 0f, 41.9f, 16.31f, 0.94f, 13.62f, 1.75f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.239f, 0.29f, 2.13f, 0f, 0.0875f, 1267f, 330f, 16.32f, 4.7f, 409f, 0f, 2.3f, 26.2f, 709f);
+        _chili = new FoodItem("Chili", 44f, 2f, 7.7f, 0f, 1.8f, 0.14f, 0.02f, 0.01f, 0.11f, 0f, 365.8f, 0.28f, 0f, 166f, 0f, 2.9f, 0.09f, 0.09f, 0.9f, 23f, 0.0175f, 340f, 25f, 1.2f, 0.3f, 68f, 0.174f, 0f, 0.5f, 14f);
+        _cumin = new FoodItem("Cumin", 428f, 17.8f, 30.6f, 2.25f, 10.5f, 0f, 0f, 0f, 0f, 0f, 63.5f, 0.44f, 0f, 7.7f, 0f, 3.33f, 0.628f, 0.33f, 4.58f, 10f, 0.4f, 1788f, 366f, 66.36f, 4.8f, 499f, 0.867f, 0f, 5.2f, 931f);
+        _ginger = new FoodItem("Ginger", 83f, 1.8f, 16.7f, 0f, 1f, 0.53f, 0.21f, 0.15f, 0.16f, 0f, 0f, 0.16f, 0f, 5f, 0f, 0f, 0.025f, 0.03f, 0.75f, 11f, 0.0325f, 415f, 43f, 0.6f, 0.34f, 34f, 0.226f, 0.5f, 1f, 16f);
+        _greekYogurt = new FoodItem("Greek yogurt", 117f, 4.9f, 6.2f, 3.75f, 0f, 7.12f, 4.66f, 1.61f, 0.14f, 0.56f, 58.5f, 0.05f, 0.33f, 0f, 0.13f, 0.39f, 0.032f, 0.16f, 0.09f, 0f, 0.2f, 150f, 10.4f, 0.03f, 0.44f, 109f, 0.005f, 14.4f, 2.16f, 113.5f);
+        _pasta = new FoodItem("Pasta",361f, 12.3f, 73.9f, 0f, 3.2f, 1.24f, 0.25f, 0.19f, 0.8f, 0f, 0f, 0.05f, 0f, 0f, 0f, 0.2f, 0.15f, 0.04f, 1f, 29.4f, 0.005f, 215f, 62f, 1.7f, 1.2f, 140f, 0.25f, 0.6f, 4.8f, 20f);
+        _cream = new FoodItem("Whipped Cream", 360f, 2.1f, 3f, 2.98f, 0f, 35.93f, 24.27f, 8.59f, 1.04f, 1.54f, 346.1f, 0.02f, 0.44f, 0.8f, 0.15f, 0.87f, 0.031f, 0.16f, 0.07f, 10.8f, 0.1f, 94.1f, 6.8f, 0.05f, 0.24f, 57f, 0.022f, 10.1f, 1.47f, 66.8f);
+        _mincedVealAndPork = new FoodItem("Minced veal and pork", 218f, 17.6f, 0f, 0f, 0f, 15.21f, 6.27f, 7f, 1.34f, 0.22f, 9f, 0.27f, 1.31f, 0f, 1.1f, 0.5f, 0.406f, 0.18f, 4.71f, 8.3f, 0.2f, 293.1f, 18.4f, 1.2f, 2.78f, 170f, 0.072f, 1.5f, 5.63f, 8.1f);
+        _curry = new FoodItem("Curry", 342f, 12.7f, 25.2f, 0f, 33.2f, 11.05f, 1.6f, 8.8f, 3.1f, 0f, 49.5f, 1.15f, 0f, 11.4f, 0f, 21.99f, 0.253f, 0.28f, 3.47f, 154f, 0.13f, 1543f, 254f, 29.59f, 4.05f, 349f, 1.04f, 0.5f, 17.1f, 478f);
+        _bellPepper = new FoodItem("Bell pepper",31f, 0.9f, 5.2f, 5.24f, 1.7f, 0.08f, 0.02f, 0f, 0.06f, 0f, 105.8f, 0.43f, 0f, 162.8f, 0f, 2.26f, 0.047f, 0.08f, 0.98f, 88f, 0.000974643f, 239f, 11.8f, 0.32f, 0.13f, 25f, 0.051f, 0.1f, 0.14f, 6.6f);
+        _vinegar = new FoodItem("Vinegar", 20f, 0.4f, 0.4f, 0.6f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.05f, 89f, 22f, 0.5f, 0.01f, 32f, 0.007f, 1.4f, 0.1f, 12f);
+        _springOnion = new FoodItem("Spring onion",33f, 1.8f, 4.7f, 0f, 2.6f, 0.13f, 0.03f, 0.03f, 0.07f, 0f, 250f, 0.06f, 0f, 22.1f, 0f, 0f, 0.055f, 0.08f, 0.53f, 64f, 0.04f, 276f, 20f, 1.48f, 0.39f, 37f, 0.083f, 2f, 0.6f, 72f);
+        _scallion = new FoodItem("Scallion", 27f, 2.1f, 3f, 0.8f, 1.9f, 0.22f, 0.06f, 0.02f, 0.13f, 0f, 1.7f, 0.15f, 0f, 66f, 0f, 0.15f, 0.05f, 0f, 0.3f, 73f, 0.015f, 249f, 9f, 0.4f, 0.2f, 32f, 0.07f, 0.3f, 0.77f, 33.7f);
+        _mincedPork = new FoodItem("Minced pork", 169f, 18.9f, 0f, 0f, 0f, 9.08f, 3.57f, 4.25f, 1.05f, 0.05f, 7.2f, 0.32f, 0.72f, 0f, 0.59f, 0.54f, 0.723f, 0.19f, 5.98f, 4.3f, 0.1f, 331.4f, 20.8f, 0.88f, 2.18f, 190f, 0.07f, 0.9f, 7.15f, 7.7f);
+        _shrimp = new FoodItem("Shrimp",69f, 15.3f, 0f, 0f, 0f, 0.66f, 0.15f, 0.22f, 0.29f, 0f, 0f, 0f, 2.05f, 0f, 0f, 4f, 0.015f, 0.01f, 0.49f, 20f, 1.67875f, 53.5f, 22.3f, 0.11f, 0.78f, 109f, 0.146f, 7.6f, 19f, 43.7f);
+        _tacosItem = new FoodItem("Tacos", 361f, 6.8f, 88.3f, 1.26f, 3.2f, 2.63f, 0.44f, 0.8f, 1.39f, 0f, 8.1f, 0.33f, 0f, 0f, 0f, 1.11f, 0.33f, 0.11f, 5.7f, 20f, 0f, 120f, 47f, 1.1f, 0.5f, 99f, 0f, 0.6f, 3.2f, 6f);
+        _salmon = new FoodItem("Salmon", 228f, 15.8f, 0f, 0f, 0f, 15.28f, 2.21f, 8.05f, 4.5f, 0f, 7.1f, 0.64f, 4.1f, 2f, 6.79f, 3.3f, 0.25f, 0.07f, 7.65f, 0f, 0.1f, 361.6f, 25.6f, 0.22f, 0.32f, 219f, 0.038f, 2.7f, 16.6f, 8.7f);
+        _remoulade = new FoodItem("Remoulade", 380f, 1.1f, 12f, 12f, 0.5f, 35.22f, 3.1f, 20.19f, 11.94f, 0f, 54f, 0.04f, 1.1f, 2f, 1.02f, 7.5f, 0.025f, 0.04f, 0f, 7f, 0.7f, 49f, 3f, 1.2f, 0.6f, 55f, 0.1f, 5f, 1.6f, 14f);
+        _pesto = new FoodItem("Pesto", 678f, 14f, 9.8f, 4.85f, 6.4f, 56.37f, 4.34f, 15.67f, 25.67f, 0f, 1.5f, 0.22f, 0f, 0.8f, 0f, 11.85f, 0.485f, 0.26f, 3.33f, 63.4f, 0.003125f, 602.9f, 205f, 4.85f, 5.75f, 490f, 1.299f, 0f, 1f, 9.9f);
+        _greenBeans = new FoodItem("Green Beans", 30f, 1.9f, 5.9f, 2.76f, 3f, 0.19f, 0.07f, 0.01f, 0.11f, 0f, 8.7f, 0.1f, 0f, 15f, 0f, 0.3f, 0.09f, 0.11f, 0.7f, 64f, 0.00425f, 237f, 17f, 1f, 0.39f, 39f, 0.057f, 0.8f, 0.3f, 60f);
+        _olives = new FoodItem("Olives", 165f, 1f, -1.5f, 0f, 6.2f, 13.76f, 2.08f, 10.2f, 1.51f, 0f, 0f, 0.03f, 0f, 0f, 0f, 6.1f, 0.017f, 0f, 0f, 0f, 0f, 19f, 16f, 8.5f, 0.14f, 17f, 0f, 0f, 0.9f, 103f);
+        _anchovies = new FoodItem("Anchovies", 215f, 13.4f, 10f, 10f, 0f, 10.35f, 3.34f, 4.33f, 2.68f, 0f, 390f, 0.18f, 3.5f, 0f, 14f, 0.9f, 0.006f, 0.12f, 1.1f, 16f, 9f, 165f, 18.3f, 1.8f, 3.4f, 210f, 0.16f, 30f, 20f, 145f);
+        _pear = new FoodItem("Pear", 49f, 0.3f, 10.6f, 8.33f, 3.2f, 0.05f, 0.01f, 0.01f, 0.03f, 0f, 5.4f, 0.01f, 0f, 6.1f, 0f, 0.58f, 0.01f, 0.01f, 0.23f, 16f, 0.001945625f, 122.3f, 6.5f, 0.1f, 0.11f, 11f, 0.065f, 0.2f, 0.1f, 10.1f);
+        _capers = new FoodItem("Capers", 17f, 1.2f, 2.1f, 0f, 1.3f, 0.08f, 0f, 0f, 0f, 0f, 23f, 0.04f, 0f, 11f, 0f, 0f, 0.01f, 0.05f, 0.2f, 18f, 0f, 230f, 15f, 0.3f, 0.2f, 40f, 0f, 0.5f, 0f, 32f);
+        _bernaiseSauce = new FoodItem("Bearnaise Sauce", 741f, 0.7f, 0.6f, 0.58f, 0f, 77.02f, 53.54f, 16.98f, 2.2f, 3.52f, 749.3f, 0f, 0.17f, 0f, 0.41f, 1.76f, 0.007f, 0.04f, 0.1f, 3f, 0.9f, 29.1f, 1.6f, 0.01f, 0.04f, 21f, 0.022f, 2.7f, 1.56f, 16.8f);
+        _pepperSauce = new FoodItem("Pepper Sauce", 360f, 2.1f, 3f, 2.98f, 0f, 35.93f, 24.27f, 8.59f, 1.04f, 1.54f, 346.1f, 0.02f, 0.44f, 0.8f, 0.15f, 0.87f, 0.031f, 0.16f, 0.07f, 10.8f, 0.1f, 94.1f, 6.8f, 0.05f, 0.24f, 57f, 0.022f, 10.1f, 1.47f, 66.8f);
+        _whiskeySauce = new FoodItem("Whiskey Sauce", 360f, 2.1f, 3f, 2.98f, 0f, 35.93f, 24.27f, 8.59f, 1.04f, 1.54f, 346.1f, 0.02f, 0.44f, 0.8f, 0.15f, 0.87f, 0.031f, 0.16f, 0.07f, 10.8f, 0.1f, 94.1f, 6.8f, 0.05f, 0.24f, 57f, 0.022f, 10.1f, 1.47f, 66.8f);
+        _lime = new FoodItem("Lime", 37f, 0.7f, 3.2f, 0f, 2.8f, 0.11f, 0.02f, 0.02f, 0.06f, 0f, 0.5f, 0.04f, 0f, 29.1f, 0f, 0.24f, 0.03f, 0.02f, 0.2f, 8f, 0.005f, 102f, 6f, 0.6f, 0.11f, 18f, 0.065f, 0f, 0.2f, 33f);
+        _paprika = new FoodItem("Paprika", 44f, 2f, 7.7f, 0f, 1.8f, 0.14f, 0.02f, 0.01f, 0.11f, 0f, 365.8f, 0.28f, 0f, 166f, 0f, 2.9f, 0.09f, 0.09f, 0.9f, 23f, 0.0175f, 340f, 25f, 1.2f, 0.3f, 68f, 0.174f, 0f, 0.5f, 14f);
+        _oregano = new FoodItem("Oregano", 18f, 1.7f, 0.7f, 0.6f, 1.2f, 0.16f, 0.08f, 0.02f, 0.13f, 0f, 334.2f, 0.13f, 0f, 60f, 0f, 1f, 0.1f, 0.1f, 0.6f, 9f, 0.15f, 310f, 17f, 1.6f, 0.2f, 68f, 0.14f, 13.5f, 1f, 82.8f);
+        _crackers = new FoodItem("Crackers", 443f, 9.4f, 64.2f, 4.95f, 3f, 12.88f, 7.21f, 4.13f, 1.5f, 0.04f, 0f, 0.06f, 0f, 0f, 0f, 0f, 0.13f, 0.08f, 1.5f, 0f, 2f, 120f, 25f, 1.7f, 0.87f, 110f, 0.19f, 1.6f, 3f, 110f);
+        _porkChops = new FoodItem("Pork Chops", 182f, 17.4f, 0f, 0f, 0f, 11.44f, 5.12f, 5.48f, 0.81f, 0.03f, 6.2f, 0.26f, 0.82f, 0f, 0.22f, 0.55f, 0.747f, 0.21f, 5.18f, 4.4f, 0.1f, 327f, 20.3f, 0.99f, 2.65f, 172f, 0.1f, 1f, 9.2f, 6.1f);
+        _honey = new FoodItem("Honey", 327f, 0.3f, 75.1f, 75.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.16f, 0f, 1.1f, 0f, 0f, 0f, 0.1f, 0.1f, 0f, 0f, 51f, 2.9f, 0.4f, 0.35f, 7f, 0.031f, 0.5f, 0f, 5f);
+        _broccoli = new FoodItem("Broccoli", 35f, 3.6f, 2.1f, 2.07f, 3.2f, 0.19f, 0f, 0f, 0f, 0f, 44.4f, 0.22f, 0f, 116.7f, 0f, 1.45f, 0.087f, 0.11f, 0.57f, 239f, 0.031117857f, 389f, 20.8f, 0.7f, 0.42f, 78f, 0.05f, 0.2f, 2.44f, 44.4f);
+        _asparagus = new FoodItem("Asparagus", 26f, 1.8f, 3.1f, 0f, 1.8f, 0.24f, 0.07f, 0.01f, 0.16f, 0f, 0f, 0.15f, 0f, 10f, 0f, 1.98f, 0.11f, 0.12f, 0f, 150f, 0.00925f, 267f, 12.2f, 0.7f, 0.9f, 86f, 0f, 4f, 0.2f, 22.8f);
+        _soySauce = new FoodItem("Soy Sauce", 56f, 6.9f, 7f, 1.6f, 0f, 0.03f, 0f, 0f, 0.03f, 0f, 0f, 0.15f, 0f, 0f, 0f, 0f, 0.033f, 0.17f, 2.2f, 14f, 14.0925f, 217f, 43f, 1.93f, 0.52f, 125f, 0.104f, 4.5f, 0.5f, 19f);
         var list = new List<FoodItem>();
         list.Add(_bacon);
         list.Add(_buns);
         list.Add(_butter);
         list.Add(_strawberryJam);
         list.Add(_raspberryJam);
+        list.Add(_blackberryJam);
+        list.Add(_rhubarbJam);
         list.Add(_slicedCheese);
         list.Add(_Peanutbutter);
         list.Add(_mapleSyrup);
@@ -915,6 +1058,7 @@ public class MealPlanGeneratorTests
         list.Add(_anchovies);
         list.Add(_pear);
         list.Add(_capers);
+        list.Add(_bernaiseSauce);
         list.Add(_pepperSauce);
         list.Add(_whiskeySauce);
         list.Add(_lime);
@@ -925,6 +1069,7 @@ public class MealPlanGeneratorTests
         list.Add(_honey);
         list.Add(_broccoli);
         list.Add(_asparagus);
+        list.Add(_soySauce);
         _context.FoodItems.AddRange(list);
         _context.SaveChanges();
 
@@ -934,6 +1079,8 @@ public class MealPlanGeneratorTests
         _eggsAndBacon = new Recipe("Eggs and Bacon", true, "", "", 1, new List<Category>{_meat}, true, false, false, false);
         _bunsWithStrawberryJam = new Recipe("Buns with Strawberry Jam", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
         _bunsWithRaspberryJam = new Recipe("Buns with Raspberry Jam", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _bunsWithBlackberryJam = new Recipe("Buns with Blackberry Jam", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
+        _bunsWithRhubarbJam = new Recipe("Buns with Rhubarb Jam", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
         _bunsWithCheese = new Recipe("Buns with Cheese", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
         _bunsWithPeanutbutter = new Recipe("Buns with Peanutbutter", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
         _bunsWithMapleSyrup = new Recipe("Buns with Maple Syrup", true, "", "", 1, new List<Category>{_vegetarian}, true, false, false, true);
@@ -1005,6 +1152,8 @@ public class MealPlanGeneratorTests
         var list = new List<Recipe>();
         list.Add(_bunsWithStrawberryJam);
         list.Add(_bunsWithRaspberryJam);
+        list.Add(_bunsWithBlackberryJam);
+        list.Add(_bunsWithRhubarbJam);
         list.Add(_bunsWithCheese);
         list.Add(_bunsWithPeanutbutter);
         list.Add(_bunsWithMapleSyrup);
@@ -1070,6 +1219,9 @@ public class MealPlanGeneratorTests
         list.Add(_crackersWithPesti);
         _context.Recipes.AddRange(list);
         _context.SaveChanges();
+
+        _author.SavedRecipes.AddRange(list);
+        _context.SaveChanges();
     }
 
     private void AddFoodItemsToRecipes()
@@ -1080,10 +1232,10 @@ public class MealPlanGeneratorTests
         _strawberryJamInBunsWithStrawberryJam = new FoodItemRecipe(_strawberryJam, _bunsWithStrawberryJam, 0.4f);
         _bunsInBunsWithRaspberryJam = new FoodItemRecipe(_buns, _bunsWithRaspberryJam, 0.8f);
         _raspberryJamInBunsWithRaspberryJam = new FoodItemRecipe(_raspberryJam, _bunsWithRaspberryJam, 0.4f);
-        _bunsInBunsWithBlackberryJam = new FoodItemRecipe(_buns, _bunswithBlackberryJam, 0.8f);
-        _blackberryJamInBunsWithBlackberryJam = new FoodItemRecipe(_blackberryJam, _bunswithBlackberryJam, 0.4f);
-        _bunsInBunsWithRhubarbJam = new FoodItemRecipe(_buns, _bunswithRhubarbJam, 0.8f);
-        _rhubarbJamInBunsWithRhubarbJam = new FoodItemRecipe(_rhubarbJam, _bunswithRhubarbJam, 0.4f);
+        _bunsInBunsWithBlackberryJam = new FoodItemRecipe(_buns, _bunsWithBlackberryJam, 0.8f);
+        _blackberryJamInBunsWithBlackberryJam = new FoodItemRecipe(_blackberryJam, _bunsWithBlackberryJam, 0.4f);
+        _bunsInBunsWithRhubarbJam = new FoodItemRecipe(_buns, _bunsWithRhubarbJam, 0.8f);
+        _rhubarbJamInBunsWithRhubarbJam = new FoodItemRecipe(_rhubarbJam, _bunsWithRhubarbJam, 0.4f);
         _bunsInBunsWithCheese = new FoodItemRecipe(_buns, _bunsWithCheese, 0.8f);
         _cheeseInBunsWithCheese = new FoodItemRecipe(_slicedCheese, _bunsWithCheese, 0.4f);
         _bunsInBunsWithPeanutbutter = new FoodItemRecipe(_buns, _bunsWithPeanutbutter, 0.8f);
@@ -1216,6 +1368,7 @@ public class MealPlanGeneratorTests
         _creamInButterChicken = new FoodItemRecipe(_cream, _butterChicken, 0.125f);
         _slicedTomatoesInButterChicken = new FoodItemRecipe(_slicedTomatoes, _butterChicken, 1f);
         _gingerInButterChicken = new FoodItemRecipe(_ginger, _butterChicken, 0.025f);
+        _riceInButterChicken = new FoodItemRecipe(_basmatiRice, _butterChicken, 1f);
         _chiliInCCC = new FoodItemRecipe(_chili, _chiliConCarne, 0.05f);
         _mincedMeatInCCC = new FoodItemRecipe(_mincedBeef, _chiliConCarne, 1f);
         _slicedTomatoesInCCC = new FoodItemRecipe(_slicedTomatoes, _chiliConCarne, 1f);
@@ -1281,6 +1434,7 @@ public class MealPlanGeneratorTests
         _eggInChickenFriedRice = new FoodItemRecipe(_egg,_chickenFriedRice , 0.5f);
         _saltInChickenFriedRice = new FoodItemRecipe(_salt, _chickenFriedRice, 0.01f);
         _pepperInChickenFriedRice = new FoodItemRecipe(_pepper,_chickenFriedRice, 0.01f);
+        _soysauceInChickenFriedRice = new FoodItemRecipe(_soySauce, _chickenFriedRice, 0.15f);
         _shrimpsInShrimpStirFry = new FoodItemRecipe(_shrimp,_shrimpStirFry, 1f);
         _oilInShrimpStirFry = new FoodItemRecipe(_oliveOil,_shrimpStirFry, 0.1f);
         _garlicInShrimpStirFry = new FoodItemRecipe(_garlic,_shrimpStirFry, 0.05f);
@@ -1290,6 +1444,9 @@ public class MealPlanGeneratorTests
         _saltInShrimpStirFry = new FoodItemRecipe(_salt,_shrimpStirFry, 0.005f);
         _pepperInShrimpStirFry = new FoodItemRecipe(_pepper,_shrimpStirFry, 0.005f);
         _corianderInShrimpStirFry = new FoodItemRecipe(_coriander, _springRolls, 0.2f);
+        _paprikaInShrimpStirFry = new FoodItemRecipe(_paprika, _shrimpStirFry, 0.05f);
+        _oreganoInShrimpStirFry = new FoodItemRecipe(_oregano, _shrimpStirFry, 0.025f);
+        _riceInShrimpStirFry = new FoodItemRecipe(_basmatiRice, _shrimpStirFry, 1f);
         _oilInSpringRolls = new FoodItemRecipe(_oliveOil, _springRolls, 0.1f);
         _mincedPorkInSpringRolls = new FoodItemRecipe(_mincedPork,_springRolls,0.5f);
         _garlicInSpringRolls = new FoodItemRecipe(_ginger, _springRolls, 0.05f);
@@ -1300,6 +1457,7 @@ public class MealPlanGeneratorTests
         _phylloDoughInSpringRolls = new FoodItemRecipe(_flour, _springRolls, 0.2f);
         _limeInSpringRolls = new FoodItemRecipe(_lemon, _springRolls, 0.1f);
         _corianderInSpringRolls = new FoodItemRecipe(_coriander,_springRolls,0.2f);
+        _soysauceInSpringRolls = new FoodItemRecipe(_soySauce, _springRolls, 0.1f);
         _lemonInBakedSalmonAndAsparagus = new FoodItemRecipe(_lemon, _bakedSalmonAndAsparagus, 0.3f);
         _salmonInBakedSalmonAndAsparagus = new FoodItemRecipe(_salmon, _bakedSalmonAndAsparagus, 2.5f);
         _asparagusInBakedSalmonAndAsparagus = new FoodItemRecipe(_asparagus, _bakedSalmonAndAsparagus, 1f);
@@ -1307,10 +1465,10 @@ public class MealPlanGeneratorTests
         _garlicInBakedSalmonAndAsparagus = new FoodItemRecipe(_garlic, _bakedSalmonAndAsparagus, 0.05f);
         _crackersInCWP = new FoodItemRecipe(_crackers, _crackersWithPesti, 0.5f);
         _pestiInCWP = new FoodItemRecipe(_pesto, _crackersWithPesti, 0.2f);
-        _salamiInSSOAC = new FoodItemRecipe(_salami, _salamiSticksOlivesAndCheese, 0.25f);
-        _oliveInSSOAC = new FoodItemRecipe(_olives, _salamiSticksOlivesAndCheese, 0.25f);
-        _cheeseInSSOAC = new FoodItemRecipe(_slicedCheese, _salamiSticksOlivesAndCheese, 0.25f);
-        _salamiInSS = new FoodItemRecipe(_salami, _salamiSticks, 0.25f);
+        _salamiInSSOAC = new FoodItemRecipe(_salami, _salamiSticksOlivesAndCheese, 0.5f);
+        _oliveInSSOAC = new FoodItemRecipe(_olives, _salamiSticksOlivesAndCheese, 0.5f);
+        _cheeseInSSOAC = new FoodItemRecipe(_slicedCheese, _salamiSticksOlivesAndCheese, 0.5f);
+        _salamiInSS = new FoodItemRecipe(_salami, _salamiSticks, 0.5f);
         _appleinACOS = new FoodItemRecipe(_apple, _appleCarrotOrangeSmoothie, 1f);
         _orangeinACOS = new FoodItemRecipe(_orange, _appleCarrotOrangeSmoothie, 1f);
         _carrotinACOS = new FoodItemRecipe(_carrot, _appleCarrotOrangeSmoothie,1f);
@@ -1344,6 +1502,7 @@ public class MealPlanGeneratorTests
         _oliveOilInFWR = new FoodItemRecipe(_oliveOil,_frikadellerWithRice, 0.1f);
         _saltInFWR = new FoodItemRecipe(_salt,_frikadellerWithRice, 0.005f);
         _pepperInFWR = new FoodItemRecipe(_pepper,_frikadellerWithRice,0.005f);
+        _cuminInFWR = new FoodItemRecipe(_cumin, _frikadellerWithRice, 0.05f);
         _tortillasInTortillas = new FoodItemRecipe(_tortilla,_tortillas,1f);
         _mincedMeatInTortillas = new FoodItemRecipe(_mincedBeef,_tortillas, 0.6f);
         _bellPepperInTortillas = new FoodItemRecipe(_bellPepper,_tortillas, 0.5f);
@@ -1366,6 +1525,7 @@ public class MealPlanGeneratorTests
         _saltInVL = new FoodItemRecipe(_salt,_veganLasagna, 0.00175f);
         _slicedTomatoesInVL = new FoodItemRecipe(_slicedTomatoes, _veganLasagna,0.25f);
         _mozzarellaInVL = new FoodItemRecipe(_mozzarella,_meatLasagna,0.25f);
+        _oliveOilInVL = new FoodItemRecipe(_oliveOil, _veganLasagna, 0.1f);
         _mincedMeatInML = new FoodItemRecipe(_mincedBeef,_meatLasagna, 1f);
         _pastaInML = new FoodItemRecipe(_pasta, _meatLasagna, 1f);
         _carrotInML = new FoodItemRecipe(_carrot, _meatLasagna, 0.25f);
@@ -1374,6 +1534,9 @@ public class MealPlanGeneratorTests
         _saltInML = new FoodItemRecipe(_salt,_meatLasagna, 0.00175f);
         _slicedTomatoesInML = new FoodItemRecipe(_slicedTomatoes, _meatLasagna,0.25f);
         _mozzarellaInML = new FoodItemRecipe(_mozzarella,_meatLasagna,0.25f);
+        _oliveOilInML = new FoodItemRecipe(_oliveOil, _meatLasagna, 0.1f);
+        _peanutbutterInPeanutbutterSandwich = new FoodItemRecipe(_Peanutbutter, _peanutbutterSandwich, 0.5f);
+        _toastInPeanutbutterSandwich = new FoodItemRecipe(_toast, _peanutbutterSandwich, 1f);
         _context.FoodItemRecipes.Add(_baconInEggsAndBacon);
         _context.SaveChanges();
         _context.FoodItemRecipes.Add(_bunsInBunsWithStrawberryJam);
@@ -1655,6 +1818,7 @@ public class MealPlanGeneratorTests
         _context.FoodItemRecipes.Add(_slicedTomatoesInButterChicken);
         _context.SaveChanges();
         _context.FoodItemRecipes.Add(_gingerInButterChicken);
+        _context.FoodItemRecipes.Add(_riceInButterChicken);
         _context.SaveChanges();
         _context.FoodItemRecipes.Add(_chiliInCCC);
         _context.SaveChanges();
@@ -1803,6 +1967,7 @@ public class MealPlanGeneratorTests
         _context.FoodItemRecipes.Add(_pepperInShrimpStirFry);
         _context.SaveChanges();
         _context.FoodItemRecipes.Add(_corianderInShrimpStirFry);
+        _context.FoodItemRecipes.Add(_riceInShrimpStirFry);
         _context.SaveChanges();
         _context.FoodItemRecipes.Add(_oilInSpringRolls);
         _context.SaveChanges();
@@ -1845,6 +2010,8 @@ public class MealPlanGeneratorTests
         _context.FoodItemRecipes.Add(_cheeseInSSOAC);
         _context.SaveChanges();
         _context.FoodItemRecipes.Add(_salamiInSS);
+        _context.FoodItemRecipes.Add(_peanutbutterInPeanutbutterSandwich);
+        _context.FoodItemRecipes.Add(_toastInPeanutbutterSandwich);
         _context.SaveChanges();
         _context.FoodItemRecipes.Add(_appleinACOS);
         _context.SaveChanges();
@@ -1980,11 +2147,27 @@ public class MealPlanGeneratorTests
     public async void Generate7DayMealPlan()
     {
         //Arrange
+        var date = new DateTime(2023, 1,1);
 
         //Act
-        var r = await _mealPlanGenerator.Generate7DayMealPlan(_author.Id, new DateTime(2023,1,1));
+        var r = await _mealPlanGenerator.Generate7DayMealPlan(_author.Id, date);
 
         //Assert
-        Assert.Equal(server.Core.Services.MealPlan.Response.Success, r);
+        var meals = await _mealRepo.ReadAllByDateRangeAndUser(_author.Id, date, date.AddDays(6));
+
+        Console.WriteLine();
+        Console.WriteLine($"Meals created: {meals.Count()}");
+        foreach(var meal in meals)
+        {
+            var recipes = await _recipeRepo.ReadAllByMealId(meal.Id);
+            var recipe = recipes.FirstOrDefault();
+            Console.Write(recipe.Recipe.Title + " ");
+            Console.WriteLine(recipe.Amount);
+        }
+
+        Console.WriteLine();
+        
+
+        Assert.Equal(server.Core.Services.MealPlan.Response.Success, r.Response);
     }
 }

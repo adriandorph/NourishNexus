@@ -66,8 +66,6 @@ public class RecipeRepositoryTests
             0f,
             0f,
             0f,
-            0f,
-            0f,
             0f
         );
         _orange = new FoodItem(
@@ -101,14 +99,10 @@ public class RecipeRepositoryTests
             0f,
             0f,
             0f,
-            0f,
-            0f,
             0f
         );;
         _pear = new FoodItem(
             "Pear",
-            0f,
-            0f,
             0f,
             0f,
             0f,

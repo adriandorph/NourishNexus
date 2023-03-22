@@ -9,10 +9,10 @@ public class PlannedMeal
     public int UserID {get; set;}
     public DateTime Date {get; set;}
     public List<int> CategoryIDs {get; set;}
-    public List<FoodItemAmountDTO>? FoodItemMeals {get; set;}
-    public List<RecipeAmountWithFoodItemsDTO>? RecipeMeals {get; set;}
+    public List<FoodItemAmountDTO> FoodItemMeals {get; set;}
+    public List<RecipeAmountWithFoodItemsDTO> RecipeMeals {get; set;}
 
-    public PlannedMeal(int? id, MealType mealType, int userID, DateTime date, List<int> categoryIDs, List<FoodItemAmountDTO>? foodItems, List<RecipeAmountWithFoodItemsDTO>? recipeMeals) {
+    public PlannedMeal(int? id, MealType mealType, int userID, DateTime date, List<int> categoryIDs, List<FoodItemAmountDTO> foodItems, List<RecipeAmountWithFoodItemsDTO> recipeMeals) {
         this.Id = id;
         this.MealType = mealType;
         this.UserID = userID;
@@ -58,7 +58,6 @@ public class PlannedMeal
                 VitaminC = foodItem.FoodItem!.VitaminC,
                 VitaminD = foodItem.FoodItem!.VitaminD,
                 VitaminE = foodItem.FoodItem!.VitaminE,
-                VitaminK1 = foodItem.FoodItem!.VitaminK1,
                 Thiamin = foodItem.FoodItem!.Thiamin,
                 Riboflavin = foodItem.FoodItem!.Riboflavin,
                 Niacin = foodItem.FoodItem!.Niacin,
@@ -71,7 +70,6 @@ public class PlannedMeal
                 Phosphorus = foodItem.FoodItem!.Phosphorus,
                 Copper = foodItem.FoodItem!.Copper,
                 Iodine = foodItem.FoodItem!.Iodine,
-                Nickel = foodItem.FoodItem!.Nickel,
                 Selenium = foodItem.FoodItem!.Selenium,
                 Calcium = foodItem.FoodItem!.Calcium
             };
