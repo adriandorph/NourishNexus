@@ -15,7 +15,7 @@ public class UserService{
     {
         throw new ArgumentNullException(nameof(user));
     }
-    
+        _http.BaseAddress = new Uri("http://localhost:5288/");
     try
     {
         var response = await _http.PostAsJsonAsync("api/user/", user);
