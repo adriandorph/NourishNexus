@@ -1,4 +1,4 @@
-@page "/recipes/create"
+@page "/recipes/edit"
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
@@ -6,9 +6,9 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 
-<PageTitle> Create Recipe </PageTitle>
+<PageTitle> Edit Recipe </PageTitle>
 
-<h1>Create Recipe</h1>
+<h1>Edit Recipe</h1>
 
 
         <EditForm Model="@recipe" Context="formContext">
@@ -50,7 +50,7 @@
             <div class="form-group">
                 <br />
                 <button type="button" class="btn btn-primary">Return</button>
-                <button type="submit" class="btn btn-success btn-block">Create</button>
+                <button type="submit" class="btn btn-success btn-block">Update</button>
             </div>
         </EditForm>
  

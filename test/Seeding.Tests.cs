@@ -1,5 +1,5 @@
 namespace test;
-using server.Core.Services;
+using server.Services;
 
 public class SeedingTests
 {

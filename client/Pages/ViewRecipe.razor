@@ -1,0 +1,52 @@
+@* 
+@page "/recipes/view/{id}"
+@using server.Core.EF.DTO;
+@inject NavigationManager Navigation
+@inject RecipeService RecipeService
+
+<h1>View Recipe</h1>
+
+@if (recipe == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>@recipe.Title</h3>
+            <p>Author: @recipe.AuthorId</p>
+        </div>
+        <div class="card-body">
+            <p>@recipe.Description</p>
+            <h4>Method:</h4>
+            <p>@recipe.Method</p>
+            <h4>Categories:</h4>
+            <ul>
+                @foreach (var category in categories)
+                {
+                    <li>@category.Name</li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
+@code {
+    private RecipeDTO recipe;
+    private List<CategoryDTO> categories;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        recipe = await RecipeService.GetRecipeAsync(Id);
+
+        if (recipe != null)
+        {
+            categories = await RecipeService.GetCategoriesAsync(recipe.Id);
+        }
+    }
+}
+*@
