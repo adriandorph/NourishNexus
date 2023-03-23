@@ -7,5 +7,6 @@ namespace server.Core.EF.RepositoryInterfaces;
     
     //Read
     public Task<Option<CategoryDTO>> ReadByIDAsync(int categoryID);
+    public Task<Option<CategoryDTO>> ReadByNameAsync(string name);
 
     }

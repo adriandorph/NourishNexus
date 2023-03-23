@@ -27,7 +27,6 @@ public class FoodItem
     public float VitaminC {get; set;}
     public float VitaminD {get; set;}
     public float VitaminE {get; set;}
-    public float VitaminK1 {get; set;}
     public float Thiamin {get; set;}
     public float Riboflavin {get; set;}
     public float Niacin {get; set;}
@@ -42,7 +41,6 @@ public class FoodItem
     public float Phosphorus {get; set;}
     public float Copper {get; set;}
     public float Iodine {get; set;}
-    public float Nickel {get; set;}
     public float Selenium {get; set;}
     public float Calcium {get; set;}
 
@@ -65,7 +63,6 @@ public class FoodItem
         float vitaminC,
         float vitaminD,
         float vitaminE,
-        float vitaminK1,
         float thiamin,
         float riboflavin,
         float niacin,
@@ -78,7 +75,6 @@ public class FoodItem
         float phosphorus,
         float copper,
         float iodine,
-        float nickel,
         float selenium,
         float calcium
 
@@ -101,7 +97,6 @@ public class FoodItem
         this.VitaminC = vitaminC;
         this.VitaminD = vitaminD;
         this.VitaminE = vitaminE;
-        this.VitaminK1 = vitaminK1;
         this.Thiamin = thiamin;
         this.Riboflavin = riboflavin;
         this.Niacin = niacin;
@@ -114,7 +109,6 @@ public class FoodItem
         this.Phosphorus = phosphorus;
         this.Copper = copper;
         this.Iodine = iodine;
-        this.Nickel = nickel;
         this.Selenium = selenium;
         this.Calcium = calcium;
     }
@@ -142,7 +136,6 @@ public class FoodItem
                 this.VitaminC,
                 this.VitaminD,
                 this.VitaminE,
-                this.VitaminK1,
                 this.Thiamin,
                 this.Riboflavin,
                 this.Niacin,
@@ -155,7 +148,6 @@ public class FoodItem
                 this.Phosphorus,
                 this.Copper,
                 this.Iodine,
-                this.Nickel,
                 this.Selenium,
                 this.Calcium
             );

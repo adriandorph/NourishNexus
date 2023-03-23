@@ -19,7 +19,6 @@ public record FoodItemDTO(
     float VitaminC,
     float VitaminD,
     float VitaminE,
-    float VitaminK1,
     float Thiamin,
     float Riboflavin,
     float Niacin,
@@ -32,7 +31,6 @@ public record FoodItemDTO(
     float Phosphorus,
     float Copper,
     float Iodine,
-    float Nickel,
     float Selenium,
     float Calcium
 );
@@ -56,7 +54,6 @@ public record FoodItemCreateDTO
     public float? VitaminC {get; set;}
     public float? VitaminD {get; set;}
     public float? VitaminE {get; set;}
-    public float? VitaminK1 {get; set;}
     public float? Thiamin {get; set;}
     public float? Riboflavin {get; set;}
     public float? Niacin {get; set;}
@@ -69,7 +66,6 @@ public record FoodItemCreateDTO
     public float? Phosphorus {get; set;}
     public float? Copper {get; set;}
     public float? Iodine {get; set;}
-    public float? Nickel {get; set;}
     public float? Selenium {get; set;}
     public float? Calcium {get; set;}
 }

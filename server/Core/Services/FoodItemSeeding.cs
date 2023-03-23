@@ -46,7 +46,6 @@ public class FoodItemSeeding
                     VitaminC = float.Parse(values[45] != "" ? values[45] : "0"), //mg/100g
                     VitaminD = float.Parse(values[21] != "" ? values[21] : "0"), //µg/100g
                     VitaminE = float.Parse(values[26] != "" ? values[26] : "0"), // alfa-TE/100g eller mg/100g
-                    VitaminK1 = float.Parse(values[32] != "" ? values[32] : "0"), // µg/100g
                     Thiamin = float.Parse(values[33] != "" ? values[33] : "0"), //mg/100g
                     Riboflavin = float.Parse(values[36] != "" ? values[36] : "0"),//mg/100g
                     Niacin = float.Parse(values[38] != "" ? values[38] : "0"), //mg/100g
@@ -59,7 +58,6 @@ public class FoodItemSeeding
                     Phosphorus = float.Parse(values[64] != "" ? values[64] : "0"), //mg/100g
                     Copper = float.Parse(values[54] != "" ? values[54] : "0"), //mg/100g
                     Iodine = float.Parse(values[68] != "" ? values[68] : "0"), //µg/100g
-                    Nickel = float.Parse(values[70] != "" ? values[70] : "0"), //µg/100g
                     Selenium = float.Parse(values[60] != "" ? values[60] : "0"), //µg/100g
                     Calcium = float.Parse(values[50] != "" ? values[50] : "0"), //mg/100g
                 };
@@ -107,7 +105,6 @@ public class FoodItemSeeding
 29: gamma-Tokoferol
 30: delta-Tokoferol
 31: alfa-Tokotrienol
-32: K1-vitamin
 33: Thiamin (B1-vitamin)
 34: Thiamin
 35: 2-(1-hydroxyethyl)thiamin

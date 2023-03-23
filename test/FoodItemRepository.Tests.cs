@@ -41,7 +41,7 @@ public class FoodItemRepositoryTests
         //Add meal
         
         _christmas = new Meal(MealType.DINNER, _user1, new DateTime(2023, 12, 24), new List<Category>{_vegan, _fruit});
-        _recipe = new Recipe("Apples and Oranges", true, "Good, very good", "Slice and mix", 1, new List<Category>{_vegan, _fruit});
+        _recipe = new Recipe("Apples and Oranges", true, "Good, very good", "Slice and mix", 1, new List<Category>{_vegan, _fruit}, false, false, false, true);
     }
 
 
@@ -791,36 +791,6 @@ public class FoodItemRepositoryTests
     }
 
     [Fact]
-    public async void Update_Updated_VitaminK1()
-    {
-        //Arrange
-        var foodItemCreateDTO = new FoodItemCreateDTO{
-            Name = "Apple",
-            VitaminK1 = 100.0f,
-        };
-
-        var foodItemUpdateDTO = new FoodItemUpdateDTO
-        {
-            Id = 1,
-            VitaminK1 = 200.0f
-        };
-
-        //Act
-        await _repo.CreateAsync(foodItemCreateDTO);
-        var response = await _repo.UpdateAsync(foodItemUpdateDTO);
-        var entity = await _context.FoodItems
-            .Where(fi => fi.Id == foodItemUpdateDTO.Id)
-            .FirstOrDefaultAsync();
-
-        //Assert
-        Assert.Equal(Response.Updated, response);
-        Assert.NotNull(entity);
-        Assert.Equal(1, entity.Id);
-        Assert.Equal(foodItemCreateDTO.Name, entity.Name);
-        Assert.Equal(foodItemUpdateDTO.VitaminK1, entity.VitaminK1);
-    }
-
-    [Fact]
     public async void Update_Updated_Thiamin()
     {
         //Arrange
@@ -1181,36 +1151,6 @@ public class FoodItemRepositoryTests
     }
 
     [Fact]
-    public async void Update_Updated_Nickel()
-    {
-        //Arrange
-        var foodItemCreateDTO = new FoodItemCreateDTO{
-            Name = "Apple",
-            Nickel = 100.0f,
-        };
-
-        var foodItemUpdateDTO = new FoodItemUpdateDTO
-        {
-            Id = 1,
-            Nickel = 200.0f
-        };
-
-        //Act
-        await _repo.CreateAsync(foodItemCreateDTO);
-        var response = await _repo.UpdateAsync(foodItemUpdateDTO);
-        var entity = await _context.FoodItems
-            .Where(fi => fi.Id == foodItemUpdateDTO.Id)
-            .FirstOrDefaultAsync();
-
-        //Assert
-        Assert.Equal(Response.Updated, response);
-        Assert.NotNull(entity);
-        Assert.Equal(1, entity.Id);
-        Assert.Equal(foodItemCreateDTO.Name, entity.Name);
-        Assert.Equal(foodItemUpdateDTO.Nickel, entity.Nickel);
-    }
-
-    [Fact]
     public async void Update_Updated_Selenium()
     {
         //Arrange
@@ -1275,9 +1215,9 @@ public class FoodItemRepositoryTests
     public async void ReadAllByMealId_returns_all()
     {
         //Arrange
-        var foodItem1 = new FoodItem("Apple", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-        var foodItem2 = new FoodItem("Orange", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-        var foodItem3 = new FoodItem("Bacon", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem1 = new FoodItem("Apple", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem2 = new FoodItem("Orange", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem3 = new FoodItem("Bacon", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
         
         _context.FoodItems.Add(foodItem1);
         _context.FoodItems.Add(foodItem2);
@@ -1317,9 +1257,9 @@ public class FoodItemRepositoryTests
     public async void ReadAllByRecipeId_returns_all()
     {
         //Arrange
-        var foodItem1 = new FoodItem("Apple", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-        var foodItem2 = new FoodItem("Orange", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-        var foodItem3 = new FoodItem("Bacon", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem1 = new FoodItem("Apple", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem2 = new FoodItem("Orange", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        var foodItem3 = new FoodItem("Bacon", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
         
         _context.FoodItems.Add(foodItem1);
         _context.FoodItems.Add(foodItem2);

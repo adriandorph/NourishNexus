@@ -37,7 +37,6 @@ public class FoodItemRepository : IFoodItemRepository
             item.VitaminC ?? 0f,
             item.VitaminD ?? 0f,
             item.VitaminE ?? 0f,
-            item.VitaminK1 ?? 0f,
             item.Thiamin ?? 0f,
             item.Riboflavin ?? 0f,
             item.Niacin ?? 0f,
@@ -50,7 +49,6 @@ public class FoodItemRepository : IFoodItemRepository
             item.Phosphorus ?? 0f,
             item.Copper ?? 0f,
             item.Iodine ?? 0f,
-            item.Nickel ?? 0f,
             item.Selenium ?? 0f,
             item.Calcium ?? 0f));
 
@@ -73,7 +71,6 @@ public class FoodItemRepository : IFoodItemRepository
             item.VitaminC ?? 0f,
             item.VitaminD ?? 0f,
             item.VitaminE ?? 0f,
-            item.VitaminK1 ?? 0f,
             item.Thiamin ?? 0f,
             item.Riboflavin ?? 0f,
             item.Niacin ?? 0f,
@@ -86,7 +83,6 @@ public class FoodItemRepository : IFoodItemRepository
             item.Phosphorus ?? 0f,
             item.Copper ?? 0f,
             item.Iodine ?? 0f,
-            item.Nickel ?? 0f,
             item.Selenium ?? 0f,
             item.Calcium ?? 0f
         );
@@ -194,11 +190,6 @@ public class FoodItemRepository : IFoodItemRepository
             itemEntity.VitaminE = (float) item.VitaminE;
         }
 
-        if (!itemEntity.VitaminK1.Equals(item.VitaminK1) && item.VitaminK1 != null)
-        {
-            itemEntity.VitaminK1 = (float) item.VitaminK1;
-        }
-
         if (!itemEntity.Thiamin.Equals(item.Thiamin) && item.Thiamin != null)
         {
             itemEntity.Thiamin = (float) item.Thiamin;
@@ -257,11 +248,6 @@ public class FoodItemRepository : IFoodItemRepository
         if (!itemEntity.Iodine.Equals(item.Iodine) && item.Iodine != null)
         {
             itemEntity.Iodine = (float) item.Iodine;
-        }
-
-        if (!itemEntity.Nickel.Equals(item.Nickel) && item.Nickel != null)
-        {
-            itemEntity.Nickel = (float) item.Nickel;
         }
 
         if (!itemEntity.Selenium.Equals(item.Selenium) && item.Selenium != null)

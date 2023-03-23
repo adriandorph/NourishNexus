@@ -34,7 +34,15 @@ public class CategoryRepository : ICategoryRepository
             .Include(c => c.Recipes)
             .Select(c => c.ToDTO())
             .FirstOrDefaultAsync();
-}
+    
+    public async Task<Option<CategoryDTO>> ReadByNameAsync(string name)
+        => await _context.Categories
+            .Where(c => c.Name == name)
+            .Include(c => c.Recipes)
+            .Select(c => c.ToDTO())
+            .FirstOrDefaultAsync();
+    
+    }
 
 
 

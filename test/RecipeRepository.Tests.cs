@@ -66,8 +66,6 @@ public class RecipeRepositoryTests
             0f,
             0f,
             0f,
-            0f,
-            0f,
             0f
         );
         _orange = new FoodItem(
@@ -101,14 +99,10 @@ public class RecipeRepositoryTests
             0f,
             0f,
             0f,
-            0f,
-            0f,
             0f
         );;
         _pear = new FoodItem(
             "Pear",
-            0f,
-            0f,
             0f,
             0f,
             0f,
@@ -731,7 +725,11 @@ public class RecipeRepositoryTests
             "A nice bowl of appels and oranges",
             "Put the apples in a bowl. \nAdd the oranges into the bowl.",
             1,
-            new List<Category>{_fruit, _vegan}
+            new List<Category>{_fruit, _vegan},
+            false,
+            false,
+            false,
+            true
         );
 
         var recipe2 = new Recipe(
@@ -740,7 +738,11 @@ public class RecipeRepositoryTests
             "A nice apple and oranges fruit cup",
             "Slice the apples and oranges.\nPut the apples in a cup.\nAdd the oranges into the cup.",
             1,
-            new List<Category>{_fruit, _vegan}
+            new List<Category>{_fruit, _vegan},
+            false,
+            false,
+            false,
+            true
         );
 
         var recipe3 = new Recipe(
@@ -749,7 +751,11 @@ public class RecipeRepositoryTests
             "A nice blend of appels and oranges",
             "Put the apples and oranges into a blender and blend for 1 minute.",
             2,
-            new List<Category>{_fruit, _vegan}
+            new List<Category>{_fruit, _vegan},
+            false,
+            false,
+            false,
+            true
         );
 
         _context.Recipes.Add(recipe1);

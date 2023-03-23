@@ -20,7 +20,7 @@ public class RecipeRepository : IRecipeRepository
         if(conflict != null) return (Response.Conflict, conflict);
 
         var author = await _context.Users.Where(u => u.Id == recipe.AuthorId).FirstOrDefaultAsync();
-        if (author == null) return (Response.NotFound, new RecipeDTO(-1, recipe.Title ?? "", recipe.IsPublic ?? false, recipe.Description ?? "", recipe.Method ?? "", recipe.AuthorId, recipe.CategoryIDs ?? new List<int>()));
+        if (author == null) return (Response.NotFound, new RecipeDTO(-1, recipe.Title ?? "", recipe.IsPublic ?? false, recipe.Description ?? "", recipe.Method ?? "", recipe.AuthorId, recipe.CategoryIDs ?? new List<int>(), true, true, true, true));
 
 
         var entity = new Recipe
@@ -30,7 +30,11 @@ public class RecipeRepository : IRecipeRepository
             recipe.Description ?? "",
             recipe.Method ?? "",
             recipe.AuthorId,
-            recipe.CategoryIDs != null ? await CategoryIDsToCategories(recipe.CategoryIDs) : new List<Category>()
+            recipe.CategoryIDs != null ? await CategoryIDsToCategories(recipe.CategoryIDs) : new List<Category>(),
+            true,
+            true,
+            true,
+            true
         );
 
         _context.Recipes.Add(entity);
@@ -76,6 +80,11 @@ public class RecipeRepository : IRecipeRepository
 
             _context.UpdateRange(recipeEntity.Categories);
         }
+
+        if(recipe.IsBreakfast != null) recipeEntity.IsBreakfast = recipe.IsBreakfast ?? true;
+        if(recipe.IsLunch != null) recipeEntity.IsLunch = recipe.IsLunch ?? true;
+        if(recipe.IsDinner != null) recipeEntity.IsDinner = recipe.IsDinner ?? true;
+        if(recipe.IsSnack != null) recipeEntity.IsSnack = recipe.IsSnack ?? true;
 
         if(recipe.FoodItemRecipes != null){
             //Delete all foodItemRecipes that are linked to this recipe
