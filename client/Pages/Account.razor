@@ -1,9 +1,6 @@
 @page "/account"
-
-@using System.Net.Http.Json
 @using server.Core.EF.DTO
-@inject HttpClient httpClient
-@inject NavigationManager navigationManager
+@inject UserService UserService
 
 <PageTitle> Account </PageTitle>
 
@@ -16,26 +13,30 @@
     </div>
 
     <div class="mb-3">
-        <label for="password">Password</label>
-        <InputText id="password" @bind-Value="user.Email" />
+        <label for="nickname">Nickname</label>
+        <InputText id="nickname" @bind-Value="user.Nickname" />
     </div>
 
     <button type="submit" class="btn btn-primary">Update</button>
+    <div class ="@messageCssClass">
+        <span>@message</span>
+    </div>
 </EditForm>
 
 @code {
-    private UserCreateDTO user = new UserCreateDTO();
+    private UserUpdateDTO user = new UserUpdateDTO();
+
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
 
     private async Task HandleRegistration()
     {
-        var response = await httpClient.PostAsJsonAsync("/api/user", user);
-        if (response.IsSuccessStatusCode)
-        {
-            navigationManager.NavigateTo("/login");
-        }
+        var response = await UserService.UpdateUser(user);
+        message = response.Message;
+        if(response.Success)
+             messageCssClass = "text-success";
         else
-        {
-            // Handle error response
-        }
+            messageCssClass = "text-danger";
+    
     }
 }

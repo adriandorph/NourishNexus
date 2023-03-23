@@ -91,6 +91,13 @@ public class UserRepository : IUserRepository
             .Select(u => u.ToDTO())
             .FirstOrDefaultAsync();
     
+    public async Task<Option<UserDTO>> ReadByEmailAsync(string Email)
+        => await _context.Users
+            .Where(u => u.Email == Email)
+            .Include(u => u.SavedRecipes)
+            .Select(u => u.ToDTO())
+            .FirstOrDefaultAsync();
+    
 
 
     //Helper functions

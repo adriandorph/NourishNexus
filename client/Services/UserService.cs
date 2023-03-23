@@ -7,31 +7,48 @@ public class UserService{
 
     public UserService(HttpClient http){
         _http = http;
+        _http.BaseAddress = new Uri("http://localhost:5288/");
     }
 
-    public async Task<UserDTO> RegisterUser(UserCreateDTO user)
+    public async Task<Response> RegisterUser(UserCreateDTO user)
 {
     if (user == null)
     {
         throw new ArgumentNullException(nameof(user));
     }
-        _http.BaseAddress = new Uri("http://localhost:5288/");
+        
     try
     {
-        var response = await _http.PostAsJsonAsync("api/user/", user);
+        var response = await _http.PostAsJsonAsync("api/User", user);
         response.EnsureSuccessStatusCode();
 
         var createdUser = await response.Content.ReadFromJsonAsync<UserDTO>();
-        return createdUser;
+        
+        return new Response(true, "User registered successfully");
     }
     catch (HttpRequestException ex)
     {
-        throw new Exception($"An error occurred while calling the API. Status code: {ex.StatusCode}. Reason: {ex.Message}");
+        return new Response(false, ex.Message);
     }
-    catch (Exception ex)
+} 
+    public async Task<Response> UpdateUser(UserUpdateDTO user){
+        if (user == null)
     {
-        throw new Exception($"An error occurred while calling the API: {ex.Message}");
+        throw new ArgumentNullException(nameof(user));
     }
-}   
 
+    try
+    {
+        var response = await _http.PutAsJsonAsync("api/User", user);
+        response.EnsureSuccessStatusCode();
+
+        var createdUser = await response.Content.ReadFromJsonAsync<UserDTO>();
+        
+        return new Response(true, "User registered successfully");
+    }
+    catch (HttpRequestException ex)
+    {
+        return new Response(false, ex.Message);
+    }
 }
+    }

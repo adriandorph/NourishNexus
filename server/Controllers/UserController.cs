@@ -15,6 +15,8 @@ public class UserController : ControllerBase
     
     //POST
 
+    //Register
+
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> Post(UserCreateDTO user)
@@ -33,7 +35,6 @@ public class UserController : ControllerBase
         }
     }
 
-
     //PUT
     [HttpPut]
     [AllowAnonymous]
@@ -43,7 +44,7 @@ public class UserController : ControllerBase
         {
             Response r = await _userRepo.UpdateAsync(user);
             if (r == Core.Response.Updated) return Ok("Success");
-            else if (r == Core.Response.Conflict) return Conflict("User already has a user with that email.");
+            else if (r == Core.Response.Conflict) return Conflict("System already has a user with that email.");
             else if (r == Core.Response.NotFound) return NotFound("Could not find the user.");
             else if (r == Core.Response.BadRequest) return BadRequest("Bad Request");
             else return StatusCode(500, "An unknown error occured");
@@ -83,6 +84,23 @@ public class UserController : ControllerBase
         try
         {
             var r = await _userRepo.ReadByIDAsync(id);
+
+            if (r.IsNone) return NotFound();
+            return Ok(r.Value);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal Server Error");        
+        }
+    }
+
+    [HttpGet("readbyemail/{email}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetUserByEmail(string Email)
+    {
+        try
+        {
+            var r = await _userRepo.ReadByEmailAsync(Email);
 
             if (r.IsNone) return NotFound();
             return Ok(r.Value);

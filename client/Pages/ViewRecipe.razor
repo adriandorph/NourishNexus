@@ -1,52 +1,33 @@
-@* 
-@page "/recipes/view/{id}"
-@using server.Core.EF.DTO;
-@inject NavigationManager Navigation
-@inject RecipeService RecipeService
+@page "/viewRecipe"
+<PageTitle>View Recipe</PageTitle>
 
-<h1>View Recipe</h1>
-
-@if (recipe == null)
-{
-    <p>Loading...</p>
-}
-else
-{
-    <div class="card">
-        <div class="card-header">
-            <h3>@recipe.Title</h3>
-            <p>Author: @recipe.AuthorId</p>
-        </div>
-        <div class="card-body">
-            <p>@recipe.Description</p>
-            <h4>Method:</h4>
-            <p>@recipe.Method</p>
-            <h4>Categories:</h4>
-            <ul>
-                @foreach (var category in categories)
-                {
-                    <li>@category.Name</li>
-                }
-            </ul>
-        </div>
-    </div>
-}
+<h3>Title</h3>
+<h1>@recipe.Title</h1>
+<div>
+    <h3>Description</h3>
+    <p>@recipe.Description</p>
+</div>
+<div>
+    <h3>Method</h3>
+    <p>@recipe.Method</p>
+</div>
+<div>
+    <h3>Categories</h3>
+    <ul>
+       <li>Category 1</li>
+       <li>Category 2</li>
+       <li>Category 3</li>
+    </ul>
+</div>
+<div>
+    <h3>Visibility</h3>
+    <p>Public</p>
+</div>
+<div>
+    <button type="button" class="btn btn-primary">Return</button>
+</div>
 
 @code {
-    private RecipeDTO recipe;
-    private List<CategoryDTO> categories;
 
-    [Parameter]
-    public int Id { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        recipe = await RecipeService.GetRecipeAsync(Id);
-
-        if (recipe != null)
-        {
-            categories = await RecipeService.GetCategoriesAsync(recipe.Id);
-        }
-    }
+    private RecipeCreateDTO recipe = new();
 }
-*@

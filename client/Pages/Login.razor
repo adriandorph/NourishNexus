@@ -4,35 +4,24 @@
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
 
+<PageTitle>Login</PageTitle>
 <h1>Login</h1>
 
-<EditForm Model="user" OnValidSubmit="HandleRegistration">
+<EditForm Model="user" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" required />
+        <InputText id="email" @bind-Value="user.Email" class="form-control" />
+        <ValidationMessage For="@(() => user.Email)" />
     </div>
-
-    <div class="mb-3">
-        <label for="password">Password</label>
-        <InputText id="password" @bind-Value="user.Email" />
-    </div>
-
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
 
 @code {
     private UserCreateDTO user = new UserCreateDTO();
 
-    private async Task HandleRegistration()
+    private async Task HandleLogin()
     {
-        var response = await httpClient.PostAsJsonAsync("/api/user", user);
-        if (response.IsSuccessStatusCode)
-        {
-            navigationManager.NavigateTo("/dashboard");
-        }
-        else
-        {
-            // Handle error response
-        }
+        Console.WriteLine("Log me in");
     }
 }
