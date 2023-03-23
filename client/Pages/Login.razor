@@ -1,7 +1,6 @@
 @page "/login"
-@using System.Net.Http.Json
 @using server.Core.EF.DTO
-@inject HttpClient httpClient
+@inject UserService UserService
 @inject NavigationManager navigationManager
 
 <PageTitle>Login</PageTitle>
@@ -22,6 +21,14 @@
 
     private async Task HandleLogin()
     {
-        Console.WriteLine("Log me in");
+        var result = await UserService.Login(user.Email);
+        Console.WriteLine("Result is" + result.Item1);
+        if(result.Item1){
+            navigationManager.NavigateTo("/dashboard");
+        }
+        else
+        {
+            Console.WriteLine(result);
+        }
     }
 }

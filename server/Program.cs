@@ -34,6 +34,9 @@ builder.Services.AddCors(options =>
             });
 });
 
+// Add configuration
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
 var app = builder.Build();
 app.UseCors("AllowOrigin");
 
