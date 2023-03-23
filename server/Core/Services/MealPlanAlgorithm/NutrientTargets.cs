@@ -280,39 +280,10 @@ public class NutrientTargets
         return true;
     }
 
-    //All values in a are greater than the coresponding values in b.
+    //If one value in a is greater than the coresponding value in b.
     public static bool operator >(NutrientTargets a, NutrientTargets b)
     {
-        if(a.Protein <= b.Protein) return false;
-        if(a.Carbohydrates <= b.Carbohydrates) return false;
-        if(a.Sugars <= b.Sugars) return false;
-        if(a.Fibres <= b.Fibres) return false;
-        if(a.TotalFat <= b.TotalFat) return false;
-        if(a.SaturatedFat <= b.SaturatedFat) return false;
-        if(a.MonounsaturatedFat <= b.MonounsaturatedFat) return false;
-        if(a.PolyunsaturatedFat <= b.PolyunsaturatedFat) return false;
-        if(a.TransFat <= b.TransFat) return false;
-        if(a.VitaminA <= b.VitaminA) return false;
-        if(a.VitaminB6 <= b.VitaminB6) return false;
-        if(a.VitaminB12 <= b.VitaminB12) return false;
-        if(a.VitaminC <= b.VitaminC) return false;
-        if(a.VitaminD <= b.VitaminD) return false;
-        if(a.VitaminE <= b.VitaminE) return false;
-        if(a.Thiamin <= b.Thiamin) return false;
-        if(a.Riboflavin <= b.Riboflavin) return false;
-        if(a.Niacin <= b.Niacin) return false;
-        if(a.Folate <= b.Folate) return false;
-        if(a.Salt <= b.Salt) return false;
-        if(a.Potassium <= b.Potassium) return false;
-        if(a.Magnesium <= b.Magnesium) return false;
-        if(a.Iron <= b.Iron) return false;
-        if(a.Zinc <= b.Zinc) return false;
-        if(a.Phosphorus <= b.Phosphorus) return false;
-        if(a.Copper <= b.Copper) return false;
-        if(a.Iodine <= b.Iodine) return false;
-        if(a.Selenium <= b.Selenium) return false;
-        if(a.Calcium <= b.Calcium) return false;
-        return true;
+        return !(a <= b);
     }
 
     public static bool operator <(NutrientTargets a, NutrientTargets b)

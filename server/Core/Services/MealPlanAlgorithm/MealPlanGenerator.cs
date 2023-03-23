@@ -57,10 +57,12 @@ public class MealPlanGenerator
         MealPlan mealPlan = await CreateInitialMealPlan(recipes, userID, calorieTargets, startingDate);
         
         // Ideal Intake met/exceeded?
-        while(!(mealPlan.CalculateNutrientSums() >= IdealIntake))
+        var curNutrientSums = mealPlan.CalculateNutrientSums();
+        while(!(curNutrientSums.lowerCount(IdealIntake * 0.95f) < 4))
         {
             Console.WriteLine("\nReplace lowest");
             var r = await ReplaceLowestMeals(mealPlan, IdealIntake, recipes, calorieTargets);
+            curNutrientSums = mealPlan.CalculateNutrientSums();
             if (r == Response.Fail)
             {
                 await InsertPlan(mealPlan);
@@ -68,31 +70,38 @@ public class MealPlanGenerator
                     LowerBounds,
                     IdealIntake,
                     UpperBounds,
-                    mealPlan.CalculateNutrientSums(),
+                    curNutrientSums,
                     Response.Fail
                 );
             }
         }
         //Is UpperBounds exceeded?
-        while(mealPlan.CalculateNutrientSums() > UpperBounds)
+        
+        while(curNutrientSums > UpperBounds || !(curNutrientSums >= LowerBounds))
         {
-            Console.WriteLine("\nReplace highest");
-            var r = await ReplaceHighest(mealPlan, UpperBounds, recipes, calorieTargets);
-            if (r == Response.Fail) 
+            if (curNutrientSums >= LowerBounds)
             {
-                await InsertPlan(mealPlan);
-                return new DietReport(
-                    LowerBounds,
-                    IdealIntake,
-                    UpperBounds,
-                    mealPlan.CalculateNutrientSums(),
-                    Response.Fail
-                );
+                Console.WriteLine("\nReplace highest");
+                var r = await ReplaceHighest(mealPlan, UpperBounds, recipes, calorieTargets);
+                curNutrientSums = mealPlan.CalculateNutrientSums();
+                if (r == Response.Fail) 
+                {
+                    await InsertPlan(mealPlan);
+                    return new DietReport(
+                        LowerBounds,
+                        IdealIntake,
+                        UpperBounds,
+                        curNutrientSums,
+                        Response.Fail
+                    );
+                }
             }
-            while(!(mealPlan.CalculateNutrientSums() >= LowerBounds))
+            
+            while(!(curNutrientSums >= LowerBounds))
             {
                 Console.WriteLine("\nReplace lowest after replacing highest");
-                r = await ReplaceLowestMeals(mealPlan, LowerBounds, recipes, calorieTargets);
+                var r = await ReplaceLowestMeals(mealPlan, LowerBounds, recipes, calorieTargets);
+                curNutrientSums = mealPlan.CalculateNutrientSums();
                 if (r == Response.Fail)
                 {
                     await InsertPlan(mealPlan);
@@ -100,7 +109,7 @@ public class MealPlanGenerator
                         LowerBounds,
                         IdealIntake,
                         UpperBounds,
-                        mealPlan.CalculateNutrientSums(),
+                        curNutrientSums,
                         Response.Fail
                     );
                 }
@@ -192,7 +201,7 @@ public class MealPlanGenerator
         idealIntake.Thiamin = BalanceOut((float)user.ThiaminII! * 7, previous.Thiamin, (float)user.ThiaminLB!, (float)user.ThiaminUB!);
         idealIntake.Riboflavin = BalanceOut((float)user.RiboflavinII! * 7, previous.Riboflavin, (float)user.RiboflavinLB!, (float)user.RiboflavinUB!);
         idealIntake.Niacin = BalanceOut((float)user.NiacinII! * 7, previous.Niacin, (float)user.NiacinLB!, (float)user.NiacinUB!);
-        idealIntake.Folate = BalanceOut((float)user.FolateII!, previous.Folate, (float)user.FolateLB!, (float)user.FolateUB!);
+        idealIntake.Folate = BalanceOut((float)user.FolateII! * 7, previous.Folate, (float)user.FolateLB!, (float)user.FolateUB!);
         idealIntake.Salt = BalanceOut((float)user.SaltII! * 7, previous.Salt, (float)user.SaltLB!, (float)user.SaltUB!);
         idealIntake.Potassium = BalanceOut((float)user.PotassiumII! * 7, previous.Potassium, (float)user.PotassiumLB!, (float)user.PotassiumUB!);
         idealIntake.Magnesium = BalanceOut((float)user.MagnesiumII! * 7, previous.Magnesium, (float)user.MagnesiumLB!, (float)user.MagnesiumUB!);
@@ -598,6 +607,8 @@ public class MealPlanGenerator
         int mostLowerDinner = 0;
         int mostLowerSnacks = 0;
 
+        NutrientTargets mealPlanNutrients = mealPlan.CalculateNutrientSums();
+
         PlannedMeal? breakfast = null;
         PlannedMeal? lunch = null;
         PlannedMeal? dinner = null;
@@ -609,7 +620,9 @@ public class MealPlanGenerator
             if (!day.BreakfastLocked)
             {
                 if(day.Breakfast == null) throw new Exception("Breakfast is null");
-                var breakfastReference = weeklyReference * (1f/7f) * (calorieTargets.Breakfast / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                //Only the nutrients that are not met in the plan should be counted
+                var defaultBreakfastReference = weeklyReference * (1f/7f) * (calorieTargets.Breakfast / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var breakfastReference = FilterReferenceWhereNutrientsAreMetOrExceeds(defaultBreakfastReference, mealPlanNutrients, weeklyReference);
                 var lowerCount = day.Breakfast.CalculateNutrientSums().lowerCount(breakfastReference);
                 if (lowerCount > mostLowerBreakfast)
                 {
@@ -621,7 +634,8 @@ public class MealPlanGenerator
             if (!day.LunchLocked)
             {
                 if(day.Lunch == null) throw new Exception("Lunch is null");
-                var lunchReference = weeklyReference * (1f/7f) * (calorieTargets.Lunch / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var defaultLunchReference = weeklyReference * (1f/7f) * (calorieTargets.Lunch / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var lunchReference = FilterReferenceWhereNutrientsAreMetOrExceeds(defaultLunchReference, mealPlanNutrients, weeklyReference);
                 var lowerCount = day.Lunch.CalculateNutrientSums().lowerCount(lunchReference);
                 if (lowerCount > mostLowerLunch)
                 {
@@ -633,7 +647,8 @@ public class MealPlanGenerator
             if (!day.DinnerLocked)
             {
                 if(day.Dinner == null) throw new Exception("Dinner is null");
-                var dinnerReference = weeklyReference * (1f/7f) * (calorieTargets.Dinner / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var defaultDinnerReference = weeklyReference * (1f/7f) * (calorieTargets.Dinner / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var dinnerReference = FilterReferenceWhereNutrientsAreMetOrExceeds(defaultDinnerReference, mealPlanNutrients, weeklyReference);
                 var lowerCount = day.Dinner.CalculateNutrientSums().lowerCount(dinnerReference);
                 if (lowerCount > mostLowerDinner)
                 {
@@ -645,7 +660,8 @@ public class MealPlanGenerator
             if (!day.SnacksLocked)
             {
                 if(day.Snacks == null) throw new Exception("Snacks is null");
-                var snackReference = weeklyReference * (1f/7f) * (calorieTargets.Snacks / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var defaultSnackReference = weeklyReference * (1f/7f) * (calorieTargets.Snacks / (calorieTargets.Breakfast + calorieTargets.Lunch + calorieTargets.Dinner + calorieTargets.Snacks));
+                var snackReference = FilterReferenceWhereNutrientsAreMetOrExceeds(defaultSnackReference, mealPlanNutrients, weeklyReference);
                 var lowerCount = day.Snacks.CalculateNutrientSums().lowerCount(snackReference);
                 if (lowerCount > mostLowerSnacks)
                 {
@@ -667,6 +683,40 @@ public class MealPlanGenerator
                snacksResult == Response.Success
                ? Response.Success : Response.Fail;
     }
+
+    private NutrientTargets FilterReferenceWhereNutrientsAreMetOrExceeds(NutrientTargets reference, NutrientTargets planned, NutrientTargets toBeMetOrExceeded)
+        => new NutrientTargets
+        {
+            Protein = planned.Protein >= toBeMetOrExceeded.Protein ? 0f : reference.Protein,
+            Carbohydrates = planned.Carbohydrates >= toBeMetOrExceeded.Carbohydrates ? 0f : reference.Carbohydrates,
+            Sugars = planned.Sugars >= toBeMetOrExceeded.Sugars ? 0f : reference.Sugars,
+            Fibres = planned.Fibres >= toBeMetOrExceeded.Fibres ? 0f : reference.Fibres,
+            TotalFat = planned.TotalFat >= toBeMetOrExceeded.TotalFat ? 0f : reference.TotalFat,
+            SaturatedFat = planned.SaturatedFat >= toBeMetOrExceeded.SaturatedFat ? 0f : reference.SaturatedFat,
+            MonounsaturatedFat = planned.MonounsaturatedFat >= toBeMetOrExceeded.MonounsaturatedFat ? 0f : reference.MonounsaturatedFat,
+            PolyunsaturatedFat = planned.PolyunsaturatedFat >= toBeMetOrExceeded.PolyunsaturatedFat ? 0f : reference.PolyunsaturatedFat,
+            TransFat = planned.TransFat >= toBeMetOrExceeded.TransFat ? 0f : reference.TransFat,
+            VitaminA = planned.VitaminA >= toBeMetOrExceeded.VitaminA ? 0f : reference.VitaminA,
+            VitaminB6 = planned.VitaminB6 >= toBeMetOrExceeded.VitaminB6 ? 0f : reference.VitaminB6,
+            VitaminB12 = planned.VitaminB12 >= toBeMetOrExceeded.VitaminB12 ? 0f : reference.VitaminB12,
+            VitaminC = planned.VitaminC >= toBeMetOrExceeded.VitaminC ? 0f : reference.VitaminC,
+            VitaminD = planned.VitaminD >= toBeMetOrExceeded.VitaminD ? 0f : reference.VitaminD,
+            VitaminE = planned.VitaminE >= toBeMetOrExceeded.VitaminE ? 0f : reference.VitaminE,
+            Thiamin = planned.Thiamin >= toBeMetOrExceeded.Thiamin ? 0f : reference.Thiamin,
+            Riboflavin = planned.Riboflavin >= toBeMetOrExceeded.Riboflavin ? 0f : reference.Riboflavin,
+            Niacin = planned.Niacin >= toBeMetOrExceeded.Niacin ? 0f : reference.Niacin,
+            Folate = planned.Folate >= toBeMetOrExceeded.Folate ? 0f : reference.Folate,
+            Salt = planned.Salt >= toBeMetOrExceeded.Salt ? 0f : reference.Salt,
+            Potassium = planned.Potassium >= toBeMetOrExceeded.Potassium ? 0f : reference.Potassium,
+            Magnesium = planned.Magnesium >= toBeMetOrExceeded.Magnesium ? 0f : reference.Magnesium,
+            Iron = planned.Iron >= toBeMetOrExceeded.Iron ? 0f : reference.Iron,
+            Zinc = planned.Zinc >= toBeMetOrExceeded.Zinc ? 0f : reference.Zinc,
+            Phosphorus = planned.Phosphorus >= toBeMetOrExceeded.Phosphorus ? 0f : reference.Phosphorus,
+            Copper = planned.Copper >= toBeMetOrExceeded.Copper ? 0f : reference.Copper,
+            Iodine = planned.Iodine >= toBeMetOrExceeded.Iodine ? 0f : reference.Iodine,
+            Selenium = planned.Selenium >= toBeMetOrExceeded.Selenium ? 0f : reference.Selenium,
+            Calcium = planned.Calcium >= toBeMetOrExceeded.Calcium ? 0f : reference.Calcium
+        };
 
     private async Task<Response> Replace(List<RecipeDTO> recipes, PlannedMeal meal, float calorieTarget)
     {

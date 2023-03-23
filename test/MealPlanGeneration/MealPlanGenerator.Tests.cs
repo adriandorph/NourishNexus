@@ -550,6 +550,7 @@ public class MealPlanGeneratorTests
     FoodItemRecipe _asparagusInBakedSalmonAndAsparagus;
     FoodItemRecipe _butterInBakedSalmonAndAsparagus;
     FoodItemRecipe _garlicInBakedSalmonAndAsparagus;
+    FoodItemRecipe _saltInBakedSalmonAndAsparagus;
     
     //Crackers with pesti
     FoodItemRecipe _crackersInCWP;
@@ -670,15 +671,6 @@ public class MealPlanGeneratorTests
     FoodItemRecipe _mozzarellaInML;
 
 
-
-
-    
-
-
-
-    
-
-    
     public MealPlanGeneratorTests()
     {
         var connection = new SqliteConnection("Data Source=:memory:");
@@ -731,6 +723,7 @@ public class MealPlanGeneratorTests
         _author.CarbohydratesII = 347.8125f;//52.5 E%
         _author.CarbohydratesUB = 397.5f;//60 E%
 
+        //Added sugars
         _author.SugarsLB = 0f;
         _author.SugarsII = 0f;
         _author.SugarsUB = 62.5f; //10E%
@@ -759,103 +752,104 @@ public class MealPlanGeneratorTests
         _author.TransFatII = 0f; //0 E%
         _author.TransFatUB = 14.72222f; //5 E% ?
 
-        _author.VitaminALB = 0f;
-        _author.VitaminAII = 900f;
-        _author.VitaminAUB = 1800f;
+        _author.VitaminALB = 500f; //400 for women, 500 for men
+        _author.VitaminAII = 900f; //700 for women, 900 for men
+        _author.VitaminAUB = 1500f; //Post menupausal for women
 
-        _author.VitaminB6LB = 0f;
-        _author.VitaminB6II = 1.5f;
-        _author.VitaminB6UB = 3f;
+        _author.VitaminB6LB = 1.0f; //0.8 for women, 1 for men
+        _author.VitaminB6II = 1.5f; // 1.2 for women, 1.5 for men
+        _author.VitaminB6UB = 25f;
 
-        _author.VitaminB12LB = 0f;
-        _author.VitaminB12II = 2.0f;
-        _author.VitaminB12UB = 4f;
+        _author.VitaminB12LB = 1f;
+        _author.VitaminB12II = 2f;
+        _author.VitaminB12UB = float.PositiveInfinity; //Not established
 
-        _author.VitaminCLB = 0f;
+        _author.VitaminCLB = 10f;
         _author.VitaminCII = 75f;
-        _author.VitaminCUB = 150f;
+        _author.VitaminCUB = float.PositiveInfinity; //No health effects
 
-        _author.VitaminDLB = 0f;
+        _author.VitaminDLB = 2.5f;
         _author.VitaminDII = 10f;
-        _author.VitaminDUB = 20f;
+        _author.VitaminDUB = 100f;
 
-        _author.VitaminELB = 0f;
-        _author.VitaminEII = 10f;
-        _author.VitaminEUB = 20f;
+        _author.VitaminELB = 3.5f; //3 for women, 4 for men
+        _author.VitaminEII = 9f; //8 for women, 10 for men
+        _author.VitaminEUB = 300f;
 
-        _author.ThiaminLB = 0f;
-        _author.ThiaminII = 1.4f;
-        _author.ThiaminUB = 2.8f;
+        _author.ThiaminLB = 0.6f; //0.5 for women, 0.6 for men
+        _author.ThiaminII = 1.4f; //1.1 for women, 1.4 for men
+        _author.ThiaminUB = float.PositiveInfinity; //Not established
 
-        _author.RiboflavinLB = 0f;
-        _author.RiboflavinII = 1.6f;
-        _author.RiboflavinUB = 3.2f;
+        _author.RiboflavinLB = 0.8f;
+        _author.RiboflavinII = 1.7f; //1.3 for women, 1.7 for men
+        _author.RiboflavinUB = float.PositiveInfinity; //Not established
 
-        _author.NiacinLB = 0f;
-        _author.NiacinII = 19f;
-        _author.NiacinUB = 38f;
+        _author.NiacinLB = 12f; //9 for women, 12 for men
+        _author.NiacinII = 18f; //15 for women, 18 for men
+        _author.NiacinUB = 35f;
 
-        _author.FolateLB = 0f;
-        _author.FolateII = 300f;
-        _author.FolateUB = 600f;
+        _author.FolateLB = 100f;
+        _author.FolateII = 300f; //400 for women in resproductive age
+        _author.FolateUB = float.PositiveInfinity; //No health effects of high intake
 
-        _author.SaltLB = 0f;
-        _author.SaltII = 3f;
-        _author.SaltUB = 6f;
+        _author.SaltLB = 0f;//?
+        _author.SaltII = 6f;
+        _author.SaltUB = 12f;//?
 
-        _author.PotassiumLB = 0f;
-        _author.PotassiumII = 3.5f;
-        _author.PotassiumUB = 7f;
+        //Potasium is in mg/d in frida
+        _author.PotassiumLB = 1600f;
+        _author.PotassiumII = 3500f; //3.1 for women, 3.5 for men g/d
+        _author.PotassiumUB = float.PositiveInfinity; //Not established
 
-        _author.MagnesiumLB = 0f;
-        _author.MagnesiumII = 350f;
-        _author.MagnesiumUB = 700f;
+        _author.MagnesiumLB = 0f; //Not specified
+        _author.MagnesiumII = 350f; //280 for women, 350 for men
+        _author.MagnesiumUB = float.PositiveInfinity; //Not specified
 
-        _author.IronLB = 0f;
-        _author.IronII = 9f;
-        _author.IronUB = 18f;
+        _author.IronLB = 7f; //5 for women, 7 for men
+        _author.IronII = 9f; // 15 for women, 9 for women post menupause, 9 for men
+        _author.IronUB = 60f;
 
-        _author.ZincLB = 0f;
-        _author.ZincII = 9f;
-        _author.ZincUB = 18f;
+        _author.ZincLB = 5f; //4 for women, 5 for men
+        _author.ZincII = 9f; //7 for women, 9 for men
+        _author.ZincUB = float.PositiveInfinity; //Not specified
 
-        _author.PhosphorusLB = 0f;
+        _author.PhosphorusLB = 300f;
         _author.PhosphorusII = 600f;
-        _author.PhosphorusUB = 1200f;
+        _author.PhosphorusUB = 3000f;
 
-        _author.CopperLB = 0f;
+        _author.CopperLB = 0.4f;
         _author.CopperII = 0.9f;
-        _author.CopperUB = 1.8f;
+        _author.CopperUB = 5f;
 
-        _author.IodineLB = 0f;
+        _author.IodineLB = 70f;
         _author.IodineII = 150f;
-        _author.IodineUB = 300f;
+        _author.IodineUB = 600f;
 
-        _author.SeleniumLB = 0f;
-        _author.SeleniumII = 60f;
-        _author.SeleniumUB = 120f;
+        _author.SeleniumLB = 20f;
+        _author.SeleniumII = 60f; //50 for women, 60 for men
+        _author.SeleniumUB = 300f;
 
-        _author.CalciumLB = 0f;
+        _author.CalciumLB = 400f;
         _author.CalciumII = 800f;
-        _author.CalciumUB = 1600f;
+        _author.CalciumUB = 2500f;
     
         _context.Users.Add(_author);
         _context.SaveChanges();
     }
     private void InitializeFoodItems()
     {
-        _egg = new FoodItem("Eggs", 139f, 12.3f, 1.3f, 0f, 0f, 7.74f, 2.6f, 3.42f, 1.61f, 0.02f, 80.5f, 0.11f, 1.57f, 0.2f, 1.77f, 3.71f, 0.083f, 0.46f, 0.08f, 0f, 0.3f, 131.4f, 11.6f, 1.73f, 1.14f, 176f, 0.054f, 24.5f, 24.44f, 46.9f);
+        _egg = new FoodItem("Eggs", 137f, 12.3f, 1.2f, 0f, 0f, 7.65f, 2.46f, 3.68f, 1.4f, 0.02f, 71.9f, 0.1f, 1.72f, 0.1f, 2.33f, 4.31f, 0.076f, 0.44f, 0.08f, 0f, 0.3f, 129.1f, 11.6f, 1.77f, 1.16f, 172f, 0.051f, 65.7f, 22.2f, 46.3f);
         _bacon = new FoodItem("Bacon", 430f, 13f, 0f, 0f, 0f, 39.06f, 17.09f, 18.9f, 3.07f, 0f, 0f, 0.15f, 0.65f, 0.8f, 0.43f, 0.3f, 0.48f, 0.16f, 3f, 2f, 2.85f, 185f, 15f, 0.51f, 1.98f, 220f, 0.063f, 0.7f, 8.3f, 5.1f);
-        _buns = new FoodItem("Buns", 294f, 9.7f, 51.7f, 0.35f, 3.5f, 2.59f, 0.68f, 0.63f, 1.29f, 0f, 0f, 0.08f, 0f, 0f, 0f, 0.5f, 0.157f, 0.09f, 1.2f, 62.1f, 1.1f, 153.1f, 25.6f, 1.32f, 0.79f, 116f, 0.143f, 2.5f, 3.1f, 66.7f);
-        _butter = new FoodItem("Butter", 741f, 0.7f, 0.6f, 0.58f, 0f, 77.02f, 53.54f, 16.98f, 2.2f, 3.52f, 749.3f, 0f, 0.17f, 0f, 0.41f, 1.76f, 0.007f, 0.04f, 0.1f, 3f, 0.9f, 29.1f, 1.6f, 0.01f, 0.04f, 21f, 0.022f, 2.7f, 1.56f, 16.8f);
-        _strawberryJam = new FoodItem("Strawberry Jam", 226f, 0.5f, 54.3f, 58f, 1.2f, 0.4f, 0.04f, 0.07f, 0.29f, 0f, 4.2f, 0.03f, 0f, 14f, 0f, 0.2f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 25f);
-        _raspberryJam = new FoodItem("Raspberry Jam", 203f, 0.6f, 48.1f, 46f, 1.2f, 0.48f, 0.05f, 0.05f, 0.39f, 0f, 4.2f, 0.03f, 0f, 5f, 0f, 0.15f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 15f);
+        _buns = new FoodItem("Buns", 294f, 9.7f, 51.7f, 0f, 3.5f, 2.59f, 0.68f, 0.63f, 1.29f, 0f, 0f, 0.08f, 0f, 0f, 0f, 0.5f, 0.157f, 0.09f, 1.2f, 62.1f, 1.1f, 153.1f, 25.6f, 1.32f, 0.79f, 116f, 0.143f, 2.5f, 3.1f, 66.7f);
+        _butter = new FoodItem("Butter", 741f, 0.7f, 0.6f, 0f, 0f, 77.02f, 53.54f, 16.98f, 2.2f, 3.52f, 749.3f, 0f, 0.17f, 0f, 0.41f, 1.76f, 0.007f, 0.04f, 0.1f, 3f, 0.9f, 29.1f, 1.6f, 0.01f, 0.04f, 21f, 0.022f, 2.7f, 1.56f, 16.8f);
+        _strawberryJam = new FoodItem("Strawberry Jam", 226f, 0.5f, 54.3f, 55f, 1.2f, 0.4f, 0.04f, 0.07f, 0.29f, 0f, 4.2f, 0.03f, 0f, 14f, 0f, 0.2f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 25f);
+        _raspberryJam = new FoodItem("Raspberry Jam", 203f, 0.6f, 48.1f, 44f, 1.2f, 0.48f, 0.05f, 0.05f, 0.39f, 0f, 4.2f, 0.03f, 0f, 5f, 0f, 0.15f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 15f);
         _blackberryJam = new FoodItem("Blackberry Jam", 203f, 0.6f, 48.1f, 46f, 1.2f, 0.48f, 0.05f, 0.05f, 0.39f, 0f, 4.2f, 0.03f, 0f, 5f, 0f, 0.15f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 15f);
         _rhubarbJam = new FoodItem("Rhubarb Jam", 203f, 0.6f, 48.1f, 46f, 1.2f, 0.48f, 0.05f, 0.05f, 0.39f, 0f, 4.2f, 0.03f, 0f, 5f, 0f, 0.15f, 0f, 0.04f, 0.2f, 5f, 0f, 44f, 4f, 0.5f, 0.03f, 13f, 0.12f, 1.4f, 0.3f, 15f);
-        _slicedCheese = new FoodItem("Sliced Cheese", 325f, 23.7f, 1.6f, 0.18f, 0f, 21.54f, 14.54f, 5.14f, 0.53f, 0.99f, 212f, 0f, 0f, 0f, 0.35f, 0.5f, 0f, 0f, 0f, 0f, 1.6f, 60.5f, 27.2f, 0.09f, 3.37f, 446f, 0.049f, 14.1f, 14.17f, 682.7f);
+        _slicedCheese = new FoodItem("Sliced Cheese", 335f, 24.7f, 0.1f, 0f, 0f, 24.27f, 16.36f, 5.68f, 0.69f, 1.17f, 229.7f, 0.09f, 1.38f, 0.5f, 0.26f, 0.67f, 0.05f, 0.33f, 0.1f, 60f, 1.475f, 65f, 27f, 0.11f, 3.2f, 528f, 0.044f, 10.4f, 9.35f, 686f);
         _Peanutbutter = new FoodItem("Peanut butter", 637f, 22.6f, 12.2f, 6.38f, 7.6f, 51.55f, 10.69f, 27.35f, 13.51f, 0f, 0f, 0.5f, 0f, 0f, 0f, 4.7f, 0.17f, 0.1f, 15f, 53f, 0.9f, 700f, 180f, 2.1f, 3f, 330f, 0.7f, 0.5f, 6.9f, 37f);
         _mapleSyrup = new FoodItem("Maple Syrup", 308f, 0.3f, 76.7f, 76.7f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.01f, 0.1f, 0f, 0.2f, 220f, 34f, 2.5f, 0.13f, 3f, 0.24f, 5f, 1f, 75f);
-        _spreadChocolate = new FoodItem("Chocolate Spread", 900f, 0f, 0f, 0f, 0f, 95.6f, 59.45f, 33.22f, 2.94f, 0f, 0f, 0f, 0f, 0f, 0f, 1.8f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f);
+        _spreadChocolate = new FoodItem("Chocolate Spread", 527f, 7f, 55.6f, 54f, 4.9f, 28.3f, 9.15f, 15.79f, 3.36f, 0f, 400f, 0.14f, 0.2f, 1f, 0f, 7.8f, 0.01f, 0.28f, 0.45f, 23.7f, 0.025f, 476f, 76f, 2.3f, 0.12f, 178f, 0f, 7f, 5f, 124f);
         _quinoa = new FoodItem("Quinoa", 347f, 13.7f, 42.3f, 3.2f, 13.9f, 4.4f, 0.51f, 1.18f, 2.71f, 0f, 0f, 0.14f, 0f, 0f, 0f, 2.33f, 0.064f, 0.29f, 0.73f, 195.5f, 0f, 870f, 175f, 3.75f, 2.8f, 415f, 0.515f, 0f, 4.6f, 46.5f);
         _oats = new FoodItem("Oat", 366f, 12.9f, 58.9f, 1.03f, 9.9f, 6.47f, 1.19f, 2.38f, 2.81f, 0f, 0f, 0.14f, 0f, 0f, 0f, 0.75f, 0.416f, 0.11f, 0.8f, 50.4f, 0.00405f, 386.3f, 154.5f, 3.86f, 2.99f, 440f, 0.39f, 0.5f, 5f, 115.3f);
         _milk = new FoodItem("Milk", 37f, 3.5f, 4.8f, 4.75f, 0f, 0.47f, 0.35f, 0.11f, 0.01f, 0f, 4.4f, 0.05f, 0.48f, 1.3f, 0.08f, 0.01f, 0.041f, 0.17f, 0.09f, 5.8f, 0.1f, 157.2f, 12.1f, 0.03f, 0.41f, 97f, 0.01f, 23.3f, 1.64f, 123.6f);
@@ -864,45 +858,45 @@ public class MealPlanGeneratorTests
         _brunchSausages = new FoodItem("Brunch Sausages", 292f, 14f, 4.3f, 2.83f, 0.2f, 23.14f, 9.01f, 11.45f, 2.68f, 0f, 0f, 0.15f, 1.1f, 0f, 0.3f, 0.1f, 0.358f, 0.1f, 1.8f, 4f, 2.7f, 208.7f, 18.7f, 0.79f, 1.31f, 184f, 0.067f, 14f, 7.2f, 21.9f);
         _cornflakes = new FoodItem("Corn Flakes", 374f, 7.5f, 82f, 7.06f, 3.1f, 1.26f, 0.21f, 0.39f, 0.66f, 0f, 0f, 0.12f, 0f, 0f, 0f, 0.02f, 0.659f, 0.57f, 1.1f, 26.7f, 1.5195689f, 102.9f, 15.2f, 2.89f, 0.27f, 57f, 0.067f, 0.9f, 2.6f, 4.3f);
         _flour = new FoodItem("Flour", 343f, 9.7f, 56.5f, 1.13f, 6f, 1.24f, 0.38f, 0f, 0.85f, 0f, 0f, 0.07f, 0f, 0f, 0f, 0.43f, 0.164f, 0.03f, 0.37f, 30.6f, 0f, 154.7f, 25.4f, 1.17f, 0.87f, 115f, 0.134f, 1.4f, 4.23f, 17.6f);
-        _lemon = new FoodItem("Lemon", 44f, 0.5f, 3.1f, 3.11f, 1.2f, 0.88f, 0.24f, 0.07f, 0.57f, 0f, 1.7f, 0.06f, 0f, 49f, 0f, 0.8f, 0.045f, 0.03f, 0.2f, 32f, 0.0075f, 175f, 9f, 0.08f, 0.13f, 21f, 0.053f, 0.3f, 0.12f, 35.1f);
-        _blueberry = new FoodItem("Blueberry", 52f, 0.7f, 10.4f, 9.5f, 1.5f, 0.4f, 0.03f, 0.09f, 0.52f, 0f, 1.1f, 0.06f, 0f, 44f, 0f, 0f, 0.03f, 0.03f, 0.4f, 6f, 0.0075f, 103f, 7f, 0.8f, 0.1f, 9f, 0.11f, 1.2f, 0f, 15f);
-        _blackberry = new FoodItem("Blackberry", 37f, 1.4f, 4.5f, 4.5f, 4.3f, 0.8f, 0.01f, 0.02f, 0.3f, 0f, 16.7f, 0.05f, 0f, 15f, 0f, 5.5f, 0.017f, 0.05f, 0.5f, 34f, 0.005f, 266f, 23f, 0.55f, 0.53f, 37f, 0.12f, 0.4f, 0.1f, 27f);
-        _strawberry = new FoodItem("Strawberry", 38f, 0.7f, 6.1f, 6.07f, 1.5f, 0.48f, 0.05f, 0.08f, 0.35f, 0f, 3.3f, 0.05f, 0f, 66.9f, 0f, 0.41f, 0.015f, 0.01f, 0.43f, 117f, 0.0012695f, 178.6f, 12.5f, 0.25f, 0.1f, 24f, 0.038f, 0.1f, 0.18f, 18.5f);
-        _raspberry = new FoodItem("Raspberry", 51f, 1.4f, 4.1f, 4.05f, 4.4f, 1.08f, 0.1f, 0.1f, 0.87f, 0f, 3.5f, 0.09f, 0f, 24f, 0f, 1.4f, 0.03f, 0.05f, 0.5f, 44f, 0.005f, 228f, 17f, 0.55f, 0.34f, 38f, 0.105f, 0.4f, 0.19f, 19.7f);
+        _lemon = new FoodItem("Lemon", 31f, 0.4f, 3.8f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.3f, 0.05f, 0f, 46f, 0f, 0.04f, 0.02f, 0.01f, 0.1f, 7f, 0.015f, 160f, 7f, 0.4f, 0.13f, 21f, 0.053f, 0.6f, 0.12f, 110f);
+        _blueberry = new FoodItem("Blueberry", 52f, 0.7f, 10.4f, 0f, 1.5f, 0.4f, 0.03f, 0.09f, 0.52f, 0f, 1.1f, 0.06f, 0f, 44f, 0f, 0f, 0.03f, 0.03f, 0.4f, 6f, 0.0075f, 103f, 7f, 0.8f, 0.1f, 9f, 0.11f, 1.2f, 0f, 15f);
+        _blackberry = new FoodItem("Blackberry", 37f, 1.4f, 4.5f, 0f, 4.3f, 0.8f, 0.01f, 0.02f, 0.3f, 0f, 16.7f, 0.05f, 0f, 15f, 0f, 5.5f, 0.017f, 0.05f, 0.5f, 34f, 0.005f, 266f, 23f, 0.55f, 0.53f, 37f, 0.12f, 0.4f, 0.1f, 27f);
+        _strawberry = new FoodItem("Strawberry", 38f, 0.7f, 6.1f, 0f, 1.5f, 0.48f, 0.05f, 0.08f, 0.35f, 0f, 3.3f, 0.05f, 0f, 66.9f, 0f, 0.41f, 0.015f, 0.01f, 0.43f, 117f, 0.0012695f, 178.6f, 12.5f, 0.25f, 0.1f, 24f, 0.038f, 0.1f, 0.18f, 18.5f);
+        _raspberry = new FoodItem("Raspberry", 51f, 1.4f, 4.1f, 0f, 4.4f, 1.08f, 0.1f, 0.1f, 0.87f, 0f, 3.5f, 0.09f, 0f, 24f, 0f, 1.4f, 0.03f, 0.05f, 0.5f, 44f, 0.005f, 228f, 17f, 0.55f, 0.34f, 38f, 0.105f, 0.4f, 0.19f, 19.7f);
         _almond = new FoodItem("Almond", 606f, 21.2f, 6.6f, 6.55f, 10.6f, 46.91f, 4.05f, 31.4f, 11.36f, 0f, 0f, 0.13f, 0f, 0.8f, 0f, 23.35f, 0.137f, 0.94f, 1.88f, 76.1f, 0.00175f, 730f, 263.8f, 3.4f, 3.3f, 489f, 1f, 0.2f, 2.15f, 256.5f);
         _raisin = new FoodItem("Raisin", 333f, 3.2f, 69f, 68.85f, 3.6f, 1.06f, 0.52f, 0.06f, 0.47f, 0f, 2.3f, 0.11f, 0f, 3.3f, 0f, 0f, 0.085f, 0.03f, 0.5f, 4f, 0f, 785f, 35f, 2.4f, 0.3f, 107f, 0.32f, 2f, 0.4f, 45.1f);
         _cashewnut = new FoodItem("Cashew", 603f, 15.3f, 26.9f, 0f, 3f, 44.31f, 8.81f, 27.58f, 7.92f, 0f, 0f, 0.26f, 0f, 0f, 0f, 0.84f, 0.2f, 0.2f, 1.4f, 69f, 0.04f, 565f, 260f, 6f, 5.6f, 490f, 2.22f, 0f, 14.63f, 45f);
         _peanut = new FoodItem("Peanut", 596f, 25.8f, 8.1f, 3.1f, 7.7f, 46.78f, 6.83f, 24.42f, 15.55f, 0f, 0f, 0.35f, 0f, 0f, 0f, 8.2f, 0.91f, 0.1f, 20f, 106f, 0.005f, 703f, 170f, 1.9f, 3.1f, 409f, 0.86f, 0.5f, 6.9f, 55.6f);
-        _mango = new FoodItem("Mango", 67f, 0.5f, 14.2f, 10.19f, 1.9f, 0.38f, 0.11f, 0.18f, 0.09f, 0f, 46.1f, 0.13f, 0f, 40.1f, 0f, 1.1f, 0.058f, 0.06f, 0.58f, 71.1f, 0.0051875f, 105.3f, 8.8f, 0.24f, 0.08f, 16f, 0.11f, 0.3f, 0.6f, 13.9f);
-        _banana = new FoodItem("Banana", 93f, 1.1f, 19.7f, 15.37f, 1.6f, 0.15f, 0.08f, 0.04f, 0.03f, 0f, 4.4f, 0.31f, 0f, 11.2f, 0f, 0.27f, 0.04f, 0.01f, 0.6f, 38f, 0f, 348.1f, 28.1f, 0.25f, 0.17f, 26f, 0.106f, 0f, 0.35f, 6.6f);
-        _apple = new FoodItem("Apple", 55f, 0.3f, 11.3f, 10.89f, 2.2f, 0.18f, 0.04f, 0.01f, 0.13f, 0f, 2.1f, 0.05f, 0f, 8.3f, 0f, 0.25f, 0.013f, 0.01f, 0.12f, 9f, 0.001503f, 117.9f, 4.5f, 0.12f, 0.02f, 10f, 0.031f, 0.1f, 0.01f, 4.1f);
-        _orange = new FoodItem("Orange", 49f, 0.9f, 8.2f, 8.2f, 2f, 0.09f, 0.02f, 0.02f, 0.05f, 0f, 4f, 0.08f, 0f, 54.4f, 0f, 0.31f, 0.1f, 0.03f, 0.39f, 46.2f, 0.002846667f, 157.8f, 10.3f, 0.12f, 0.06f, 21f, 0.04f, 0.1f, 0.05f, 29.6f);
-        _carrot = new FoodItem("Carrot", 29f, 0.3f, 4.4f, 4.4f, 2.5f, 0.04f, 0.01f, 0f, 0.03f, 0f, 524f, 0.07f, 0f, 2.5f, 0f, 0.33f, 0.008f, 0.03f, 0.28f, 11f, 0.095f, 233.3f, 9.1f, 0.21f, 0.24f, 19f, 0.05f, 0f, 0f, 29.5f);
+        _mango = new FoodItem("Mango", 67f, 0.5f, 14.2f, 0f, 1.9f, 0.38f, 0.11f, 0.18f, 0.09f, 0f, 46.1f, 0.13f, 0f, 40.1f, 0f, 1.1f, 0.058f, 0.06f, 0.58f, 71.1f, 0.0051875f, 105.3f, 8.8f, 0.24f, 0.08f, 16f, 0.11f, 0.3f, 0.6f, 13.9f);
+        _banana = new FoodItem("Banana", 93f, 1.1f, 19.7f, 0f, 1.6f, 0.15f, 0.08f, 0.04f, 0.03f, 0f, 4.4f, 0.31f, 0f, 11.2f, 0f, 0.27f, 0.04f, 0.01f, 0.6f, 38f, 0f, 348.1f, 28.1f, 0.25f, 0.17f, 26f, 0.106f, 0f, 0.35f, 6.6f);
+        _apple = new FoodItem("Apple", 55f, 0.3f, 11.3f, 0f, 2.2f, 0.18f, 0.04f, 0.01f, 0.13f, 0f, 2.1f, 0.05f, 0f, 8.3f, 0f, 0.25f, 0.013f, 0.01f, 0.12f, 9f, 0.001503f, 117.9f, 4.5f, 0.12f, 0.02f, 10f, 0.031f, 0.1f, 0.01f, 4.1f);
+        _orange = new FoodItem("Orange", 49f, 0.9f, 8.2f, 0f, 2f, 0.09f, 0.02f, 0.02f, 0.05f, 0f, 4f, 0.08f, 0f, 54.4f, 0f, 0.31f, 0.1f, 0.03f, 0.39f, 46.2f, 0.002846667f, 157.8f, 10.3f, 0.12f, 0.06f, 21f, 0.04f, 0.1f, 0.05f, 29.6f);
+        _carrot = new FoodItem("Carrot", 29f, 0.3f, 4.4f, 0f, 2.5f, 0.04f, 0.01f, 0f, 0.03f, 0f, 524f, 0.07f, 0f, 2.5f, 0f, 0.33f, 0.008f, 0.03f, 0.28f, 11f, 0.095f, 233.3f, 9.1f, 0.21f, 0.24f, 19f, 0.05f, 0f, 0f, 29.5f);
         _pistachionut = new FoodItem("Pistachio", 606f, 21.6f, 8.1f, 7.2f, 8.8f, 45.53f, 5.81f, 25.33f, 14.28f, 0f, 0f, 0.9f, 0f, 5f, 0f, 1.64f, 0.424f, 0.24f, 1.1f, 68.4f, 0f, 1000f, 110f, 2.8f, 2.45f, 470f, 1.3f, 0f, 6.75f, 91.5f);
-        _pineapple = new FoodItem("Pineapple", 55f, 0.5f, 10.8f, 10.77f, 1.4f, 0.32f, 0.01f, 0.01f, 0.02f, 0f, 5f, 0.09f, 0f, 25f, 0f, 0.1f, 0.08f, 0.02f, 0.2f, 12.1f, 0.01f, 174f, 14f, 0.2f, 0.08f, 14f, 0.09f, 1.4f, 0.6f, 18.9f);
-        _bakedBeans= new FoodItem("Backed Beans", 88f, 5.1f, 9.6f, 5f, 6.6f, 0.38f, 0.08f, 0.05f, 0.25f, 0f, 0f, 0.12f, 0f, 0f, 0f, 0.6f, 0.07f, 0.05f, 0.5f, 29f, 1.2f, 300f, 31f, 1.4f, 0.7f, 91f, 0.21f, 0.6f, 3f, 45f);
+        _pineapple = new FoodItem("Pineapple", 55f, 0.5f, 10.8f, 0f, 1.4f, 0.32f, 0.01f, 0.01f, 0.02f, 0f, 5f, 0.09f, 0f, 25f, 0f, 0.1f, 0.08f, 0.02f, 0.2f, 12.1f, 0.01f, 174f, 14f, 0.2f, 0.08f, 14f, 0.09f, 1.4f, 0.6f, 18.9f);
+        _bakedBeans= new FoodItem("Baked Beans", 88f, 5.1f, 9.6f, 5f, 6.6f, 0.38f, 0.08f, 0.05f, 0.25f, 0f, 0f, 0.12f, 0f, 0f, 0f, 0.6f, 0.07f, 0.05f, 0.5f, 29f, 1.2f, 300f, 31f, 1.4f, 0.7f, 91f, 0.21f, 0.6f, 3f, 45f);
         _kidneyBeans = new FoodItem("Kidney Beans", 312f, 18.9f, 45.6f, 3.2f, 17.8f, 1.6f, 0.2f, 0.1f, 0.9f, 0f, 1.1f, 0.42f, 0f, 0f, 0f, 0.34f, 0.35f, 0.14f, 2f, 140f, 0.02f, 1327f, 131f, 5f, 2f, 477f, 0.5f, 1.9f, 8.8f, 77.3f);
-        _slicedTomatoes = new FoodItem("Sliced Tomatoes, canned", 21f, 1.2f, 3f, 2.3f, 0.9f, 0.24f, 0.06f, 0.04f, 0.15f, 0f, 29.3f, 0.11f, 0f, 11.3f, 0f, 0f, 0.045f, 0.06f, 0.58f, 24f, 0.3575f, 188f, 11f, 0.97f, 0.3f, 19f, 0.11f, 0f, 0.1f, 31f);
+        _slicedTomatoes = new FoodItem("Sliced Tomatoes, canned", 21f, 1.2f, 3f, 0f, 0.9f, 0.24f, 0.06f, 0.04f, 0.15f, 0f, 29.3f, 0.11f, 0f, 11.3f, 0f, 0.74f, 0.045f, 0.06f, 0.58f, 24f, 0.3575f, 188f, 11f, 0.97f, 0.3f, 19f, 0.11f, 0f, 0.1f, 31f);
         _mincedBeef = new FoodItem("Minced Beef", 163f, 19.5f, 0f, 0f, 0f, 7.97f, 3.6f, 3.65f, 0.22f, 0.21f, 6.9f, 0.27f, 2.32f, 0f, 0.51f, 0.48f, 0.047f, 0.17f, 4.32f, 9.6f, 0.2f, 312f, 19.7f, 2.26f, 4.34f, 177f, 0.073f, 0.8f, 6.8f, 7.1f);
         _basmatiRice = new FoodItem("Basmati Rice", 354f, 8.4f, 78.1f, 0f, 0.7f, 0.98f, 0.27f, 0.29f, 0.42f, 0f, 0f, 0.11f, 0f, 0f, 0f, 0.05f, 0.07f, 0.04f, 1.4f, 31f, 0f, 150f, 35f, 1.2f, 1.7f, 130f, 0.2f, 2.2f, 6f, 52.7f);
-        _cremeFraiche = new FoodItem("Creme Fraiche", 192f, 2.8f, 2.8f, 2.84f, 0f, 17.56f, 12.43f, 3.73f, 0.47f, 0.73f, 125.8f, 0.03f, 0.2f, 0.1f, 0.22f, 0.26f, 0.032f, 0.18f, 0.07f, 10f, 0.075f, 122.5f, 9.9f, 0.02f, 0.34f, 77f, 0.015f, 10.1f, 2.2f, 98.4f);
-        _onion = new FoodItem("Onion", 43f, 1.2f, 5.4f, 5.36f, 1.9f, 0.07f, 0.02f, 0.01f, 0.04f, 0f, 2.5f, 0.17f, 0f, 8.1f, 0f, 0.06f, 0.038f, 0.01f, 0.19f, 36f, 0.006752632f, 186.1f, 9.2f, 0.28f, 0.19f, 31f, 0.037f, 0.2f, 0.13f, 23.3f);
+        _cremeFraiche = new FoodItem("Creme Fraiche", 192f, 2.8f, 2.8f, 0f, 0f, 17.56f, 12.43f, 3.73f, 0.47f, 0.73f, 125.8f, 0.03f, 0.2f, 0.1f, 0.22f, 0.26f, 0.032f, 0.18f, 0.07f, 10f, 0.075f, 122.5f, 9.9f, 0.02f, 0.34f, 77f, 0.015f, 10.1f, 2.2f, 98.4f);
+        _onion = new FoodItem("Onion", 43f, 1.2f, 5.4f, 0f, 1.9f, 0.07f, 0.02f, 0.01f, 0.04f, 0f, 2.5f, 0.17f, 0f, 8.1f, 0f, 0.06f, 0.038f, 0.01f, 0.19f, 36f, 0.006752632f, 186.1f, 9.2f, 0.28f, 0.19f, 31f, 0.037f, 0.2f, 0.13f, 23.3f);
         _garlic = new FoodItem("Garlic", 158f, 6.4f, 30.9f, 0f, 2.1f, 0.35f, 0.09f, 0.01f, 0.25f, 0f, 0f, 1.24f, 0f, 8.2f, 0f, 0.01f, 0.2f, 0.11f, 0.7f, 103f, 0.0425f, 401f, 25f, 1.7f, 1.16f, 160f, 0.299f, 0.2f, 2f, 20.6f);
         _risottoRice = new FoodItem("Risotto Rice", 362f, 6.8f, 76.3f, 0.2f, 2.4f, 2.24f, 0.54f, 0.97f, 0.96f, 0f, 0f, 0.51f, 0f, 0f, 0f, 0f, 0.413f, 0.04f, 0f, 20f, 0f, 268f, 143f, 1.8f, 2.02f, 307f, 0f, 2.1f, 0f, 12.1f);
         _chickenBreastFilet = new FoodItem("Chicken Breast Fillet", 149f, 21.5f, 0f, 0f, 0f, 6.31f, 1.96f, 2.88f, 1.48f, 0f, 24f, 0.53f, 0.34f, 1f, 1.5f, 0.5f, 0.06f, 0.09f, 9.9f, 4f, 0.2f, 220f, 25f, 0.9f, 0.8f, 198f, 0f, 0f, 10f, 11f);
         _champignon = new FoodItem("Champignon", 23f, 1.6f, 0.1f, 0.08f, 0.8f, 0.1f, 0.03f, 0f, 0.07f, 0f, 0f, 0.07f, 0f, 0f, 0f, 0f, 0.041f, 0.35f, 3.01f, 23.1f, 0f, 348.8f, 9.2f, 0.16f, 0.36f, 85f, 0.2f, 0f, 16.8f, 3.1f);
-        _whiteWine = new FoodItem("White Wine", 83f, 0.1f, 2.6f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.05f, 0f, 0f, 0f, 0f, 0.005f, 0.02f, 0.11f, 1f, 0.0125f, 71f, 10f, 0.27f, 0.12f, 18f, 0.004f, 0.3f, 0.1f, 9f);
-        _eggplant = new FoodItem("Eggplant", 17f, 0.9f, 2.4f, 2.15f, 2.2f, 0f, 0f, 0f, 0f, 0f, 2.6f, 0.05f, 0f, 1.3f, 0f, 0f, 0.02f, 0.03f, 0.36f, 6.1f, 0.003333333f, 217.5f, 13.6f, 0.17f, 0.14f, 25f, 0.046f, 0f, 0f, 10.5f);
+        _whiteWine = new FoodItem("White Wine", 79f, 0.1f, 2.4f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.01f, 0f, 0f, 0f, 0f, 0f, 0.01f, 0.08f, 0.2f, 0.0525f, 88f, 9f, 1.21f, 0.06f, 8f, 0.043f, 35f, 0.04f, 14f);
+        _eggplant = new FoodItem("Eggplant", 17f, 0.9f, 2.4f, 0f, 2.2f, 0f, 0f, 0f, 0f, 0f, 2.6f, 0.05f, 0f, 1.3f, 0f, 0f, 0.02f, 0.03f, 0.36f, 6.1f, 0.003333333f, 217.5f, 13.6f, 0.17f, 0.14f, 25f, 0.046f, 0f, 0f, 10.5f);
         _parmesanCheese = new FoodItem("Parmesan Cheese", 357f, 33.6f, 0.1f, 0.05f, 0f, 22.77f, 15.61f, 6.49f, 0.68f, 0f, 213.8f, 0.09f, 1.6f, 0f, 0.24f, 0.61f, 0.039f, 0.33f, 0.27f, 7f, 2.495f, 92f, 44f, 0.82f, 2.75f, 930f, 0.03f, 13.8f, 11f, 1180f);
         _vegetableBouillion = new FoodItem("Vegetable Bouillion", 4f, 0.3f, 0.3f, 0f, 0f, 0.21f, 0.05f, 0.08f, 0.07f, 0f, 0f, 0f, 0f, 0f, 0.01f, 0.01f, 0.002f, 0.01f, 0.04f, 1f, 0.7825f, 6f, 2f, 0.02f, 0.01f, 3f, 0.01f, 0.3f, 0.5f, 6f);
         _steak = new FoodItem("Steak", 265f, 18.2f, 0f, 0f, 0f, 20.02f, 8.99f, 10.17f, 0.86f, 0f, 25f, 0.4f, 1.4f, 0f, 0.8f, 0.66f, 0.039f, 0.16f, 5.3f, 5f, 0.1f, 293f, 19f, 1.9f, 3.9f, 170f, 0.062f, 1.1f, 6.5f, 4f);
-        _potatoes = new FoodItem("Potatoes", 77f, 2f, 17.9f, 1.24f, 1.4f, 0.23f, 0.06f, 0.01f, 0.16f, 0f, 0.8f, 0.2f, 0f, 26.4f, 0f, 0.1f, 0.055f, 0.06f, 1.6f, 36f, 0.0175f, 413.5f, 20.4f, 1.04f, 0.3f, 55f, 0.052f, 1.2f, 0.27f, 6.8f);
+        _potatoes = new FoodItem("Potatoes", 77f, 2f, 17.9f, 0f, 1.4f, 0.23f, 0.06f, 0.01f, 0.16f, 0f, 0.8f, 0.2f, 0f, 26.4f, 0f, 0.1f, 0.055f, 0.06f, 1.6f, 36f, 0.0175f, 413.5f, 20.4f, 1.04f, 0.3f, 55f, 0.052f, 1.2f, 0.27f, 6.8f);
         _salami = new FoodItem("Salami",  509f, 13.9f, 2.8f, 0f, 0f, 45.27f, 18.07f, 21.65f, 5.39f, 0f, 0f, 0.15f, 1.3f, 0f, 0.47f, 0.02f, 0.14f, 0.18f, 2.3f, 3f, 4.9689903f, 203.6f, 10f, 1.1f, 1.67f, 119f, 0.11f, 4.1f, 5f, 11.1f);
         _mozzarella = new FoodItem("Mozzarella", 326f, 24.1f, 0f, 0f, 0f, 23.72f, 16.25f, 6.76f, 0.71f, 0f, 222.2f, 0.09f, 1.38f, 0.5f, 0.25f, 0.64f, 0.05f, 0.33f, 0.1f, 60f, 1.395f, 65f, 27f, 0.11f, 3.2f, 390f, 0.086f, 10.4f, 8f, 720f);
         _tuna = new FoodItem("Canned tuna in water", 107f, 23.9f, 0f, 0f, 0f, 0.96f, 0.23f, 0.11f, 0.31f, 0f, 5.1f, 0.25f, 3.4f, 0f, 2.81f, 0.6f, 0f, 0.06f, 11.75f, 15f, 0.68625f, 224.5f, 27.1f, 1f, 0.58f, 164f, 0.047f, 15.6f, 82f, 8.9f);
         _toast = new FoodItem("Fine-grained toast bread", 255f, 7.9f, 47f, 0f, 3.3f, 2.55f, 0.79f, 0.96f, 0.8f, 0f, 0f, 0.06f, 0f, 0f, 0f, 0.5f, 0.161f, 0.05f, 1.18f, 25f, 1.1346428f, 110.6f, 17.8f, 0.96f, 0.58f, 80f, 0.102f, 18.6f, 1.57f, 46.2f);
-        _gherkins = new FoodItem("Gherkins",76f, 0.5f, 17f, 12.5f, 0.5f, 0.4f, 0.03f, 0f, 0.04f, 0f, 0.6f, 0.01f, 0f, 4f, 0f, 0.1f, 0.01f, 0.02f, 0.04f, 8f, 0.7275f, 99f, 6.5f, 0.55f, 0.18f, 15f, 0.057f, 1f, 0.03f, 15.3f);
-        _liverpate = new FoodItem("Liverpate",238f, 11.3f, 4.7f, 3.7f, 0.4f, 17.36f, 6.9f, 8.2f, 2.26f, 0f, 3950f, 0.21f, 9.9f, 29f, 0f, 0.26f, 0.13f, 1.02f, 4.4f, 170f, 1.8f, 170f, 12.5f, 5.57f, 2.5f, 164f, 0.41f, 3.1f, 19.2f, 26f);
+        _gherkins = new FoodItem("Gherkins", 58f, 0.3f, 11.8f, 1f, 1.8f, 0.49f, 0.23f, 0.02f, 0.31f, 0f, 15f, 0.04f, 0f, 0f, 0f, 0.07f, 0.04f, 0.09f, 0.2f, 8f, 0f, 129f, 11f, 0.2f, 0.2f, 23f, 0.057f, 3f, 0f, 17f);
+        _liverpate = new FoodItem("Liverpate", 238f, 11.3f, 4.7f, 3.7f, 0.4f, 17.36f, 6.9f, 8.2f, 2.26f, 0f, 3950f, 0.21f, 9.9f, 29f, 0f, 0.26f, 0.13f, 1.02f, 4.4f, 170f, 1.8f, 170f, 12.5f, 5.57f, 2.5f, 164f, 0.41f, 3.1f, 19.2f, 26f);
         _mayonaise = new FoodItem("Mayonaise",730f, 1.1f, 0.1f, 0.1f, 0f, 76f, 6.88f, 43.88f, 25.23f, 0f, 60f, 0.1f, 1f, 0f, 1f, 7.6f, 0.008f, 0.03f, 0.1f, 14f, 1.5f, 34f, 7f, 0.3f, 0.4f, 59f, 0.03f, 6f, 1.6f, 8f);
         _mackarelInTomatoes = new FoodItem("Mackerel in tomatoes", 155f, 11.7f, 3.9f, 0f, 0f, 9.57f, 2.21f, 4.1f, 3f, 0f, 29.1f, 0.17f, 5.85f, 0f, 2.6f, 1.52f, 0.045f, 0.17f, 4.75f, 19f, 0.9f, 357f, 23.1f, 0.7f, 0.59f, 122f, 0.107f, 12.4f, 19.5f, 16f);
         _avocado = new FoodItem("Avocado", 155f, 1.6f, 1.2f, 1.14f, 5.5f, 12.53f, 2.77f, 7.69f, 1.74f, 0f, 5.6f, 0.14f, 0f, 2.9f, 0f, 1.94f, 0.044f, 0.11f, 1.22f, 99.3f, 0.006f, 433.8f, 28.9f, 0.47f, 0.54f, 45f, 0.253f, 0f, 0f, 14.6f);
@@ -943,7 +937,7 @@ public class MealPlanGeneratorTests
         _greenBeans = new FoodItem("Green Beans", 30f, 1.9f, 5.9f, 2.76f, 3f, 0.19f, 0.07f, 0.01f, 0.11f, 0f, 8.7f, 0.1f, 0f, 15f, 0f, 0.3f, 0.09f, 0.11f, 0.7f, 64f, 0.00425f, 237f, 17f, 1f, 0.39f, 39f, 0.057f, 0.8f, 0.3f, 60f);
         _olives = new FoodItem("Olives", 165f, 1f, -1.5f, 0f, 6.2f, 13.76f, 2.08f, 10.2f, 1.51f, 0f, 0f, 0.03f, 0f, 0f, 0f, 6.1f, 0.017f, 0f, 0f, 0f, 0f, 19f, 16f, 8.5f, 0.14f, 17f, 0f, 0f, 0.9f, 103f);
         _anchovies = new FoodItem("Anchovies", 215f, 13.4f, 10f, 10f, 0f, 10.35f, 3.34f, 4.33f, 2.68f, 0f, 390f, 0.18f, 3.5f, 0f, 14f, 0.9f, 0.006f, 0.12f, 1.1f, 16f, 9f, 165f, 18.3f, 1.8f, 3.4f, 210f, 0.16f, 30f, 20f, 145f);
-        _pear = new FoodItem("Pear", 49f, 0.3f, 10.6f, 8.33f, 3.2f, 0.05f, 0.01f, 0.01f, 0.03f, 0f, 5.4f, 0.01f, 0f, 6.1f, 0f, 0.58f, 0.01f, 0.01f, 0.23f, 16f, 0.001945625f, 122.3f, 6.5f, 0.1f, 0.11f, 11f, 0.065f, 0.2f, 0.1f, 10.1f);
+        _pear = new FoodItem("Pear", 49f, 0.3f, 10.6f, 0f, 3.2f, 0.05f, 0.01f, 0.01f, 0.03f, 0f, 5.4f, 0.01f, 0f, 6.1f, 0f, 0.58f, 0.01f, 0.01f, 0.23f, 16f, 0.001945625f, 122.3f, 6.5f, 0.1f, 0.11f, 11f, 0.065f, 0.2f, 0.1f, 10.1f);
         _capers = new FoodItem("Capers", 17f, 1.2f, 2.1f, 0f, 1.3f, 0.08f, 0f, 0f, 0f, 0f, 23f, 0.04f, 0f, 11f, 0f, 0f, 0.01f, 0.05f, 0.2f, 18f, 0f, 230f, 15f, 0.3f, 0.2f, 40f, 0f, 0.5f, 0f, 32f);
         _bernaiseSauce = new FoodItem("Bearnaise Sauce", 741f, 0.7f, 0.6f, 0.58f, 0f, 77.02f, 53.54f, 16.98f, 2.2f, 3.52f, 749.3f, 0f, 0.17f, 0f, 0.41f, 1.76f, 0.007f, 0.04f, 0.1f, 3f, 0.9f, 29.1f, 1.6f, 0.01f, 0.04f, 21f, 0.022f, 2.7f, 1.56f, 16.8f);
         _pepperSauce = new FoodItem("Pepper Sauce", 360f, 2.1f, 3f, 2.98f, 0f, 35.93f, 24.27f, 8.59f, 1.04f, 1.54f, 346.1f, 0.02f, 0.44f, 0.8f, 0.15f, 0.87f, 0.031f, 0.16f, 0.07f, 10.8f, 0.1f, 94.1f, 6.8f, 0.05f, 0.24f, 57f, 0.022f, 10.1f, 1.47f, 66.8f);
@@ -953,7 +947,7 @@ public class MealPlanGeneratorTests
         _oregano = new FoodItem("Oregano", 18f, 1.7f, 0.7f, 0.6f, 1.2f, 0.16f, 0.08f, 0.02f, 0.13f, 0f, 334.2f, 0.13f, 0f, 60f, 0f, 1f, 0.1f, 0.1f, 0.6f, 9f, 0.15f, 310f, 17f, 1.6f, 0.2f, 68f, 0.14f, 13.5f, 1f, 82.8f);
         _crackers = new FoodItem("Crackers", 443f, 9.4f, 64.2f, 4.95f, 3f, 12.88f, 7.21f, 4.13f, 1.5f, 0.04f, 0f, 0.06f, 0f, 0f, 0f, 0f, 0.13f, 0.08f, 1.5f, 0f, 2f, 120f, 25f, 1.7f, 0.87f, 110f, 0.19f, 1.6f, 3f, 110f);
         _porkChops = new FoodItem("Pork Chops", 182f, 17.4f, 0f, 0f, 0f, 11.44f, 5.12f, 5.48f, 0.81f, 0.03f, 6.2f, 0.26f, 0.82f, 0f, 0.22f, 0.55f, 0.747f, 0.21f, 5.18f, 4.4f, 0.1f, 327f, 20.3f, 0.99f, 2.65f, 172f, 0.1f, 1f, 9.2f, 6.1f);
-        _honey = new FoodItem("Honey", 327f, 0.3f, 75.1f, 75.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.16f, 0f, 1.1f, 0f, 0f, 0f, 0.1f, 0.1f, 0f, 0f, 51f, 2.9f, 0.4f, 0.35f, 7f, 0.031f, 0.5f, 0f, 5f);
+        _honey = new FoodItem("Honey", 327f, 0.3f, 75.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0.16f, 0f, 1.1f, 0f, 0f, 0f, 0.1f, 0.1f, 0f, 0f, 51f, 2.9f, 0.4f, 0.35f, 7f, 0.031f, 0.5f, 0f, 5f);
         _broccoli = new FoodItem("Broccoli", 35f, 3.6f, 2.1f, 2.07f, 3.2f, 0.19f, 0f, 0f, 0f, 0f, 44.4f, 0.22f, 0f, 116.7f, 0f, 1.45f, 0.087f, 0.11f, 0.57f, 239f, 0.031117857f, 389f, 20.8f, 0.7f, 0.42f, 78f, 0.05f, 0.2f, 2.44f, 44.4f);
         _asparagus = new FoodItem("Asparagus", 26f, 1.8f, 3.1f, 0f, 1.8f, 0.24f, 0.07f, 0.01f, 0.16f, 0f, 0f, 0.15f, 0f, 10f, 0f, 1.98f, 0.11f, 0.12f, 0f, 150f, 0.00925f, 267f, 12.2f, 0.7f, 0.9f, 86f, 0f, 4f, 0.2f, 22.8f);
         _soySauce = new FoodItem("Soy Sauce", 56f, 6.9f, 7f, 1.6f, 0f, 0.03f, 0f, 0f, 0.03f, 0f, 0f, 0.15f, 0f, 0f, 0f, 0f, 0.033f, 0.17f, 2.2f, 14f, 14.0925f, 217f, 43f, 1.93f, 0.52f, 125f, 0.104f, 4.5f, 0.5f, 19f);
@@ -1463,6 +1457,7 @@ public class MealPlanGeneratorTests
         _asparagusInBakedSalmonAndAsparagus = new FoodItemRecipe(_asparagus, _bakedSalmonAndAsparagus, 1f);
         _butterInBakedSalmonAndAsparagus = new FoodItemRecipe(_butter, _bakedSalmonAndAsparagus, 0.1f);
         _garlicInBakedSalmonAndAsparagus = new FoodItemRecipe(_garlic, _bakedSalmonAndAsparagus, 0.05f);
+        _saltInBakedSalmonAndAsparagus = new FoodItemRecipe(_salt, _bakedSalmonAndAsparagus, 0.02f);
         _crackersInCWP = new FoodItemRecipe(_crackers, _crackersWithPesti, 0.5f);
         _pestiInCWP = new FoodItemRecipe(_pesto, _crackersWithPesti, 0.2f);
         _salamiInSSOAC = new FoodItemRecipe(_salami, _salamiSticksOlivesAndCheese, 0.5f);
@@ -1480,8 +1475,8 @@ public class MealPlanGeneratorTests
         _bananaInSBS = new FoodItemRecipe(_banana,_strawberryBananaSmoothie, 1f);
         _strawberryInSBS = new FoodItemRecipe(_strawberry,_strawberryBananaSmoothie, 1f);
         _milkInSBS = new FoodItemRecipe(_milk,_strawberryBananaSmoothie, 1f);
-        _blackberryInBSFM = new FoodItemRecipe(_blackberry,_blackberryStrawberryfruitMix,0.3f);
-        _strawberryInBSFM = new FoodItemRecipe(_strawberry,_blackberryStrawberryfruitMix,0.3f);
+        _blackberryInBSFM = new FoodItemRecipe(_blackberry,_blackberryStrawberryfruitMix,0.5f);
+        _strawberryInBSFM = new FoodItemRecipe(_strawberry,_blackberryStrawberryfruitMix,0.5f);
         _raspberryInRBFM = new FoodItemRecipe(_raspberry,_raspberryBlueberryfruitMix,0.6f);
         _blueberryInRBFM = new FoodItemRecipe(_blueberry, _raspberryBlueberryfruitMix,0.3f);
         _appleInAOPFM = new FoodItemRecipe(_apple,_appleOrangePearfruitMix, 0.2f);
@@ -1513,8 +1508,8 @@ public class MealPlanGeneratorTests
         _cucumberInTortillas = new FoodItemRecipe(_cucumber,_tortillas, 0.5f);
         _tomatoInTortillas = new FoodItemRecipe(_tomato,_tortillas,0.5f);
         _lambInLWP = new FoodItemRecipe(_lambChop,_lambChopWithPotatoes,1.5f);
-        _potatoesInLWP = new FoodItemRecipe(_potatoes,_lambChopWithPotatoes,1.5f);
-        _oliveOilInLWP = new FoodItemRecipe(_oliveOil,_lambChopWithPotatoes, 0.005f);
+        _potatoesInLWP = new FoodItemRecipe(_potatoes,_lambChopWithPotatoes, 2.5f);
+        _oliveOilInLWP = new FoodItemRecipe(_oliveOil,_lambChopWithPotatoes, 0.01f);
         _saltInLWP = new FoodItemRecipe(_salt,_lambChopWithPotatoes, 0.005f);
         _pepperInLWP = new FoodItemRecipe(_pepper,_lambChopWithPotatoes, 0.005f);
         _garlicInLWP = new FoodItemRecipe(_garlic,_lambChopWithPotatoes, 0.1f);
@@ -2166,7 +2161,211 @@ public class MealPlanGeneratorTests
         }
 
         Console.WriteLine();
-        
+
+        Console.WriteLine($"Protein LB: {r.LB.Protein}");
+        Console.WriteLine($"Protein II: {r.II.Protein}");
+        Console.WriteLine($"Protein UB: {r.UB.Protein}");
+        Console.WriteLine($"Protein:Planned {r.PlannedIntake.Protein}");
+        if(r.PlannedIntake.Protein <= r.UB.Protein && r.PlannedIntake.Protein >= r.LB.Protein) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Carbohydrates LB: {r.LB.Carbohydrates}");
+        Console.WriteLine($"Carbohydrates II: {r.II.Carbohydrates}");
+        Console.WriteLine($"Carbohydrates UB: {r.UB.Carbohydrates}");
+        Console.WriteLine($"Carbohydrates:Planned {r.PlannedIntake.Carbohydrates}");
+        if(r.PlannedIntake.Carbohydrates <= r.UB.Carbohydrates && r.PlannedIntake.Carbohydrates >= r.LB.Carbohydrates) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Sugars LB: {r.LB.Sugars}");
+        Console.WriteLine($"Sugars II: {r.II.Sugars}");
+        Console.WriteLine($"Sugars UB: {r.UB.Sugars}");
+        Console.WriteLine($"Sugars:Planned {r.PlannedIntake.Sugars}");
+        if(r.PlannedIntake.Sugars <= r.UB.Sugars && r.PlannedIntake.Sugars >= r.LB.Sugars) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Fibres LB: {r.LB.Fibres}");
+        Console.WriteLine($"Fibres II: {r.II.Fibres}");
+        Console.WriteLine($"Fibres UB: {r.UB.Fibres}");
+        Console.WriteLine($"Fibres:Planned {r.PlannedIntake.Fibres}");
+        if(r.PlannedIntake.Fibres <= r.UB.Fibres && r.PlannedIntake.Fibres >= r.LB.Fibres) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"TotalFat LB: {r.LB.TotalFat}");
+        Console.WriteLine($"TotalFat II: {r.II.TotalFat}");
+        Console.WriteLine($"TotalFat UB: {r.UB.TotalFat}");
+        Console.WriteLine($"TotalFat:Planned {r.PlannedIntake.TotalFat}");
+        if(r.PlannedIntake.TotalFat <= r.UB.TotalFat && r.PlannedIntake.TotalFat >= r.LB.TotalFat) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"SaturatedFat LB: {r.LB.SaturatedFat}");
+        Console.WriteLine($"SaturatedFat II: {r.II.SaturatedFat}");
+        Console.WriteLine($"SaturatedFat UB: {r.UB.SaturatedFat}");
+        Console.WriteLine($"SaturatedFat:Planned {r.PlannedIntake.SaturatedFat}");
+        if(r.PlannedIntake.SaturatedFat <= r.UB.SaturatedFat && r.PlannedIntake.SaturatedFat >= r.LB.SaturatedFat) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"MonounsaturatedFat LB: {r.LB.MonounsaturatedFat}");
+        Console.WriteLine($"MonounsaturatedFat II: {r.II.MonounsaturatedFat}");
+        Console.WriteLine($"MonounsaturatedFat UB: {r.UB.MonounsaturatedFat}");
+        Console.WriteLine($"MonounsaturatedFat:Planned {r.PlannedIntake.MonounsaturatedFat}");
+        if(r.PlannedIntake.MonounsaturatedFat <= r.UB.MonounsaturatedFat && r.PlannedIntake.MonounsaturatedFat >= r.LB.MonounsaturatedFat) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"PolyunsaturatedFat LB: {r.LB.PolyunsaturatedFat}");
+        Console.WriteLine($"PolyunsaturatedFat II: {r.II.PolyunsaturatedFat}");
+        Console.WriteLine($"PolyunsaturatedFat UB: {r.UB.PolyunsaturatedFat}");
+        Console.WriteLine($"PolyunsaturatedFat:Planned {r.PlannedIntake.PolyunsaturatedFat}");
+        if(r.PlannedIntake.PolyunsaturatedFat <= r.UB.PolyunsaturatedFat && r.PlannedIntake.PolyunsaturatedFat >= r.LB.PolyunsaturatedFat) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"TransFat LB: {r.LB.TransFat}");
+        Console.WriteLine($"TransFat II: {r.II.TransFat}");
+        Console.WriteLine($"TransFat UB: {r.UB.TransFat}");
+        Console.WriteLine($"TransFat:Planned {r.PlannedIntake.TransFat}");
+        if(r.PlannedIntake.TransFat <= r.UB.TransFat && r.PlannedIntake.TransFat >= r.LB.TransFat) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"VitaminA LB: {r.LB.VitaminA}");
+        Console.WriteLine($"VitaminA II: {r.II.VitaminA}");
+        Console.WriteLine($"VitaminA UB: {r.UB.VitaminA}");
+        Console.WriteLine($"VitaminA:Planned {r.PlannedIntake.VitaminA}");
+        if(r.PlannedIntake.VitaminA <= r.UB.VitaminA && r.PlannedIntake.VitaminA >= r.LB.VitaminA) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"VitaminB6 LB: {r.LB.VitaminB6}");
+        Console.WriteLine($"VitaminB6 II: {r.II.VitaminB6}");
+        Console.WriteLine($"VitaminB6 UB: {r.UB.VitaminB6}");
+        Console.WriteLine($"VitaminB6:Planned {r.PlannedIntake.VitaminB6}");
+        if(r.PlannedIntake.VitaminB6 <= r.UB.VitaminB6 && r.PlannedIntake.VitaminB6 >= r.LB.VitaminB6) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"VitaminB12 LB: {r.LB.VitaminB12}");
+        Console.WriteLine($"VitaminB12 II: {r.II.VitaminB12}");
+        Console.WriteLine($"VitaminB12 UB: {r.UB.VitaminB12}");
+        Console.WriteLine($"VitaminB12:Planned {r.PlannedIntake.VitaminB12}");
+        if(r.PlannedIntake.VitaminB12 <= r.UB.VitaminB12 && r.PlannedIntake.VitaminB12 >= r.LB.VitaminB12) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"VitaminC LB: {r.LB.VitaminC}");
+        Console.WriteLine($"VitaminC II: {r.II.VitaminC}");
+        Console.WriteLine($"VitaminC UB: {r.UB.VitaminC}");
+        Console.WriteLine($"VitaminC:Planned {r.PlannedIntake.VitaminC}");
+        if(r.PlannedIntake.VitaminC <= r.UB.VitaminC && r.PlannedIntake.VitaminC >= r.LB.VitaminC) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"VitaminD LB: {r.LB.VitaminD}");
+        Console.WriteLine($"VitaminD II: {r.II.VitaminD}");
+        Console.WriteLine($"VitaminD UB: {r.UB.VitaminD}");
+        Console.WriteLine($"VitaminD:Planned {r.PlannedIntake.VitaminD}");
+        if(r.PlannedIntake.VitaminD <= r.UB.VitaminD && r.PlannedIntake.VitaminD >= r.LB.VitaminD) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"VitaminE LB: {r.LB.VitaminE}");
+        Console.WriteLine($"VitaminE II: {r.II.VitaminE}");
+        Console.WriteLine($"VitaminE UB: {r.UB.VitaminE}");
+        Console.WriteLine($"VitaminE:Planned {r.PlannedIntake.VitaminE}");
+        if(r.PlannedIntake.VitaminE <= r.UB.VitaminE && r.PlannedIntake.VitaminE >= r.LB.VitaminE) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Thiamin LB: {r.LB.Thiamin}");
+        Console.WriteLine($"Thiamin II: {r.II.Thiamin}");
+        Console.WriteLine($"Thiamin UB: {r.UB.Thiamin}");
+        Console.WriteLine($"Thiamin:Planned {r.PlannedIntake.Thiamin}");
+        if(r.PlannedIntake.Thiamin <= r.UB.Thiamin && r.PlannedIntake.Thiamin >= r.LB.Thiamin) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Riboflavin LB: {r.LB.Riboflavin}");
+        Console.WriteLine($"Riboflavin II: {r.II.Riboflavin}");
+        Console.WriteLine($"Riboflavin UB: {r.UB.Riboflavin}");
+        Console.WriteLine($"Riboflavin:Planned {r.PlannedIntake.Riboflavin}");
+        if(r.PlannedIntake.Riboflavin <= r.UB.Riboflavin && r.PlannedIntake.Riboflavin >= r.LB.Riboflavin) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Niacin LB: {r.LB.Niacin}");
+        Console.WriteLine($"Niacin II: {r.II.Niacin}");
+        Console.WriteLine($"Niacin UB: {r.UB.Niacin}");
+        Console.WriteLine($"Niacin:Planned {r.PlannedIntake.Niacin}");
+        if(r.PlannedIntake.Niacin <= r.UB.Niacin && r.PlannedIntake.Niacin >= r.LB.Niacin) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Folate LB: {r.LB.Folate}");
+        Console.WriteLine($"Folate II: {r.II.Folate}");
+        Console.WriteLine($"Folate UB: {r.UB.Folate}");
+        Console.WriteLine($"Folate:Planned {r.PlannedIntake.Folate}");
+        if(r.PlannedIntake.Folate <= r.UB.Folate && r.PlannedIntake.Folate >= r.LB.Folate) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Salt LB: {r.LB.Salt}");
+        Console.WriteLine($"Salt II: {r.II.Salt}");
+        Console.WriteLine($"Salt UB: {r.UB.Salt}");
+        Console.WriteLine($"Salt:Planned {r.PlannedIntake.Salt}");
+        if(r.PlannedIntake.Salt <= r.UB.Salt && r.PlannedIntake.Salt >= r.LB.Salt) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Potassium LB: {r.LB.Potassium}");
+        Console.WriteLine($"Potassium II: {r.II.Potassium}");
+        Console.WriteLine($"Potassium UB: {r.UB.Potassium}");
+        Console.WriteLine($"Potassium:Planned {r.PlannedIntake.Potassium}");
+        if(r.PlannedIntake.Potassium <= r.UB.Potassium && r.PlannedIntake.Potassium >= r.LB.Potassium) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Magnesium LB: {r.LB.Magnesium}");
+        Console.WriteLine($"Magnesium II: {r.II.Magnesium}");
+        Console.WriteLine($"Magnesium UB: {r.UB.Magnesium}");
+        Console.WriteLine($"Magnesium:Planned {r.PlannedIntake.Magnesium}");
+        if(r.PlannedIntake.Magnesium <= r.UB.Magnesium && r.PlannedIntake.Magnesium >= r.LB.Magnesium) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Iron LB: {r.LB.Iron}");
+        Console.WriteLine($"Iron II: {r.II.Iron}");
+        Console.WriteLine($"Iron UB: {r.UB.Iron}");
+        Console.WriteLine($"Iron:Planned {r.PlannedIntake.Iron}");
+        if(r.PlannedIntake.Iron <= r.UB.Iron && r.PlannedIntake.Iron >= r.LB.Iron) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Zinc LB: {r.LB.Zinc}");
+        Console.WriteLine($"Zinc II: {r.II.Zinc}");
+        Console.WriteLine($"Zinc UB: {r.UB.Zinc}");
+        Console.WriteLine($"Zinc:Planned {r.PlannedIntake.Zinc}");
+        if(r.PlannedIntake.Zinc <= r.UB.Zinc && r.PlannedIntake.Zinc >= r.LB.Zinc) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Phosphorus LB: {r.LB.Phosphorus}");
+        Console.WriteLine($"Phosphorus II: {r.II.Phosphorus}");
+        Console.WriteLine($"Phosphorus UB: {r.UB.Phosphorus}");
+        Console.WriteLine($"Phosphorus:Planned {r.PlannedIntake.Phosphorus}");
+        if(r.PlannedIntake.Phosphorus <= r.UB.Phosphorus && r.PlannedIntake.Phosphorus >= r.LB.Phosphorus) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Copper LB: {r.LB.Copper}");
+        Console.WriteLine($"Copper II: {r.II.Copper}");
+        Console.WriteLine($"Copper UB: {r.UB.Copper}");
+        Console.WriteLine($"Copper:Planned {r.PlannedIntake.Copper}");
+        if(r.PlannedIntake.Copper <= r.UB.Copper && r.PlannedIntake.Copper >= r.LB.Copper) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Iodine LB: {r.LB.Iodine}");
+        Console.WriteLine($"Iodine II: {r.II.Iodine}");
+        Console.WriteLine($"Iodine UB: {r.UB.Iodine}");
+        Console.WriteLine($"Iodine:Planned {r.PlannedIntake.Iodine}");
+        if(r.PlannedIntake.Iodine <= r.UB.Iodine && r.PlannedIntake.Iodine >= r.LB.Iodine) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Selenium LB: {r.LB.Selenium}");
+        Console.WriteLine($"Selenium II: {r.II.Selenium}");
+        Console.WriteLine($"Selenium UB: {r.UB.Selenium}");
+        Console.WriteLine($"Selenium:Planned {r.PlannedIntake.Selenium}");
+        if(r.PlannedIntake.Selenium <= r.UB.Selenium && r.PlannedIntake.Selenium >= r.LB.Selenium) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+        Console.WriteLine($"Calcium LB: {r.LB.Calcium}");
+        Console.WriteLine($"Calcium II: {r.II.Calcium}");
+        Console.WriteLine($"Calcium UB: {r.UB.Calcium}");
+        Console.WriteLine($"Calcium:Planned {r.PlannedIntake.Calcium}");
+        if(r.PlannedIntake.Calcium <= r.UB.Calcium && r.PlannedIntake.Calcium >= r.LB.Calcium) Console.WriteLine("PASSED");
+        else Console.WriteLine("FAILED");
+        Console.WriteLine();
+
 
         Assert.Equal(server.Core.Services.MealPlan.Response.Success, r.Response);
     }
