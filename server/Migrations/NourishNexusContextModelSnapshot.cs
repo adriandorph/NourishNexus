@@ -306,6 +306,32 @@ namespace server.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("server.Infrastructure.RecipeMeal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<int>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("RecipeMeals");
+                });
+
             modelBuilder.Entity("server.Infrastructure.User", b =>
                 {
                     b.Property<int>("Id")
@@ -416,6 +442,25 @@ namespace server.Migrations
                     b.HasOne("server.Infrastructure.User", null)
                         .WithMany("SavedRecipes")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("server.Infrastructure.RecipeMeal", b =>
+                {
+                    b.HasOne("server.Infrastructure.Meal", "Meal")
+                        .WithMany()
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Infrastructure.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Meal");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("server.Infrastructure.Meal", b =>

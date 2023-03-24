@@ -14,4 +14,6 @@ public interface IUserRepository{
     public Task<Option<UserDTO>> ReadByIDAsync(int userID);
     public Task<Option<UserNutritionDTO>> ReadWithNutritionByIDAsync(int userID);
 
+    public Task<Option<UserDTO>> ReadByEmailAsync(string Email);
+
 }

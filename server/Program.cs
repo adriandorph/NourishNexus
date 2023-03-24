@@ -1,6 +1,6 @@
 using server.Infrastructure;
 using server.Core.EF.RepositoryInterfaces;
-using server.Core.Services;
+using server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +19,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IFoodItemRepository, FoodItemRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IMealRepository, MealRepository>();
+builder.Services.AddScoped<IMealService, MealService>();
 builder.Services.AddScoped<FoodItemSeeding>();
 
 builder.Services.AddCors(options =>
@@ -31,6 +33,9 @@ builder.Services.AddCors(options =>
                     .AllowAnyMethod();
             });
 });
+
+// Add configuration
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 var app = builder.Build();
 app.UseCors("AllowOrigin");

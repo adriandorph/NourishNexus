@@ -1,0 +1,34 @@
+@page "/login"
+@using server.Core.EF.DTO
+@inject UserService UserService
+@inject NavigationManager navigationManager
+
+<PageTitle>Login</PageTitle>
+<h1>Login</h1>
+
+<EditForm Model="user" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="user.Email" class="form-control" />
+        <ValidationMessage For="@(() => user.Email)" />
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    private UserCreateDTO user = new UserCreateDTO();
+
+    private async Task HandleLogin()
+    {
+        var result = await UserService.Login(user.Email);
+        Console.WriteLine("Result is" + result.Item1);
+        if(result.Item1){
+            navigationManager.NavigateTo("/dashboard");
+        }
+        else
+        {
+            Console.WriteLine(result);
+        }
+    }
+}

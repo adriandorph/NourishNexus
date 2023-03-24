@@ -13,7 +13,7 @@ public record UserCreateDTO {
     
     public string? Nickname {get; set;}
     
-    [EmailAddress]
+    [Required, EmailAddress]
     public string? Email {get; set;}
     
 }

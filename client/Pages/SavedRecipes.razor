@@ -1,0 +1,72 @@
+@page "/savedRecipes"
+@using Microsoft.AspNetCore.Components.Web
+@using System.Collections.Generic
+
+<h1 class="text-center mb-3">Saved Recipes</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Category 1</h3>
+            <div class="card mb-3">
+                <div class="card-body">
+                <h5 class="card-title">Recipe title</h5>
+                <p class="card-text">Recipe Keywords</p>
+                <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                <h5 class="card-title">Recipe title</h5>
+                <p class="card-text">Recipe Keywords</p>
+                <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                <h5 class="card-title">Recipe title</h5>
+                <p class="card-text">Recipe Keywords</p>
+                <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h3>Category 2</h3>
+            <div class="card mb-3">
+                <div class="card-body">
+                <h5 class="card-title">Recipe title</h5>
+                <p class="card-text">Recipe Keywords</p>
+                <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                <h5 class="card-title">Recipe title</h5>
+                <p class="card-text">Recipe Keywords</p>
+                <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                <h5 class="card-title">Recipe title</h5>
+                <p class="card-text">Recipe Keywords</p>
+                <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <button class="btn btn-success btn-lg mb-3" @onclick="CreateNewRecipe">Create New Recipe</button>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private void CreateNewRecipe()
+    {
+        // Add code to create a new recipe here
+    }
+}
+

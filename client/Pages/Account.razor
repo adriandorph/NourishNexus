@@ -1,0 +1,42 @@
+@page "/account"
+@using server.Core.EF.DTO
+@inject UserService UserService
+
+<PageTitle> Account </PageTitle>
+
+<h1>Account</h1>
+
+<EditForm Model="user" OnValidSubmit="HandleRegistration">
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="user.Email" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="nickname">Nickname</label>
+        <InputText id="nickname" @bind-Value="user.Nickname" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <div class ="@messageCssClass">
+        <span>@message</span>
+    </div>
+</EditForm>
+
+@code {
+    private UserUpdateDTO user = new UserUpdateDTO();
+
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+
+    private async Task HandleRegistration()
+    {
+        var response = await UserService.UpdateUser(user);
+        message = response.Message;
+        if(response.Success)
+             messageCssClass = "text-success";
+        else
+            messageCssClass = "text-danger";
+    
+    }
+}

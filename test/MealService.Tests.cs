@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using server.Core.Services;
+using server.Services;
 
 namespace test;
 

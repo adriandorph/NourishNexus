@@ -1,0 +1,45 @@
+@page "/register"
+@using server.Core.EF.DTO
+@inject UserService UserService
+
+<PageTitle>Register</PageTitle>
+
+<h1>Register</h1>
+
+<EditForm Model="user" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator/>
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="user.Email" class ="form-control"/>
+        <ValidationMessage For="@(() => user.Email)" />   
+        </div>
+     <div class="mb-3">
+        <label for="nickname">Nickname</label>
+        <InputText id="nickname" @bind-Value="user.Nickname" class ="form-control"/>
+        <ValidationMessage For="@(() => user.Nickname)" />   
+        </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+    <div class ="@messageCssClass">
+        <span>@message</span>
+    </div>
+</EditForm>
+
+@code {
+    private UserCreateDTO user = new UserCreateDTO();
+
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+
+
+    private async Task HandleRegistration()
+    {
+       var result = await UserService.RegisterUser(user);
+
+       message = result.Message;
+       if(result.Success)
+             messageCssClass = "text-success";
+       else
+            messageCssClass = "text-danger";
+    }
+}
