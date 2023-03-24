@@ -1,6 +1,4 @@
-using server.Core.Services.MealPlan;
-
-namespace server.Core.Services.MealPlan;
+namespace server.Services.MealPlan;
 
 public class PlannedMeal
 {

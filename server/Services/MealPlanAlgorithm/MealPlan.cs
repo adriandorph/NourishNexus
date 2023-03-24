@@ -1,4 +1,4 @@
-namespace server.Core.Services.MealPlan;
+namespace server.Services.MealPlan;
 
 public class MealPlan
 {

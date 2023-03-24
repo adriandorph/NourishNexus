@@ -1,17 +1,10 @@
 using Microsoft.IdentityModel.Tokens;
 
-namespace server.Core.Services.MealPlan;
+namespace server.Services.MealPlan;
 
 public interface IMealPlanGenerator
 {
     public Task<IActionResult> Generate7DayMealPlan(int userID, DateTime startingDate);
-}
-
-public enum Response 
-{
-    Success,
-    Fail,
-    Cancelled
 }
 
 public class MealPlanGenerator
