@@ -1858,11 +1858,16 @@ public class MealPlanGeneratorTests
         {
             var recipes = await _recipeRepo.ReadAllByMealId(meal.Id);
             var recipe = recipes.FirstOrDefault();
+            if (recipe == null) throw new Exception();
             Console.Write(recipe.Recipe.Title + " ");
             Console.WriteLine(recipe.Amount);
         }
 
         Console.WriteLine();
+        if (r.LB == null) throw new Exception();
+        if (r.II == null) throw new Exception();
+        if (r.UB == null) throw new Exception();
+        if (r.PlannedIntake == null) throw new Exception();
 
         Console.WriteLine($"Protein LB: {r.LB.Protein}");
         Console.WriteLine($"Protein II: {r.II.Protein}");
