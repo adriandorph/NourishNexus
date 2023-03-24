@@ -1,4 +1,4 @@
-using server.Core.Services.MealPlan;
+using server.Services.MealPlan;
 
 namespace test;
 #pragma warning disable CS8618
@@ -2069,6 +2069,6 @@ public class MealPlanGeneratorTests
         Console.WriteLine();
 
 
-        Assert.Equal(server.Core.Services.MealPlan.Response.Success, r.Response);
+        Assert.Equal(server.Services.MealPlan.Response.Success, r.Response);
     }
 }
