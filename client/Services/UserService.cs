@@ -63,9 +63,10 @@ public async Task<(bool, string)> Login(string email)
          Console.WriteLine(response);
         var user = await response.Content.ReadFromJsonAsync<UserDTO>();
         Console.WriteLine(user);
+        Console.WriteLine("Configuration is" + _configuration);
         
         // Generate JWT token
-        string jwtSecret = _configuration.GetSection("Jwt:Secret").Value;
+        string jwtSecret = _configuration["Jwt:Secret"];
         if (jwtSecret.IsNullOrEmpty())
         {
             throw new Exception("JWT secret not found in configuration");
