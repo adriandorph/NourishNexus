@@ -31,12 +31,7 @@
 
     private async Task HandleRegistration()
     {
-        var response = await UserService.UpdateUser(user);
-        message = response.Message;
-        if(response.Success)
-             messageCssClass = "text-success";
-        else
-            messageCssClass = "text-danger";
+       Console.WriteLine("yes");
     
     }
 }

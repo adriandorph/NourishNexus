@@ -27,7 +27,7 @@ public class UserService{
         _serviceProvider = serviceProvider;
         _localStorage = localStorage;
         _configuration = configuration;
-        _http.BaseAddress = new Uri("http://localhost:5288/");
+        _http.BaseAddress = new Uri("http://localhost:5288");
     }
     
     
@@ -58,6 +58,7 @@ public async Task<(bool, string)> Login(string email)
 {
     try
     {
+        Console.WriteLine("Jwt:Secret value is " + _configuration["Jwt:Secret"]);
         var response = await _http.GetAsync($"api/User/readbyemail/{email}");
         response.EnsureSuccessStatusCode();
          Console.WriteLine(response);
@@ -98,26 +99,6 @@ public async Task<(bool, string)> Login(string email)
     catch (Exception e)
     {
         return (false, e.Message);
-    }
-}
-    public async Task<Response> UpdateUser(UserUpdateDTO user){
-        if (user == null)
-    {
-        throw new ArgumentNullException(nameof(user));
-    }
-
-    try
-    {
-        var response = await _http.PutAsJsonAsync("api/User", user);
-        response.EnsureSuccessStatusCode();
-
-        var createdUser = await response.Content.ReadFromJsonAsync<UserDTO>();
-        
-        return new Response(true, "User registered successfully");
-    }
-    catch (HttpRequestException ex)
-    {
-        return new Response(false, ex.Message);
     }
 }
     }

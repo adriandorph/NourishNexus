@@ -1,0 +1,35 @@
+@page "/search"
+
+<h1>Food Item Search</h1>
+
+<div class="form-group">
+    <label for="search-query">Search for a food item:</label>
+    <input type="text" class="form-control" id="search-query" @bind-value="@SearchQuery" @onkeyup="PerformSearch" />
+</div>
+
+@if (SearchResults != null && SearchResults.Count > 0)
+{
+    <ul class="list-group">
+        @foreach (var result in SearchResults)
+        {
+            <li class="list-group-item">
+                <a href="@($"/fooditem/{result.Id}")">@result.Name</a>
+            </li>
+        }
+    </ul>
+}
+else if (SearchPerformed)
+{
+    <p>No results found.</p>
+}
+
+@code {
+    private string SearchQuery;
+    private bool SearchPerformed = false;
+    private List<FoodItemDTO> SearchResults;
+
+    private async Task PerformSearch()
+    {
+
+    }
+}

@@ -31,11 +31,13 @@
             </div>
 
             <InputSelect id="Categories" class="mt-2 form-control" @bind-Value="recipe.CategoryIDs" multiple>
+            <label for="categories">Update Category</label>
                 @foreach (var category in AllCategories)
                 {
                     <option value="@category.Id">@category.Name</option>
                 }
             </InputSelect>
+
 
             <div class="form-group">
                 <div>Recipe visibility</div>
@@ -49,8 +51,10 @@
             </div>
             <div class="form-group">
                 <br />
-                <button type="button" class="btn btn-primary">Return</button>
+                <button type="button" class="btn btn-primary">Cancel</button>
                 <button type="submit" class="btn btn-success btn-block">Update</button>
+                <button type="submit" class="btn btn-danger btn-block">Delete</button>
+
             </div>
         </EditForm>
  
