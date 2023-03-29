@@ -1,16 +1,89 @@
 namespace server.Services.MealPlan;
 
-public interface IInakeTargetCalculator
+public enum WeightGoal
 {
-    NutrientTargets CalculateTargets(int age, Gender gender, int weight);
+    LoseFast,
+    Lose,
+    Keep,
+    Gain,
+    GainFast
 }
+
+public record TargetsResult(
+    NutrientTargets LowerBound, 
+    NutrientTargets IdealIntake, 
+    NutrientTargets UpperBound, 
+    float BreakfastCalories, 
+    float LunchCalories,
+    float DinnerCalories,
+    float SnackCalories,
+    float TotalCalories
+);
 
 public static class IntakeTargetCalculator
 {
     private static float MJPerKcal = 0.0041868f;
-    public static (NutrientTargets, NutrientTargets, NutrientTargets) CalculateTargets(int age, Gender gender, int weight, float kcalPerDay)
+
+    public static TargetsResult CalculateTargets(int age, Gender gender, float weight, float height, float physicalActivityLevel, WeightGoal weightGoal)
     {
-        (float ProteinLB, float ProteinII, float ProteinUB) = CalculateProtein(age, gender, weight);
+        float totalKcal = CalculateCalorieTarget(age, gender, weight, height,physicalActivityLevel, weightGoal);
+        return CalculateTargets(age, gender, totalKcal);
+    }
+
+    public static float CalculateCalorieTarget(int age, Gender gender, float weight, float height, float physicalActivityLevel, WeightGoal weightGoal)
+    {
+        /*
+        Females:
+        BMR (kcal / day)= 10 × weight (kg) + 6.25 × height (cm) – 5 × age (y) – 161 (kcal / day)
+        Males:
+        BMR (kcal / day) = 10 × weight (kg) + 6.25 × height (cm) – 5 × age (y) + 5 (kcal / day)
+
+        Make the user use a slider which has the following range and points for the Physical Activity Level:
+        1.2 is for little or no exercise;
+        1.4 is for light exercise 1-2 times a week;
+        1.6 is for moderate exercise 2-3 times/week;
+        1.75 is for hard exercise 3-5 times/week;
+        2.0 if you've got a physical job or perform hard exercise 6-7 times/week; and
+        2.4 is for professional athletes.
+        */
+
+        float BMR;
+        if (gender == Gender.Female) 
+            BMR = 10f * weight + 6.25f * height - 5f * age - 161f;
+        else 
+            BMR = 10f * weight + 6.25f * height - 5f * age + 5f;
+        
+        float maintenance = BMR * physicalActivityLevel;
+
+        float balance;
+
+        switch (weightGoal)
+        {
+            case WeightGoal.LoseFast:
+                balance = -1000f;
+                break;
+            case WeightGoal.Lose:
+                balance = -500f;
+                break;
+            case WeightGoal.Keep:
+                balance = 0f;
+                break;
+            case WeightGoal.Gain:
+                balance = 500f;
+                break;
+            case WeightGoal.GainFast:
+                balance = 1000f;
+                break;
+            default:
+                throw new Exception();
+        }
+
+        return maintenance + balance;
+    }
+
+    public static TargetsResult CalculateTargets(int age, Gender gender, float kcalPerDay)
+    {
+        (float ProteinLB, float ProteinII, float ProteinUB) = CalculateProtein(age, gender, kcalPerDay);
         (float CarbohydratesLB, float CarbohydratesII, float CarbohydratesUB) = CalculateCarbohydrates(age, gender, kcalPerDay);
         (float SugarsLB, float SugarsII, float SugarsUB) = CalculateSugars(age, gender, kcalPerDay);
         (float FibresLB, float FibresII, float FibresUB) = CalculateFibres(age, gender, kcalPerDay);
@@ -19,26 +92,26 @@ public static class IntakeTargetCalculator
         (float MonounsaturatedFatLB, float MonounsaturatedFatII, float MonounsaturatedFatUB) = CalculateMonounsaturatedFat(age, gender, kcalPerDay);
         (float PolyunsaturatedFatLB, float PolyunsaturatedFatII, float PolyunsaturatedFatUB) = CalculatePolyunsaturatedFat(age, gender, kcalPerDay);
         (float TransFatLB, float TransFatII, float TransFatUB) = CalculateTransFat(age, gender, kcalPerDay);
-        (float VitaminALB, float VitaminAII, float VitaminAUB) = CalculateVitaminA(age, gender, weight);
-        (float VitaminB6LB, float VitaminB6II, float VitaminB6UB) = CalculateVitaminB6(age, gender, weight);
-        (float VitaminB12LB, float VitaminB12II, float VitaminB12UB) = CalculateVitaminB12(age, gender, weight);
-        (float VitaminCLB, float VitaminCII, float VitaminCUB) = CalculateVitaminC(age, gender, weight);
-        (float VitaminDLB, float VitaminDII, float VitaminDUB) = CalculateVitaminD(age, gender, weight);
-        (float VitaminELB, float VitaminEII, float VitaminEUB) = CalculateVitaminE(age, gender, weight);
+        (float VitaminALB, float VitaminAII, float VitaminAUB) = CalculateVitaminA(age, gender);
+        (float VitaminB6LB, float VitaminB6II, float VitaminB6UB) = CalculateVitaminB6(age, gender);
+        (float VitaminB12LB, float VitaminB12II, float VitaminB12UB) = CalculateVitaminB12(age, gender);
+        (float VitaminCLB, float VitaminCII, float VitaminCUB) = CalculateVitaminC(age);
+        (float VitaminDLB, float VitaminDII, float VitaminDUB) = CalculateVitaminD(age);
+        (float VitaminELB, float VitaminEII, float VitaminEUB) = CalculateVitaminE(age, gender);
         (float ThiaminLB, float ThiaminII, float ThiaminUB) = CalculateThiamin(age, gender, kcalPerDay);
-        (float RiboflavinLB, float RiboflavinII, float RiboflavinUB) = CalculateRiboflavin(age, gender, weight);
-        (float NiacinLB, float NiacinII, float NiacinUB) = CalculateNiacin(age, gender, weight);
-        (float FolateLB, float FolateII, float FolateUB) = CalculateFolate(age, gender, weight);
-        (float SaltLB, float SaltII, float SaltUB) = CalculateSalt(age, gender, weight);
-        (float PotassiumLB, float PotassiumII, float PotassiumUB) = CalculatePotassium(age, gender, weight);
-        (float MagnesiumLB, float MagnesiumII, float MagnesiumUB) = CalculateMagnesium(age, gender, weight);
-        (float IronLB, float IronII, float IronUB) = CalculateIron(age, gender, weight);
-        (float ZincLB, float ZincII, float ZincUB) = CalculateZinc(age, gender, weight);
-        (float PhosphorusLB, float PhosphorusII, float PhosphorusUB) = CalculatePhosphorus(age, gender, weight);
-        (float CopperLB, float CopperII, float CopperUB) = CalculateCopper(age, gender, weight);
-        (float IodineLB, float IodineII, float IodineUB) = CalculateIodine(age, gender, weight);
-        (float SeleniumLB, float SeleniumII, float SeleniumUB) = CalculateSelenium(age, gender, weight);
-        (float CalciumLB, float CalciumII, float CalciumUB) = CalculateCalcium(age, gender, weight);
+        (float RiboflavinLB, float RiboflavinII, float RiboflavinUB) = CalculateRiboflavin(age, gender);
+        (float NiacinLB, float NiacinII, float NiacinUB) = CalculateNiacin(age, gender, kcalPerDay);
+        (float FolateLB, float FolateII, float FolateUB) = CalculateFolate(age, gender);
+        (float SaltLB, float SaltII, float SaltUB) = CalculateSalt(age, kcalPerDay);
+        (float PotassiumLB, float PotassiumII, float PotassiumUB) = CalculatePotassium(age, gender);
+        (float MagnesiumLB, float MagnesiumII, float MagnesiumUB) = CalculateMagnesium(age, gender);
+        (float IronLB, float IronII, float IronUB) = CalculateIron(age, gender);
+        (float ZincLB, float ZincII, float ZincUB) = CalculateZinc(age, gender);
+        (float PhosphorusLB, float PhosphorusII, float PhosphorusUB) = CalculatePhosphorus(age);
+        (float CopperLB, float CopperII, float CopperUB) = CalculateCopper(age);
+        (float IodineLB, float IodineII, float IodineUB) = CalculateIodine(age);
+        (float SeleniumLB, float SeleniumII, float SeleniumUB) = CalculateSelenium(age, gender);
+        (float CalciumLB, float CalciumII, float CalciumUB) = CalculateCalcium(age, gender);
     
         var LB = new NutrientTargets
         {
@@ -139,25 +212,30 @@ public static class IntakeTargetCalculator
             Calcium = CalciumUB
         };
 
-        return (LB, II, UB);
+        float BreakfastCalories = kcalPerDay * 0.2f;
+        float LunchCalories = kcalPerDay * 0.3f;
+        float DinnerCalories = kcalPerDay * 0.35f;
+        float SnackCalories = kcalPerDay * 0.15f;
+
+        return new TargetsResult(LB, II, UB, BreakfastCalories, LunchCalories, DinnerCalories, SnackCalories, kcalPerDay);
     }
     
-    public static (float, float, float) CalculateProtein(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateProtein(int age, Gender gender, float kcalPerDay)
     {
         float LB;
         float II;
         float UB;
         if(age >= 65)
         {
-            LB = weight * 1.1f;
-            II = weight * 1.2f;
-            UB = weight * 1.3f;
+            LB = kcalPerDay / 4 * 0.15f;
+            II = kcalPerDay / 4 * 0.175f;
+            UB = kcalPerDay / 4 * 0.2f;
         }
         else 
         {
-            LB = weight * 0.8f;
-            II = weight * 1.25f;
-            UB = weight * 1.5f;
+            LB = kcalPerDay / 4 * 0.1f;
+            II = kcalPerDay / 4 * 0.15f;
+            UB = kcalPerDay / 4 * 0.2f;
         }
 
         return (LB, II, UB);
@@ -233,7 +311,7 @@ public static class IntakeTargetCalculator
         return (0f, 0f, kcalPerDay / 9 * 0.01f);
     }
 
-    public static (float, float, float) CalculateVitaminA(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateVitaminA(int age, Gender gender)
     {
         float LB;
         float II;
@@ -273,7 +351,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminB6(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateVitaminB6(int age, Gender gender)
     {
         float LB;
         float II;
@@ -313,7 +391,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminB12(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateVitaminB12(int age, Gender gender)
     {
         float LB;
         float II;
@@ -349,7 +427,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminC(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateVitaminC(int age)
     {
         float LB;
         float II;
@@ -380,7 +458,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminD(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateVitaminD(int age)
     {
         float LB = 2.5f;
         float II;
@@ -392,7 +470,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminE(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateVitaminE(int age, Gender gender)
     {
         float LB;
         float II;
@@ -473,7 +551,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateRiboflavin(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateRiboflavin(int age, Gender gender)
     {
         float LB;
         float II;
@@ -555,7 +633,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateFolate(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateFolate(int age, Gender gender)
     {
         float LB;
         float II;
@@ -590,12 +668,27 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateSalt(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateSalt(int age, float kcalPerDay)
     {
-        throw new NotImplementedException();
+        float LB;
+        float II;
+        float UB = 6f;
+
+        if (age < 10)
+        {
+            LB = 0f;
+            II = kcalPerDay * MJPerKcal * 0.5f;
+        }
+        else
+        {
+            LB = 1.5f;
+            II = 4f;
+        }
+
+        return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculatePotassium(int age, Gender gender, int weight)
+    public static (float, float, float) CalculatePotassium(int age, Gender gender)
     {
         float LB;
         float II;
@@ -625,7 +718,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateMagnesium(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateMagnesium(int age, Gender gender)
     {
         float LB = 0f;
         float II;
@@ -651,7 +744,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateIron(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateIron(int age, Gender gender)
     {
         float LB;
         float II;
@@ -691,7 +784,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateZinc(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateZinc(int age, Gender gender)
     {
         float LB;
         float II;
@@ -726,7 +819,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculatePhosphorus(int age, Gender gender, int weight)
+    public static (float, float, float) CalculatePhosphorus(int age)
     {
         float LB;
         float II;
@@ -760,7 +853,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateCopper(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateCopper(int age)
     {
         float LB;
         float II;
@@ -794,7 +887,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateIodine(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateIodine(int age)
     {
         float LB;
         float II;
@@ -828,7 +921,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateSelenium(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateSelenium(int age, Gender gender)
     {
         float LB;
         float II;
@@ -862,7 +955,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateCalcium(int age, Gender gender, int weight)
+    public static (float, float, float) CalculateCalcium(int age, Gender gender)
     {
         float LB;
         float II;
