@@ -1,4 +1,5 @@
 namespace server.Core.EF.RepositoryInterfaces;
+using server.Core.EF.DTO;
 
     public interface ICategoryRepository{
     

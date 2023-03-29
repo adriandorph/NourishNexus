@@ -1,34 +1,38 @@
 @page "/login"
-@using server.Core.EF.DTO
+@using server.Core.EF.DTO;
+@inject NavigationManager manager
 @inject UserService UserService
-@inject NavigationManager navigationManager
-
+@inject AuthenticationStateProvider CustomAuthStateProvider
 <PageTitle>Login</PageTitle>
 <h1>Login</h1>
 
-<EditForm Model="user" OnValidSubmit="HandleLogin">
+<EditForm Model="userEmail" OnValidSubmit="HandleLogin">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" class="form-control" />
-        <ValidationMessage For="@(() => user.Email)" />
+        <InputText id="email" @bind-Value="userEmail" class="form-control" />
+        <ValidationMessage For="@(() => userEmail)" />
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
 
 @code {
-    private UserCreateDTO user = new UserCreateDTO();
 
-    private async Task HandleLogin()
+    string userEmail = "";
+
+    private async void HandleLogin()
     {
-        var result = await UserService.Login(user.Email);
-        Console.WriteLine("Result is" + result.Item1);
-        if(result.Item1){
-            navigationManager.NavigateTo("/dashboard");
-        }
-        else
+        var response = await UserService.Login(userEmail);
+        if (response.IsSuccessStatusCode)
         {
-            Console.WriteLine(result);
+            Console.WriteLine("Success");
+            UserDTO? user = await response.Content.ReadFromJsonAsync<UserDTO>();
+            if (user == null) Console.WriteLine("User is null");
+            else Console.WriteLine($"Nickname: {user.Nickname}, Email: {user.Email}");
+            var uri =  $"{manager.BaseUri}";
+            manager.NavigateTo(uri);
+            await CustomAuthStateProvider.GetAuthenticationStateAsync();
         }
+        else Console.WriteLine("No way Jose!");
     }
 }

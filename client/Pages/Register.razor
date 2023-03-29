@@ -1,5 +1,6 @@
 @page "/register"
 @using server.Core.EF.DTO
+@inject NavigationManager manager
 @inject UserService UserService
 
 <PageTitle>Register</PageTitle>
@@ -31,15 +32,15 @@
     string message = string.Empty;
     string messageCssClass = string.Empty;
 
-
     private async Task HandleRegistration()
     {
-       var result = await UserService.RegisterUser(user);
+        var response = await UserService.RegisterUser(user);
+        if(response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Successful registration");
+            UserDTO? user = await response.Content.ReadFromJsonAsync<UserDTO>();
+        }
 
-       message = result.Message;
-       if(result.Success)
-             messageCssClass = "text-success";
-       else
-            messageCssClass = "text-danger";
     }
 }
+

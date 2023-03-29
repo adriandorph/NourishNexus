@@ -1,5 +1,5 @@
 namespace server.Core.EF.RepositoryInterfaces;
-
+using server.Core.EF.DTO;
 public interface IUserRepository{
     //Create
     public Task<(Response, UserDTO)> CreateAsync(UserCreateDTO user);

@@ -1,16 +1,31 @@
 namespace server.Controllers;
+using server.Core.EF.DTO;
+using System.Net.Http.Json;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.JSInterop;
+using System.Security.Claims;
 
 [ApiController]
 [Route("api/[Controller]")]
 public class UserController : ControllerBase
 {
     private readonly ILogger<UserController> _logger;
+    
     private readonly IUserRepository _userRepo;
+    private readonly IConfiguration _configuration;
+    
 
-    public UserController(ILogger<UserController> logger, IUserRepository userRepo)
+
+    
+
+    public UserController(ILogger<UserController> logger, IUserRepository userRepo, IConfiguration configuration)
     {
         _logger = logger;
         _userRepo = userRepo;
+        _configuration = configuration;
     }
     
     //POST
@@ -76,7 +91,6 @@ public class UserController : ControllerBase
 
 
     //GET
-
     [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetUserById(int id)
@@ -109,6 +123,48 @@ public class UserController : ControllerBase
         {
             return StatusCode(500, "Internal Server Error");        
         }
+    }
+
+    [HttpGet("login/{email}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Login(string email){
+        var user = await _userRepo.ReadByEmailAsync(email);
+        if (user.IsNone) return NotFound("Could not find a user with the specified email");
+        
+        //lav en token
+        string jwtSecret = _configuration["Jwt:Secret"]!;
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(jwtSecret);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Email, user.Value.Email)
+            }),
+            Expires = DateTime.UtcNow.AddDays(7),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+            SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        var tokenString = tokenHandler.WriteToken(token);
+
+        // Create a new cookie containing the token
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = DateTime.UtcNow.AddDays(7),
+            SameSite = SameSiteMode.None,
+            Secure = true,
+            Path = "/"
+        };
+
+        // Add the cookie to the response
+        Response.Cookies.Append("jwt", tokenString, cookieOptions);
+        
+        return Ok(user.Value);   
     }
 }
 

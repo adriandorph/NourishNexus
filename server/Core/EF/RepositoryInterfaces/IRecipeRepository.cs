@@ -1,5 +1,5 @@
 namespace server.Core.EF.RepositoryInterfaces;
-
+using server.Core.EF.DTO;
 public interface IRecipeRepository{
     //Create
     public Task<(Response, RecipeDTO)> CreateAsync(RecipeCreateDTO item);
