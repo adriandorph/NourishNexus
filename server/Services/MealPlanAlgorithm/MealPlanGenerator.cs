@@ -4,7 +4,7 @@ namespace server.Services.MealPlan;
 
 public interface IMealPlanGenerator
 {
-    public Task<IActionResult> Generate7DayMealPlan(int userID, DateTime startingDate);
+    public Task<DietReport> Generate7DayMealPlan(int userID, DateTime startingDate);
 }
 
 public class MealPlanGenerator
@@ -29,8 +29,25 @@ public class MealPlanGenerator
 
     public async Task<DietReport> Generate7DayMealPlan(int userID, DateTime startingDate)
     {
+        MealPlan? mealPlan = null;
+        DietReport? dietReport = null;
+
+        for(int i = 0; i<50; i++) //Tries to create a meal plan 50 times
+        {
+            (mealPlan, dietReport) = await Create7DayMealPlan(userID, startingDate);
+            if (dietReport.Response == Response.Success) break;
+            if (dietReport.Response == Response.Cancelled) return dietReport;
+        }
+
+        if(mealPlan == null || dietReport == null) throw new Exception("Mealplan or dietReport is null");
+        await InsertPlan(mealPlan);
+        return dietReport;
+    }
+
+    public async Task<(MealPlan?, DietReport)> Create7DayMealPlan(int userID, DateTime startingDate)
+    {
         //Initial checks
-        if (!(await UserPrerequisites(userID))) return new DietReport(null,null,null,null, Response.Cancelled);
+        if (!(await UserPrerequisites(userID))) return (null, new DietReport(null,null,null,null, Response.Cancelled));
 
         var userResult = await _userRepo.ReadWithNutritionByIDAsync(userID);
         if (userResult.IsNone) throw new Exception("User not found");
@@ -47,24 +64,27 @@ public class MealPlanGenerator
         List<RecipeDTO> recipes = await CreateRecipeList(user, startingDate);
 
         //Insert recipes
-        MealPlan mealPlan = await CreateInitialMealPlan(recipes, userID, calorieTargets, startingDate);
+        var mealPlanResult = await CreateInitialMealPlan(recipes, userID, calorieTargets, startingDate);
+        if(mealPlanResult.IsNone) return (null, new DietReport(null,null,null,null, Response.Cancelled));
+        MealPlan mealPlan = mealPlanResult.Value;
         
         // Ideal Intake met/exceeded?
         var curNutrientSums = mealPlan.CalculateNutrientSums();
         while(!(curNutrientSums.lowerCount(IdealIntake * 0.95f) < 4))
         {
-            Console.WriteLine("\nReplace lowest");
             var r = await ReplaceLowestMeals(mealPlan, IdealIntake, recipes, calorieTargets);
             curNutrientSums = mealPlan.CalculateNutrientSums();
             if (r == Response.Fail)
             {
-                await InsertPlan(mealPlan);
-                return new DietReport(
-                    LowerBounds,
-                    IdealIntake,
-                    UpperBounds,
-                    curNutrientSums,
-                    Response.Fail
+                return (
+                    mealPlan
+                    ,new DietReport(
+                        LowerBounds,
+                        IdealIntake,
+                        UpperBounds,
+                        curNutrientSums,
+                        Response.Fail
+                    )
                 );
             }
         }
@@ -74,49 +94,52 @@ public class MealPlanGenerator
         {
             if (curNutrientSums >= LowerBounds)
             {
-                Console.WriteLine("\nReplace highest");
                 var r = await ReplaceHighest(mealPlan, UpperBounds, recipes, calorieTargets);
                 curNutrientSums = mealPlan.CalculateNutrientSums();
                 if (r == Response.Fail) 
                 {
-                    await InsertPlan(mealPlan);
-                    return new DietReport(
-                        LowerBounds,
-                        IdealIntake,
-                        UpperBounds,
-                        curNutrientSums,
-                        Response.Fail
+                    return (
+                        mealPlan
+                        ,new DietReport(
+                            LowerBounds,
+                            IdealIntake,
+                            UpperBounds,
+                            curNutrientSums,
+                            Response.Fail
+                        )
                     );
                 }
             }
             
             while(!(curNutrientSums >= LowerBounds))
             {
-                Console.WriteLine("\nReplace lowest after replacing highest");
                 var r = await ReplaceLowestMeals(mealPlan, LowerBounds, recipes, calorieTargets);
                 curNutrientSums = mealPlan.CalculateNutrientSums();
                 if (r == Response.Fail)
                 {
-                    await InsertPlan(mealPlan);
-                    return new DietReport(
-                        LowerBounds,
-                        IdealIntake,
-                        UpperBounds,
-                        curNutrientSums,
-                        Response.Fail
+                    return (
+                        mealPlan
+                        ,new DietReport(
+                            LowerBounds,
+                            IdealIntake,
+                            UpperBounds,
+                            curNutrientSums,
+                            Response.Fail
+                        )
                     );
                 }
             }
         }
 
-        var response = await InsertPlan(mealPlan);
-        //Insert meal plan
-        return new DietReport(
-            LowerBounds,
-            IdealIntake,
-            UpperBounds,
-            mealPlan.CalculateNutrientSums(),
-            response
+        return (
+            mealPlan
+            ,new DietReport(
+                LowerBounds,
+                IdealIntake,
+                UpperBounds,
+                curNutrientSums,
+                Response.Success
+            )
         );
     }
 
@@ -488,8 +511,6 @@ public class MealPlanGenerator
 
     private Option<RecipeDTO> FindAndRemoveRecipe(List<RecipeDTO> recipes, PlannedMeal meal)
     {
-        Console.WriteLine($"Recipes in list: {recipes.Count()}");
-
         for(int i = 0; i <  recipes.Count; i++)
         {
             var recipe = recipes[i];
@@ -526,10 +547,8 @@ public class MealPlanGenerator
             //At this point the recipe fullfills all criteria and is selected.
             //Remove
             recipes.RemoveAt(i);
-            Console.WriteLine("Success");
             return new Option<RecipeDTO>(recipe);
         }
-        Console.WriteLine(meal.MealType);
         return new Option<RecipeDTO>(null);
     }
 
@@ -812,7 +831,7 @@ public class MealPlanGenerator
                ? Response.Success : Response.Fail;
     }
 
-    private async Task<Response> InsertPlan(MealPlan mealPlan)
+    public async Task<Response> InsertPlan(MealPlan mealPlan)
     {
         foreach(var day in mealPlan.Days)
         {
