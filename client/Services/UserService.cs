@@ -1,104 +1,35 @@
 namespace client.Services;
 using server.Core.EF.DTO;
 using System.Net.Http.Json;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
+using System.Net.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.JSInterop;
-using System.Security.Claims;
-using Blazored.LocalStorage;
 
 public class UserService{
 
-    
     private readonly HttpClient _http;
-    private readonly IServiceProvider _serviceProvider;
 
-    private readonly IJSRuntime _jsRuntime;
-    private readonly ILocalStorageService _localStorage;
-    private readonly IConfiguration _configuration;
-
-    public UserService(HttpClient http, IServiceProvider serviceProvider, IJSRuntime jsRuntime, ILocalStorageService localStorage, IConfiguration configuration){
+    public UserService(HttpClient http){
         _http = http;
-        _jsRuntime = jsRuntime;
-        _serviceProvider = serviceProvider;
-        _localStorage = localStorage;
-        _configuration = configuration;
         _http.BaseAddress = new Uri("http://localhost:5288");
     }
     
-    
-
-    public async Task<Response> RegisterUser(UserCreateDTO user)
-{
-    if (user == null)
+    public async Task<HttpResponseMessage> RegisterUser(UserCreateDTO user)
     {
-        throw new ArgumentNullException(nameof(user));
-    }
-        
-    try
-    {
-        var response = await _http.PostAsJsonAsync("api/User/", user);
-        response.EnsureSuccessStatusCode();
-
-        var createdUser = await response.Content.ReadFromJsonAsync<UserDTO>();
-        
-        return new Response(true, "User registered successfully");
-    }
-    catch (Exception e)
-    {
-        return new Response(false, e.Message);
-    }
-}
-
-public async Task<(bool, string)> Login(string email)
-{
-    try
-    {
-        Console.WriteLine("Jwt:Secret value is " + _configuration["Jwt:Secret"]);
-        var response = await _http.GetAsync($"api/User/readbyemail/{email}");
-        response.EnsureSuccessStatusCode();
-         Console.WriteLine(response);
-        var user = await response.Content.ReadFromJsonAsync<UserDTO>();
-        Console.WriteLine(user);
-        Console.WriteLine("Configuration is" + _configuration);
-        
-        // Generate JWT token
-        string jwtSecret = _configuration["Jwt:Secret"];
-        if (jwtSecret.IsNullOrEmpty())
+        if (user == null)
         {
-            throw new Exception("JWT secret not found in configuration");
+            throw new ArgumentNullException(nameof(user));
         }
-        var tokenHandler = new JwtSecurityTokenHandler();
-        Console.WriteLine("Token handler is" + tokenHandler);
-        var key = Encoding.ASCII.GetBytes(jwtSecret);
-        Console.WriteLine("Key is" + key);
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Email, user.Email)
-            }),
-            Expires = DateTime.UtcNow.AddDays(7),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-        Console.WriteLine("token descriptor is" + tokenDescriptor);
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        Console.WriteLine("token is" + token);
-        var tokenString = tokenHandler.WriteToken(token);
-        Console.WriteLine("tokenString is" + tokenString);
+            
+        var response = await _http.PostAsJsonAsync("api/User/", user);
         
-        // Store token in local storage
-        await _localStorage.SetItemAsync("authToken", tokenString);
-        
-        return (true, "User logged in successfully");
+        return response;
     }
-    catch (Exception e)
+
+    public async Task<HttpResponseMessage> Login(string email)
     {
-        return (false, e.Message);
+        var response = await _http.GetAsync($"api/User/login/{email}");
+        Console.WriteLine(response);
+        return response;
     }
 }
-    }
