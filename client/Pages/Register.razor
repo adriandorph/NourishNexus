@@ -7,7 +7,7 @@
 
 <h1>Register</h1>
 
-<EditForm Model="user" OnValidSubmit="HandleRegistration">
+<EditForm Model="user" OnValidSubmit="HandleRegistration" Context="editext">
     <DataAnnotationsValidator/>
     <div class="mb-3">
         <label for="email">Email</label>
@@ -25,7 +25,6 @@
         <span>@message</span>
     </div>
 </EditForm>
-
 @code {
     private UserCreateDTO user = new UserCreateDTO();
 

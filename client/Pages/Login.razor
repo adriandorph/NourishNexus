@@ -1,12 +1,14 @@
 @page "/login"
-@using server.Core.EF.DTO;
+@inject HttpClient Http
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
 @inject NavigationManager manager
 @inject UserService UserService
-@inject AuthenticationStateProvider CustomAuthStateProvider
+
 <PageTitle>Login</PageTitle>
 <h1>Login</h1>
 
-<EditForm Model="userEmail" OnValidSubmit="HandleLogin">
+<EditForm Model="userEmail" OnSubmit="HandleLogin">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="email">Email</label>
@@ -18,21 +20,14 @@
 
 @code {
 
-    string userEmail = "";
+    string userEmail {get; set;} = "";
 
-    private async void HandleLogin()
+    async Task HandleLogin()
     {
-        var response = await UserService.Login(userEmail);
-        if (response.IsSuccessStatusCode)
-        {
-            Console.WriteLine("Success");
-            UserDTO? user = await response.Content.ReadFromJsonAsync<UserDTO>();
-            if (user == null) Console.WriteLine("User is null");
-            else Console.WriteLine($"Nickname: {user.Nickname}, Email: {user.Email}");
-            var uri =  $"{manager.BaseUri}";
-            manager.NavigateTo(uri);
-            await CustomAuthStateProvider.GetAuthenticationStateAsync();
-        }
-        else Console.WriteLine("No way Jose!");
+        var result = await Http.GetAsync($"api/User/login/{userEmail}");
+        var token = await result.Content.ReadAsStringAsync();
+        await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
+        await AuthStateProvider.GetAuthenticationStateAsync();
     }
+
 }
