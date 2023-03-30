@@ -5,7 +5,8 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 
-public class UserService{
+public class UserService
+{
 
     private readonly HttpClient _http;
 
