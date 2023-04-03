@@ -33,6 +33,9 @@ Add the details in ``server/appsettings.json`` like below:
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "NourishNexus": "Server=localhost,1433;Database=NourishNexusDatabase;User Id=sa;Password={password};TrustServerCertificate=true"
+  },
+  "Jwt": {
+    "Secret": "{secret}"
   }
 }
 ```
