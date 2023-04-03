@@ -16,18 +16,38 @@
         <ValidationMessage For="@(() => userEmail)" />
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
+     <div class ="@messageCssClass">
+        <span>@message</span>
+    </div>
 </EditForm>
 
 @code {
 
     string userEmail {get; set;} = "";
 
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+
     async Task HandleLogin()
     {
-        var result = await Http.GetAsync($"api/User/login/{userEmail}");
-        var token = await result.Content.ReadAsStringAsync();
+        var response = await UserService.Login(userEmail);
+        
+        if(response.IsSuccessStatusCode){
+        messageCssClass = "text-success";
+        message = "Login Succesful";
+        var token = await response.Content.ReadAsStringAsync();
         await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
         await AuthStateProvider.GetAuthenticationStateAsync();
+        } 
+        
+        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound) {
+            messageCssClass = "text-danger";
+            message = "Login failed, user does not exist. Please register.";
+        } 
+        else {
+             messageCssClass = "text-danger";
+            message = "Login failed";
+        }
+        
+        }
     }
-
-}

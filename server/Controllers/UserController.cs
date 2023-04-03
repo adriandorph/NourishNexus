@@ -128,6 +128,8 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Login(string email)
     {
+        var r = await _userRepo.ReadByEmailAsync(email);
+        if (r.IsNone) return NotFound();
         string token = CreateToken(email);
         return Ok(token);
 

@@ -36,8 +36,11 @@
         var response = await UserService.RegisterUser(user);
         if(response.IsSuccessStatusCode)
         {
-            Console.WriteLine("Successful registration");
-            UserDTO? user = await response.Content.ReadFromJsonAsync<UserDTO>();
+            messageCssClass = "text-success";
+            message = "Registration Succesful";
+        } else if (response.StatusCode == System.Net.HttpStatusCode.Conflict){
+            messageCssClass ="text-danger";
+            message = "User already exists in the system, please login";
         }
 
     }

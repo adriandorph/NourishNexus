@@ -32,7 +32,6 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
 
         if(!string.IsNullOrEmpty(token))
         {
-            Console.WriteLine("Custom auth state provider token is " + token);
             identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
             _http.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token.Replace("\"",""));
@@ -41,9 +40,7 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
             
 
         var user = new ClaimsPrincipal(identity);
-        Console.WriteLine("User is" + user);
         var state = new AuthenticationState(user);
-        Console.WriteLine("State read");
         NotifyAuthenticationStateChanged(Task.FromResult(state));
 
         return state;
