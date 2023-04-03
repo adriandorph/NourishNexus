@@ -23,6 +23,7 @@ public class UserService
         }
             
         var response = await _http.PostAsJsonAsync("api/User/", user);
+        Console.WriteLine("Response is + " + response);
         
         return response;
     }
@@ -30,7 +31,7 @@ public class UserService
     public async Task<HttpResponseMessage> Login(string email)
     {
         var response = await _http.GetAsync($"api/User/login/{email}");
-        Console.WriteLine(response);
+        Console.WriteLine("Getting the email" + email + "returned response" + response);
         return response;
     }
 }
