@@ -24,12 +24,12 @@ else if (SearchPerformed)
 }
 
 @code {
-    private string SearchQuery;
+    private string SearchQuery {get; set;} = "";
     private bool SearchPerformed = false;
-    private List<FoodItemDTO> SearchResults;
+    private List<FoodItemDTO> SearchResults {get; set;} = new List<FoodItemDTO>();
 
-    private async Task PerformSearch()
+    private Task PerformSearch()
     {
-
+        throw new NotImplementedException();
     }
 }
