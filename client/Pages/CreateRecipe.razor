@@ -67,14 +67,6 @@
     private UserDTO Author;
     private List<CategoryDTO> AllCategories { get; set; } = new List<CategoryDTO>();
 
-        protected async override void OnInitialized()
-        {
-            var a = await CustomAuthStateProvider.GetAuthenticationStateAsync();
-            
-            Console.WriteLine(a);
-        }
-
-
         
 }
 
