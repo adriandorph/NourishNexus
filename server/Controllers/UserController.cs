@@ -131,26 +131,32 @@ public class UserController : ControllerBase
         var r = await _userRepo.ReadByEmailAsync(email);
         if (r.IsNone) return NotFound();
         string token = CreateToken(email);
-        return Ok(token);
-
+        return await Task.FromResult(Ok(token));
     }
 
-    private string CreateToken(string Email){
-        List<Claim> claims = new List<Claim>{
-            new Claim(ClaimTypes.Email, Email)
+    private string CreateToken(string email)
+    {
+        List<Claim> claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Email, email)
         };
 
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-            _configuration.GetSection("Jwt:Secret").Value));
+        var key = new SymmetricSecurityKey
+        (
+            System.Text.Encoding.UTF8.GetBytes
+            (
+                _configuration.GetSection("Jwt:Secret").Value ?? throw new Exception("Jwt secrets not configured")
+            )
+        );
+
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-        var token = new JwtSecurityToken(
+        var token = new JwtSecurityToken
+        (
             claims: claims,
             expires:DateTime.Now.AddDays(1),
             signingCredentials: creds
         );
-
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
         return jwt;
     }
 }

@@ -12,7 +12,7 @@ using server.Infrastructure;
 namespace server.Migrations
 {
     [DbContext(typeof(NourishNexusContext))]
-    [Migration("20230328080126_InitialCreate")]
+    [Migration("20230403154354_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
