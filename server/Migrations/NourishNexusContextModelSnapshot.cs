@@ -455,6 +455,14 @@ namespace server.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<float?>("PhosphorusII")
                         .HasColumnType("real");
 
@@ -565,6 +573,12 @@ namespace server.Migrations
 
                     b.Property<float?>("TransFatUB")
                         .HasColumnType("real");
+
+                    b.Property<string>("VerificationToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VerifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<float?>("VitaminAII")
                         .HasColumnType("real");

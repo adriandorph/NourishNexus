@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace server.Core.EF.DTO;
 
 public record UserDTO(
@@ -8,14 +10,33 @@ public record UserDTO(
     List<int> SavedRecipeIds
 );
 
+public record UserAuthDTO(
+    int Id,
+    string Nickname,
+    string Email,
+    byte[] PasswordHash,
+    byte[] PasswordSalt
+);
 
-public record UserCreateDTO {
-    
+public record LoginRequest
+(
+    [Required, EmailAddress]
+    string Email = "",
+    [Required, ] 
+    string Password = ""
+);
+
+
+public record UserCreateDTO 
+{
+    [Required]
     public string? Nickname {get; set;}
-    
     [Required, EmailAddress]
     public string? Email {get; set;}
-    
+    [Required, MinLength(6, ErrorMessage = "Password needs to be of minimum 6 characters")]
+    public string? Password {get; set;}
+    [Required, Compare("Password")]
+    public string? ConfirmPassword {get; set;}
 }
 
 public record UserUpdateDTO : UserCreateDTO

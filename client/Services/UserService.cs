@@ -27,9 +27,6 @@ public class UserService
         return response;
     }
 
-    public async Task<HttpResponseMessage> Login(string email)
-    {
-        var response = await _http.GetAsync($"api/User/login/{email}");
-        return response;
-    }
+    public async Task<HttpResponseMessage> Login(LoginRequest loginRequest)
+        => await _http.PostAsJsonAsync($"api/auth/", loginRequest);
 }

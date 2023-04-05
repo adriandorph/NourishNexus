@@ -12,8 +12,14 @@
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="userEmail" class="form-control" />
+        <InputText id="email" type="email" @bind-Value="userEmail" class="form-control" />
         <ValidationMessage For="@(() => userEmail)" />
+    </div>
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="password" type="password" @bind-Value="userPassword" class="form-control" />
+        <ValidationMessage For="@(() => userPassword)" />
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
      <div class ="@messageCssClass">
@@ -24,30 +30,35 @@
 @code {
 
     string userEmail {get; set;} = "";
+    string userPassword {get; set;} = "";
 
     string message = string.Empty;
     string messageCssClass = string.Empty;
 
     async Task HandleLogin()
     {
-        var response = await UserService.Login(userEmail);
+        var loginRequest = new LoginRequest(userEmail, userPassword);
+        var response = await UserService.Login(loginRequest);
         
-        if(response.IsSuccessStatusCode){
-        messageCssClass = "text-success";
-        message = "Login Succesful";
-        var token = await response.Content.ReadAsStringAsync();
-        await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
-        await AuthStateProvider.GetAuthenticationStateAsync();
+        if(response.IsSuccessStatusCode)
+        {
+            messageCssClass = "text-success";
+            message = "Login Succesful";
+            var token = await response.Content.ReadAsStringAsync();
+            await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
+            await AuthStateProvider.GetAuthenticationStateAsync();
+            manager.NavigateTo("");
         } 
         
-        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound) {
+        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound) 
+        {
             messageCssClass = "text-danger";
             message = "Login failed, user does not exist. Please register.";
         } 
-        else {
-             messageCssClass = "text-danger";
+        else 
+        {
+            messageCssClass = "text-danger";
             message = "Login failed";
         }
-        
-        }
     }
+}

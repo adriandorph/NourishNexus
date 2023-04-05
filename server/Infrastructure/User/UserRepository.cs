@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+
 namespace server.Infrastructure;
 
 public class UserRepository : IUserRepository
@@ -17,13 +19,23 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync();
             
         if (conflict != null) return (Response.Conflict, new UserDTO(-1, user.Nickname ?? "", user.Email ?? "", new List<int>()));
-        if (user.Email == null || user.Nickname == null) return (Response.BadRequest, new UserDTO(-1, user.Email ?? "", user.Nickname ?? "", new List<int>()));
+        if (user.Email == null || user.Nickname == null || user.Password == null) return (Response.BadRequest, new UserDTO(-1, user.Email ?? "", user.Nickname ?? "", new List<int>()));
+
+        CreatePasswordHash
+        (
+            user.Password,
+            out byte[] passwordHash,
+            out byte[] passwordSalt
+        );
 
         //Create entity and insert it into the database context
         var entity = new User
         (
             user.Nickname,
             user.Email,
+            passwordHash,
+            passwordSalt,
+            CreateRandomToken(),
             new List<Recipe>()
         );
 
@@ -229,11 +241,39 @@ public class UserRepository : IUserRepository
             .Include(u => u.SavedRecipes)
             .Select(u => u.ToNutritionDTO())
             .FirstOrDefaultAsync();
-
+    
+    public async Task<Option<UserAuthDTO>> ReadAuthByEmailAsync(string email)
+        => await _context.Users
+            .Where(u => u.Email == email)
+            .Select(u => 
+                new UserAuthDTO
+                (
+                    u.Id,
+                    u.Nickname,
+                    u.Email,
+                    u.PasswordHash,
+                    u.PasswordSalt
+                )
+            )
+            .FirstOrDefaultAsync();
 
     //Helper functions
     private async Task<List<Recipe>> RecipeIDsToRecipes(List<int> recipeIDs)
         => await _context.Recipes
             .Where(r => recipeIDs.Any(rID => rID == r.Id))
             .ToListAsync();
+    
+    private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    {
+        using (var hmac = new HMACSHA512())
+        {
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        }
+    }
+
+    private string CreateRandomToken()
+    {
+        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+    }
 }
