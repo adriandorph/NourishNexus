@@ -29,8 +29,8 @@ public class RecipeRepositoryTests
         context.Database.EnsureCreated();
 
         //Add user
-        _user1 = new User("John", "john@johnson.com", new List<Recipe>());
-        _user2 = new User("Pablo", "pablo@pabloson.com", new List<Recipe>());
+        _user1 = new User("John", "john@johnson.com", new byte[32], new byte[32], new List<Recipe>());
+        _user2 = new User("Pablo", "pablo@pabloson.com", new byte[32], new byte[32], new List<Recipe>());
         context.Users.AddAsync(_user1);
         context.Users.AddAsync(_user2);
 

@@ -1,5 +1,7 @@
 @page "/register"
 @using server.Core.EF.DTO
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
 @inject NavigationManager manager
 @inject UserService UserService
 
@@ -11,15 +13,24 @@
     <DataAnnotationsValidator/>
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" class ="form-control"/>
+        <InputText id="email" type="email" @bind-Value="user.Email" class ="form-control"/>
         <ValidationMessage For="@(() => user.Email)" />   
-        </div>
+    </div>
      <div class="mb-3">
         <label for="nickname">Nickname</label>
         <InputText id="nickname" @bind-Value="user.Nickname" class ="form-control"/>
         <ValidationMessage For="@(() => user.Nickname)" />   
-        </div>
-
+    </div>
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="password" type="password" @bind-Value="user.Password" class ="form-control"/>
+        <ValidationMessage For="@(() => user.Password)" />   
+    </div>
+    <div class="mb-3">
+        <label for="confirmpassword">Confirm Password</label>
+        <InputText id="confirmpassword" type="password" @bind-Value="user.ConfirmPassword" class ="form-control"/>
+        <ValidationMessage For="@(() => user.ConfirmPassword)" />   
+    </div>
     <button type="submit" class="btn btn-primary">Register</button>
     <div class ="@messageCssClass">
         <span>@message</span>
@@ -36,13 +47,28 @@
         var response = await UserService.RegisterUser(user);
         if(response.IsSuccessStatusCode)
         {
-            messageCssClass = "text-success";
-            message = "Registration Succesful";
-        } else if (response.StatusCode == System.Net.HttpStatusCode.Conflict){
+            var loginRequest = new LoginRequest(user.Email ?? "", user.Password ?? "");
+            var loginResponse = await UserService.Login(loginRequest);
+            if (loginResponse.IsSuccessStatusCode)
+            {
+                messageCssClass = "text-success";
+                message = "Registration Succesful";
+                var token = await loginResponse.Content.ReadAsStringAsync();
+                await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
+                await AuthStateProvider.GetAuthenticationStateAsync();
+                manager.NavigateTo("");
+            }
+            else 
+            {
+                messageCssClass ="text-danger";
+                message = "Could not authenticate you after registration";
+            }
+        } 
+        else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+        {
             messageCssClass ="text-danger";
             message = "User already exists in the system, please login";
         }
-
     }
 }
 

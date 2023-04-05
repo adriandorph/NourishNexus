@@ -27,7 +27,7 @@ public class MealRepositoryTests
         var context = new NourishNexusContext(builder.Options);
         context.Database.EnsureCreated();
 
-        _user = new User("user", "user@use.com", new List<Recipe>());
+        _user = new User("user", "user@use.com", new byte[32], new byte[32], new List<Recipe>());
 
         _category1 = new Category("Category1");
         _category2 = new Category("Category2");

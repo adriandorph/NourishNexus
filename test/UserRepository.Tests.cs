@@ -30,7 +30,9 @@ public class UserRepositoryTests
         //Arrange
         var userCreateDTO = new UserCreateDTO{
             Email = "jhon@jhonson.com",
-            Nickname = "Johnny"
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         //Act
@@ -61,7 +63,9 @@ public class UserRepositoryTests
         //Arrange
         var userCreateDTO = new UserCreateDTO{
             Email = "jhon@jhonson.com",
-            Nickname = "Johnny"
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         //Act
@@ -86,7 +90,9 @@ public class UserRepositoryTests
         var userCreateDTO = new UserUpdateDTO
         {
             Email = "john@johnson.com",
-            Nickname = "Johnny"
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         var userUpdateDTO = new UserUpdateDTO
@@ -119,7 +125,9 @@ public class UserRepositoryTests
         var userCreateDTO = new UserUpdateDTO
         {
             Email = "john@johnson.com",
-            Nickname = "Johnny"
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         var userUpdateDTO = new UserUpdateDTO
@@ -152,13 +160,17 @@ public class UserRepositoryTests
         var userCreateDTO1 = new UserUpdateDTO
         {
             Email = "john@johnson.com",
-            Nickname = "Johnny"
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         var userCreateDTO2 = new UserUpdateDTO
         {
             Email = "pablo@pabloson.com",
-            Nickname = "Pablo"
+            Nickname = "Pablo",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         var userUpdateDTO = new UserUpdateDTO
@@ -185,7 +197,9 @@ public class UserRepositoryTests
         var userCreateDTO = new UserUpdateDTO
         {
             Email = "john@johnson.com",
-            Nickname = "Johnny"
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         var recipe = new Recipe(
@@ -254,7 +268,9 @@ public class UserRepositoryTests
         //Arrange
         var userCreateDTO = new UserCreateDTO{
             Email = "jhon@jhonson.com",
-            Nickname = "Johnny"
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         //Act
@@ -284,7 +300,9 @@ public class UserRepositoryTests
         //Arrange
         var userCreateDTO = new UserCreateDTO{
             Email = "jhon@jhonson.com",
-            Nickname = "Johnny"
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
         };
 
         var recipe = new Recipe(

@@ -12,7 +12,7 @@ using server.Infrastructure;
 namespace server.Migrations
 {
     [DbContext(typeof(NourishNexusContext))]
-    [Migration("20230403154354_InitialCreate")]
+    [Migration("20230405104146_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -457,6 +457,14 @@ namespace server.Migrations
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<float?>("PhosphorusII")
                         .HasColumnType("real");

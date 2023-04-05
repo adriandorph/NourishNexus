@@ -13,7 +13,7 @@ public interface IUserRepository{
     //Read
     public Task<Option<UserDTO>> ReadByIDAsync(int userID);
     public Task<Option<UserNutritionDTO>> ReadWithNutritionByIDAsync(int userID);
-
     public Task<Option<UserDTO>> ReadByEmailAsync(string Email);
+    public Task<Option<UserAuthDTO>> ReadAuthByEmailAsync(string email);
 
 }

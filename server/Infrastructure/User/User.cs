@@ -7,10 +7,10 @@ public class User
     [StringLength(25)]
     public string Nickname {get;set;}
 
-    [Required]
-    [EmailAddress]
-    [StringLength(50)]
+    [Required, EmailAddress, StringLength(50)]
     public string Email {get;set;}
+    public byte[] PasswordHash {get; set;} = new byte[32];
+    public byte[] PasswordSalt {get; set;} = new byte[32];
 
     public List<Recipe> SavedRecipes {get; set;}
 
@@ -136,10 +136,12 @@ public class User
     public float? CalciumUB {get; set;}
 
 
-    public User(string Nickname, string Email, List<Recipe> savedRecipes) 
+    public User(string Nickname, string Email, byte[] passwordHash, byte[] passwordSalt,  List<Recipe> savedRecipes) 
     {
         this.Nickname = Nickname;
         this.Email = Email;
+        this.PasswordHash = passwordHash;
+        this.PasswordSalt = passwordSalt;
         this.SavedRecipes = savedRecipes;
     }
 

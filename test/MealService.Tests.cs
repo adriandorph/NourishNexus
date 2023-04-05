@@ -229,7 +229,7 @@ public class MealServiceTests
         
         //Arrange
         //User
-        var user1 = new User("Bravo", "antbr@itu.dk", new List<Recipe>());
+        var user1 = new User("Bravo", "antbr@itu.dk", new byte[32], new byte[32], new List<Recipe>());
 
         //Meals
         var meal1 = new Meal(MealType.BREAKFAST, user1, _date, new List<Category>());
