@@ -36,7 +36,7 @@ public class FoodItemRepositoryTests
 
         //Add user
 
-        _user1 = new User("John", "john@johnson.com", new List<Recipe>());
+        _user1 = new User("John", "john@johnson.com", new byte[32], new byte[32], new List<Recipe>());
         
         //Add meal
         

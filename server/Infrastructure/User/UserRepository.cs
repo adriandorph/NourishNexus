@@ -35,7 +35,6 @@ public class UserRepository : IUserRepository
             user.Email,
             passwordHash,
             passwordSalt,
-            CreateRandomToken(),
             new List<Recipe>()
         );
 
@@ -270,10 +269,5 @@ public class UserRepository : IUserRepository
             passwordSalt = hmac.Key;
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
-    }
-
-    private string CreateRandomToken()
-    {
-        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
     }
 }

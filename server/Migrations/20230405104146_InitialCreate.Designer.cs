@@ -12,7 +12,7 @@ using server.Infrastructure;
 namespace server.Migrations
 {
     [DbContext(typeof(NourishNexusContext))]
-    [Migration("20230405101442_InitialCreate")]
+    [Migration("20230405104146_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -576,12 +576,6 @@ namespace server.Migrations
 
                     b.Property<float?>("TransFatUB")
                         .HasColumnType("real");
-
-                    b.Property<string>("VerificationToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("VerifiedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<float?>("VitaminAII")
                         .HasColumnType("real");

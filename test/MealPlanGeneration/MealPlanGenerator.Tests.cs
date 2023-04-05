@@ -705,7 +705,7 @@ public class MealPlanGeneratorTests
     //SETUP
     private void InitializeUser()
     {
-        _author = new User("Author", "author@recipes.cook", new List<Recipe>());
+        _author = new User("Author", "author@recipes.cook", new byte[32], new byte[32], new List<Recipe>());
 
         _author.BreakfastCalories = 500;
         _author.LunchCalories = 650;

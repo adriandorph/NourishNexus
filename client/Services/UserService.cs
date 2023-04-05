@@ -16,16 +16,7 @@ public class UserService
     }
     
     public async Task<HttpResponseMessage> RegisterUser(UserCreateDTO user)
-    {
-        if (user == null)
-        {
-            throw new ArgumentNullException(nameof(user));
-        }
-            
-        var response = await _http.PostAsJsonAsync("api/User/", user);
-        
-        return response;
-    }
+        => await _http.PostAsJsonAsync("api/User/", user);
 
     public async Task<HttpResponseMessage> Login(LoginRequest loginRequest)
         => await _http.PostAsJsonAsync($"api/auth/", loginRequest);

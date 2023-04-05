@@ -64,8 +64,6 @@ namespace server.Migrations
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    VerificationToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VerifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     BreakfastCalories = table.Column<float>(type: "real", nullable: true),
                     LunchCalories = table.Column<float>(type: "real", nullable: true),
                     DinnerCalories = table.Column<float>(type: "real", nullable: true),
