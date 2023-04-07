@@ -25,7 +25,9 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequest credentials)
     {
         if (!(await VerifyCredentials(credentials))) return Unauthorized();
-        string token = CreateToken(credentials.Email);
+        var res = await _userRepo.ReadByEmailAsync(credentials.Email);
+        var user = res.Value; 
+        string token = CreateToken(user);
         return await Task.FromResult(Ok(token));
     }
 
@@ -48,11 +50,13 @@ public class AuthController : ControllerBase
         }
     }
 
-    private string CreateToken(string email)
+    private string CreateToken(UserDTO user)
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Email, email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Name, user.Nickname),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
         var key = new SymmetricSecurityKey
@@ -73,4 +77,5 @@ public class AuthController : ControllerBase
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
         return jwt;
     }
+
 }

@@ -109,6 +109,22 @@ public class RecipeController : ControllerBase
             return StatusCode(500, "Internal Server Error");
         }
     }
+
+    [HttpGet("author/{authorID}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetRecipesByAuthorID(int authorID)
+    {
+        try
+        {
+            var r = await _recipeRepo.ReadAllByAuthorIDAsync(authorID);
+            Console.WriteLine("Recipes are" + r);
+            return Ok(r ?? new List<RecipeDTO>{});
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
 }
 
    
