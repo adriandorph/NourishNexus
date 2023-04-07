@@ -139,6 +139,16 @@ public class RecipeRepository : IRecipeRepository
                         .AsReadOnly();
     }
 
+    public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllPublicAsync()
+    {
+         return(await _context.Recipes
+                        .Where(r => r.IsPublic)
+                        .Include(r => r.Categories)
+                        .Select(r => r.ToDTO())
+                        .ToListAsync())
+                        .AsReadOnly();
+    }
+
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByAuthorIDAsync(int authorID)
     {
         return await ( _context.Recipes
