@@ -3,41 +3,54 @@
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
-@using server.Core.EF.DTO;
+@using server.Core.EF.DTO
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject RecipeService RecipeService
 @inject IJSRuntime JSRuntime
 
-<h3>Title</h3>
-@if (recipe !=null){
-<h1>@recipe.Title</h1>
-<div>
-    <h3>Description</h3>
-    <p>@recipe.Description</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-8 offset-md-2">
+            @if (recipe != null)
+            {
+                <h1 class="mb-4">@recipe.Title</h1>
+                <div class="mb-4">
+                    <h3>Description</h3>
+                    <p>@recipe.Description</p>
+                </div>
+                <div class="mb-4">
+                    <h3>Method</h3>
+                    <p>@recipe.Method</p>
+                </div>
+                <div class="mb-4">
+                    <h3>Categories</h3>
+                    <ul>
+                        @foreach (var category in recipe.CategoryIDs)
+                        {
+                            <li>@category</li>
+                        }
+                    </ul>
+                </div>
+                <div class="mb-4">
+                    <h3>Visibility</h3>
+                    <p>@(recipe.IsPublic ? "Public" : "Private")</p>
+                </div>
+                <div class="">
+                    <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
+                </div>
+            }
+            else
+            {
+                <div class="text-center mt-4">
+                    <h4>Recipe not found</h4>
+                    <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
+                </div>
+            }
+        </div>
+    </div>
 </div>
-<div>
-    <h3>Method</h3>
-    <p>@recipe.Method</p>
-</div>
-<div>
-    <h3>Categories</h3>
-    <ul>
-        @foreach (var category in recipe.CategoryIDs)
-        {
-            <li>@category</li>
-        }
-    </ul>
-</div>
-<div>
-    <h3>Visibility</h3>
-    <p>@recipe.IsPublic</p>
-</div>
-<div>
-    <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
-</div>
-}
 
 @code {
     private RecipeDTO? recipe {get; set;}
@@ -55,11 +68,11 @@
             if (response.IsSuccessStatusCode){
                 recipe = (await response.Content.ReadFromJsonAsync<RecipeDTO>())!;
                 if (recipe == null) {
-                throw new ApplicationException("Recipe not found");
-    }
-}       else {
-            throw new ApplicationException($"Error retrieving recipe: {response.StatusCode}");
-}       
+                    throw new ApplicationException("Recipe not found");
+                }
+            } else {
+                throw new ApplicationException($"Error retrieving recipe: {response.StatusCode}");
+            }
         }
         catch(Exception e){
             Console.WriteLine(e.Message);

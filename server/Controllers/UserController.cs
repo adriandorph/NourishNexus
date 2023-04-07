@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using System.Security.Claims;
 
@@ -49,7 +50,7 @@ public class UserController : ControllerBase
     }
 
     //PUT
-    [HttpPut]
+    [HttpPut("update/{id}")]
     [AllowAnonymous]
     public async Task<IActionResult> Put(UserUpdateDTO user)
     {
