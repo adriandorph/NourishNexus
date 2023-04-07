@@ -12,7 +12,9 @@ public class RecipeService
 
     public RecipeService(HttpClient http){
         _http = http;
-        _http.BaseAddress = new Uri("http://localhost:5288");
+        if (_http.BaseAddress != new Uri("http://localhost:5288")){
+            _http.BaseAddress = new Uri("http://localhost:5288");
+        }
     }
     
     public async Task<HttpResponseMessage> CreateRecipe(RecipeCreateDTO recipe)
@@ -23,4 +25,7 @@ public class RecipeService
 
     public async Task<HttpResponseMessage> GetRecipe (int recipeID)
     => await _http.GetAsync($"api/Recipe/{recipeID}");
+
+    public async Task<HttpResponseMessage> GetPublicRecipes()
+    => await _http.GetAsync($"api/Recipe/communityRecipes");
 }

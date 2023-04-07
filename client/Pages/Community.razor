@@ -1,69 +1,67 @@
 @page "/Community"
 @attribute [Authorize]
-@using Microsoft.AspNetCore.Components.Web
 @using System.Collections.Generic
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using server.Core.EF.DTO;
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject AuthenticationStateProvider CustomAuthStateProvider
+@inject RecipeService RecipeService
 
 
 <h1 class="text-center mb-3">Community Recipes</h1>
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <h3>Category 1</h3>
-            <div class="card mb-3">
-                <div class="card-body">
-                <h5 class="card-title">Recipe title</h5>
-                <p class="card-text">Recipe Keywords</p>
-                <a href="#" class="btn btn-primary">View</a>
-                <a href="#" class="btn btn-success">Add to Recipes</a>
+        @if(recipes != null && recipes.Any()){
+        @foreach (var recipe in recipes)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@recipe.Title</h5>
+                            <p class="card-text">@recipe.Description</p>
+                            <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
+                            @if(recipe.AuthorId != theAuthorId){
+                            <a href="#" class="btn btn-success">Add to Recipes</a>
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                <h5 class="card-title">Recipe title</h5>
-                <p class="card-text">Recipe Keywords</p>
-                <a href="#" class="btn btn-primary">View</a>
-                <a href="#" class="btn btn-success">Add to Recipes</a>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                <h5 class="card-title">Recipe title</h5>
-                <p class="card-text">Recipe Keywords</p>
-                <a href="#" class="btn btn-primary">View</a>
-                <a href="#" class="btn btn-success">Add to Recipes</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <h3>Category 2</h3>
-            <div class="card mb-3">
-                <div class="card-body">
-                <h5 class="card-title">Recipe title</h5>
-                <p class="card-text">Recipe Keywords</p>
-                <a href="#" class="btn btn-primary">View</a>
-                <a href="#" class="btn btn-success">Add to Recipes</a>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                <h5 class="card-title">Recipe title</h5>
-                <p class="card-text">Recipe Keywords</p>
-                <a href="#" class="btn btn-primary">View</a>
-                <a href="#" class="btn btn-success">Add to Recipes</a>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                <h5 class="card-title">Recipe title</h5>
-                <p class="card-text">Recipe Keywords</p>
-                <a href="#" class="btn btn-primary">View</a>
-                <a href="#" class="btn btn-success">Add to Recipes</a>
-                </div>
-            </div>
+            }
+        } 
         </div>
     </div>
-</div>
+        
 
+@code 
+{
+    private int theAuthorId;
+    private List<RecipeDTO>? recipes;
+
+    protected override async Task OnInitializedAsync()
+{
+    try{
+        
+        var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        int.TryParse(userIdClaim!.Value, out int authorID);
+        theAuthorId = authorID;
+        Console.WriteLine("User id is" + authorID);
+        var response = await RecipeService.GetPublicRecipes();
+        if (response.IsSuccessStatusCode){
+            recipes = await response.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
+        }
+        else {
+            recipes = new List<RecipeDTO>();
+        }
+    }
+    catch(Exception e){
+        Console.WriteLine("Oh, it failed!" + e.Message);
+    }
+}
+}
     
 
     

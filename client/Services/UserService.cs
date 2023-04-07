@@ -12,7 +12,9 @@ public class UserService
 
     public UserService(HttpClient http){
         _http = http;
-        _http.BaseAddress = new Uri("http://localhost:5288");
+        if (_http.BaseAddress != new Uri("http://localhost:5288")){
+            _http.BaseAddress = new Uri("http://localhost:5288");
+        }
     }
     
     public async Task<HttpResponseMessage> RegisterUser(UserCreateDTO user)
