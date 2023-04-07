@@ -20,4 +20,7 @@ public class UserService
 
     public async Task<HttpResponseMessage> Login(LoginRequest loginRequest)
         => await _http.PostAsJsonAsync($"api/auth/", loginRequest);
+    
+    public async Task<HttpResponseMessage> UpdateUser(UserUpdateDTO user)
+        => await _http.PutAsJsonAsync($"api/User/update/{user.Id}", user);
 }

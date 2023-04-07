@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using server.Core.EF.DTO;
 
 public class CustomAuthStateProvider : AuthenticationStateProvider
 {

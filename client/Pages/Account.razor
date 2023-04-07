@@ -1,20 +1,35 @@
 @page "/account"
 @using server.Core.EF.DTO
 @attribute [Authorize]
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject AuthenticationStateProvider CustomAuthStateProvider
+@inject UserService UserService
 
 <PageTitle> Account </PageTitle>
 
 <h1>Account</h1>
 
-<EditForm Model="user" OnValidSubmit="HandleRegistration">
+<EditForm Model="theuser" OnValidSubmit="HandleUpdateUser">
+
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" required />
+        <InputText id="email" @bind-Value="theuser.Email" />
+        <ValidationMessage For="@(() => theuser.Email)" />
     </div>
 
     <div class="mb-3">
         <label for="nickname">Nickname</label>
-        <InputText id="nickname" @bind-Value="user.Nickname" />
+        <InputText id="nickname" @bind-Value="theuser.Nickname" />
+    </div>
+
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="theuser.Password" />
+        <ValidationMessage For="@(() => theuser.Password)" />
     </div>
 
     <button type="submit" class="btn btn-primary">Update</button>
@@ -24,14 +39,46 @@
 </EditForm>
 
 @code {
-    private UserUpdateDTO user = new UserUpdateDTO();
+    private UserUpdateDTO theuser = new UserUpdateDTO();
 
+    Claim userIdClaim;
     string message = string.Empty;
     string messageCssClass = string.Empty;
 
-    private void HandleRegistration()
-    {
-       Console.WriteLine("yes");
+    protected override async Task OnInitializedAsync(){
+
+    var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+    userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+    var userEmailClaim = user.FindFirst(ClaimTypes.Email).Value;
+    var userNicknameClaim = user.FindFirst(ClaimTypes.Name).Value;
+    int.TryParse(userIdClaim!.Value, out int userID);
+    theuser.Id = userID;
+    theuser.Nickname = userNicknameClaim;
+    theuser.Email = userEmailClaim;
+    }
+
+    
+
+    async Task HandleUpdateUser(){
+    Console.WriteLine("Ok, updating a user with the id" + theuser.Id + "with Nickname" + theuser.Nickname + "with Email" + theuser.Email);
+    var response = await UserService.UpdateUser(theuser);
+        
+        if(response.IsSuccessStatusCode)
+        {
+            messageCssClass = "text-success";
+            message = "Updated user successfully";
+        } 
+        
+        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound) 
+        {
+            messageCssClass = "text-danger";
+            message = "Login failed, user does not exist. Please register.";
+        } 
+        else 
+        {
+            messageCssClass = "text-danger";
+            message = "Login failed";
+        }
 
     }
 }
