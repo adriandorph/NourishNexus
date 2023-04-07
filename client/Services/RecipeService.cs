@@ -28,4 +28,10 @@ public class RecipeService
 
     public async Task<HttpResponseMessage> GetPublicRecipes()
     => await _http.GetAsync($"api/Recipe/communityRecipes");
+
+    public async Task<HttpResponseMessage> UpdateRecipe(RecipeUpdateDTO recipe)
+    => await _http.PutAsJsonAsync($"api/Recipe/update/{recipe.Id}", recipe);
+
+    public async Task<HttpResponseMessage> DeleteRecipe(int id)
+        => await _http.DeleteAsync($"api/Recipe/delete/{id}");
 }
