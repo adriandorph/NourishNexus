@@ -39,6 +39,13 @@ public record UserCreateDTO
     public string? ConfirmPassword {get; set;}
 }
 
+public record UserChangePasswordDTO{
+    [Required, MinLength(6, ErrorMessage = "Password needs to be of minimum 6 characters")]
+    public string? Password {get; set;}
+    [Required, Compare("Password", ErrorMessage = "The passwords do not match")]
+    public string? ConfirmPassword {get; set;}
+}
+
 public record UserUpdateDTO : UserCreateDTO
 {
     public int Id {get; set;}

@@ -3,16 +3,18 @@
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Security.Claims
 @using server.Core.EF.DTO;
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
+@inject RecipeService RecipeService
 
 <PageTitle> Create Recipe </PageTitle>
 
 <h1>Create Recipe</h1>
         
-<EditForm Model="@recipe" Context="formContext">
+<EditForm Model="@recipe" OnSubmit="HandleCreateRecipe">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="form-group">
@@ -34,10 +36,8 @@
     <div class="form-group">
         <label for="categories">Choose Category</label>
     <InputSelect id="categories" class="mt-2 form-control" @bind-Value="recipe.CategoryIDs" multiple>
-        @foreach (var category in AllCategories)
-        {
-            <option value="@category.Id">@category.Name</option>
-        }
+        <option value="Plant">Plant</option>
+        <option value="Fish">Fish</option>
     </InputSelect>
     </div>
 
@@ -55,6 +55,9 @@
         <br />
         <button type="button" class="btn btn-danger">Cancel</button>
         <button type="submit" class="btn btn-success btn-block">Create</button>
+        <div class ="@messageCssClass">
+        <span>@message</span>
+    </div>
     </div>
 </EditForm>
  
@@ -62,10 +65,49 @@
 
 
 @code {
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
 
     private RecipeCreateDTO recipe = new();
-    private List<CategoryDTO> AllCategories { get; set; } = new List<CategoryDTO>();
+    private List<CategoryDTO>? AllCategories { get; set; }
 
+    async Task HandleCreateRecipe()
+    {
+        var response = await RecipeService.CreateRecipe(recipe);
+        
+        if(response.IsSuccessStatusCode)
+        {
+            messageCssClass = "text-success";
+            message = "Recipe created successfully";
+        } 
+        
+        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound) 
+        {
+            messageCssClass = "text-danger";
+            message = "Login failed, user does not exist. Please register.";
+        } 
+        else 
+        {
+            messageCssClass = "text-danger";
+            message = "Login failed";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+        Console.WriteLine("The user is " + user);
+        Console.WriteLine("And the name is" + user.FindFirst(ClaimTypes.Name));
+        Console.WriteLine("And the email is" + user.FindFirst(ClaimTypes.Email));
+        Console.WriteLine("And the id is" + user.FindFirst(ClaimTypes.NameIdentifier));
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            Console.WriteLine("Setting the ID now!");
+            recipe.AuthorId = userId;
+        }
+        Console.WriteLine("ANd the author id is" + recipe.AuthorId);
+    }
         
 }
 

@@ -129,16 +129,20 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Login(string email)
     {
         var r = await _userRepo.ReadByEmailAsync(email);
+        var user = r.Value;
         if (r.IsNone) return NotFound();
-        string token = CreateToken(email);
+        string token = CreateToken(user);
         return await Task.FromResult(Ok(token));
     }
 
-    private string CreateToken(string email)
+    private string CreateToken(UserDTO user)
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Email, email)
+            new Claim(ClaimTypes.Name, user.Nickname),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Email, user.Email)
+            
         };
 
         var key = new SymmetricSecurityKey
