@@ -87,7 +87,7 @@ public class UserRepositoryTests
     public async void Update_Updated_Email()
     {
         //Arrange
-        var userCreateDTO = new UserUpdateDTO
+        var userCreateDTO = new UserCreateDTO
         {
             Email = "john@johnson.com",
             Nickname = "Johnny",
@@ -122,7 +122,7 @@ public class UserRepositoryTests
     public async void Update_Updated_Nickname()
     {
         //Arrange
-        var userCreateDTO = new UserUpdateDTO
+        var userCreateDTO = new UserCreateDTO
         {
             Email = "john@johnson.com",
             Nickname = "Johnny",
@@ -157,7 +157,7 @@ public class UserRepositoryTests
     public async void Update_User_with_same_Email_and_different_Id_Conflict()
     {
         //Arrange
-        var userCreateDTO1 = new UserUpdateDTO
+        var userCreateDTO1 = new UserCreateDTO
         {
             Email = "john@johnson.com",
             Nickname = "Johnny",
@@ -165,7 +165,7 @@ public class UserRepositoryTests
             ConfirmPassword = "password123"
         };
 
-        var userCreateDTO2 = new UserUpdateDTO
+        var userCreateDTO2 = new UserCreateDTO
         {
             Email = "pablo@pabloson.com",
             Nickname = "Pablo",
@@ -194,7 +194,7 @@ public class UserRepositoryTests
     public async void Update_Updated_SavedRecipes()
     {
         //Arrange
-        var userCreateDTO = new UserUpdateDTO
+        var userCreateDTO = new UserCreateDTO
         {
             Email = "john@johnson.com",
             Nickname = "Johnny",
