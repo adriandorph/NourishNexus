@@ -1,6 +1,7 @@
 @inject NavigationManager NavigationManager
 @inject ILocalStorageService LocalStorage
 @inject AuthenticationStateProvider AuthStateProvider
+@inject UserService UserService
 
 
 <AuthorizeView>
@@ -22,5 +23,6 @@
     {
         await LocalStorage.RemoveItemAsync("nourish_nexus_auth_token");
         await AuthStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("");
     }
 }
