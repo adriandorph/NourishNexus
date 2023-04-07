@@ -21,12 +21,7 @@ public class UserRepository : IUserRepository
         if (conflict != null) return (Response.Conflict, new UserDTO(-1, user.Nickname ?? "", user.Email ?? "", new List<int>()));
         if (user.Email == null || user.Nickname == null || user.Password == null) return (Response.BadRequest, new UserDTO(-1, user.Email ?? "", user.Nickname ?? "", new List<int>()));
 
-        CreatePasswordHash
-        (
-            user.Password,
-            out byte[] passwordHash,
-            out byte[] passwordSalt
-        );
+        (byte[] passwordHash, byte[] passwordSalt) = CreatePasswordHash(user.Password);
 
         //Create entity and insert it into the database context
         var entity = new User
@@ -71,6 +66,13 @@ public class UserRepository : IUserRepository
         if (user.SavedRecipeIds != null)
         {
             userEntity.SavedRecipes = await RecipeIDsToRecipes(user.SavedRecipeIds);
+        }
+
+        if (user.Password != null)
+        {
+            (byte[] passwordHash, byte[] passwordSalt) = CreatePasswordHash(user.Password);
+            userEntity.PasswordHash = passwordHash;
+            userEntity.PasswordSalt = passwordSalt;
         }
 
 
@@ -262,12 +264,13 @@ public class UserRepository : IUserRepository
             .Where(r => recipeIDs.Any(rID => rID == r.Id))
             .ToListAsync();
     
-    private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    private (byte[] passwordHash, byte[] passwordSalt) CreatePasswordHash(string password)
     {
         using (var hmac = new HMACSHA512())
         {
-            passwordSalt = hmac.Key;
-            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            byte[] passwordSalt = hmac.Key;
+            byte[] passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            return (passwordHash, passwordSalt);
         }
     }
 }

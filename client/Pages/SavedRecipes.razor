@@ -42,7 +42,7 @@
     try{
         var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-        int.TryParse(userIdClaim.Value, out int authorID);
+        int.TryParse(userIdClaim!.Value, out int authorID);
         Console.WriteLine("User id is" + authorID);
         var response = await RecipeService.GetRecipes(authorID);
         if (response.IsSuccessStatusCode){

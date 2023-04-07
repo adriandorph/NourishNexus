@@ -40,20 +40,20 @@
 }
 
 @code {
-    private RecipeDTO recipe;
+    private RecipeDTO? recipe {get; set;}
     [Parameter]
-    public string Id { get; set; }
+    public string Id { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
         try{
             var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
             var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            int.TryParse(userIdClaim.Value, out int authorID);
+            int.TryParse(userIdClaim!.Value, out int authorID);
             Console.WriteLine("User id is" + authorID);
             var response = await RecipeService.GetRecipe(int.Parse(Id));
             if (response.IsSuccessStatusCode){
-                recipe = await response.Content.ReadFromJsonAsync<RecipeDTO>();
+                recipe = (await response.Content.ReadFromJsonAsync<RecipeDTO>())!;
                 if (recipe == null) {
                 throw new ApplicationException("Recipe not found");
     }
