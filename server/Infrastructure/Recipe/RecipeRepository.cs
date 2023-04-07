@@ -54,7 +54,7 @@ public class RecipeRepository : IRecipeRepository
         
         if(recipeEntity == null) return Response.NotFound;
         
-        if(_context.Recipes.Any(r => r.Title.Equals(recipe.Title) && r.AuthorId == recipeEntity.AuthorId))
+        if(_context.Recipes.Any(r => r.Title.Equals(recipe.Title) && r.AuthorId == recipeEntity.AuthorId && !(r.Id == recipeEntity.Id)))
             return Response.Conflict;
 
         if(recipeEntity.Title != null && !recipeEntity.Title.Equals(recipe.Title) && recipe.Title != null){

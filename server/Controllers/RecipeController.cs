@@ -36,7 +36,7 @@ public class RecipeController : ControllerBase
 
 
     //PUT
-    [HttpPut]
+    [HttpPut("update/{id}")]
     [AllowAnonymous]
     public async Task<IActionResult> Put(RecipeUpdateDTO recipe)
     {

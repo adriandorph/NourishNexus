@@ -1,4 +1,4 @@
-@page "/recipes/edit"
+@page "/recipes/edit/{Id}"
 @attribute [Authorize]
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
@@ -6,13 +6,15 @@
 @using server.Core.EF.DTO;
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@inject RecipeService RecipeService
 
 <PageTitle> Edit Recipe </PageTitle>
 
 <h1>Edit Recipe</h1>
 
 
-        <EditForm Model="@recipe" Context="formContext">
+        <EditForm Model="@recipe" OnSubmit="HandleUpdateRecipe">
             <DataAnnotationsValidator />
             <ValidationSummary />
             <div class="form-group">
@@ -51,11 +53,13 @@
                 <p>If you choose to create a private recipe, it will not be visible to other users</p>
             </div>
             <div class="form-group">
-                <br />
-                <button type="button" class="btn btn-primary">Cancel</button>
+                <br/>
+                <button type="button" class="btn btn-primary" @onclick="GoBack">Cancel</button>
                 <button type="submit" class="btn btn-success btn-block">Update</button>
-                <button type="submit" class="btn btn-danger btn-block">Delete</button>
-
+                <button type="submit" class="btn btn-danger btn-block" @onclick="HandleDeleteRecipe">Delete</button>
+                 <div class ="@messageCssClass">
+                <span>@message</span>
+            </div>
             </div>
         </EditForm>
  
@@ -63,8 +67,68 @@
 
 
 @code {
+    [Parameter]
+    public string Id {get; set;}
 
-    private RecipeCreateDTO recipe = new();
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+    private RecipeUpdateDTO recipe = new();
+
+    private RecipeDTO existingRecipe;
     private List<CategoryDTO> AllCategories { get; set; } = new List<CategoryDTO>();
+
+    protected override async Task OnInitializedAsync(){
+        var response = await RecipeService.GetRecipe(int.Parse(Id));
+        if(response.IsSuccessStatusCode){
+            Console.WriteLine("SUCCESS!");
+            existingRecipe = await response.Content.ReadFromJsonAsync<RecipeDTO>();
+            recipe.Id = existingRecipe.Id;
+            recipe.CategoryIDs = existingRecipe.CategoryIDs;
+            recipe.Title = existingRecipe.Title;
+            recipe.Description = existingRecipe.Description;
+            recipe.Method = existingRecipe.Method;
+            recipe.IsPublic = existingRecipe.IsPublic;
+        }
+        
+    }
+
+    async Task HandleUpdateRecipe()
+    {
+        var response = await RecipeService.UpdateRecipe(recipe);
+        
+        if(response.IsSuccessStatusCode)
+        {
+            messageCssClass = "text-success";
+            message = "Recipe updated successfully";
+            NavigationManager.NavigateTo("savedRecipes");
+        } 
+        else 
+        {
+            messageCssClass = "text-danger";
+            message = "Recipe update failed";
+        }
+    }
+
+    async Task HandleDeleteRecipe()
+{
+    var response = await RecipeService.DeleteRecipe(recipe.Id);
+    
+    if (response.IsSuccessStatusCode)
+    {
+        messageCssClass = "text-success";
+        message = "Recipe deleted successfully";
+        NavigationManager.NavigateTo("savedRecipes");
+    }
+    else
+    {
+        messageCssClass = "text-danger";
+        message = "Recipe deletion failed";
+    }
+}
+
+    protected async void GoBack()
+    {
+        await JSRuntime.InvokeVoidAsync("history.back");
+    }
 }
 
