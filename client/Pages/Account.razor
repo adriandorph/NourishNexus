@@ -6,30 +6,43 @@
 @using System.Security.Claims
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
-@inject AuthenticationStateProvider CustomAuthStateProvider
+@inject AuthenticationStateProvider AuthStateProvider
 @inject UserService UserService
+@inject ILocalStorageService LocalStorage
 
 <PageTitle> Account </PageTitle>
 
 <h1>Account</h1>
 
-<EditForm Model="theuser" OnValidSubmit="HandleUpdateUser">
+<EditForm Model="userUpdate" OnValidSubmit="HandleUpdateUser">
 
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="theuser.Email" />
-        <ValidationMessage For="@(() => theuser.Email)" />
+        <InputText id="email" type="email" @bind-Value="userUpdate.Email" />
+        <ValidationMessage For="@(() => userUpdate.Email)" />
     </div>
 
     <div class="mb-3">
         <label for="nickname">Nickname</label>
-        <InputText id="nickname" @bind-Value="theuser.Nickname" />
+        <InputText id="nickname" @bind-Value="userUpdate.Nickname" />
     </div>
 
     <div class="mb-3">
         <label for="password">Password</label>
-        <InputText id="password" @bind-Value="theuser.Password" />
-        <ValidationMessage For="@(() => theuser.Password)" />
+        <InputText id="password" type="password" @bind-Value="password" />
+        <ValidationMessage For="@(() => password)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="newpassword">New Password</label>
+        <InputText id="newpassword" type="password" @bind-Value="userUpdate.Password" />
+        <ValidationMessage For="@(() => userUpdate.Password)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="confirmpassword">Confirm New Password</label>
+        <InputText id="confirmpassword" type="password" @bind-Value="userUpdate.ConfirmPassword" />
+        <ValidationMessage For="@(() => userUpdate.ConfirmPassword)" />
     </div>
 
     <button type="submit" class="btn btn-primary">Update</button>
@@ -39,32 +52,67 @@
 </EditForm>
 
 @code {
-    private UserUpdateDTO theuser = new UserUpdateDTO();
+    private UserUpdateDTO userUpdate = new UserUpdateDTO();
+    private UserDTO? user {get; set;}
+    private string password {get; set;} = "";
 
-    Claim userIdClaim;
+    Claim? userIdClaim;
     string message = string.Empty;
     string messageCssClass = string.Empty;
 
-    protected override async Task OnInitializedAsync(){
+    protected override async Task OnInitializedAsync()
+    {
+        var claim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
+        userIdClaim = claim.FindFirst(ClaimTypes.NameIdentifier)!;
+        var userEmailClaim = claim.FindFirst(ClaimTypes.Email)!.Value;
+        var userNicknameClaim = claim.FindFirst(ClaimTypes.Name)!.Value;
+        int.TryParse(userIdClaim!.Value, out int userID);
+        userUpdate.Id = userID;
+        userUpdate.Nickname = userNicknameClaim;
+        userUpdate.Email = userEmailClaim;
+        user = await UserService.GetUserByID(userID);
+    }
 
-    var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-    userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-    var userEmailClaim = user.FindFirst(ClaimTypes.Email).Value;
-    var userNicknameClaim = user.FindFirst(ClaimTypes.Name).Value;
-    int.TryParse(userIdClaim!.Value, out int userID);
-    theuser.Id = userID;
-    theuser.Nickname = userNicknameClaim;
-    theuser.Email = userEmailClaim;
+    async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("nourish_nexus_auth_token");
+        await AuthStateProvider.GetAuthenticationStateAsync();
     }
 
     
 
-    async Task HandleUpdateUser(){
-    Console.WriteLine("Ok, updating a user with the id" + theuser.Id + "with Nickname" + theuser.Nickname + "with Email" + theuser.Email);
-    var response = await UserService.UpdateUser(theuser);
+    async Task HandleUpdateUser()
+    {
+        var r = await UserService.Login(new LoginRequest(user!.Email, password));
+        if (!r.IsSuccessStatusCode)
+        {
+            messageCssClass = "text-danger";
+            message = "Password is incorrect. Enter your password to update your account.";
+
+            return;
+        }
+
+        if (userUpdate.Nickname == user!.Nickname) userUpdate.Nickname = null;
+        if (userUpdate.Email == user!.Email) userUpdate.Email = null;
+
+        Console.WriteLine("Ok, updating a user with the id" + userUpdate.Id + "with Nickname" + userUpdate.Nickname + "with Email" + userUpdate.Email);
+        
+        var response = await UserService.UpdateUser(userUpdate);
+
+        user = await UserService.GetUserByID(user.Id);
+        userUpdate.Nickname = user.Nickname;
+        userUpdate.Email = user.Email;
         
         if(response.IsSuccessStatusCode)
         {
+            //Logout and login again to create an updated token
+            await LocalStorage.RemoveItemAsync("nourish_nexus_auth_token");
+            var loginRequest = new LoginRequest(user!.Email, userUpdate.Password ?? password);
+            var loginResponse = await UserService.Login(loginRequest);
+            var token = await loginResponse.Content.ReadAsStringAsync();
+            await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
+            await AuthStateProvider.GetAuthenticationStateAsync();
+
             messageCssClass = "text-success";
             message = "Updated user successfully";
         } 
@@ -80,5 +128,7 @@
             message = "Login failed";
         }
 
+        userUpdate.Password = null;
+        userUpdate.ConfirmPassword = null;
     }
 }
