@@ -1,6 +1,7 @@
 using server.Infrastructure;
 using server.Core.EF.RepositoryInterfaces;
 using server.Services;
+using server.Services.MealPlan;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IMealRepository, MealRepository>();
 builder.Services.AddScoped<IMealService, MealService>();
 builder.Services.AddScoped<FoodItemSeeding>();
+builder.Services.AddScoped<MealPlanGenerator>();
+builder.Services.AddScoped<IntakeTargetCalculator>();
 
 builder.Services.AddCors(options =>
 {

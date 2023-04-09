@@ -762,11 +762,11 @@ public class MealPlanGeneratorTests
 
         _author.VitaminB12LB = 1f;
         _author.VitaminB12II = 2f;
-        _author.VitaminB12UB = float.PositiveInfinity; //Not established
+        _author.VitaminB12UB = float.MaxValue; //Not established
 
         _author.VitaminCLB = 10f;
         _author.VitaminCII = 75f;
-        _author.VitaminCUB = float.PositiveInfinity; //No health effects
+        _author.VitaminCUB = float.MaxValue; //No health effects
 
         _author.VitaminDLB = 2.5f;
         _author.VitaminDII = 10f;
@@ -778,11 +778,11 @@ public class MealPlanGeneratorTests
 
         _author.ThiaminLB = 0.6f; //0.5 for women, 0.6 for men
         _author.ThiaminII = 1.4f; //1.1 for women, 1.4 for men
-        _author.ThiaminUB = float.PositiveInfinity; //Not established
+        _author.ThiaminUB = float.MaxValue; //Not established
 
         _author.RiboflavinLB = 0.8f;
         _author.RiboflavinII = 1.7f; //1.3 for women, 1.7 for men
-        _author.RiboflavinUB = float.PositiveInfinity; //Not established
+        _author.RiboflavinUB = float.MaxValue; //Not established
 
         _author.NiacinLB = 12f; //9 for women, 12 for men
         _author.NiacinII = 18f; //15 for women, 18 for men
@@ -790,7 +790,7 @@ public class MealPlanGeneratorTests
 
         _author.FolateLB = 100f;
         _author.FolateII = 300f; //400 for women in resproductive age
-        _author.FolateUB = float.PositiveInfinity; //No health effects of high intake
+        _author.FolateUB = float.MaxValue; //No health effects of high intake
 
         _author.SaltLB = 1.5f;//?
         _author.SaltII = 6f;
@@ -799,11 +799,11 @@ public class MealPlanGeneratorTests
         //Potasium is in mg/d in frida
         _author.PotassiumLB = 1600f;
         _author.PotassiumII = 3500f; //3.1 for women, 3.5 for men g/d
-        _author.PotassiumUB = float.PositiveInfinity; //Not established
+        _author.PotassiumUB = float.MaxValue; //Not established
 
         _author.MagnesiumLB = 0f; //Not specified
         _author.MagnesiumII = 350f; //280 for women, 350 for men
-        _author.MagnesiumUB = float.PositiveInfinity; //Not specified
+        _author.MagnesiumUB = float.MaxValue; //Not specified
 
         _author.IronLB = 7f; //5 for women, 7 for men
         _author.IronII = 9f; // 15 for women, 9 for women post menupause, 9 for men
@@ -811,7 +811,7 @@ public class MealPlanGeneratorTests
 
         _author.ZincLB = 5f; //4 for women, 5 for men
         _author.ZincII = 9f; //7 for women, 9 for men
-        _author.ZincUB = float.PositiveInfinity; //Not specified
+        _author.ZincUB = float.MaxValue; //Not specified
 
         _author.PhosphorusLB = 300f;
         _author.PhosphorusII = 600f;
