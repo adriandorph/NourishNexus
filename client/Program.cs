@@ -11,6 +11,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RecipeService>();
+builder.Services.AddScoped<CategoryService>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddOptions();

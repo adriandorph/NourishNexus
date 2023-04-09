@@ -12,36 +12,41 @@
 
 <PageTitle> Account </PageTitle>
 
-<h1>Account</h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Account</h1>
 
 <EditForm Model="userUpdate" OnValidSubmit="HandleUpdateUser">
 
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" type="email" @bind-Value="userUpdate.Email" />
+        <InputText id="email" type="email" class="form-control" @bind-Value="userUpdate.Email" />
         <ValidationMessage For="@(() => userUpdate.Email)" />
     </div>
 
     <div class="mb-3">
         <label for="nickname">Nickname</label>
-        <InputText id="nickname" @bind-Value="userUpdate.Nickname" />
+        <InputText id="nickname" class="form-control" @bind-Value="userUpdate.Nickname" />
     </div>
 
     <div class="mb-3">
         <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="password" />
+        <InputText id="password" class="form-control" type="password" @bind-Value="password" />
         <ValidationMessage For="@(() => password)" />
     </div>
 
     <div class="mb-3">
         <label for="newpassword">New Password</label>
-        <InputText id="newpassword" type="password" @bind-Value="userUpdate.Password" />
+        <InputText id="newpassword" class="form-control" type="password" @bind-Value="userUpdate.Password" />
         <ValidationMessage For="@(() => userUpdate.Password)" />
     </div>
 
     <div class="mb-3">
         <label for="confirmpassword">Confirm New Password</label>
-        <InputText id="confirmpassword" type="password" @bind-Value="userUpdate.ConfirmPassword" />
+        <InputText id="confirmpassword" class="form-control" type="password" @bind-Value="userUpdate.ConfirmPassword" />
         <ValidationMessage For="@(() => userUpdate.ConfirmPassword)" />
     </div>
 
@@ -50,6 +55,11 @@
         <span>@message</span>
     </div>
 </EditForm>
+</div>
+        </div>
+    </div>
+</div>
+</div>
 
 @code {
     private UserUpdateDTO userUpdate = new UserUpdateDTO();

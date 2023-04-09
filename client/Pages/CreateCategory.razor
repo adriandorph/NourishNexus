@@ -1,0 +1,26 @@
+@page "/createCategory"
+@using server.Core.EF.DTO;
+@inject CategoryService CategoryService
+
+<h1>Create Category</h1>
+
+<form @onsubmit="HandleCreateCategory">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" @bind="@category.Name" required />
+    </div>
+    
+    <button type="submit" class="btn btn-primary mt-2">Create</button>
+</form>
+
+@code {
+
+    private CategoryCreateDTO category = new CategoryCreateDTO();
+
+    async Task HandleCreateCategory(){
+        var response = await CategoryService.CreateCategory(category);
+        if(response.IsSuccessStatusCode){
+            
+        }
+    }
+}

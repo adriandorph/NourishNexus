@@ -15,20 +15,19 @@
 <div class="container">
     <div class="row">
         @if(recipes != null && recipes.Any()){
-        @foreach (var recipe in recipes)
-            {
+            @foreach (var recipe in recipes) {
+            @if(recipe.AuthorId != theAuthorId){
                 <div class="col-md-4">
                     <div class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title">@recipe.Title</h5>
                             <p class="card-text">@recipe.Description</p>
                             <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
-                            @if(recipe.AuthorId != theAuthorId){
-                            <a href="#" class="btn btn-success">Add to Recipes</a>
-                            }
+                            <a href="" class="btn btn-success" onclick="">Add to Recipes</a>
                         </div>
                     </div>
                 </div>
+            }
             }
         } 
         </div>
@@ -39,6 +38,8 @@
 {
     private int theAuthorId;
     private List<RecipeDTO>? recipes;
+    
+    private RecipeCreateDTO recipe = new();
 
     protected override async Task OnInitializedAsync()
 {
@@ -61,7 +62,6 @@
         Console.WriteLine("Oh, it failed!" + e.Message);
     }
 }
-}
-    
 
+}
     

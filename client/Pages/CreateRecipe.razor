@@ -9,6 +9,7 @@
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject RecipeService RecipeService
+@inject CategoryService CategoryService
 
 <PageTitle> Create Recipe </PageTitle>
 
@@ -22,26 +23,31 @@
         <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group my-2">
         <label for="method">Method</label>
-        <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="7" />
+        <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
 
     </div>
 
-    <div class="form-group">
+    <div class="form-group my-2">
         <label for="description">Description</label>
-        <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="7" />
+        <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group my-2">
         <label for="categories">Choose Category</label>
     <InputSelect id="categories" class="mt-2 form-control" @bind-Value="recipe.CategoryIDs" multiple>
-        <option value="Plant">Plant</option>
-        <option value="Fish">Fish</option>
-    </InputSelect>
+    @if (AllCategories != null)
+    {
+        @foreach (var category in AllCategories)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    }
+</InputSelect>
     </div>
 
-    <div class="form-group">
+    <div class="form-group my-2">
         <div>Recipe visibility</div>
         <InputRadioGroup @bind-Value="recipe.IsPublic">
             <InputRadio id="Public" Value="true" class="form-check-input" /><label class="form-check-label" for="Public">Public</label>
@@ -51,8 +57,7 @@
     <div class="form-group">
         <p>If you choose to create a private recipe, it will not be visible to other users</p>
     </div>
-    <div class="form-group">
-        <br />
+    <div class="form-group my-2">
         <button type="button" class="btn btn-danger">Cancel</button>
         <button type="submit" class="btn btn-success btn-block">Create</button>
         <div class ="@messageCssClass">
@@ -64,11 +69,15 @@
 
 
 
+
 @code {
     string message = string.Empty;
     string messageCssClass = string.Empty;
 
     private RecipeCreateDTO recipe = new();
+
+    private List<int> selectedCategories = new List<int>();
+
     private List<CategoryDTO>? AllCategories { get; set; }
 
     async Task HandleCreateRecipe()
@@ -95,6 +104,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        
         var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
         Console.WriteLine("The user is " + user);
         Console.WriteLine("And the name is" + user.FindFirst(ClaimTypes.Name));
@@ -107,6 +117,18 @@
             recipe.AuthorId = userId;
         }
         Console.WriteLine("ANd the author id is" + recipe.AuthorId);
+
+        var catResponse = await CategoryService.GetCategories();
+        if(catResponse.IsSuccessStatusCode){
+            AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+            Console.WriteLine("Got here!");
+            foreach(CategoryDTO cat in AllCategories){
+                Console.WriteLine("NAME IS" + cat.Name);
+            }
+        }
+        else{
+            Console.WriteLine("The response was not successful");
+        }
     }
         
 }
