@@ -20,17 +20,19 @@ public record TargetsResult(
     float TotalCalories
 );
 
-public static class IntakeTargetCalculator
+public class IntakeTargetCalculator
 {
-    private static float MJPerKcal = 0.0041868f;
+    private readonly float MJPerKcal = 0.0041868f;
 
-    public static TargetsResult CalculateTargets(int age, Gender gender, float weight, float height, float physicalActivityLevel, WeightGoal weightGoal)
+    public IntakeTargetCalculator(){}
+
+    public TargetsResult CalculateTargets(int age, Gender gender, float weight, float height, float physicalActivityLevel, WeightGoal weightGoal)
     {
         float totalKcal = CalculateCalorieTarget(age, gender, weight, height,physicalActivityLevel, weightGoal);
         return CalculateTargets(age, gender, totalKcal);
     }
 
-    public static float CalculateCalorieTarget(int age, Gender gender, float weight, float height, float physicalActivityLevel, WeightGoal weightGoal)
+    public float CalculateCalorieTarget(int age, Gender gender, float weight, float height, float physicalActivityLevel, WeightGoal weightGoal)
     {
         /*
         Females:
@@ -81,7 +83,7 @@ public static class IntakeTargetCalculator
         return maintenance + balance;
     }
 
-    public static TargetsResult CalculateTargets(int age, Gender gender, float kcalPerDay)
+    public TargetsResult CalculateTargets(int age, Gender gender, float kcalPerDay)
     {
         (float ProteinLB, float ProteinII, float ProteinUB) = CalculateProtein(age, gender, kcalPerDay);
         (float CarbohydratesLB, float CarbohydratesII, float CarbohydratesUB) = CalculateCarbohydrates(age, gender, kcalPerDay);
@@ -220,7 +222,7 @@ public static class IntakeTargetCalculator
         return new TargetsResult(LB, II, UB, BreakfastCalories, LunchCalories, DinnerCalories, SnackCalories, kcalPerDay);
     }
     
-    public static (float, float, float) CalculateProtein(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateProtein(int age, Gender gender, float kcalPerDay)
     {
         float LB;
         float II;
@@ -241,7 +243,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateCarbohydrates(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateCarbohydrates(int age, Gender gender, float kcalPerDay)
     {
         float LB = kcalPerDay / 4 * 0.45f;
         float II = kcalPerDay / 4 * 0.525f;
@@ -249,13 +251,13 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateSugars(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateSugars(int age, Gender gender, float kcalPerDay)
     {
         var UB = kcalPerDay / 4 * 0.1f;
         return (0f, 0f, UB);
     }
 
-    public static (float, float, float) CalculateFibres(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateFibres(int age, Gender gender, float kcalPerDay)
     {
         float MegaJoulePerDay = kcalPerDay * MJPerKcal;
         float LB;
@@ -272,12 +274,12 @@ public static class IntakeTargetCalculator
             if(gender == Gender.Male) LB = 35f;
             else LB = 25f;
             II = MegaJoulePerDay * 3;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateTotalFat(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateTotalFat(int age, Gender gender, float kcalPerDay)
     {
         float LB = kcalPerDay / 9 * 0.25f;
         float II = kcalPerDay / 9 * 0.325f;
@@ -285,12 +287,12 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateSaturatedFat(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateSaturatedFat(int age, Gender gender, float kcalPerDay)
     {
         return (0f, 0f, kcalPerDay / 9 * 0.1f);
     }
 
-    public static (float, float, float) CalculateMonounsaturatedFat(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateMonounsaturatedFat(int age, Gender gender, float kcalPerDay)
     {
         float LB = kcalPerDay / 9 * 0.1f;
         float II = kcalPerDay / 9 * 0.15f;
@@ -298,7 +300,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculatePolyunsaturatedFat(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculatePolyunsaturatedFat(int age, Gender gender, float kcalPerDay)
     {
         float LB = kcalPerDay / 9 * 0.05f;
         float II = kcalPerDay / 9 * 0.075f;
@@ -306,12 +308,12 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateTransFat(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateTransFat(int age, Gender gender, float kcalPerDay)
     {
         return (0f, 0f, kcalPerDay / 9 * 0.01f);
     }
 
-    public static (float, float, float) CalculateVitaminA(int age, Gender gender)
+    public (float, float, float) CalculateVitaminA(int age, Gender gender)
     {
         float LB;
         float II;
@@ -321,19 +323,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 350f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 400f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = 600f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (gender == Gender.Female)
         {
@@ -345,13 +347,13 @@ public static class IntakeTargetCalculator
         {
             LB = 500f;
             II = 900f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
 
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminB6(int age, Gender gender)
+    public (float, float, float) CalculateVitaminB6(int age, Gender gender)
     {
         float LB;
         float II;
@@ -361,19 +363,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 0.7f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 1.0f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = gender == Gender.Female ? 1.1f : 1.3f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (gender == Gender.Female)
         {
@@ -391,11 +393,11 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminB12(int age, Gender gender)
+    public (float, float, float) CalculateVitaminB12(int age, Gender gender)
     {
         float LB;
         float II;
-        float UB = float.PositiveInfinity;
+        float UB = float.MaxValue;
 
         if (age <=5)
         {
@@ -421,17 +423,17 @@ public static class IntakeTargetCalculator
         {
             LB = 1.0f;
             II = 2.0f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
 
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminC(int age)
+    public (float, float, float) CalculateVitaminC(int age)
     {
         float LB;
         float II;
-        float UB = float.PositiveInfinity;
+        float UB = float.MaxValue;
 
         if (age <=5)
         {
@@ -452,13 +454,13 @@ public static class IntakeTargetCalculator
         {
             LB = 10.0f;
             II = 75.0f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
 
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminD(int age)
+    public (float, float, float) CalculateVitaminD(int age)
     {
         float LB = 2.5f;
         float II;
@@ -470,7 +472,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateVitaminE(int age, Gender gender)
+    public (float, float, float) CalculateVitaminE(int age, Gender gender)
     {
         float LB;
         float II;
@@ -480,19 +482,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 5f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 6f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = gender == Gender.Female ? 7f : 8f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (gender == Gender.Female)
         {
@@ -510,11 +512,11 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateThiamin(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateThiamin(int age, Gender gender, float kcalPerDay)
     {
         float LB;
         float II;
-        float UB = float.PositiveInfinity;
+        float UB = float.MaxValue;
 
         if (age <= 5)
         {
@@ -551,7 +553,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateRiboflavin(int age, Gender gender)
+    public (float, float, float) CalculateRiboflavin(int age, Gender gender)
     {
         float LB;
         float II;
@@ -561,37 +563,37 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 0.7f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 1.1f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = gender == Gender.Female ? 1.2f : 1.4f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (gender == Gender.Female)
         {
             LB = 0.8f;
             II = 1.3f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else
         {
             LB = 0.8f;
             II = 1.7f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
 
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateNiacin(int age, Gender gender, float kcalPerDay)
+    public (float, float, float) CalculateNiacin(int age, Gender gender, float kcalPerDay)
     {
         float LB;
         float II;
@@ -601,19 +603,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 9f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 12f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = gender == Gender.Female ? 14f : 16f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else 
         {
@@ -633,11 +635,11 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateFolate(int age, Gender gender)
+    public (float, float, float) CalculateFolate(int age, Gender gender)
     {
         float LB;
         float II;
-        float UB = float.PositiveInfinity;
+        float UB = float.MaxValue;
 
         if (age <= 5)
         {
@@ -668,7 +670,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateSalt(int age, float kcalPerDay)
+    public (float, float, float) CalculateSalt(int age, float kcalPerDay)
     {
         float LB;
         float II;
@@ -688,11 +690,11 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculatePotassium(int age, Gender gender)
+    public (float, float, float) CalculatePotassium(int age, Gender gender)
     {
         float LB;
         float II;
-        float UB = float.PositiveInfinity;
+        float UB = float.MaxValue;
 
         if (age <= 5)
         {
@@ -718,11 +720,11 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateMagnesium(int age, Gender gender)
+    public (float, float, float) CalculateMagnesium(int age, Gender gender)
     {
         float LB = 0f;
         float II;
-        float UB = float.PositiveInfinity;
+        float UB = float.MaxValue;
 
         if (age <= 5)
         {
@@ -744,7 +746,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateIron(int age, Gender gender)
+    public (float, float, float) CalculateIron(int age, Gender gender)
     {
         float LB;
         float II;
@@ -754,19 +756,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 8f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 9f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = 11f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (gender == Gender.Female && age >= 51)
         {
@@ -784,11 +786,11 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateZinc(int age, Gender gender)
+    public (float, float, float) CalculateZinc(int age, Gender gender)
     {
         float LB;
         float II;
-        float UB = float.PositiveInfinity;
+        float UB = float.MaxValue;
 
         if (age <= 5)
         {
@@ -819,7 +821,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculatePhosphorus(int age)
+    public (float, float, float) CalculatePhosphorus(int age)
     {
         float LB;
         float II;
@@ -829,19 +831,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 470f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 540f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = 700f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else
         {
@@ -853,7 +855,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateCopper(int age)
+    public (float, float, float) CalculateCopper(int age)
     {
         float LB;
         float II;
@@ -863,19 +865,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 0.4f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 0.5f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = 0.7f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else
         {
@@ -887,7 +889,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateIodine(int age)
+    public (float, float, float) CalculateIodine(int age)
     {
         float LB;
         float II;
@@ -897,19 +899,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 90f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 150f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = 120f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else
         {
@@ -921,7 +923,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateSelenium(int age, Gender gender)
+    public (float, float, float) CalculateSelenium(int age, Gender gender)
     {
         float LB;
         float II;
@@ -931,19 +933,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 25f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 30f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = 40f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else
         {
@@ -955,7 +957,7 @@ public static class IntakeTargetCalculator
         return (LB, II, UB);
     }
 
-    public static (float, float, float) CalculateCalcium(int age, Gender gender)
+    public (float, float, float) CalculateCalcium(int age, Gender gender)
     {
         float LB;
         float II;
@@ -965,19 +967,19 @@ public static class IntakeTargetCalculator
         {
             LB = 0f;
             II = 600f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
             II = 700f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
             II = 900f;
-            UB = float.PositiveInfinity;
+            UB = float.MaxValue;
         }
         else
         {

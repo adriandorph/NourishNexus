@@ -109,11 +109,11 @@ public class UserController : ControllerBase
 
     [HttpGet("readbyemail/{email}")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetUserByEmail(string Email)
+    public async Task<IActionResult> GetUserByEmail(string email)
     {
         try
         {
-            var r = await _userRepo.ReadByEmailAsync(Email);
+            var r = await _userRepo.ReadByEmailAsync(email);
 
             if (r.IsNone) return NotFound();
             return Ok(r.Value);

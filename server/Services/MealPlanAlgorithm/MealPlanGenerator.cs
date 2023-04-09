@@ -29,25 +29,24 @@ public class MealPlanGenerator
 
     public async Task<DietReport> Generate7DayMealPlan(int userID, DateTime startingDate)
     {
-        MealPlan? mealPlan = null;
         DietReport? dietReport = null;
 
         for(int i = 0; i<50; i++) //Tries to create a meal plan 50 times
         {
-            (mealPlan, dietReport) = await Create7DayMealPlan(userID, startingDate);
+            dietReport = await Create7DayMealPlan(userID, startingDate);
             if (dietReport.Response == Response.Success) break;
             if (dietReport.Response == Response.Cancelled) return dietReport;
         }
 
-        if(mealPlan == null || dietReport == null) throw new Exception("Mealplan or dietReport is null");
-        await InsertPlan(mealPlan);
+        if(dietReport == null || dietReport.MealPlan == null) throw new Exception("Mealplan or dietReport is null");
+        await InsertPlan(dietReport.MealPlan);
         return dietReport;
     }
 
-    public async Task<(MealPlan?, DietReport)> Create7DayMealPlan(int userID, DateTime startingDate)
+    public async Task<DietReport> Create7DayMealPlan(int userID, DateTime startingDate)
     {
         //Initial checks
-        if (!(await UserPrerequisites(userID))) return (null, new DietReport(null,null,null,null, Response.Cancelled));
+        if (!(await UserPrerequisites(userID))) return (new DietReport(null,null,null,null, Response.Cancelled, null));
 
         var userResult = await _userRepo.ReadWithNutritionByIDAsync(userID);
         if (userResult.IsNone) throw new Exception("User not found");
@@ -65,7 +64,7 @@ public class MealPlanGenerator
 
         //Insert recipes
         var mealPlanResult = await CreateInitialMealPlan(recipes, userID, calorieTargets, startingDate);
-        if(mealPlanResult.IsNone) return (null, new DietReport(null,null,null,null, Response.Cancelled));
+        if(mealPlanResult.IsNone) return (new DietReport(null,null,null,null, Response.Cancelled, null));
         MealPlan mealPlan = mealPlanResult.Value;
         
         // Ideal Intake met/exceeded?
@@ -76,15 +75,14 @@ public class MealPlanGenerator
             curNutrientSums = mealPlan.CalculateNutrientSums();
             if (r == Response.Fail)
             {
-                return (
+                return new DietReport
+                (
+                    LowerBounds,
+                    IdealIntake,
+                    UpperBounds,
+                    curNutrientSums,
+                    Response.Fail,
                     mealPlan
-                    ,new DietReport(
-                        LowerBounds,
-                        IdealIntake,
-                        UpperBounds,
-                        curNutrientSums,
-                        Response.Fail
-                    )
                 );
             }
         }
@@ -98,15 +96,14 @@ public class MealPlanGenerator
                 curNutrientSums = mealPlan.CalculateNutrientSums();
                 if (r == Response.Fail) 
                 {
-                    return (
+                    return new DietReport
+                    (
+                        LowerBounds,
+                        IdealIntake,
+                        UpperBounds,
+                        curNutrientSums,
+                        Response.Fail,
                         mealPlan
-                        ,new DietReport(
-                            LowerBounds,
-                            IdealIntake,
-                            UpperBounds,
-                            curNutrientSums,
-                            Response.Fail
-                        )
                     );
                 }
             }
@@ -117,29 +114,27 @@ public class MealPlanGenerator
                 curNutrientSums = mealPlan.CalculateNutrientSums();
                 if (r == Response.Fail)
                 {
-                    return (
+                    return new DietReport
+                    (
+                        LowerBounds,
+                        IdealIntake,
+                        UpperBounds,
+                        curNutrientSums,
+                        Response.Fail,
                         mealPlan
-                        ,new DietReport(
-                            LowerBounds,
-                            IdealIntake,
-                            UpperBounds,
-                            curNutrientSums,
-                            Response.Fail
-                        )
                     );
                 }
             }
         }
 
-        return (
+        return new DietReport
+        (
+            LowerBounds,
+            IdealIntake,
+            UpperBounds,
+            curNutrientSums,
+            Response.Success,
             mealPlan
-            ,new DietReport(
-                LowerBounds,
-                IdealIntake,
-                UpperBounds,
-                curNutrientSums,
-                Response.Success
-            )
         );
     }
 
