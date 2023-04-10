@@ -117,7 +117,6 @@ public class RecipeController : ControllerBase
         try
         {
             var r = await _recipeRepo.ReadAllByAuthorIDAsync(authorID);
-            Console.WriteLine("Recipes are" + r);
             return Ok(r ?? new List<RecipeDTO>{});
         }
         catch (Exception)
@@ -128,12 +127,11 @@ public class RecipeController : ControllerBase
 
     [HttpGet("communityRecipes")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAllPublicRecipes(int authorID)
+    public async Task<IActionResult> GetAllPublicRecipes()
     {
         try
         {
             var r = await _recipeRepo.ReadAllPublicAsync();
-            Console.WriteLine("Recipes are" + r);
             return Ok(r ?? new List<RecipeDTO>{});
         }
         catch (Exception)
