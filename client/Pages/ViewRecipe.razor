@@ -8,6 +8,7 @@
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject RecipeService RecipeService
+@inject CategoryService CategoryService
 @inject IJSRuntime JSRuntime
 
 <div class="container">
@@ -27,9 +28,18 @@
                 <div class="mb-4">
                     <h3>Categories</h3>
                     <ul>
-                        @foreach (var category in recipe.CategoryIDs)
+                        @if(recipe != null && AllCategories !=null && AllCategories.Any()){
+                        @foreach (var categoryid in recipe.CategoryIDs)
                         {
-                            <li>@category</li>
+                            @foreach ( var cat in AllCategories)
+                            {
+                                if(cat.Id == categoryid){
+                                    <li>@cat.Name</li>
+                                }
+                            }
+                            
+
+                        }
                         }
                     </ul>
                 </div>
@@ -57,6 +67,20 @@
     [Parameter]
     public string Id { get; set; } = "";
 
+    private List<CategoryDTO>? AllCategories { get; set; }
+
+    async Task<string> GetRecipeCategory(int categoryID){
+        var response = await CategoryService.GetCategory(categoryID);
+        if(response.IsSuccessStatusCode){
+            var category = (await response.Content.ReadFromJsonAsync<CategoryDTO>())!;
+            return category.Name;
+        }
+        return "";
+    }
+        
+
+
+
     protected override async Task OnInitializedAsync()
     {
         try{
@@ -77,10 +101,16 @@
         catch(Exception e){
             Console.WriteLine(e.Message);
         }
-    }
 
+        var catResponse = await CategoryService.GetCategories();
+        if(catResponse.IsSuccessStatusCode){
+            AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+    }
+}
     protected async void GoBack()
     {
         await JSRuntime.InvokeVoidAsync("history.back");
     }
+
+    
 }

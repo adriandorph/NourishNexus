@@ -22,4 +22,7 @@ public class CategoryService
     
     public async Task<HttpResponseMessage> GetCategories()
         => await _http.GetAsync("api/Category/categories");
+    
+    public async Task<HttpResponseMessage> GetCategory (int categoryID)
+    => await _http.GetAsync($"api/Category/{categoryID}");
 }

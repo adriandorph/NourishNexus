@@ -1,0 +1,54 @@
+@inject CategoryService CategoryService
+@inject IJSRuntime JSRuntime
+<!-- ModalComponent.razor -->
+<div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Category</h5>
+                <button type="button" class="close" @onclick="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" placeholder="Category Name" @bind="@category.Name">
+            </div>
+            <div class="modal-footer">
+                <div class="@messageCssClass">
+                <span>@message</span>
+                </div>
+                <button type="button" class="btn btn-primary" @onclick="HandleCreateCategory">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    string message ="";
+
+    string messageCssClass ="";
+
+    CategoryCreateDTO category = new ();
+
+    [Parameter]
+    public EventCallback<string> OnCategoryAdded { get; set; }
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal{ get; set; } = default!;
+
+    private async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+
+    async Task HandleCreateCategory(){
+        var response = await CategoryService.CreateCategory(category);
+        if(response.IsSuccessStatusCode){
+            await OnCategoryAdded.InvokeAsync();
+            await Close();
+        }
+        else{
+            message ="Category creation failed. Possible duplicate category.";
+            messageCssClass ="text-danger";
+        }
+    }
+
+}

@@ -46,4 +46,24 @@ public class CategoryController : ControllerBase
             
         }
     }
+
+    //GET
+    [HttpGet("{id}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetCategoryById(int id)
+    {
+        try
+        {
+            var r = await _repo.ReadByIDAsync(id);
+
+            if (r.IsNone) return NotFound();
+            return Ok(r.Value);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);        
+        }
+    }
+
+
 }
