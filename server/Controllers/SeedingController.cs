@@ -15,7 +15,7 @@ public class SeedingController : ControllerBase
         _foodItemSeeding = foodItemSeeding;
     }
 
-    [HttpGet("/FoodItems")]
+    [HttpPost("/FoodItems")]
     public async Task<IActionResult> SeedFoodItems()
     {
         try
@@ -30,5 +30,35 @@ public class SeedingController : ControllerBase
             return StatusCode(500, "Internal Server Error");
         }
 
+    }
+
+    [HttpPost("/Recipes")]
+    public IActionResult SeedRecipes()
+    {
+        try
+        {
+            _foodItemSeeding.SeedRecipes();
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
+    [HttpDelete]
+    public IActionResult ClearFoodItemsAndRecipes()
+    {
+        try
+        {
+            _foodItemSeeding.Clear();
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e,e.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
     }
 }
