@@ -21,11 +21,15 @@
         <InputText id="password" type="password" @bind-Value="userPassword" class="form-control" />
         <ValidationMessage For="@(() => userPassword)" />
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Sign in</button>
      <div class ="@messageCssClass">
         <span>@message</span>
     </div>
 </EditForm>
+
+ <div class="my-3">
+        <span>Don't have an account yet? <a href="/register">Click here to register!</a></span>
+    </div>
 
 @code {
 
