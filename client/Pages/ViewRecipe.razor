@@ -14,12 +14,7 @@
 
 @if (recipe != null)
 {
-    <h1>@recipe.Title @if (recipe.AuthorId == authorID){
-        <div class="">
-        <button class="btn btn-success" @onclick="EditRecipe">Edit</button>
-        </div>
-    }
-    </h1>
+    <h1>@recipe.Title</h1>
     <h6> <i> By @recipeAuthor</i></h6>
     <hr />
     <div class="row">
@@ -75,12 +70,17 @@
             <p>@recipe.Method</p>
         </div>
     </div>
+    @if (recipe.AuthorId == authorID){
     <div class="mb-4">
         <h3>Visibility</h3>
         <p>@(recipe.IsPublic ? "Public" : "Private")</p>
     </div>
+    }
     <div>
         <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
+        @if (recipe.AuthorId == authorID){
+        <button class="btn btn-success mx-1" @onclick="EditRecipe">Edit</button>
+    }
     </div>
 }
 else
