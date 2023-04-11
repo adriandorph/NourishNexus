@@ -15,7 +15,9 @@
 @if (recipe != null)
 {
     <h1>@recipe.Title @if (recipe.AuthorId == authorID){
+        <div class="">
         <button class="btn btn-success" @onclick="EditRecipe">Edit</button>
+        </div>
     }
     </h1>
     <h6> <i> By @recipeAuthor</i></h6>
