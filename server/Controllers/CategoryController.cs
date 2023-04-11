@@ -28,4 +28,42 @@ public class CategoryController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpGet("categories")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAllCategories()
+    {
+        try
+        {
+            var r = await _repo.ReadAllAsync();
+            Console.WriteLine("Categories are" + r);
+            return Ok(r ?? new List<CategoryDTO>{});
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return StatusCode(500, "Internal Server Error");
+            
+        }
+    }
+
+    //GET
+    [HttpGet("{id}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetCategoryById(int id)
+    {
+        try
+        {
+            var r = await _repo.ReadByIDAsync(id);
+
+            if (r.IsNone) return NotFound();
+            return Ok(r.Value);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);        
+        }
+    }
+
+
 }

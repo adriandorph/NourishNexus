@@ -1,5 +1,28 @@
 ﻿@page "/"
+@inject AuthenticationStateProvider CustomAuthStateProvider
+@inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
 
 <h1>Welcome to NourishNexus</h1>
+
+@code{
+
+   protected override async Task OnInitializedAsync()
+    {
+        // Get the current authentication state
+        var authState = await CustomAuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        // Check if user is authenticated
+        if (user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/dashboard");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+}
+}

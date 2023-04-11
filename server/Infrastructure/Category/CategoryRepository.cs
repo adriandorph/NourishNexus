@@ -42,7 +42,15 @@ public class CategoryRepository : ICategoryRepository
             .Select(c => c.ToDTO())
             .FirstOrDefaultAsync();
     
+
+    public async Task<IList<CategoryDTO>> ReadAllAsync()
+    {
+       return await ( _context.Categories
+                        .Include(c => c.Recipes)
+                        .Select(c => c.ToDTO())
+                        .ToListAsync());
     }
+}
 
 
 

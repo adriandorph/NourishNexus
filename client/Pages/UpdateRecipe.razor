@@ -8,6 +8,7 @@
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 @inject RecipeService RecipeService
+@inject CategoryService CategoryService
 
 <PageTitle> Edit Recipe </PageTitle>
 
@@ -33,13 +34,40 @@
                 <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="7" />
             </div>
 
-            <InputSelect id="Categories" class="mt-2 form-control" @bind-Value="recipe.CategoryIDs" multiple>
-            <label for="categories">Update Category</label>
-                @foreach (var category in AllCategories)
-                {
-                    <option value="@category.Id">@category.Name</option>
-                }
-            </InputSelect>
+            <div class="form-group my-2">
+    <h4>Choose Categories</h4>
+    <div class="category-checkboxes d-flex flex-wrap">
+        @if (AllCategories != null && AllCategories.Any())
+        {
+            @foreach (var category in AllCategories)
+            {
+                <div class="category-box mr-2 mb-2 rounded">
+                    <label>
+                        <input type="checkbox" value="@category.Id" checked="@selectedCategoryIds.Contains(category.Id)"
+                               @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
+                        @category.Name
+                    </label>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<style>
+    .category-box {
+        background-color: #eee;
+        padding: 4px 8px;
+        margin: 4px 8px;
+    }
+
+    .category-box label {
+        margin-bottom: 0;
+    }
+
+    .category-box input[type=checkbox] {
+        margin-right: 4px;
+    }
+</style>
 
 
             <div class="form-group">
@@ -71,6 +99,7 @@
     public string Id {get; set;}
 
     string message = string.Empty;
+    List<int> selectedCategoryIds = new List<int>();
     string messageCssClass = string.Empty;
     private RecipeUpdateDTO recipe = new();
 
@@ -88,6 +117,16 @@
             recipe.Description = existingRecipe.Description;
             recipe.Method = existingRecipe.Method;
             recipe.IsPublic = existingRecipe.IsPublic;
+        }
+
+        var catResponse = await CategoryService.GetCategories();
+        if (catResponse.IsSuccessStatusCode)
+        {
+            AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+        }
+        else
+        {
+            Console.WriteLine("The response was not successful");
         }
         
     }
@@ -129,6 +168,18 @@
     protected async void GoBack()
     {
         await JSRuntime.InvokeVoidAsync("history.back");
+    }
+
+    void UpdateSelectedCategories(int categoryId, ChangeEventArgs e)
+    {
+        if ((bool)e.Value)
+        {
+            selectedCategoryIds.Add(categoryId);
+        }
+        else
+        {
+            selectedCategoryIds.Remove(categoryId);
+        }
     }
 }
 

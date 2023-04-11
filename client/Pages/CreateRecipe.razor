@@ -2,19 +2,56 @@
 @attribute [Authorize]
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using System.Security.Claims
 @using server.Core.EF.DTO;
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject RecipeService RecipeService
+@inject CategoryService CategoryService
+@inject IJSRuntime JSRuntime
 
 <PageTitle> Create Recipe </PageTitle>
 
 <h1>Create Recipe</h1>
-        
+
 <EditForm Model="@recipe" OnSubmit="HandleCreateRecipe">
+    <div class="form-group my-2">
+        <h6>Choose Categories</h6>
+        <div class="category-checkboxes d-flex flex-wrap">
+            @if (AllCategories != null && AllCategories.Any())
+            {
+                var sortedCategories = AllCategories.OrderBy(c => c.Name);
+                @foreach (var category in sortedCategories)
+                {
+                    <div class="category-box mr-2 mb-2 rounded">
+                        <label>
+                            <input type="checkbox" value="@category.Id" checked="@selectedCategoryIds.Contains(category.Id)"
+                        @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
+                            @category.Name
+                        </label>
+                    </div>
+                }
+                <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
+            }
+        </div>
+    </div>
+
+    <style>
+        .category-box {
+            background-color: #eee;
+            padding: 4px 8px;
+            margin: 4px 8px;
+        }
+
+        .category-box label {
+            margin-bottom: 0;
+        }
+
+        .category-box input[type=checkbox] {
+            margin-right: 4px;
+        }
+    </style>
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="form-group">
@@ -22,45 +59,41 @@
         <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group my-2">
         <label for="method">Method</label>
-        <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="7" />
+        <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
 
     </div>
 
-    <div class="form-group">
+    <div class="form-group my-2">
         <label for="description">Description</label>
-        <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="7" />
+        <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
     </div>
 
-    <div class="form-group">
-        <label for="categories">Choose Category</label>
-    <InputSelect id="categories" class="mt-2 form-control" @bind-Value="recipe.CategoryIDs" multiple>
-        <option value="Plant">Plant</option>
-        <option value="Fish">Fish</option>
-    </InputSelect>
-    </div>
 
-    <div class="form-group">
+    <div class="form-group my-2">
         <div>Recipe visibility</div>
         <InputRadioGroup @bind-Value="recipe.IsPublic">
-            <InputRadio id="Public" Value="true" class="form-check-input" /><label class="form-check-label" for="Public">Public</label>
-            <InputRadio id="Private" Value="false" class="form-check-input" /><label class="form-check-label" for="Private">Private</label>
+            <InputRadio id="Public" Value="true" class="form-check-input" /><label class="form-check-label"
+                for="Public">Public</label>
+            <InputRadio id="Private" Value="false" class="form-check-input" /><label class="form-check-label"
+                for="Private">Private</label>
         </InputRadioGroup>
     </div>
     <div class="form-group">
         <p>If you choose to create a private recipe, it will not be visible to other users</p>
     </div>
-    <div class="form-group">
-        <br />
-        <button type="button" class="btn btn-danger">Cancel</button>
+    <div class="form-group my-2">
+        <button type="button" class="btn btn-danger" @onclick="GoBack">Cancel</button>
         <button type="submit" class="btn btn-success btn-block">Create</button>
-        <div class ="@messageCssClass">
-        <span>@message</span>
-    </div>
+        <div class="@messageCssClass">
+            <span>@message</span>
+        </div>
     </div>
 </EditForm>
- 
+
+
+
 
 
 
@@ -69,46 +102,97 @@
     string messageCssClass = string.Empty;
 
     private RecipeCreateDTO recipe = new();
+
+
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+
+    private CategoryCreateDTO category = new CategoryCreateDTO();
+
+    List<int> selectedCategoryIds = new List<int>();
+
     private List<CategoryDTO>? AllCategories { get; set; }
+
+
+
+    private async void ShowModal()
+    {
+        var options = new ModalOptions
+            {
+                UseCustomLayout = true
+            };
+        var modal = Modal.Show<CategoryModal>("Cat Modal", options);
+
+        var result = await modal.Result;
+
+
+        if (!result.Cancelled)
+        {
+            NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+        }
+    }
 
     async Task HandleCreateRecipe()
     {
+        recipe.CategoryIDs = selectedCategoryIds;
         var response = await RecipeService.CreateRecipe(recipe);
-        
-        if(response.IsSuccessStatusCode)
+
+        if (response.IsSuccessStatusCode)
         {
-            messageCssClass = "text-success";
-            message = "Recipe created successfully";
-        } 
-        
-        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound) 
-        {
-            messageCssClass = "text-danger";
-            message = "Login failed, user does not exist. Please register.";
-        } 
-        else 
-        {
-            messageCssClass = "text-danger";
-            message = "Login failed";
+            NavigationManager.NavigateTo("savedRecipes");
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
+
         var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-        Console.WriteLine("The user is " + user);
-        Console.WriteLine("And the name is" + user.FindFirst(ClaimTypes.Name));
-        Console.WriteLine("And the email is" + user.FindFirst(ClaimTypes.Email));
-        Console.WriteLine("And the id is" + user.FindFirst(ClaimTypes.NameIdentifier));
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
         if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
         {
-            Console.WriteLine("Setting the ID now!");
             recipe.AuthorId = userId;
         }
-        Console.WriteLine("ANd the author id is" + recipe.AuthorId);
+
+        var catResponse = await CategoryService.GetCategories();
+        if (catResponse.IsSuccessStatusCode)
+        {
+            AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+        }
+        else
+        {
+            Console.WriteLine("The response was not successful");
+        }
     }
-        
+    void UpdateSelectedCategories(int categoryId, ChangeEventArgs e)
+    {
+        if ((bool)e.Value)
+        {
+            selectedCategoryIds.Add(categoryId);
+        }
+        else
+        {
+            selectedCategoryIds.Remove(categoryId);
+        }
+    }
+
+    private async void HandleCategoryAdded()
+    {
+        var catResponse = await CategoryService.GetCategories();
+        if (catResponse.IsSuccessStatusCode)
+        {
+            AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+        }
+        else
+        {
+            Console.WriteLine("The response was not successful");
+        }
+
+    }
+
+     protected async void GoBack()
+    {
+        await JSRuntime.InvokeVoidAsync("history.back");
+    }
+
 }
 
 

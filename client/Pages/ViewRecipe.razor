@@ -8,79 +8,164 @@
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject RecipeService RecipeService
+@inject CategoryService CategoryService
+@inject UserService UserService
 @inject IJSRuntime JSRuntime
 
-<div class="container">
+@if (recipe != null)
+{
+    <h1>@recipe.Title @if (recipe.AuthorId == authorID){
+        <div class="">
+        <button class="btn btn-success" @onclick="EditRecipe">Edit</button>
+        </div>
+    }
+    </h1>
+    <h6> <i> By @recipeAuthor</i></h6>
+    <hr />
     <div class="row">
-        <div class="col-12 col-md-8 offset-md-2">
-            @if (recipe != null)
-            {
-                <h1 class="mb-4">@recipe.Title</h1>
-                <div class="mb-4">
-                    <h3>Description</h3>
-                    <p>@recipe.Description</p>
-                </div>
-                <div class="mb-4">
-                    <h3>Method</h3>
-                    <p>@recipe.Method</p>
-                </div>
-                <div class="mb-4">
-                    <h3>Categories</h3>
-                    <ul>
-                        @foreach (var category in recipe.CategoryIDs)
+        <div class="col">
+            <div class="category-checkboxes d-flex flex-wrap">
+                @if (recipe != null && AllCategories != null && AllCategories.Any())
+                {
+                    @foreach (var categoryid in recipe.CategoryIDs)
+                    {
+                        @foreach (var cat in AllCategories)
                         {
-                            <li>@category</li>
+                            if (cat.Id == categoryid)
+                            {
+                                <div class="category-box mr-2 mb-2 rounded">
+                                <label>@cat.Name</label>
+                                </div>
+                            }
                         }
-                    </ul>
-                </div>
-                <div class="mb-4">
-                    <h3>Visibility</h3>
-                    <p>@(recipe.IsPublic ? "Public" : "Private")</p>
-                </div>
-                <div class="">
-                    <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
-                </div>
+
+
+                    }
+                }
+            </div>
+        </div>
+
+        <style>
+            .category-box {
+                background-color: #eee;
+                padding: 4px 8px;
+                margin: 4px 8px;
             }
-            else
-            {
-                <div class="text-center mt-4">
-                    <h4>Recipe not found</h4>
-                    <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
-                </div>
+
+            .category-box label {
+                margin-bottom: 0;
             }
+
+            .category-box input[type=checkbox] {
+                margin-right: 4px;
+            }
+        </style>
+    </div>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <span><h2 class="card-title">Description</h2> </span>
+            <p class="card-text">@recipe.Description</p>
         </div>
     </div>
-</div>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="card-title">Method</h2>
+            <p>@recipe.Method</p>
+        </div>
+    </div>
+    <div class="mb-4">
+        <h3>Visibility</h3>
+        <p>@(recipe.IsPublic ? "Public" : "Private")</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
+    </div>
+}
+else
+{
+    <div class="text-center mt-4">
+        <h4>Recipe not found</h4>
+        <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
+    </div>
+}
 
 @code {
-    private RecipeDTO? recipe {get; set;}
+    private RecipeDTO? recipe { get; set; }
     [Parameter]
     public string Id { get; set; } = "";
 
+    public string authorName {get; set;} = "";
+
+    private int authorID;
+
+    private string recipeAuthor;
+
+    private List<CategoryDTO>? AllCategories { get; set; }
+
+    async Task<string> GetRecipeCategory(int categoryID)
+    {
+        var response = await CategoryService.GetCategory(categoryID);
+        if (response.IsSuccessStatusCode)
+        {
+            var category = (await response.Content.ReadFromJsonAsync<CategoryDTO>())!;
+            return category.Name;
+        }
+        return "";
+    }
+
+
+
+
     protected override async Task OnInitializedAsync()
     {
-        try{
+        try
+        {
             var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
             var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            int.TryParse(userIdClaim!.Value, out int authorID);
-            Console.WriteLine("User id is" + authorID);
+            int.TryParse(userIdClaim!.Value, out authorID);
+            recipeAuthor = await GetRecipeAuthor(authorID);
             var response = await RecipeService.GetRecipe(int.Parse(Id));
-            if (response.IsSuccessStatusCode){
+            if (response.IsSuccessStatusCode)
+            {
                 recipe = (await response.Content.ReadFromJsonAsync<RecipeDTO>())!;
-                if (recipe == null) {
+                recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
+                if (recipe == null)
+                {
                     throw new ApplicationException("Recipe not found");
                 }
-            } else {
+            }
+            else
+            {
                 throw new ApplicationException($"Error retrieving recipe: {response.StatusCode}");
             }
         }
-        catch(Exception e){
+        catch (Exception e)
+        {
             Console.WriteLine(e.Message);
         }
-    }
 
+        var catResponse = await CategoryService.GetCategories();
+        if (catResponse.IsSuccessStatusCode)
+        {
+            AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+        }
+    }
     protected async void GoBack()
     {
         await JSRuntime.InvokeVoidAsync("history.back");
     }
+
+    public void EditRecipe()
+    {
+        NavigationManager.NavigateTo($"recipes/edit/{recipe.Id}");
+    }
+
+    public async Task<string> GetRecipeAuthor(int userid){
+        var user = await UserService.GetUserByID(userid);
+        return user.Nickname;
+    }
+
+
 }
