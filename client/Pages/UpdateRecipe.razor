@@ -15,7 +15,7 @@
 <h1>Edit Recipe</h1>
 
 <div class="form-group my-2">
-        <h6>Choose Categories</h6>
+        <h6>Categories</h6>
         <div class="category-checkboxes d-flex flex-wrap">
             @if (AllCategories != null && AllCategories.Any())
             {
@@ -118,7 +118,8 @@
 
         if (!result.Cancelled)
         {
-            NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+            await HandleCategoryAdded();
+            StateHasChanged();
         }
     }
 
@@ -196,6 +197,20 @@
         {
             selectedCategoryIds.Remove(categoryId);
         }
+    }
+
+    private async Task HandleCategoryAdded()
+    {
+        var catResponse = await CategoryService.GetCategories();
+        if (catResponse.IsSuccessStatusCode)
+        {
+            AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+        }
+        else
+        {
+            Console.WriteLine("The response was not successful");
+        }
+
     }
 }
 

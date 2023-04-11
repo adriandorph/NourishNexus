@@ -24,7 +24,7 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">@recipe.Title</h5>
-                                <p class="card-text">@recipe.Description</p>
+                                <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
                                 <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
                                 @if (_user!.SavedRecipeIds.Contains(recipe.Id))
                                 {
@@ -54,6 +54,8 @@
     private UserDTO? _user;
     private List<RecipeDTO>? recipes;
 
+    private int recipeDescriptionLength = 200;
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -71,6 +73,7 @@
             {
                 recipes = new List<RecipeDTO>();
             }
+            Console.WriteLine(_user.Nickname);
         }
         catch (Exception e)
         {
