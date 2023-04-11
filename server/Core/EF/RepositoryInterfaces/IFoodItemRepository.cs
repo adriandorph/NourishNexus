@@ -20,6 +20,7 @@ public interface IFoodItemRepository{
     public Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByMealId(int mealID);
 
     public Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByRecipeId(int recipeID);
+    public Task<IReadOnlyCollection<FoodItemDTO>> ReadAllBySearchWord(string word);
 
 }
     

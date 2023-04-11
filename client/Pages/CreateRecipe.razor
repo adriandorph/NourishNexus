@@ -14,6 +14,10 @@
 <PageTitle> Create Recipe </PageTitle>
 
 <h1>Create Recipe</h1>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
+        </div>
 
 <EditForm Model="@recipe" OnSubmit="HandleCreateRecipe">
     <div class="form-group my-2">
@@ -52,22 +56,73 @@
             margin-right: 4px;
         }
     </style>
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div class="form-group">
-        <label for="title">Title</label>
-        <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
+    
+
+    <div class="card my-4">
+        <div class="card-body">
+            <span>
+                <h2 class="card-title">Description</h2>
+            </span>
+            <div class="form-group my-2">
+                <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
+            </div>
+        </div>
     </div>
 
-    <div class="form-group my-2">
-        <label for="method">Method</label>
-        <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
 
+    <div class="card my-4">
+        <div class="card-body">
+            <span class="d-flex justify-content-between">
+                <h2 class="card-title">Ingredients</h2>
+                <h4 class="text-right kcal ">kcal </h4>
+            </span>
+            @foreach (FoodItemAmountDTO ingredient in ingredients)
+            {
+                <div class="ingredient-box d-flex justify-content-between rounded mb-2">
+                    <span class="ingredient-name">@ingredient.FoodItem!.Name</span>
+                    <span class="ingredient-g"> g</span>
+                    <button class="cross" type="button">X</button>
+                </div>
+            }
+            <button class="btn btn-success" type="button">
+                Add Ingredient
+            </button>
+        </div>
     </div>
 
-    <div class="form-group my-2">
-        <label for="description">Description</label>
-        <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
+    <style>
+        .ingredient-box {
+            background-color: #eee;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ingredient-name {
+            margin-right: 8px;
+        }
+
+        .ingredient-g {
+            color: #000000;
+        }
+
+        .kcal {
+            font-weight: normal;
+        }
+
+        </style>
+
+    
+    <div class="card my-4">
+        <div class="card-body">
+            <span>
+                <h2 class="card-title">Method</h2>
+            </span>
+            <div class="form-group my-2">
+                <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
+            </div>
+        </div>
     </div>
 
 
@@ -103,6 +158,47 @@
 
     private RecipeCreateDTO recipe = new();
 
+    private List<FoodItemAmountDTO> ingredients {get; set;} = new List<FoodItemAmountDTO>()
+        {
+            new FoodItemAmountDTO
+            {
+                Amount = 1.0f,
+                FoodItem = new FoodItemDTO(
+                    0,
+                    "The ingredient",
+                    100.0f,
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                )
+            }
+        };
 
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
 

@@ -95,4 +95,19 @@ public class FoodItemController : ControllerBase
         }
     }
 
+    [HttpGet("search/{word}")]
+    public async Task<IActionResult> GetBySearchWord(string word)
+    {
+        try
+        {
+            var r = await _repo.ReadAllBySearchWord(word);
+            return Ok(r);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
 }

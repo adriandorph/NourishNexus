@@ -190,6 +190,36 @@ public class RecipeRepository : IRecipeRepository
             .ToListAsync())
             .Join(_context.Recipes, i => i.Item2, r => r.Id, (item, recipe) => new RecipeAmountDTO(item.Item1, recipe.ToDTO()))
             .ToList();
+    
+    public async Task<IReadOnlyCollection<RecipeDTO>> ReadSavedBySearchWord(string word, int userID)
+    {
+        var user = await _context.Users
+            .Include(u => u.SavedRecipes)
+            .Where(u => u.Id == userID)
+            .FirstOrDefaultAsync();
+        
+        if (user == null)
+            return new List<RecipeDTO>();
+        
+
+        var savedRecipeIds = user.SavedRecipes;
+
+         return await _context.Recipes
+            .Include(r => r.Categories)
+            .Where(r => savedRecipeIds.Contains(r) && r.Title.Contains(word))
+            .OrderBy(r => r.Title.Length)
+            .Select(r => r.ToDTO())
+            .ToListAsync();
+    }
+       
+    
+    public async Task<IReadOnlyCollection<RecipeDTO>> ReadPublicBySearchWord(string word)
+        => await _context.Recipes
+            .Include(r => r.Categories)
+            .Where(r => r.IsPublic && r.Title.Contains(word))
+            .OrderBy(r => r.Title.Length)
+            .Select(r => r.ToDTO())
+            .ToListAsync();
 
             
 

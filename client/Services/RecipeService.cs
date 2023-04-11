@@ -38,4 +38,16 @@ public class RecipeService
 
     public async Task<HttpResponseMessage> DeleteRecipe(int id)
         => await _http.DeleteAsync($"api/Recipe/delete/{id}");
+    
+    public async Task<List<RecipeDTO>> GetSavedBySearchWord(string word, int userID)
+    {
+        var result = await _http.GetAsync($"api/Recipe/search/saved?word={word}&userID={userID}");
+        return await result.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
+    }
+
+    public async Task<List<RecipeDTO>> GetFromCommunityBySearchWord(string word)
+    {
+        var result = await _http.GetAsync($"api/Recipe/search/community/{word}");
+        return await result.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
+    }
 }

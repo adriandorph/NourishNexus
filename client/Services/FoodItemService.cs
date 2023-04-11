@@ -23,4 +23,10 @@ public class FoodItemService
         var result = await _http.GetAsync($"api/FoodItem/recipe/{recipeID}");
         return await result.Content.ReadFromJsonAsync<List<FoodItemAmountDTO>>() ?? new List<FoodItemAmountDTO>();
     }
+
+    public async Task<List<FoodItemDTO>> GetBySearchWord(string word)
+    {
+        var result = await _http.GetAsync($"api/FoodItem/search/{word}");
+        return await result.Content.ReadFromJsonAsync<List<FoodItemDTO>>() ?? new List<FoodItemDTO>();
+    }
 }

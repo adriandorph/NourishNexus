@@ -1,10 +1,31 @@
 @page "/search"
 @attribute [Authorize]
+@using System.Security.Claims
+@inject HttpClient Http
+@inject FoodItemService FoodItemService
+@inject RecipeService RecipeService
+@inject AuthenticationStateProvider CustomAuthStateProvider
+
 <h1>Food Item Search</h1>
 
+<button>
+    =
+</button>
+<div class="btn-group mb-3">
+    <button class="btn btn-secondary @((IsSearchOptionActive(SearchOption.FoodItems) ? "active" : ""))" @onclick="() => SetSearchOption(SearchOption.FoodItems)">
+        Food Items
+    </button>
+    <button class="btn btn-secondary @((IsSearchOptionActive(SearchOption.SavedRecipes) ? "active" : ""))" @onclick="() => SetSearchOption(SearchOption.SavedRecipes)">
+        Saved Recipes
+    </button>
+    <button class="btn btn-secondary @((IsSearchOptionActive(SearchOption.CommunityRecipes) ? "active" : ""))" @onclick="() => SetSearchOption(SearchOption.CommunityRecipes)">
+        Community Recipes
+    </button>
+</div>
+
+
 <div class="form-group">
-    <label for="search-query">Search for a food item:</label>
-    <input type="text" class="form-control" id="search-query" @bind-value="@SearchQuery" @onkeyup="PerformSearch" />
+    <input type="text" class="form-control" id="search-query" @oninput="PerformSearch" />
 </div>
 
 @if (SearchResults != null && SearchResults.Count > 0)
@@ -13,7 +34,7 @@
         @foreach (var result in SearchResults)
         {
             <li class="list-group-item">
-                <a href="@($"/fooditem/{result.Id}")">@result.Name</a>
+                <a href="@($"/fooditem/{result.Id}")">@result.Title</a>
             </li>
         }
     </ul>
@@ -24,12 +45,83 @@ else if (SearchPerformed)
 }
 
 @code {
-    private string SearchQuery {get; set;} = "";
+    private int userID;
     private bool SearchPerformed = false;
-    private List<FoodItemDTO> SearchResults {get; set;} = new List<FoodItemDTO>();
+    private List<SearchResult> SearchResults {get; set;} = new List<SearchResult>();
 
-    private Task PerformSearch()
+    private record SearchResult(int Id, string Title, SearchResultType Type, int? AuthorId);
+
+    private enum SearchResultType
     {
-        throw new NotImplementedException();
+        FoodItem,
+        Recipe
+    }
+
+    private enum SearchOption
+    {
+        FoodItems,
+        SavedRecipes,
+        CommunityRecipes
+    }
+    private SearchOption CurrentSearchOption {get; set;}
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+            int.TryParse(userIdClaim!.Value, out int id);
+            userID = id;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        
+    }
+
+    
+
+    private async Task PerformSearch(ChangeEventArgs e)
+    {
+        string searchQuery = e.Value != null ? e.Value!.ToString() ?? "" : "";
+        if (searchQuery.Length < 2) return;
+        switch (CurrentSearchOption)
+        {
+            case SearchOption.FoodItems:
+                var foodItemList = await FoodItemService.GetBySearchWord(searchQuery);
+                var foodItemResults = foodItemList.Select(f => new SearchResult(f.Id, f.Name, SearchResultType.FoodItem, null)).ToList();
+                SearchResults = foodItemResults;
+                break;
+            case SearchOption.SavedRecipes:
+                var recipeList = await RecipeService.GetSavedBySearchWord(searchQuery, userID);
+                var recipeResults = recipeList.Select(r => new SearchResult(r.Id, r.Title, SearchResultType.Recipe, r.AuthorId)).ToList();
+                SearchResults = recipeResults;
+                break;
+            case SearchOption.CommunityRecipes:
+                var communityList = await RecipeService.GetFromCommunityBySearchWord(searchQuery);
+                var communityResults = communityList.Select(r => new SearchResult(r.Id, r.Title, SearchResultType.Recipe, r.AuthorId)).ToList();
+                SearchResults = communityResults;
+                break;
+            default:
+                throw new Exception();
+        }
+    }
+
+
+    private void SetSearchOption(SearchOption searchOption)
+    {
+        CurrentSearchOption = searchOption;
+        SearchPerformed = false;
+        // Perform additional logic based on the selected search option
+    }
+
+    // Check if the given search option is currently active
+    private bool IsSearchOptionActive(SearchOption searchOption)
+    {
+        return CurrentSearchOption == searchOption;
     }
 }

@@ -332,7 +332,15 @@ public class FoodItemRepository : IFoodItemRepository
             .Include(f => f.Recipe)
             .Where(fir => fir.Recipe.Id == recipeID)
             .Select(fir => new Tuple<float, int>(fir.Amount, fir.FoodItem.Id))
-            .ToListAsync())
+            .ToListAsync()
+        )
             .Join(_context.FoodItems, i => i.Item2, fi => fi.Id, (item, foodItem) => new FoodItemAmountDTO{Amount = item.Item1, FoodItem = foodItem.ToDTO()})
             .ToList();
+
+    public async Task<IReadOnlyCollection<FoodItemDTO>> ReadAllBySearchWord(string word)
+        => await  _context.FoodItems
+            .Where(f => f.Name.Contains(word))
+            .OrderBy(f => f.Name.Length)
+            .Select(f => f.ToDTO())
+            .ToListAsync();
 }
