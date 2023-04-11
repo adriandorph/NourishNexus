@@ -9,31 +9,35 @@
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject RecipeService RecipeService
+@inject UserService UserService
 
 
 <h1 class="text-center mb-3">Saved Recipes</h1>
 
 <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                @if (recipes !=null && recipes.Any())
+    <div class="row">
+        <div class="col-md-12">
+            @if (recipes != null && recipes.Any())
+            {
+                foreach (var recipe in recipes)
                 {
-                        foreach(var recipe in recipes)
-                        {
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">@recipe.Title</h5>
-                                    <p class="card-text">@recipe.Description</p>
-                                    <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
-                                    <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-success mx-2">Edit</a>
-                                </div>
-                            </div>
-                        }
-                 } else {
-                    <p>You have not saved any recipes yet. Please <a href="recipes/create">create a recipe</a>, or <a href ="Community">add a recipe from the Community</a></p>
-                    }
-            </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@recipe.Title</h5>
+                            <p class="card-text">@recipe.Description</p>
+                            <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
+                            <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-success mx-2">Edit</a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>You have not saved any recipes yet. Please <a href="recipes/create">create a recipe</a>, or <a
+                        href="Community">add a recipe from the Community</a></p>
+            }
         </div>
+    </div>
 </div>
 
 <div class="sticky-button my-5">
@@ -48,32 +52,36 @@
     }
 </style>
 
-@code 
+@code
 {
-    
+
     private List<RecipeDTO>? recipes;
 
-    protected override async Task OnInitializedAsync()
-{
-    try{
-        var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-        int.TryParse(userIdClaim!.Value, out int authorID);
-        Console.WriteLine("User id is" + authorID);
-        var response = await RecipeService.GetRecipes(authorID);
-        if (response.IsSuccessStatusCode){
-            recipes = await response.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
-        }
-        else {
-            recipes = new List<RecipeDTO>();
-        }
-    }
-    catch(Exception e){
-        Console.WriteLine("Oh, it failed!" + e.Message);
-    }
-}
+    private int userID;
 
-public void HandleCreateRecipe(){
-    NavigationManager.NavigateTo("recipes/create");
-}
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var userClaim = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+            var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
+            int.TryParse(userIdClaim!.Value, out userID);
+            var user = await UserService.GetUserByID(userID);
+            recipes = new List<RecipeDTO>();
+            foreach (var id in user.SavedRecipeIds)
+            {
+                var recipe = await RecipeService.GetRecipe(id);
+                recipes.Add(recipe);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Oh, it failed!" + e.Message);
+        }
+    }
+
+    public void HandleCreateRecipe()
+    {
+        NavigationManager.NavigateTo("recipes/create");
+    }
 }

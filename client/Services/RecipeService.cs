@@ -1,3 +1,4 @@
+using System.Net;
 namespace client.Services;
 using server.Core.EF.DTO;
 using System.Net.Http.Json;
@@ -20,17 +21,20 @@ public class RecipeService
     public async Task<HttpResponseMessage> CreateRecipe(RecipeCreateDTO recipe)
         => await _http.PostAsJsonAsync("api/Recipe/", recipe);
     
-    public async Task<HttpResponseMessage> GetRecipes(int authorID)
-    => await _http.GetAsync($"api/Recipe/author/{authorID}");
+    public async Task<HttpResponseMessage> GetRecipesByAuthorID(int authorID)
+        => await _http.GetAsync($"api/Recipe/author/{authorID}");
 
-    public async Task<HttpResponseMessage> GetRecipe (int recipeID)
-    => await _http.GetAsync($"api/Recipe/{recipeID}");
+    public async Task<RecipeDTO> GetRecipe(int recipeID)
+    {
+        var result = await _http.GetAsync($"api/Recipe/{recipeID}");
+        return await result.Content.ReadAsAsync<RecipeDTO>();
+    }
 
     public async Task<HttpResponseMessage> GetPublicRecipes()
-    => await _http.GetAsync($"api/Recipe/communityRecipes");
+        => await _http.GetAsync($"api/Recipe/communityRecipes");
 
     public async Task<HttpResponseMessage> UpdateRecipe(RecipeUpdateDTO recipe)
-    => await _http.PutAsJsonAsync($"api/Recipe/update/{recipe.Id}", recipe);
+        => await _http.PutAsJsonAsync($"api/Recipe/update/{recipe.Id}", recipe);
 
     public async Task<HttpResponseMessage> DeleteRecipe(int id)
         => await _http.DeleteAsync($"api/Recipe/delete/{id}");

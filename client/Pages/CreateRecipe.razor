@@ -164,7 +164,7 @@
     }
     void UpdateSelectedCategories(int categoryId, ChangeEventArgs e)
     {
-        if ((bool)e.Value)
+        if ((bool)e.Value!)
         {
             selectedCategoryIds.Add(categoryId);
         }
