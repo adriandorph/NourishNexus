@@ -21,27 +21,29 @@
                 @if (recipe.AuthorId != theAuthorId)
                 {
                     <div class="col-md-4">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">@recipe.Title</h5>
-                                    <p class="card-text">@recipe.Description</p>
-                                    <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
-                                    @if(_user!.SavedRecipeIds.Contains(recipe.Id))
-                                    {
-                                        <a href="" class="btn btn-danger" onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave recipe</a>        
-                                    }
-                                    else
-                                    {
-                                        <a href="" class="btn btn-success" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save recipe</a>        
-                                    }
-                                </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">@recipe.Title</h5>
+                                <p class="card-text">@recipe.Description</p>
+                                <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
+                                @if (_user!.SavedRecipeIds.Contains(recipe.Id))
+                                {
+                                    <button class="btn btn-danger"
+                                        onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave recipe
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-success" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save
+                                        recipe
+                                    </button>
+                                }
                             </div>
                         </div>
+                    </div>
                 }
             }
         }
-
-
     </div>
 </div>
 
@@ -51,10 +53,6 @@
     private int theAuthorId;
     private UserDTO? _user;
     private List<RecipeDTO>? recipes;
-
-    private bool isRecipeSaved = false;
-
-    private RecipeCreateDTO recipe = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -86,15 +84,15 @@
         updatedSavedRecipes.AddRange(_user!.SavedRecipeIds);
         updatedSavedRecipes.Add(id);
         var userUpdate = new UserUpdateDTO
-        {
-            Id = theAuthorId,
-            SavedRecipeIds = updatedSavedRecipes
-        };
+            {
+                Id = theAuthorId,
+                SavedRecipeIds = updatedSavedRecipes
+            };
 
         await UserService.UpdateUser(userUpdate);
-        
+
         _user = await UserService.GetUserByID(theAuthorId);
-         isRecipeSaved = true;
+        StateHasChanged();
     }
 
     public async Task HandleUnsaveRecipe(int id)
@@ -103,14 +101,14 @@
         updatedSavedRecipes.AddRange(_user!.SavedRecipeIds);
         updatedSavedRecipes.Remove(id);
         var userUpdate = new UserUpdateDTO
-        {
-            Id = theAuthorId,
-            SavedRecipeIds = updatedSavedRecipes
-        };
+            {
+                Id = theAuthorId,
+                SavedRecipeIds = updatedSavedRecipes
+            };
 
         await UserService.UpdateUser(userUpdate);
-        
+
         _user = await UserService.GetUserByID(theAuthorId);
-        isRecipeSaved = false;
+        StateHasChanged();
     }
 }

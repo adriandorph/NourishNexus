@@ -82,7 +82,7 @@
                 <br/>
                 <button type="button" class="btn btn-primary" @onclick="GoBack">Cancel</button>
                 <button type="submit" class="btn btn-success btn-block">Update</button>
-                <button type="submit" class="btn btn-danger btn-block" @onclick="HandleDeleteRecipe">Delete</button>
+                <button type="button" class="btn btn-danger btn-block" @onclick="HandleDeleteRecipe">Delete</button>
                  <div class ="@messageCssClass">
                 <span>@message</span>
             </div>
@@ -103,7 +103,6 @@
     string messageCssClass = string.Empty;
     private RecipeUpdateDTO recipe = new();
 
-    private RecipeDTO? existingRecipe;
     private List<CategoryDTO> AllCategories { get; set; } = new List<CategoryDTO>();
 
     private async void ShowModal()

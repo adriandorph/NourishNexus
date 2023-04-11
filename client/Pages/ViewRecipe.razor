@@ -75,7 +75,7 @@
         </span>
         <div class="scale">
             Scale x
-            <input class="scale-input" step="0.01" type="number" id="scaleInput" value="1" @onchange="UpdateIngredients" min="0">
+            <input class="scale-input" step="0.5" type="number" id="scaleInput" value="1" @onchange="UpdateIngredients" min="0">
         </div>
         @foreach (FoodItemAmountDTO ingredient in ingredients)
             {
@@ -217,29 +217,28 @@ else
         return user.Nickname;
     }
 
-    private float TotalCalories()
+    private string TotalCalories()
     {
         float sum = 0.0f;
         foreach (var ingredient in ingredients)
         {
             sum += FoodItemCalories(ingredient);
         }
-        return sum;
+        return $"{(sum):0.##}";
     }
 
     private float FoodItemCalories(FoodItemAmountDTO item)
     => item.Amount * item.FoodItem!.Calories * scale;
 
-    private float FoodItemAmountGrams(FoodItemAmountDTO item)
-    => item.Amount * 100 * scale;
+    private string FoodItemAmountGrams(FoodItemAmountDTO item)
+    {
+        float f = item.Amount * 100 * scale;
+        return $"{(f):0.##}";
+    }
 
     private void UpdateIngredients(ChangeEventArgs e)
     {
-        Console.WriteLine(e.Value!.ToString());
-        if (float.TryParse(e.Value!.ToString(), System.Globalization.NumberStyles.Any, CultureInfo.CurrentCulture, out float newScale))
-        {
-            scale = newScale;
-            Console.WriteLine($"New value: {scale}");
-        }
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newScale) && newScale >= 0) scale = newScale;
     }
 }

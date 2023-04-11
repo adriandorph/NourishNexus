@@ -26,7 +26,10 @@
                             <h5 class="card-title">@recipe.Title</h5>
                             <p class="card-text">@recipe.Description</p>
                             <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
-                            <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-success mx-2">Edit</a>
+                            @if(recipe.AuthorId == userID)
+                            {
+                                <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-success mx-2">Edit</a>
+                            }
                         </div>
                     </div>
                 }
