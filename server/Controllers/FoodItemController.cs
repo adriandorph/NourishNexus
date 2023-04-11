@@ -81,4 +81,18 @@ public class FoodItemController : ControllerBase
         }
     }
 
+    [HttpGet("recipe/{id}")]
+    public async Task<IActionResult> GetByRecipe(int id)
+    {
+         try
+        {
+            var r = await _repo.ReadAllByRecipeId(id);
+            return Ok(r);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);        
+        }
+    }
+
 }

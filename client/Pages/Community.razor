@@ -7,63 +7,111 @@
 @using server.Core.EF.DTO;
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
-@inject AuthenticationStateProvider CustomAuthStateProvider
+@inject AuthenticationStateProvider AuthStateProvider
 @inject RecipeService RecipeService
-
+@inject UserService UserService
 
 <h1 class="text-center mb-3">Community Recipes</h1>
 <div class="container">
     <div class="row">
-        @if(recipes != null && recipes.Any()){
-            @foreach (var recipe in recipes) {
-            @if(recipe.AuthorId != theAuthorId){
-                <div class="col-md-4">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">@recipe.Title</h5>
-                            <p class="card-text">@recipe.Description</p>
-                            <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
-                            <a href="" class="btn btn-success" onclick="">Add to Recipes</a>
+        @if (recipes != null && recipes.Any())
+        {
+            @foreach (var recipe in recipes)
+            {
+                @if (recipe.AuthorId != theAuthorId)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">@recipe.Title</h5>
+                                <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
+                                <a href="@($"viewRecipe/{recipe.Id}")" class="btn btn-primary mx-2">View</a>
+                                @if (_user!.SavedRecipeIds.Contains(recipe.Id))
+                                {
+                                    <button class="btn btn-danger"
+                                        onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave recipe
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-success" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save
+                                        recipe
+                                    </button>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
             }
         }
-       
-        
-        </div>
     </div>
-        
+</div>
 
-@code 
+
+@code
 {
     private int theAuthorId;
+    private UserDTO? _user;
     private List<RecipeDTO>? recipes;
-    
-    private RecipeCreateDTO recipe = new();
+
+    private int recipeDescriptionLength = 200;
 
     protected override async Task OnInitializedAsync()
-{
-    try{
-        
-        var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-        int.TryParse(userIdClaim!.Value, out int authorID);
-        theAuthorId = authorID;
-        Console.WriteLine("User id is" + authorID);
-        var response = await RecipeService.GetPublicRecipes();
-        if (response.IsSuccessStatusCode){
-            recipes = await response.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
+    {
+        try
+        {
+            var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
+            var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
+            int.TryParse(userIdClaim!.Value, out theAuthorId);
+            _user = await UserService.GetUserByID(theAuthorId);
+            var response = await RecipeService.GetPublicRecipes();
+            if (response.IsSuccessStatusCode)
+            {
+                recipes = await response.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
+            }
+            else
+            {
+                recipes = new List<RecipeDTO>();
+            }
+            Console.WriteLine(_user.Nickname);
         }
-        else {
-            recipes = new List<RecipeDTO>();
+        catch (Exception e)
+        {
+            Console.WriteLine("Oh, it failed!" + e.Message);
         }
     }
-    catch(Exception e){
-        Console.WriteLine("Oh, it failed!" + e.Message);
-    }
-}
 
+    public async Task HandleSaveRecipe(int id)
+    {
+        var updatedSavedRecipes = new List<int>();
+        updatedSavedRecipes.AddRange(_user!.SavedRecipeIds);
+        updatedSavedRecipes.Add(id);
+        var userUpdate = new UserUpdateDTO
+            {
+                Id = theAuthorId,
+                SavedRecipeIds = updatedSavedRecipes
+            };
+
+        await UserService.UpdateUser(userUpdate);
+
+        _user = await UserService.GetUserByID(theAuthorId);
+        StateHasChanged();
+    }
+
+    public async Task HandleUnsaveRecipe(int id)
+    {
+        var updatedSavedRecipes = new List<int>();
+        updatedSavedRecipes.AddRange(_user!.SavedRecipeIds);
+        updatedSavedRecipes.Remove(id);
+        var userUpdate = new UserUpdateDTO
+            {
+                Id = theAuthorId,
+                SavedRecipeIds = updatedSavedRecipes
+            };
+
+        await UserService.UpdateUser(userUpdate);
+
+        _user = await UserService.GetUserByID(theAuthorId);
+        StateHasChanged();
+    }
 }
-    

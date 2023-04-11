@@ -6,11 +6,13 @@ public class RecipeController : ControllerBase
 {
     private readonly ILogger<RecipeController> _logger;
     private readonly IRecipeRepository _recipeRepo;
+    private readonly IUserRepository _userRepo;
 
-    public RecipeController(ILogger<RecipeController> logger, IRecipeRepository recipeRepo)
+    public RecipeController(ILogger<RecipeController> logger, IRecipeRepository recipeRepo, IUserRepository userRepo)
     {
         _logger = logger;
         _recipeRepo = recipeRepo;
+        _userRepo = userRepo;
     }
     
     //POST
@@ -22,15 +24,29 @@ public class RecipeController : ControllerBase
         try
         {
             (Response r, RecipeDTO dto) = await _recipeRepo.CreateAsync(recipe);
-            if (r == Core.Response.Created) return Ok("Success");
-            else if (r == Core.Response.Conflict) return Conflict("User already has a recipe with that title.");
+            if (r == Core.Response.Conflict) return Conflict("User already has a recipe with that title.");
             else if (r == Core.Response.NotFound) return NotFound("Could not find the user.");
             else if (r == Core.Response.BadRequest) return BadRequest("Bad Request");
-            else return StatusCode(500, "An unknown error occured");
+            
+            var userResult = await _userRepo.ReadByIDAsync(recipe.AuthorId);
+            if (userResult.IsNone) throw new Exception("Could not find user");
+            var user = userResult.Value;
+            var updatedSavedRecipes = new List<int>();
+            updatedSavedRecipes.AddRange(user.SavedRecipeIds);
+            updatedSavedRecipes.Add(dto.Id);
+            var userUpdate = new UserUpdateDTO
+            {
+                Id = user.Id,
+                SavedRecipeIds = updatedSavedRecipes
+            };
+            r = await _userRepo.UpdateAsync(userUpdate);
+            if (r == Core.Response.Updated) return Ok("Success");
+            else throw new Exception();
         }
         catch (Exception e)
         {
-            return StatusCode(500, e.Message);
+            _logger.LogError(e,e.Message);
+            return StatusCode(500, "An unknown error occured");
         }
     }
 
@@ -103,6 +119,29 @@ public class RecipeController : ControllerBase
         {
             var r = await _recipeRepo.ReadAllByCategoryIDAsync(categoryID);
             return Ok(r ?? new List<RecipeDTO>{});
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
+    [HttpGet("/recipes")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetRecipesByIDs([FromBody] List<int> RecipesIds)
+    {
+        try
+        {
+            var res = new List<RecipeDTO>();
+            foreach (var id in RecipesIds)
+            {
+                var r = await _recipeRepo.ReadByIDAsync(id);
+                if (r.IsSome)
+                {
+                    res.Add(r.Value);
+                }
+            }
+            return Ok(res);
         }
         catch (Exception)
         {

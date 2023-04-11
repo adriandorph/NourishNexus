@@ -1,5 +1,5 @@
 @page "/viewRecipe/{Id}"
-
+@using System.Globalization
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
@@ -10,17 +10,21 @@
 @inject RecipeService RecipeService
 @inject CategoryService CategoryService
 @inject UserService UserService
+@inject FoodItemService FoodItemService
 @inject IJSRuntime JSRuntime
 
 @if (recipe != null)
 {
     <h1>@recipe.Title</h1>
-    <h6> <i> By @recipeAuthor</i></h6>
+    <h6><i> By @recipeAuthor</i></h6>
     <hr />
     <div class="row">
         <div class="col">
             <div class="category-checkboxes d-flex flex-wrap">
-                @if (recipe != null && AllCategories != null && AllCategories.Any())
+                @if(AllCategories == null){
+                    <p><em>Loading...</em></p>
+                }
+                else if (recipe != null && AllCategories.Any())
                 {
                     @foreach (var categoryid in recipe.CategoryIDs)
                     {
@@ -29,12 +33,10 @@
                             if (cat.Id == categoryid)
                             {
                                 <div class="category-box mr-2 mb-2 rounded">
-                                <label>@cat.Name</label>
+                                    <label>@cat.Name</label>
                                 </div>
                             }
                         }
-
-
                     }
                 }
             </div>
@@ -59,28 +61,92 @@
 
     <div class="card my-4">
         <div class="card-body">
-            <span><h2 class="card-title">Description</h2> </span>
-            <p class="card-text">@recipe.Description</p>
+            <span>
+                <h2 class="card-title">Description</h2>
+            </span>
+            <p class="card-text">
+                <MultilineString Value=@recipe!.Description />
+            </p>
         </div>
     </div>
 
     <div class="card my-4">
         <div class="card-body">
-            <h2 class="card-title">Method</h2>
-            <p>@recipe.Method</p>
+            <span class="d-flex justify-content-between">
+                <h2 class="card-title">Ingredients</h2>
+                <h4 class="text-right kcal ">@TotalCalories() kcal </h4>
+            </span>
+            <div class="scale">
+                Scale x
+                <input class="scale-input" step="0.5" type="number" id="scaleInput" value="1" @onchange="UpdateIngredients"
+                    min="0">
+            </div>
+            @foreach (FoodItemAmountDTO ingredient in ingredients)
+            {
+                <div class="ingredient-box d-flex justify-content-between rounded mb-2">
+                    <span class="ingredient-name">@ingredient.FoodItem!.Name</span>
+                    <span class="ingredient-g">@FoodItemAmountGrams(ingredient) g</span>
+                </div>
+            }
         </div>
     </div>
-    @if (recipe.AuthorId == authorID){
-    <div class="mb-4">
-        <h3>Visibility</h3>
-        <p>@(recipe.IsPublic ? "Public" : "Private")</p>
+    <style>
+        .ingredient-box {
+            background-color: #eee;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ingredient-name {
+            margin-right: 8px;
+        }
+
+        .ingredient-g {
+            color: #000000;
+        }
+
+        .kcal {
+            font-weight: normal;
+        }
+
+        .scale {
+            margin-bottom: 10px
+        }
+
+        .scale-input {
+            width: 50px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="card-title">Method</h2>
+            <p>
+                <MultilineString Value=@recipe.Method />
+            </p>
+        </div>
     </div>
+    @if (recipe.AuthorId == authorID)
+    {
+        <div class="card my-4">
+            <div class="card-body">
+
+
+                <h4 class="card-title">Visibility</h4>
+                <p>@(recipe.IsPublic ? "Public" : "Private")</p>
+            </div>
+        </div>
     }
     <div>
         <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
-        @if (recipe.AuthorId == authorID){
-        <button class="btn btn-success mx-1" @onclick="EditRecipe">Edit</button>
-    }
+        @if (recipe.AuthorId == authorID)
+        {
+            <button class="btn btn-success mx-1" @onclick="EditRecipe">Edit</button>
+        }
     </div>
 }
 else
@@ -96,11 +162,13 @@ else
     [Parameter]
     public string Id { get; set; } = "";
 
-    public string authorName {get; set;} = "";
+    public string authorName { get; set; } = "";
 
     private int authorID;
+    private float scale { get; set; } = 1.0f;
 
-    private string recipeAuthor;
+    private string? recipeAuthor;
+    private List<FoodItemAmountDTO> ingredients { get; set; } = new List<FoodItemAmountDTO>();
 
     private List<CategoryDTO>? AllCategories { get; set; }
 
@@ -115,9 +183,6 @@ else
         return "";
     }
 
-
-
-
     protected override async Task OnInitializedAsync()
     {
         try
@@ -125,21 +190,13 @@ else
             var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
             var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
             int.TryParse(userIdClaim!.Value, out authorID);
-            recipeAuthor = await GetRecipeAuthor(authorID);
-            var response = await RecipeService.GetRecipe(int.Parse(Id));
-            if (response.IsSuccessStatusCode)
+            recipe = await RecipeService.GetRecipe(int.Parse(Id));
+            recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
+            if (recipe == null)
             {
-                recipe = (await response.Content.ReadFromJsonAsync<RecipeDTO>())!;
-                recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
-                if (recipe == null)
-                {
-                    throw new ApplicationException("Recipe not found");
-                }
+                throw new ApplicationException("Recipe not found");
             }
-            else
-            {
-                throw new ApplicationException($"Error retrieving recipe: {response.StatusCode}");
-            }
+            ingredients = await FoodItemService.GetByRecipe(recipe.Id);
         }
         catch (Exception e)
         {
@@ -159,13 +216,37 @@ else
 
     public void EditRecipe()
     {
-        NavigationManager.NavigateTo($"recipes/edit/{recipe.Id}");
+        NavigationManager.NavigateTo($"recipes/edit/{recipe!.Id}");
     }
 
-    public async Task<string> GetRecipeAuthor(int userid){
+    public async Task<string> GetRecipeAuthor(int userid)
+    {
         var user = await UserService.GetUserByID(userid);
         return user.Nickname;
     }
 
+    private string TotalCalories()
+    {
+        float sum = 0.0f;
+        foreach (var ingredient in ingredients)
+        {
+            sum += FoodItemCalories(ingredient);
+        }
+        return $"{(sum):0.##}";
+    }
 
+    private float FoodItemCalories(FoodItemAmountDTO item)
+    => item.Amount * item.FoodItem!.Calories * scale;
+
+    private string FoodItemAmountGrams(FoodItemAmountDTO item)
+    {
+        float f = item.Amount * 100 * scale;
+        return $"{(f):0.##}";
+    }
+
+    private void UpdateIngredients(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newScale) && newScale >= 0) scale = newScale;
+    }
 }
