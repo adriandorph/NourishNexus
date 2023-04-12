@@ -1,0 +1,54 @@
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.total-calories {
+    font-size: 16px;
+    color: #666;
+}
+
+.meal-box {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+.ingredient-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #ddd;
+    width: 50em; /* Update width as needed */
+    height: 5em; /* Update height as needed */
+}
+
+.ingredient-name {
+    margin: 0;
+}
+
+.calorie-amount {
+    margin: 0;
+}
+
+.remove-button {
+    background-color: transparent;
+    border: none;
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-food-button {
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .ingredient-box {
+        height: 6em;
+        width: 20em; /* Update height for smaller screens */
+    }
+}
