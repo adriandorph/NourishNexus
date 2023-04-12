@@ -48,6 +48,21 @@ public class FoodItemController : ControllerBase
         }
     }
 
+    [HttpPut("setingredients/{recipeID}")]
+    public async Task<IActionResult> SetFoodItemsInRecipe(int recipeId, [FromBody] List<FoodItemAmountDTO> foodItems)
+    {
+        try
+        {
+            var r = await _repo.UpdateFoodItemsInRecipe(foodItems, recipeId);
+            if (r == Core.Response.Updated) return NoContent();
+            else throw new Exception("Not updated");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error.");
+        }
+    }
     
     [HttpDelete]
     public async Task<IActionResult> DeleteFoodItem(int id)
@@ -65,7 +80,9 @@ public class FoodItemController : ControllerBase
         }
     }
 
-    [HttpGet]
+    
+
+    [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
          try
@@ -92,6 +109,21 @@ public class FoodItemController : ControllerBase
         catch (Exception e)
         {
             return StatusCode(500, e.Message);        
+        }
+    }
+
+    [HttpGet("search/{word}")]
+    public async Task<IActionResult> GetBySearchWord(string word)
+    {
+        try
+        {
+            var r = await _repo.ReadAllBySearchWord(word);
+            return Ok(r);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");
         }
     }
 

@@ -20,7 +20,8 @@ public interface IRecipeRepository{
     public Task<Option<RecipeDTO>> ReadByAuthorIDAndTitle(int authorID, string title);
 
     public Task<IReadOnlyCollection<RecipeDTO>> ReadAllByCategoryIDAsync(int categoryID);
-
-        public Task<IReadOnlyCollection<RecipeDTO>> ReadAllPublicAsync();
+    public Task<IReadOnlyCollection<RecipeDTO>> ReadAllPublicAsync();
     public Task<IReadOnlyCollection<RecipeAmountDTO>> ReadAllByMealId(int mealID);
+    public Task<IReadOnlyCollection<RecipeDTO>> ReadSavedBySearchWord(string word, int userID);
+    public Task<IReadOnlyCollection<RecipeDTO>> ReadPublicBySearchWord(string word);
 }

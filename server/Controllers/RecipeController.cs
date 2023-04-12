@@ -40,7 +40,7 @@ public class RecipeController : ControllerBase
                 SavedRecipeIds = updatedSavedRecipes
             };
             r = await _userRepo.UpdateAsync(userUpdate);
-            if (r == Core.Response.Updated) return Ok("Success");
+            if (r == Core.Response.Updated) return Ok(dto.Id);
             else throw new Exception();
         }
         catch (Exception e)
@@ -175,6 +175,36 @@ public class RecipeController : ControllerBase
         }
         catch (Exception)
         {
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
+    [HttpGet("search/saved")]
+    public async Task<IActionResult> GetSavedBySearchWord(string word, int userID)
+    {
+        try
+        {
+            var r = await _recipeRepo.ReadSavedBySearchWord(word, userID);
+            return Ok(r);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
+    [HttpGet("search/community/{word}")]
+    public async Task<IActionResult> GetPublicBySearchWord(string word)
+    {
+        try
+        {
+            var r = await _recipeRepo.ReadPublicBySearchWord(word);
+            return Ok(r);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
             return StatusCode(500, "Internal Server Error");
         }
     }

@@ -8,6 +8,7 @@ public interface IFoodItemRepository{
 
     //Update
     public Task<Response> UpdateAsync(FoodItemUpdateDTO item);
+    public Task<Response> UpdateFoodItemsInRecipe(List<FoodItemAmountDTO> foodItems, int recipeID);
 
     //Delete
     public Task<Response> RemoveAsync(int id);
@@ -20,6 +21,7 @@ public interface IFoodItemRepository{
     public Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByMealId(int mealID);
 
     public Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByRecipeId(int recipeID);
+    public Task<IReadOnlyCollection<FoodItemDTO>> ReadAllBySearchWord(string word);
 
 }
     
