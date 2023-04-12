@@ -22,9 +22,19 @@ h1 {
     align-items: center;
     margin-bottom: 10px;
     background-color: #ddd;
-    width: 50em; /* Update width as needed */
-    height: 5em; /* Update height as needed */
+    width: 50em;
+    height: 5em; 
 }
+
+#mealtype {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+#mealkcal{
+    justify-content: end;
+}
+
 
 .ingredient-name {
     margin: 0;

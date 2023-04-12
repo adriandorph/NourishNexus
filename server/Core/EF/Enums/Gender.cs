@@ -1,3 +1,4 @@
+namespace server.Core.EF;
 public enum Gender
 {
     Male,

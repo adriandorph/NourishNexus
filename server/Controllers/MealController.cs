@@ -19,7 +19,7 @@ public class MealController : ControllerBase
     }
 
 
-    [HttpGet("/{userID}/{date}")]
+    [HttpGet("{userID}/{date}")]
     public async Task<IActionResult> GetByUserAndDate(int userID, DateTime date)
     {
         try
@@ -39,6 +39,7 @@ public class MealController : ControllerBase
             return StatusCode(500, "Internal Server Error");
         }
     }
+
 
 
 

@@ -50,4 +50,10 @@ public class RecipeService
         var result = await _http.GetAsync($"api/Recipe/search/community/{word}");
         return await result.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
     }
+
+    public async Task<List<RecipeAmountDTO>> GetByMeal(int mealID)
+    {
+        var result = await _http.GetAsync($"api/Recipe/meal/{mealID}");
+        return await result.Content.ReadFromJsonAsync<List<RecipeAmountDTO>>() ?? new List<RecipeAmountDTO>();
+    }
 }

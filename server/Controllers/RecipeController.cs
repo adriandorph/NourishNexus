@@ -126,6 +126,21 @@ public class RecipeController : ControllerBase
         }
     }
 
+    [HttpGet("meal/{mealID}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetRecipesByMealID(int mealID)
+    {
+        try
+        {
+            var r = await _recipeRepo.ReadAllByMealId(mealID);
+            return Ok(r ?? new List<RecipeAmountDTO>{});
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
     [HttpGet("/recipes")]
     [AllowAnonymous]
     public async Task<IActionResult> GetRecipesByIDs([FromBody] List<int> RecipesIds)
@@ -208,6 +223,8 @@ public class RecipeController : ControllerBase
             return StatusCode(500, "Internal Server Error");
         }
     }
+
+    
 }
 
    

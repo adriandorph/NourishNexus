@@ -112,6 +112,20 @@ public class FoodItemController : ControllerBase
         }
     }
 
+    [HttpGet("meal/{id}")]
+    public async Task<IActionResult> GetByMeal(int id)
+    {
+         try
+        {
+            var r = await _repo.ReadAllByMealId(id);
+            return Ok(r);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);        
+        }
+    }
+
     [HttpGet("search/{word}")]
     public async Task<IActionResult> GetBySearchWord(string word)
     {
