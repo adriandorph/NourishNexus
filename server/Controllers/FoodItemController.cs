@@ -48,6 +48,21 @@ public class FoodItemController : ControllerBase
         }
     }
 
+    [HttpPut("setingredients/{recipeID}")]
+    public async Task<IActionResult> SetFoodItemsInRecipe(int recipeId, [FromBody] List<FoodItemAmountDTO> foodItems)
+    {
+        try
+        {
+            var r = await _repo.UpdateFoodItemsInRecipe(foodItems, recipeId);
+            if (r == Core.Response.Updated) return NoContent();
+            else throw new Exception("Not updated");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error.");
+        }
+    }
     
     [HttpDelete]
     public async Task<IActionResult> DeleteFoodItem(int id)

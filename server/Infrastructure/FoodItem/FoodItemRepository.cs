@@ -260,22 +260,40 @@ public class FoodItemRepository : IFoodItemRepository
             itemEntity.Calcium = (float) item.Calcium;
         }
 
-
-
-
-
-       
-
-
-
-
-
         await _context.SaveChangesAsync();
         
         return Response.Updated;
     }
+
+    public async Task<Response> UpdateFoodItemsInRecipe(List<FoodItemAmountDTO> foodItems, int recipeID)
+    {
+        
+        var foodItemRecipes = new List<FoodItemRecipe>();
+        var recipe = await _context.Recipes.Where(r => r.Id == recipeID).FirstOrDefaultAsync();
+        if (recipe == null) return Response.NotFound;
+
+        foreach(var foodItemAmount in foodItems)
+        {
+            var foodItem = await _context.FoodItems.Where(f => f.Id == foodItemAmount.FoodItem!.Id).FirstOrDefaultAsync();
+            if (foodItem == null) return Response.NotFound;
+            var foodItemRecipe = new FoodItemRecipe
+            (
+                foodItem,
+                recipe,
+                foodItemAmount.Amount
+            );
+            foodItemRecipes.Add(foodItemRecipe);
+        }
+
+        await RemoveFoodItemRecipesByRecipeID(recipeID);
+        await _context.FoodItemRecipes.AddRangeAsync(foodItemRecipes);
+        await _context.SaveChangesAsync();
+
+        return Response.Updated;
+    }
     
 
+    //DELETE
     public async Task<Response> RemoveAsync(int id)
     {
         var itemEntity = await _context.FoodItems
@@ -286,6 +304,8 @@ public class FoodItemRepository : IFoodItemRepository
         {
             return Response.NotFound;
         }
+
+        await RemoveFoodItemRecipesByFoodItemID(id);
 
         _context.FoodItems.Remove(itemEntity);
         await _context.SaveChangesAsync();
@@ -344,4 +364,20 @@ public class FoodItemRepository : IFoodItemRepository
             .Take(100)
             .Select(f => f.ToDTO())
             .ToListAsync();
+    
+    public async Task<Response> RemoveFoodItemRecipesByRecipeID(int recipeID)
+    {
+        var toBeDeleted = await _context.FoodItemRecipes.Where(fir => fir.Recipe.Id == recipeID).ToListAsync();
+        _context.FoodItemRecipes.RemoveRange(toBeDeleted);
+        await _context.SaveChangesAsync();
+        return Response.Deleted;
+    }
+
+    public async Task<Response> RemoveFoodItemRecipesByFoodItemID(int foodItemID)
+    {
+        var toBeDeleted = await _context.FoodItemRecipes.Where(fir => fir.FoodItem.Id == foodItemID).ToListAsync();
+        _context.FoodItemRecipes.RemoveRange(toBeDeleted);
+        await _context.SaveChangesAsync();
+        return Response.Deleted;
+    }
 }

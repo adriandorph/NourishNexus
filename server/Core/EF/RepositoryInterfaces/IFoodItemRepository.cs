@@ -8,6 +8,7 @@ public interface IFoodItemRepository{
 
     //Update
     public Task<Response> UpdateAsync(FoodItemUpdateDTO item);
+    public Task<Response> UpdateFoodItemsInRecipe(List<FoodItemAmountDTO> foodItems, int recipeID);
 
     //Delete
     public Task<Response> RemoveAsync(int id);

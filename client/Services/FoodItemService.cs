@@ -37,7 +37,7 @@ public class FoodItemService
         else return null;
     }
 
-    public async Task<HttpResponseMessage> SetIngredients(List<int> foodItems, int recipeID)
+    public async Task<HttpResponseMessage> SetIngredients(List<FoodItemAmountDTO> foodItems, int recipeID)
     {
         var result = await _http.PutAsJsonAsync($"api/FoodItem/setingredients/{recipeID}", foodItems);
         return result;
