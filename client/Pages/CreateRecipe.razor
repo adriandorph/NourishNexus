@@ -11,6 +11,7 @@
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject RecipeService RecipeService
 @inject CategoryService CategoryService
+@inject FoodItemService FoodItemService
 @inject IJSRuntime JSRuntime
 
 <PageTitle> Create Recipe </PageTitle>
@@ -196,15 +197,15 @@
     {
         recipe.CategoryIDs = selectedCategoryIds;
         var response = await RecipeService.CreateRecipe(recipe);
+        var recipeID = await response.Content.ReadAsAsync<int>();
+        var responseIngredients = await FoodItemService.SetIngredients(ingredients, recipeID);
 
-        if (response.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode && responseIngredients.IsSuccessStatusCode)
         {
             await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_CreateRecipe");
             await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_Ingredients");
             NavigationManager.NavigateTo("savedRecipes");
         }
-
-
     }
 
     protected override async Task OnInitializedAsync()

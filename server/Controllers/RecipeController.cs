@@ -40,7 +40,7 @@ public class RecipeController : ControllerBase
                 SavedRecipeIds = updatedSavedRecipes
             };
             r = await _userRepo.UpdateAsync(userUpdate);
-            if (r == Core.Response.Updated) return Ok("Success");
+            if (r == Core.Response.Updated) return Ok(dto.Id);
             else throw new Exception();
         }
         catch (Exception e)

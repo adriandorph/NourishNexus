@@ -213,9 +213,11 @@
     async Task HandleUpdateRecipe()
     {
         recipe.CategoryIDs = selectedCategoryIds;
-        var response = await RecipeService.UpdateRecipe(recipe);
+        var responseRecipe = await RecipeService.UpdateRecipe(recipe);
+        var responseIngredients = await FoodItemService.SetIngredients(ingredients, recipe.Id);
+
         ClearUsedSessionStorage();
-        if(response.IsSuccessStatusCode)
+        if(responseRecipe.IsSuccessStatusCode && responseIngredients.IsSuccessStatusCode)
         {
             messageCssClass = "text-success";
             message = "Recipe updated successfully";
