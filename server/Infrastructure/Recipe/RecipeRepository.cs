@@ -208,6 +208,7 @@ public class RecipeRepository : IRecipeRepository
             .Include(r => r.Categories)
             .Where(r => savedRecipeIds.Contains(r) && r.Title.Contains(word))
             .OrderBy(r => r.Title.Length)
+            .Take(100)
             .Select(r => r.ToDTO())
             .ToListAsync();
     }
@@ -218,6 +219,7 @@ public class RecipeRepository : IRecipeRepository
             .Include(r => r.Categories)
             .Where(r => r.IsPublic && r.Title.Contains(word))
             .OrderBy(r => r.Title.Length)
+            .Take(100)
             .Select(r => r.ToDTO())
             .ToListAsync();
 

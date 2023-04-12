@@ -1,0 +1,227 @@
+@page "/addfooditem/{Id}"
+@attribute [Authorize]
+@using System.Globalization;
+@using Microsoft.JSInterop;
+@using System.Text.Json
+@inject FoodItemService FoodItemService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+@if (foodItem != null){
+    <div class="d-inline-flex align-items-center">
+    <button type="button" class="btn btn-primary" @onclick="GoBack">
+        <i class="oi oi-arrow-thick-left mr-2"></i>
+    </button>
+    </div>
+    <h1>@foodItem.Name</h1>
+    <div class="form-group mb-3">
+        <label for="food-item-amount">Amount (in grams)</label>
+        <input type="number" class="form-control" value="100" id="food-item-amount" @oninput="HandleAmountChange" />
+    </div>
+
+    <button class="btn btn-primary" @onclick="HandleAddFoodItem">Add</button>
+
+    <hr>
+
+    <h2>Nutritional values</h2>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Nutrient</th>
+                <th class="value">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Calories</td>
+                <td class="value">@Scale(foodItem.Calories, amount) kcal</td>
+            </tr>
+            <tr>
+                <td>Protein</td>
+                <td class="value">@Scale(foodItem.Protein, amount) g</td>
+            </tr>
+            <tr>
+                <td>Carbohydrates</td>
+                <td class="value">@Scale(foodItem.Carbohydrates, amount) g</td>
+            </tr>
+            <tr>
+                <td>Sugars</td>
+                <td class="value">@Scale(foodItem.Sugars, amount) g</td>
+            </tr>
+            <tr>
+                <td>Fibres</td>
+                <td class="value">@Scale(foodItem.Fibres, amount) g</td>
+            </tr>
+            <tr>
+                <td>TotalFat</td>
+                <td class="value">@Scale(foodItem.TotalFat, amount) g</td>
+            </tr>
+            <tr>
+                <td>SaturatedFat</td>
+                <td class="value">@Scale(foodItem.SaturatedFat, amount) g</td>
+            </tr>
+            <tr>
+                <td>MonounsaturatedFat</td>
+                <td class="value">@Scale(foodItem.MonounsaturatedFat, amount) g</td>
+            </tr>
+            <tr>
+                <td>PolyunsaturatedFat</td>
+                <td class="value">@Scale(foodItem.PolyunsaturatedFat, amount) g</td>
+            </tr>
+            <tr>
+                <td>TransFat</td>
+                <td class="value">@Scale(foodItem.TransFat, amount) g</td>
+            </tr>
+            <tr>
+                <td>VitaminA</td>
+                <td class="value">@Scale(foodItem.VitaminA, amount) µg</td>
+            </tr>
+            <tr>
+                <td>VitaminB6</td>
+                <td class="value">@Scale(foodItem.VitaminB6, amount) mg</td>
+            </tr>
+            <tr>
+                <td>VitaminB12</td>
+                <td class="value">@Scale(foodItem.VitaminB12, amount) µg</td>
+            </tr>
+            <tr>
+                <td>VitaminC</td>
+                <td class="value">@Scale(foodItem.VitaminC, amount) mg</td>
+            </tr>
+            <tr>
+                <td>VitaminD</td>
+                <td class="value">@Scale(foodItem.VitaminD, amount) µg</td>
+            </tr>
+            <tr>
+                <td>VitaminE</td>
+                <td class="value">@Scale(foodItem.VitaminE, amount) alfa-TE</td>
+            </tr>
+            <tr>
+                <td>Thiamin</td>
+                <td class="value">@Scale(foodItem.Thiamin, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Riboflavin</td>
+                <td class="value">@Scale(foodItem.Riboflavin, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Niacin</td>
+                <td class="value">@Scale(foodItem.Niacin, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Folate</td>
+                <td class="value">@Scale(foodItem.Folate, amount) µg</td>
+            </tr>
+            <tr>
+                <td>Salt</td>
+                <td class="value">@Scale(foodItem.Salt, amount) g</td>
+            </tr>
+            <tr>
+                <td>Potassium</td>
+                <td class="value">@Scale(foodItem.Potassium, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Magnesium</td>
+                <td class="value">@Scale(foodItem.Magnesium, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Iron</td>
+                <td class="value">@Scale(foodItem.Iron, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Zinc</td>
+                <td class="value">@Scale(foodItem.Zinc, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Phosphorus</td>
+                <td class="value">@Scale(foodItem.Phosphorus, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Copper</td>
+                <td class="value">@Scale(foodItem.Copper, amount) mg</td>
+            </tr>
+            <tr>
+                <td>Iodine</td>
+                <td class="value">@Scale(foodItem.Iodine, amount) µg</td>
+            </tr>
+            <tr>
+                <td>Selenium</td>
+                <td class="value">@Scale(foodItem.Selenium, amount) µg</td>
+            </tr>
+            <tr>
+                <td>Calcium</td>
+                <td class="value">@Scale(foodItem.Calcium, amount) mg</td>
+            </tr>
+            <!-- Add more nutrient rows as needed -->
+        </tbody>
+
+</table>
+
+<style>
+    .value {
+        text-align: end;
+    }
+</style>
+
+}
+else
+{
+    <h1>Food Item Not Found</h1>
+}
+
+@code {
+    [Parameter]
+    public string Id {get; set;} = "";
+    private float amount {get; set;} = 1;
+    private FoodItemDTO? foodItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id == string.Empty) return;
+        foodItem = await FoodItemService.GetFoodItemById(int.Parse(Id));
+    }
+
+    private string Scale(float a, float b) 
+    {
+        var res = a * b;
+        return $"{(res):0.##}";
+    }
+
+    private void HandleAmountChange(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) amount = newAmount / 100;
+    }
+
+     protected async void GoBack2Times()
+    {
+        await JSRuntime.InvokeVoidAsync("history.go", -2);
+    }
+
+    protected async void GoBack(){
+        await JSRuntime.InvokeVoidAsync("history.back");
+    }
+
+    private async Task HandleAddFoodItem()
+    {
+        string ingredientsSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_Ingredients");
+        if (string.IsNullOrEmpty(ingredientsSerialized)) return;
+        var loadedIngredients = JsonSerializer.Deserialize<List<FoodItemAmountDTO>>(ingredientsSerialized);
+        if(loadedIngredients == null) return;
+
+        var foodItemAmount = new FoodItemAmountDTO
+        {
+            Amount = amount,
+            FoodItem = foodItem
+        };
+        loadedIngredients.Add(foodItemAmount);
+
+        ingredientsSerialized = JsonSerializer.Serialize(loadedIngredients);
+        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_Ingredients", ingredientsSerialized);
+        
+        GoBack2Times();
+    }
+}
+

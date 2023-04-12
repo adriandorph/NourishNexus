@@ -4,17 +4,21 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using server.Core.EF.DTO;
+@using System.Text.Json;
+@using Microsoft.JSInterop;
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 @inject RecipeService RecipeService
 @inject CategoryService CategoryService
+@inject FoodItemService FoodItemService
 
 <PageTitle> Edit Recipe </PageTitle>
 
 <h1>Edit Recipe</h1>
 
-<div class="form-group my-2">
+<EditForm Model="@recipe" OnSubmit="HandleUpdateRecipe">
+    <div class="form-group my-2">
         <h6>Categories</h6>
         <div class="category-checkboxes d-flex flex-wrap">
             @if (AllCategories != null && AllCategories.Any())
@@ -35,7 +39,82 @@
         </div>
     </div>
 
-    <style>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <span>
+                <h2 class="card-title">Description</h2>
+            </span>
+            <div class="form-group my-2">
+                <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card my-4">
+        <div class="card-body">
+            <span class="d-flex justify-content-between">
+                <h2 class="card-title">Ingredients</h2>
+                <h4 class="text-right kcal ">@TotalCalories() kcal </h4>
+            </span>
+            @foreach (FoodItemAmountDTO ingredient in ingredients)
+            {
+                <div class="ingredient-box d-flex justify-content-between rounded mb-2">
+                    <span class="ingredient-name">@ingredient.FoodItem!.Name</span>
+                    <span>
+                        <span class="ingredient-g">@Scale(ingredient.Amount, 100) g</span>
+                        <button class="cross" type="button"
+                        @onclick="async () => await HandleDeleteIngredient(ingredient)">X</button>
+                    </span>
+                </div>
+            }
+            <button class="btn btn-success" type="button" @onclick="HandleAddIngredient">
+                Add Ingredient
+            </button>
+        </div>
+    </div>
+
+
+
+
+    <div class="card my-4">
+        <div class="card-body">
+            <span>
+                <h2 class="card-title">Method</h2>
+            </span>
+            <div class="form-group my-2">
+                <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group my-2">
+        <div>Recipe visibility</div>
+        <InputRadioGroup @bind-Value="recipe.IsPublic">
+            <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)"/>
+            <label class="form-check-label" for="Public">Public</label>
+
+            <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)"/>
+            <label class="form-check-label" for="Private">Private</label>
+        </InputRadioGroup>
+    </div>
+    <div class="form-group">
+        <p>If you choose to create a private recipe, it will not be visible to other users</p>
+    </div>
+    <div class="form-group my-2">
+        <button type="button" class="btn btn-primary" @onclick="GoBack">Cancel</button>
+        <button type="submit" class="btn btn-success btn-block">Update</button>
+        <button type="button" class="btn btn-danger" @onclick="HandleDeleteRecipe">Delete</button>
+        <div class="@messageCssClass">
+            <span>@message</span>
+        </div>
+    </div>
+</EditForm>
+ 
+
+<style>
         .category-box {
             background-color: #eee;
             padding: 4px 8px;
@@ -49,48 +128,27 @@
         .category-box input[type=checkbox] {
             margin-right: 4px;
         }
-    </style>
-        <EditForm Model="@recipe" OnSubmit="HandleUpdateRecipe">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <div class="form-group">
-                <label for="title">Title</label>
-                <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
-            </div>
 
-            <div class="form-group">
-                <label for="method">Method</label>
-                <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="7" />
+        .ingredient-box {
+        background-color: #eee;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-            </div>
+    .ingredient-name {
+        margin-right: 8px;
+    }
 
-            <div class="form-group">
-                <label for="description">Description</label>
-                <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="7" />
-            </div>
-            <div class="form-group">
-                <div>Recipe visibility</div>
-                <InputRadioGroup @bind-Value="recipe.IsPublic">
-                    <InputRadio id="Public" Value="true" class="form-check-input" /><label class="form-check-label" for="Public">Public</label>
-                    <InputRadio id="Private" Value="false" class="form-check-input" /><label class="form-check-label" for="Private">Private</label>
-                </InputRadioGroup>
-            </div>
-            <div class="form-group">
-                <p>If you choose to create a private recipe, it will not be visible to other users</p>
-            </div>
-            <div class="form-group">
-                <br/>
-                <button type="button" class="btn btn-primary" @onclick="GoBack">Cancel</button>
-                <button type="submit" class="btn btn-success btn-block">Update</button>
-                <button type="button" class="btn btn-danger btn-block" @onclick="HandleDeleteRecipe">Delete</button>
-                 <div class ="@messageCssClass">
-                <span>@message</span>
-            </div>
-            </div>
-        </EditForm>
- 
+    .ingredient-g {
+        color: #000000;
+    }
 
-
+    .kcal {
+        font-weight: normal;
+    }
+</style>
 
 @code {
     [Parameter]
@@ -102,6 +160,8 @@
     List<int> selectedCategoryIds = new List<int>();
     string messageCssClass = string.Empty;
     private RecipeUpdateDTO recipe = new();
+
+    private List<FoodItemAmountDTO> ingredients { get; set; } = new List<FoodItemAmountDTO>();
 
     private List<CategoryDTO> AllCategories { get; set; } = new List<CategoryDTO>();
 
@@ -131,9 +191,13 @@
         recipe.Description = existingRecipe.Description;
         recipe.Method = existingRecipe.Method;
         recipe.IsPublic = existingRecipe.IsPublic;
-        foreach(int catid in existingRecipe.CategoryIDs){
+        foreach(int catid in existingRecipe.CategoryIDs)
+        {
             selectedCategoryIds.Add(catid);
         }
+        ingredients = await FoodItemService.GetByRecipe(recipe.Id);
+
+        await LoadChanges();
 
         var catResponse = await CategoryService.GetCategories();
         if (catResponse.IsSuccessStatusCode)
@@ -144,14 +208,13 @@
         {
             Console.WriteLine("The response was not successful");
         }
-        
     }
 
     async Task HandleUpdateRecipe()
     {
         recipe.CategoryIDs = selectedCategoryIds;
         var response = await RecipeService.UpdateRecipe(recipe);
-        
+        ClearUsedSessionStorage();
         if(response.IsSuccessStatusCode)
         {
             messageCssClass = "text-success";
@@ -166,24 +229,25 @@
     }
 
     async Task HandleDeleteRecipe()
-{
-    var response = await RecipeService.DeleteRecipe(recipe.Id);
-    
-    if (response.IsSuccessStatusCode)
     {
-        messageCssClass = "text-success";
-        message = "Recipe deleted successfully";
-        NavigationManager.NavigateTo("savedRecipes");
+        var response = await RecipeService.DeleteRecipe(recipe.Id);
+        ClearUsedSessionStorage();
+        if (response.IsSuccessStatusCode)
+        {
+            messageCssClass = "text-success";
+            message = "Recipe deleted successfully";
+            NavigationManager.NavigateTo("savedRecipes");
+        }
+        else
+        {
+            messageCssClass = "text-danger";
+            message = "Recipe deletion failed";
+        }
     }
-    else
-    {
-        messageCssClass = "text-danger";
-        message = "Recipe deletion failed";
-    }
-}
 
     protected async void GoBack()
     {
+        ClearUsedSessionStorage();
         await JSRuntime.InvokeVoidAsync("history.back");
     }
 
@@ -212,5 +276,75 @@
         }
 
     }
+
+    private string Scale(float a, float b)
+    {
+        var res = a * b;
+        return $"{(res):0.##}";
+    }
+
+
+    private string TotalCalories()
+    {
+        float sum = 0.0f;
+        foreach (var ingredient in ingredients)
+        {
+            sum += FoodItemCalories(ingredient);
+        }
+        return $"{(sum):0.##}";
+    }
+
+    private float FoodItemCalories(FoodItemAmountDTO item)
+    => item.Amount * item.FoodItem!.Calories;
+
+    private async Task SaveChanges()
+    {
+        recipe.CategoryIDs = selectedCategoryIds;
+        string createRecipeSerialized = JsonSerializer.Serialize(recipe);
+        string ingredientsSerialized = JsonSerializer.Serialize(ingredients);
+        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_UpdateRecipe", createRecipeSerialized);
+        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_Ingredients", ingredientsSerialized);
+    }
+
+    private async Task LoadChanges()
+    {
+        string? createRecipeSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_UpdateRecipe");
+        string? ingredientsSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_Ingredients");
+
+        if (!string.IsNullOrEmpty(createRecipeSerialized))
+        {
+            var loadedRecipe = JsonSerializer.Deserialize<RecipeUpdateDTO>(createRecipeSerialized);
+            if (loadedRecipe != null)
+            {
+                recipe = loadedRecipe;
+                selectedCategoryIds = recipe.CategoryIDs ?? new List<int>();
+            }
+            if (!string.IsNullOrEmpty(ingredientsSerialized))
+            {
+                var loadedIngredients = JsonSerializer.Deserialize<List<FoodItemAmountDTO>>(ingredientsSerialized);
+                if (loadedIngredients != null) ingredients = loadedIngredients;
+            }
+        }
+    }
+
+    private async void ClearUsedSessionStorage()
+    {
+        await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_UpdateRecipe");
+        await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_Ingredients");
+    }
+
+    private async Task HandleDeleteIngredient(FoodItemAmountDTO ingredient)
+    {
+        ingredients.Remove(ingredient);
+        await SaveChanges();
+        StateHasChanged();
+    }
+
+    private async Task HandleAddIngredient()
+    {
+        await SaveChanges();
+        NavigationManager.NavigateTo("/search");
+    }
+     
 }
 

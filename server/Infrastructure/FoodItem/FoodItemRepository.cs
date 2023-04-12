@@ -341,6 +341,7 @@ public class FoodItemRepository : IFoodItemRepository
         => await  _context.FoodItems
             .Where(f => f.Name.Contains(word))
             .OrderBy(f => f.Name.Length)
+            .Take(100)
             .Select(f => f.ToDTO())
             .ToListAsync();
 }

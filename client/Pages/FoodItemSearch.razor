@@ -4,13 +4,18 @@
 @inject HttpClient Http
 @inject FoodItemService FoodItemService
 @inject RecipeService RecipeService
+@inject UserService UserService
 @inject AuthenticationStateProvider CustomAuthStateProvider
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 <h1>Food Item Search</h1>
 
-<button>
-    =
-</button>
+<div class="d-inline-flex align-items-center">
+  <button type="button" class="btn btn-primary" @onclick="GoBack">
+    <i class="oi oi-arrow-thick-left mr-2"></i>
+  </button>
+</div>
 <div class="btn-group mb-3">
     <button class="btn btn-secondary @((IsSearchOptionActive(SearchOption.FoodItems) ? "active" : ""))" @onclick="() => SetSearchOption(SearchOption.FoodItems)">
         Food Items
@@ -25,31 +30,68 @@
 
 
 <div class="form-group">
-    <input type="text" class="form-control" id="search-query" @oninput="PerformSearch" />
+    <input type="text" class="form-control rounded-edge" placeholder="Search..." id="search-query" @oninput="PerformSearch" />
 </div>
 
-@if (SearchResults != null && SearchResults.Count > 0)
+<hr class="hr">
+
+@if (SearchResults != null)
 {
     <ul class="list-group">
         @foreach (var result in SearchResults)
         {
-            <li class="list-group-item">
-                <a href="@($"/fooditem/{result.Id}")">@result.Title</a>
-            </li>
+            <a href="@($"/addfooditem/{result.Id}")" class="searchresult rounded-edge">
+                <li class="list-group-item">
+                    <h4>@result.Title</h4>
+                    @if(result.Type != SearchResultType.FoodItem)
+                    {
+                        <p class="byline">
+                            By <i>@result.Author</i>
+                        </p>
+                    }
+                </li>
+            </a>
         }
     </ul>
 }
-else if (SearchPerformed)
+@if (SearchPerformed && !SearchResults!.Any())
 {
     <p>No results found.</p>
 }
 
+<style>
+    .byline {
+        font-size: 14px;
+        margin-bottom: 0px;
+        margin-top: -10px;
+    }
+
+    .searchresult {
+        text-decoration: none;
+        color : green;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .list-group-item:hover {
+        background-color : #94F1B4;
+    }
+    .searchresult:hover {
+        background-color: green;
+    }
+    .hr {
+        margin-bottom: 5px;
+    }
+    .rounded-edge {
+        border-radius: 10px !important;
+    }
+ </style>
+
 @code {
     private int userID;
-    private bool SearchPerformed = false;
+    private bool SearchPerformed {get; set;} = false;
     private List<SearchResult> SearchResults {get; set;} = new List<SearchResult>();
 
-    private record SearchResult(int Id, string Title, SearchResultType Type, int? AuthorId);
+    private record SearchResult(int Id, string Title, SearchResultType Type, string? Author);
 
     private enum SearchResultType
     {
@@ -69,18 +111,10 @@ else if (SearchPerformed)
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            int.TryParse(userIdClaim!.Value, out int id);
-            userID = id;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
-        
+        var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        int.TryParse(userIdClaim!.Value, out int id);
+        userID = id;
     }
 
     
@@ -88,7 +122,11 @@ else if (SearchPerformed)
     private async Task PerformSearch(ChangeEventArgs e)
     {
         string searchQuery = e.Value != null ? e.Value!.ToString() ?? "" : "";
-        if (searchQuery.Length < 2) return;
+        if (searchQuery.Length < 1) 
+        {
+            SearchPerformed = false;
+            return;
+        }
         switch (CurrentSearchOption)
         {
             case SearchOption.FoodItems:
@@ -98,17 +136,18 @@ else if (SearchPerformed)
                 break;
             case SearchOption.SavedRecipes:
                 var recipeList = await RecipeService.GetSavedBySearchWord(searchQuery, userID);
-                var recipeResults = recipeList.Select(r => new SearchResult(r.Id, r.Title, SearchResultType.Recipe, r.AuthorId)).ToList();
-                SearchResults = recipeResults;
+                var recipeResults = recipeList.Select(async r => new SearchResult(r.Id, r.Title, SearchResultType.Recipe, await GetRecipeAuthor(r.AuthorId))).ToList();
+                SearchResults = (await Task.WhenAll(recipeResults)).ToList();
                 break;
             case SearchOption.CommunityRecipes:
                 var communityList = await RecipeService.GetFromCommunityBySearchWord(searchQuery);
-                var communityResults = communityList.Select(r => new SearchResult(r.Id, r.Title, SearchResultType.Recipe, r.AuthorId)).ToList();
-                SearchResults = communityResults;
+                var communityResults = communityList.Select(async r => new SearchResult(r.Id, r.Title, SearchResultType.Recipe, await GetRecipeAuthor(r.AuthorId))).ToList();
+                SearchResults = (await Task.WhenAll(communityResults)).ToList();
                 break;
             default:
                 throw new Exception();
         }
+        SearchPerformed = true;
     }
 
 
@@ -117,6 +156,7 @@ else if (SearchPerformed)
         CurrentSearchOption = searchOption;
         SearchPerformed = false;
         // Perform additional logic based on the selected search option
+        SearchResults = new List<SearchResult>();
     }
 
     // Check if the given search option is currently active
@@ -124,4 +164,16 @@ else if (SearchPerformed)
     {
         return CurrentSearchOption == searchOption;
     }
+
+    public async Task<string> GetRecipeAuthor(int userid)
+    {
+        var user = await UserService.GetUserByID(userid);
+        return user.Nickname;
+    }
+
+    protected async void GoBack()
+    {
+        await JSRuntime.InvokeVoidAsync("history.back");
+    }
+    
 }

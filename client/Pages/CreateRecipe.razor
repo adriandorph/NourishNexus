@@ -1,5 +1,7 @@
 @page "/recipes/create"
 @attribute [Authorize]
+@using Microsoft.JSInterop
+@using System.Text.Json
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
@@ -14,10 +16,10 @@
 <PageTitle> Create Recipe </PageTitle>
 
 <h1>Create Recipe</h1>
-        <div class="form-group">
-            <label for="title">Title</label>
-            <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
-        </div>
+<div class="form-group">
+    <label for="title">Title</label>
+    <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
+</div>
 
 <EditForm Model="@recipe" OnSubmit="HandleCreateRecipe">
     <div class="form-group my-2">
@@ -41,22 +43,6 @@
         </div>
     </div>
 
-    <style>
-        .category-box {
-            background-color: #eee;
-            padding: 4px 8px;
-            margin: 4px 8px;
-        }
-
-        .category-box label {
-            margin-bottom: 0;
-        }
-
-        .category-box input[type=checkbox] {
-            margin-right: 4px;
-        }
-    </style>
-    
 
     <div class="card my-4">
         <div class="card-body">
@@ -74,46 +60,28 @@
         <div class="card-body">
             <span class="d-flex justify-content-between">
                 <h2 class="card-title">Ingredients</h2>
-                <h4 class="text-right kcal ">kcal </h4>
+                <h4 class="text-right kcal ">@TotalCalories() kcal </h4>
             </span>
             @foreach (FoodItemAmountDTO ingredient in ingredients)
             {
                 <div class="ingredient-box d-flex justify-content-between rounded mb-2">
                     <span class="ingredient-name">@ingredient.FoodItem!.Name</span>
-                    <span class="ingredient-g"> g</span>
-                    <button class="cross" type="button">X</button>
+                    <span>
+                        <span class="ingredient-g">@Scale(ingredient.Amount, 100) g</span>
+                        <button class="cross" type="button"
+                        @onclick="async () => await HandleDeleteIngredient(ingredient)">X</button>
+                    </span>
                 </div>
             }
-            <button class="btn btn-success" type="button">
+            <button class="btn btn-success" type="button" @onclick="HandleAddIngredient">
                 Add Ingredient
             </button>
         </div>
     </div>
 
-    <style>
-        .ingredient-box {
-            background-color: #eee;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
 
-        .ingredient-name {
-            margin-right: 8px;
-        }
 
-        .ingredient-g {
-            color: #000000;
-        }
 
-        .kcal {
-            font-weight: normal;
-        }
-
-        </style>
-
-    
     <div class="card my-4">
         <div class="card-body">
             <span>
@@ -129,10 +97,11 @@
     <div class="form-group my-2">
         <div>Recipe visibility</div>
         <InputRadioGroup @bind-Value="recipe.IsPublic">
-            <InputRadio id="Public" Value="true" class="form-check-input" /><label class="form-check-label"
-                for="Public">Public</label>
-            <InputRadio id="Private" Value="false" class="form-check-input" /><label class="form-check-label"
-                for="Private">Private</label>
+            <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)"/>
+            <label class="form-check-label" for="Public">Public</label>
+
+            <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)"/>
+            <label class="form-check-label" for="Private">Private</label>
         </InputRadioGroup>
     </div>
     <div class="form-group">
@@ -149,7 +118,41 @@
 
 
 
+<style>
+    .category-box {
+        background-color: #eee;
+        padding: 4px 8px;
+        margin: 4px 8px;
+    }
 
+    .category-box label {
+        margin-bottom: 0;
+    }
+
+    .category-box input[type=checkbox] {
+        margin-right: 4px;
+    }
+
+    .ingredient-box {
+        background-color: #eee;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .ingredient-name {
+        margin-right: 8px;
+    }
+
+    .ingredient-g {
+        color: #000000;
+    }
+
+    .kcal {
+        font-weight: normal;
+    }
+</style>
 
 
 @code {
@@ -158,47 +161,7 @@
 
     private RecipeCreateDTO recipe = new();
 
-    private List<FoodItemAmountDTO> ingredients {get; set;} = new List<FoodItemAmountDTO>()
-        {
-            new FoodItemAmountDTO
-            {
-                Amount = 1.0f,
-                FoodItem = new FoodItemDTO(
-                    0,
-                    "The ingredient",
-                    100.0f,
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                )
-            }
-        };
+    private List<FoodItemAmountDTO> ingredients { get; set; } = new List<FoodItemAmountDTO>();
 
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
 
@@ -236,13 +199,18 @@
 
         if (response.IsSuccessStatusCode)
         {
+            await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_CreateRecipe");
+            await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_Ingredients");
             NavigationManager.NavigateTo("savedRecipes");
         }
+
+
     }
 
     protected override async Task OnInitializedAsync()
     {
-
+        recipe.IsPublic = false;
+        await LoadChanges();
         var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
         if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
@@ -286,11 +254,76 @@
 
     }
 
-     protected async void GoBack()
+    protected async void GoBack()
     {
+        await SaveChanges();
         await JSRuntime.InvokeVoidAsync("history.back");
     }
 
+    private async Task HandleAddIngredient()
+    {
+        await SaveChanges();
+        NavigationManager.NavigateTo("/search");
+    }
+
+    private async Task HandleDeleteIngredient(FoodItemAmountDTO ingredient)
+    {
+        ingredients.Remove(ingredient);
+        await SaveChanges();
+        StateHasChanged();
+    }
+
+    private async Task SaveChanges()
+    {
+        recipe.CategoryIDs = selectedCategoryIds;
+        string createRecipeSerialized = JsonSerializer.Serialize(recipe);
+        string ingredientsSerialized = JsonSerializer.Serialize(ingredients);
+        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_CreateRecipe", createRecipeSerialized);
+        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_Ingredients", ingredientsSerialized);
+    }
+
+    private async Task LoadChanges()
+    {
+        string createRecipeSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_CreateRecipe");
+        string ingredientsSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_Ingredients");
+
+        if (!string.IsNullOrEmpty(createRecipeSerialized))
+        {
+            var loadedRecipe = JsonSerializer.Deserialize<RecipeCreateDTO>(createRecipeSerialized);
+            if (loadedRecipe != null)
+            {
+                recipe = loadedRecipe;
+                selectedCategoryIds = recipe.CategoryIDs ?? new List<int>();
+            }
+        }
+
+        if (!string.IsNullOrEmpty(ingredientsSerialized))
+        {
+            var loadedIngredients = JsonSerializer.Deserialize<List<FoodItemAmountDTO>>(ingredientsSerialized);
+            if (loadedIngredients != null) ingredients = loadedIngredients;
+        }
+
+    }
+
+    private string Scale(float a, float b)
+    {
+        var res = a * b;
+        return $"{(res):0.##}";
+    }
+
+
+    private string TotalCalories()
+    {
+        float sum = 0.0f;
+        foreach (var ingredient in ingredients)
+        {
+            sum += FoodItemCalories(ingredient);
+        }
+        return $"{(sum):0.##}";
+    }
+
+    private float FoodItemCalories(FoodItemAmountDTO item)
+    => item.Amount * item.FoodItem!.Calories;
 }
 
 

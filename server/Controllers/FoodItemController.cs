@@ -65,7 +65,9 @@ public class FoodItemController : ControllerBase
         }
     }
 
-    [HttpGet]
+    
+
+    [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
          try
