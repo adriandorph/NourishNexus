@@ -17,8 +17,9 @@ public class MealRepository : IMealRepository
         if (meal.UserID == null) return (Response.BadRequest, new MealDTO(-1, meal.MealType ?? MealType.BREAKFAST, meal.UserID ?? 0, meal.Date ?? DateTime.MinValue, meal.CategoryIDs ?? new List<int>()));
 
         var conflict = await _context.Meals
-        .Where(m => m.Date.Date == ((DateTime)meal.Date).Date && m.MealType == meal.MealType && m.User.Id == meal.UserID)
         .Include(m => m.Categories)
+        .Include(m => m.User)
+        .Where(m => m.Date.Date == ((DateTime)meal.Date).Date && m.MealType == meal.MealType && m.User.Id == meal.UserID)
         .Select(m => m.ToDTO())
         .FirstOrDefaultAsync();
 
@@ -45,13 +46,16 @@ public class MealRepository : IMealRepository
     public async Task<Response> UpdateAsync(MealUpdateDTO meal)
     {
         var mealEntity = await _context.Meals
-            .Where (m => m.Id == meal.Id)
             .Include(m => m.Categories)
+            .Include(m => m.User)
+            .Where (m => m.Id == meal.Id)
             .FirstOrDefaultAsync();
         
         if(mealEntity == null) return Response.NotFound;
         var allNull = meal.Date == null && meal.UserID == null && meal.MealType == null;
-        if(!allNull && _context.Meals.Any(m => m.Date.Date == (meal.Date ?? mealEntity.Date).Date && m.User.Id == (meal.UserID ?? mealEntity.User.Id) && m.MealType == (meal.MealType ?? mealEntity.MealType)))
+        if(!allNull && _context.Meals.Any(m => m.Date.Date == (meal.Date ?? mealEntity.Date).Date 
+            && m.User.Id == (meal.UserID ?? mealEntity.User.Id) 
+            && m.MealType == (meal.MealType ?? mealEntity.MealType)))
             return Response.Conflict;
         
         if(mealEntity.MealType != meal.MealType && meal.MealType !=null)
@@ -132,32 +136,63 @@ public class MealRepository : IMealRepository
 
     public async Task<IReadOnlyCollection<MealDTO>> ReadAllByDateAndUser(DateTime date, int userID)
         => await _context.Meals
-                .Where(m => m.User.Id == userID && m.Date.Date == date.Date)
-                .Include(m => m.Categories)
-                .Select(m => m.ToDTO())
-                .ToListAsync();
+            .Include(m => m.Categories)
+            .Include(m => m.User)
+            .Where(m => m.User.Id == userID && m.Date.Date == date.Date)
+            .Select(m => m.ToDTO())
+            .ToListAsync();
 
     public async Task<IReadOnlyCollection<MealDTO>> ReadAllByDateRangeAndUser(int userID, DateTime startDate, DateTime endDate)
         => await _context.Meals
-                .Where(m => m.User.Id == userID && m.Date.Date >= startDate.Date && m.Date.Date <= endDate.Date)
-                .Include(m => m.Categories)
-                .Select(m => m.ToDTO())
-                .ToListAsync();
+            .Include(m => m.Categories)
+            .Include(m => m.User)
+            .Where(m => m.User.Id == userID && m.Date.Date >= startDate.Date && m.Date.Date <= endDate.Date)
+            .Select(m => m.ToDTO())
+            .ToListAsync();
      
      public async Task<Option<MealDTO>> ReadByUserIdDateAndMealTypeAsync(DateTime date, int userID, MealType mealType)
         => await _context.Meals
-                .Where(m => m.User.Id == userID && m.Date.Date == date.Date && m.MealType == mealType)
                 .Include(m => m.Categories)
+                .Include(m => m.User)
+                .Where(m => m.User.Id == userID && m.Date.Date == date.Date && m.MealType == mealType)
                 .Select(m => m.ToDTO())
                 .FirstOrDefaultAsync();
 
 
     public async Task<Option<MealDTO>> ReadByIDAsync(int id)
         => await _context.Meals
-            .Where(m => m.Id == id)
             .Include(m => m.Categories)
+            .Include(m => m.User)
+            .Where(m => m.Id == id)
             .Select(m => m.ToDTO())
             .FirstOrDefaultAsync();
+    
+    public async Task<Option<MealWithFoodDTO>> ReadWithFoodByIDAsync(int id)
+    {
+        var meal = await ReadByIDAsync(id);
+        if (meal.IsNone) return null;
+
+        List<FoodItemAmountDTO> foodItems = await _context.FoodItemMeals
+            .Where(fim => fim.Meal.Id == id)
+            .Select(fim => new FoodItemAmountDTO
+                {
+                    Amount = fim.Amount,
+                    FoodItem = fim.FoodItem.ToDTO()
+                }
+            )
+            .ToListAsync();
+        
+        List<RecipeAmountDTO> recipes = await _context.RecipeMeals
+            .Where(fir => fir.Meal.Id == id)
+            .Select(fir => new RecipeAmountDTO(
+                    fir.Amount,
+                    fir.Recipe.ToDTO()
+                )
+            )
+            .ToListAsync();
+
+        return new MealWithFoodDTO(meal, foodItems, recipes);
+    }
 
 
 

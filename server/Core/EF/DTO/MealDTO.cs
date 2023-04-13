@@ -1,6 +1,7 @@
 namespace server.Core.EF.DTO;
 
-public record MealDTO(
+public record MealDTO
+(
     int Id,
     MealType MealType,
     int UserID,
@@ -28,3 +29,10 @@ public record MealReportDTO : MealCreateDTO
     public List<FoodItemMealCreateDTO>? FoodItemMeals {get; set;}
     public List<RecipeMealCreateDTO>? RecipeMeals {get; set;}
 }
+
+public record MealWithFoodDTO
+(
+    MealDTO Meal,
+    List<FoodItemAmountDTO> FoodItems, 
+    List<RecipeAmountDTO> Recipes
+);

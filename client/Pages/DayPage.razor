@@ -2,19 +2,25 @@
 @attribute [Authorize]
 @using System.Globalization
 @using System.Security.Claims
+@using System.Text.Json
+@using Microsoft.JSInterop;
 @inject AuthenticationStateProvider AuthStateProvider
 @inject MealService MealService
 @inject FoodItemService FoodItemService
 @inject RecipeService RecipeService
 @inject NavigationManager NavigationManager
-
-
+@inject IJSRuntime JSRuntime
 
 <!-- DayPage.razor -->
 
-<h1>@GetDateString()</h1>
-<p class="total-calories">Total Calories: @TotalCalories()</p>
+<!-- async () => await HandleDeleteIngredient(ingredient) -->
 
+
+<h1>@GetDateString()</h1>
+<p class="total-calories">Total Calories: @DayCalories</p>
+@if(meals == null){
+    <p>Loading</p> 
+}
 @foreach (var meal in meals)
 {
     <div class="meal-box">
@@ -31,7 +37,7 @@
                     <div class="ingredient-box d-flex justify-content-between align-items-center mb-2 rounded">
                         <div>
                             <span class="ingredient-name">@foodItem.FoodItem!.Name</span>
-                            <span class="calorie-amount">kcal</span>
+                            <span class="calorie-amount">@Scale(foodItem.Amount, foodItem.FoodItem.Calories) kcal</span>
                         </div>
                         <button class="btn btn-danger btn-sm"><i>X</i></button>
                     </div>
@@ -51,7 +57,7 @@
                     </div>
                 }
             }
-            <button class="btn btn-success mt-2" @onclick="async () => await HandleAddFood(meal.MealType)">
+            <button class="btn btn-success mt-2" @onclick="async () => await HandleAddFood(meal.Id, meal.MealType)">
                 Add Food
             </button>
         </div>
@@ -62,13 +68,16 @@
     // Properties
     private int userID;
     private DateTime date = DateTime.Now;
+    private float DayCalories {get; set;}
     private List<MealWithFood> meals { get; set; } = new List<MealWithFood>();
+    
 
     private record MealWithFood(int? Id, MealType MealType, List<FoodItemAmountDTO> FoodItems, List<RecipeAmountDTO>
     Recipes);
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadAddedFood();
         var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
         int.TryParse(userIdClaim!.Value, out userID);
@@ -115,6 +124,9 @@
             meals.Add(snacks);
         }
         else meals.Add(new MealWithFood(null, MealType.SNACK, new List<FoodItemAmountDTO>(), new List<RecipeAmountDTO>()));
+        
+        //Her
+        DayCalories = await TotalCalories();
     }
 
     private string MealTypeToString(MealType type)
@@ -133,20 +145,109 @@
     }
 
 
-    private float TotalCalories()
+    private async Task<float> TotalCalories()
     {
-        return 2850.0f;
+        var sum = 0.0f;
+        foreach(var meal in meals) sum += await MealCalories(meal);
+        return sum;
     }
 
-    private float MealCalories(MealWithFood meal)
+    private async Task<float> MealCalories(MealWithFood meal)
     {
-        return 700.0f;
+        float sum = 0.0f;
+        foreach(var foodItem in meal.FoodItems) sum += foodItem.Amount * foodItem.FoodItem!.Calories;
+        foreach(var recipe in meal.Recipes)
+        {
+            var foodItems = await FoodItemService.GetByRecipe(recipe.Recipe.Id);
+            foreach(var foodItem in foodItems) sum += foodItem.Amount * foodItem.FoodItem!.Calories;
+        }
+        return sum;
     }
 
-    private async Task HandleAddFood(MealType type)
+    private float Scale(float a, float b) => a * b;
+
+    private async Task HandleAddFood(int? mealID, MealType type)
     {
-        //Save foodItems and Recipes in session
-        await Task.Delay(1);
+        if(mealID == null)
+        {
+            var id = await CreateNewMeal(type);
+            if (id == null) return;
+            mealID = id;
+        }
+        string foodItemsSerialized = JsonSerializer.Serialize(mealID);
+        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_AddFoodToMeal", foodItemsSerialized);
+
         NavigationManager.NavigateTo("/search");
+    }
+
+    private async Task LoadAddedFood()
+    {
+        string? addFoodToMeal = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_AddFoodToMeal");
+        await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_AddFoodToMeal");
+
+        if (string.IsNullOrEmpty(addFoodToMeal)) return;
+        int mealID = JsonSerializer.Deserialize<int>(addFoodToMeal);
+
+        //Get meal
+        var meal = await MealService.GetMealByID(mealID);
+
+        string? foodItemsSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_Ingredients");
+        await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_Ingredients");
+        string? recipeSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_Recipe");
+        await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_Recipe");
+
+        if(!string.IsNullOrEmpty(foodItemsSerialized))
+        {
+            var loadedFoodItems = JsonSerializer.Deserialize<List<FoodItemAmountDTO>>(foodItemsSerialized);
+            if (loadedFoodItems != null)
+            {
+                meal!.FoodItems.AddRange(loadedFoodItems);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(recipeSerialized))
+        {
+            var recipe = JsonSerializer.Deserialize<RecipeAmountDTO>(recipeSerialized);
+            if (recipe != null)
+            {
+                meal!.Recipes.Add(recipe);
+            }
+        }
+
+        var foodItemMeals = meal!.FoodItems
+            .Select(r => new FoodItemMealCreateDTO
+                {
+                    MealID = meal!.Meal.Id,
+                    FoodItemID = r.FoodItem!.Id,
+                    Amount = r.Amount
+                }
+            )
+            .ToList();
+
+        var recipeMeals = meal!.Recipes
+            .Select(r => new RecipeMealCreateDTO
+                {
+                    MealID = meal!.Meal.Id,
+                    RecipeID = r.Recipe.Id,
+                    Amount = r.Amount
+                }
+            )
+            .ToList();
+
+        var mealUpdate = new MealUpdateDTO
+        {
+            Id = meal!.Meal.Id,
+            FoodItemMeals = foodItemMeals,
+            RecipeMeals = recipeMeals
+        };
+
+        await MealService.UpdateMeal(mealUpdate);
+    }
+
+    private async Task<int?> CreateNewMeal(MealType type)
+    {
+        var meal = await MealService.PostMeal(userID, date, type);
+        if (meal != null) return meal.Id;
+        else return null;
     }
 }

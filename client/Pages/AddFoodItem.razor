@@ -207,9 +207,16 @@ else
     private async Task HandleAddFoodItem()
     {
         string ingredientsSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_Ingredients");
-        if (string.IsNullOrEmpty(ingredientsSerialized)) return;
-        var loadedIngredients = JsonSerializer.Deserialize<List<FoodItemAmountDTO>>(ingredientsSerialized);
-        if(loadedIngredients == null) return;
+        List<FoodItemAmountDTO> loadedIngredients;
+        if (string.IsNullOrEmpty(ingredientsSerialized))
+        {
+            loadedIngredients = new List<FoodItemAmountDTO>();
+        }
+        else
+        {
+            var loadedIngredientsDes = JsonSerializer.Deserialize<List<FoodItemAmountDTO>>(ingredientsSerialized);
+            loadedIngredients = loadedIngredientsDes ?? new List<FoodItemAmountDTO>();
+        }
 
         var foodItemAmount = new FoodItemAmountDTO
         {
