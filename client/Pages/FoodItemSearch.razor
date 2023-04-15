@@ -9,7 +9,7 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 
-<h1>Food Item Search</h1>
+<h1>Search for Food</h1>
 
 <div class="d-inline-flex align-items-center">
   <button type="button" class="btn btn-primary" @onclick="GoBack">
@@ -59,33 +59,6 @@
 {
     <p>No results found.</p>
 }
-
-<style>
-    .byline {
-        font-size: 14px;
-        margin-bottom: 0px;
-        margin-top: -10px;
-    }
-
-    .searchresult {
-        text-decoration: none;
-        color : green;
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-    .list-group-item:hover {
-        background-color : #94F1B4;
-    }
-    .searchresult:hover {
-        background-color: green;
-    }
-    .hr {
-        margin-bottom: 5px;
-    }
-    .rounded-edge {
-        border-radius: 10px !important;
-    }
- </style>
 
 @code {
     private int userID;

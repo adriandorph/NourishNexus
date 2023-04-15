@@ -184,133 +184,134 @@ public record UserUpdateDTO
 }
 
 
-public record UserNutritionDTO(
-    int Id,
-    string Nickname,
+public record UserNutritionDTO
+{
+    public int Id {get; set;}
+    public string Nickname {get; set;} = "";
     [EmailAddress]
-    string Email,
-    List<int> SavedRecipeIds,
+    public string Email {get; set;} = "";
+    public List<int> SavedRecipeIds {get; set;} = new List<int>();
     
-    float? BreakfastCalories,
-    float? LunchCalories,
-    float? DinnerCalories,
-    float? SnackCalories,
+    public float? BreakfastCalories {get; set;}
+    public float? LunchCalories {get; set;}
+    public float? DinnerCalories {get; set;}
+    public float? SnackCalories {get; set;}
 
-    float? ProteinLB,
-    float? ProteinII,
-    float? ProteinUB,
+    public float? ProteinLB {get; set;}
+    public float? ProteinII {get; set;}
+    public float? ProteinUB {get; set;}
 
-    float? CarbohydratesLB,
-    float? CarbohydratesII,
-    float? CarbohydratesUB,
+    public float? CarbohydratesLB {get; set;}
+    public float? CarbohydratesII {get; set;}
+    public float? CarbohydratesUB {get; set;}
 
-    float? SugarsLB,
-    float? SugarsII,
-    float? SugarsUB,
+    public float? SugarsLB {get; set;}
+    public float? SugarsII {get; set;}
+    public float? SugarsUB {get; set;}
 
-    float? FibresLB,
-    float? FibresII,
-    float? FibresUB,
+    public float? FibresLB {get; set;}
+    public float? FibresII {get; set;}
+    public float? FibresUB {get; set;}
 
-    float? TotalFatLB,
-    float? TotalFatII,
-    float? TotalFatUB,
+    public float? TotalFatLB {get; set;}
+    public float? TotalFatII {get; set;}
+    public float? TotalFatUB {get; set;}
 
-    float? SaturatedFatLB,
-    float? SaturatedFatII,
-    float? SaturatedFatUB,
+    public float? SaturatedFatLB {get; set;}
+    public float? SaturatedFatII {get; set;}
+    public float? SaturatedFatUB {get; set;}
 
-    float? MonounsaturatedFatLB,
-    float? MonounsaturatedFatII,
-    float? MonounsaturatedFatUB,
+    public float? MonounsaturatedFatLB {get; set;}
+    public float? MonounsaturatedFatII {get; set;}
+    public float? MonounsaturatedFatUB {get; set;}
 
-    float? PolyunsaturatedFatLB,
-    float? PolyunsaturatedFatII,
-    float? PolyunsaturatedFatUB,
+    public float? PolyunsaturatedFatLB {get; set;}
+    public float? PolyunsaturatedFatII {get; set;}
+    public float? PolyunsaturatedFatUB {get; set;}
 
-    float? TransFatLB,
-    float? TransFatII,
-    float? TransFatUB,
+    public float? TransFatLB {get; set;}
+    public float? TransFatII {get; set;}
+    public float? TransFatUB {get; set;}
 
-    float? VitaminALB,
-    float? VitaminAII,
-    float? VitaminAUB,
+    public float? VitaminALB {get; set;}
+    public float? VitaminAII {get; set;}
+    public float? VitaminAUB {get; set;}
 
-    float? VitaminB6LB,
-    float? VitaminB6II,
-    float? VitaminB6UB,
+    public float? VitaminB6LB {get; set;}
+    public float? VitaminB6II {get; set;}
+    public float? VitaminB6UB {get; set;}
 
-    float? VitaminB12LB,
-    float? VitaminB12II,
-    float? VitaminB12UB,
+    public float? VitaminB12LB {get; set;}
+    public float? VitaminB12II {get; set;}
+    public float? VitaminB12UB {get; set;}
 
-    float? VitaminCLB,
-    float? VitaminCII,
-    float? VitaminCUB,
+    public float? VitaminCLB {get; set;}
+    public float? VitaminCII {get; set;}
+    public float? VitaminCUB {get; set;}
 
-    float? VitaminDLB,
-    float? VitaminDII,
-    float? VitaminDUB,
+    public float? VitaminDLB {get; set;}
+    public float? VitaminDII {get; set;}
+    public float? VitaminDUB {get; set;}
 
-    float? VitaminELB,
-    float? VitaminEII,
-    float? VitaminEUB,
+    public float? VitaminELB {get; set;}
+    public float? VitaminEII {get; set;}
+    public float? VitaminEUB {get; set;}
 
-    float? ThiaminLB,
-    float? ThiaminII,
-    float? ThiaminUB,
+    public float? ThiaminLB {get; set;}
+    public float? ThiaminII {get; set;}
+    public float? ThiaminUB {get; set;}
 
-    float? RiboflavinLB,
-    float? RiboflavinII,
-    float? RiboflavinUB,
+    public float? RiboflavinLB {get; set;}
+    public float? RiboflavinII {get; set;}
+    public float? RiboflavinUB {get; set;}
 
-    float? NiacinLB,
-    float? NiacinII,
-    float? NiacinUB,
+    public float? NiacinLB {get; set;}
+    public float? NiacinII {get; set;}
+    public float? NiacinUB {get; set;}
 
-    float? FolateLB,
-    float? FolateII,
-    float? FolateUB,
+    public float? FolateLB {get; set;}
+    public float? FolateII {get; set;}
+    public float? FolateUB {get; set;}
 
-    float? SaltLB,
-    float? SaltII,
-    float? SaltUB,
+    public float? SaltLB {get; set;}
+    public float? SaltII {get; set;}
+    public float? SaltUB {get; set;}
 
-    float? PotassiumLB,
-    float? PotassiumII,
-    float? PotassiumUB,
+    public float? PotassiumLB {get; set;}
+    public float? PotassiumII {get; set;}
+    public float? PotassiumUB {get; set;}
 
-    float? MagnesiumLB,
-    float? MagnesiumII,
-    float? MagnesiumUB,
+    public float? MagnesiumLB {get; set;}
+    public float? MagnesiumII {get; set;}
+    public float? MagnesiumUB {get; set;}
 
-    float? IronLB,
-    float? IronII,
-    float? IronUB,
+    public float? IronLB {get; set;}
+    public float? IronII {get; set;}
+    public float? IronUB {get; set;}
 
-    float? ZincLB,
-    float? ZincII,
-    float? ZincUB,
+    public float? ZincLB {get; set;}
+    public float? ZincII {get; set;}
+    public float? ZincUB {get; set;}
 
-    float? PhosphorusLB,
-    float? PhosphorusII,
-    float? PhosphorusUB,
+    public float? PhosphorusLB {get; set;}
+    public float? PhosphorusII {get; set;}
+    public float? PhosphorusUB {get; set;}
 
-    float? CopperLB,
-    float? CopperII,
-    float? CopperUB,
+    public float? CopperLB {get; set;}
+    public float? CopperII {get; set;}
+    public float? CopperUB {get; set;}
 
-    float? IodineLB,
-    float? IodineII,
-    float? IodineUB,
+    public float? IodineLB {get; set;}
+    public float? IodineII {get; set;}
+    public float? IodineUB {get; set;}
 
-    float? SeleniumLB,
-    float? SeleniumII,
-    float? SeleniumUB,
+    public float? SeleniumLB {get; set;}
+    public float? SeleniumII {get; set;}
+    public float? SeleniumUB {get; set;}
 
-    float? CalciumLB,
-    float? CalciumII,
-    float? CalciumUB
-);
+    public float? CalciumLB {get; set;}
+    public float? CalciumII {get; set;}
+    public float? CalciumUB {get; set;}
+};
 
 

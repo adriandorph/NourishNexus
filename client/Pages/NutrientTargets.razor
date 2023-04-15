@@ -1,0 +1,2026 @@
+@page "/nutrienttargets"
+@using System.ComponentModel.DataAnnotations
+@using System.Security.Claims
+@using System.Globalization
+@inject AuthenticationStateProvider AuthStateProvider
+@inject UserService UserService
+
+<h2>Nutritional values</h2>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Nutrient</th>
+                <th class="value">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total Calories</td>
+                <td class="value">@UserCalories() kcal
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Breakfast Calories</td>
+                <td class="value">
+                    <div class=" d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.BreakfastCalories" @oninput="HandleUpdateBreakfastCalories"/>
+                        </span> 
+                        <span>kcal</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Lunch Calories</td>
+                <td class="value">
+                    <div class=" d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.LunchCalories" @oninput="HandleUpdateLunchCalories"/>
+                        </span> 
+                        <span>kcal</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Dinner Calories</td>
+                <td class="value">
+                    <div class=" d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.DinnerCalories" @oninput="HandleUpdateDinnerCalories"/>
+                        </span> 
+                        <span>kcal</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Snack Calories</td>
+                <td class="value">
+                    <div class=" d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SnackCalories" @oninput="HandleUpdateSnackCalories"/>
+                        </span> 
+                        <span>kcal</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Protein Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ProteinLB " @oninput="HandleUpdateProteinLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Protein Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ProteinII" @oninput="HandleUpdateProteinII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Protein Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ProteinUB" @oninput="HandleUpdateProteinUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Carbohydrates Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesLB" @oninput="HandleUpdateCarbohydratesLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Carbohydrates Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesII" @oninput="HandleUpdateCarbohydratesII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Carbohydrates Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesUB" @oninput="HandleUpdateCarbohydratesUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Sugars Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SugarsLB" @oninput="HandleUpdateSugarsLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Sugars Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SugarsII" @oninput="HandleUpdateSugarsII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Sugars Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SugarsUB" @oninput="HandleUpdateSugarsUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Fibres Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.FibresLB" @oninput="HandleUpdateFibresLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Fibres Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.FibresII" @oninput="HandleUpdateFibresII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Fibres Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.FibresUB" @oninput="HandleUpdateFibresUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>TotalFat Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.TotalFatLB" @oninput="HandleUpdateTotalFatLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>TotalFat Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.TotalFatII" @oninput="HandleUpdateTotalFatII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>TotalFat Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.TotalFatUB" @oninput="HandleUpdateTotalFatUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>SaturatedFat Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatLB" @oninput="HandleUpdateSaturatedFatLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>SaturatedFat Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatII" @oninput="HandleUpdateSaturatedFatII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>SaturatedFat Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatUB" @oninput="HandleUpdateSaturatedFatUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>MonounsaturatedFat Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatLB" @oninput="HandleUpdateMonounsaturatedFatLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>MonounsaturatedFat Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatII" @oninput="HandleUpdateMonounsaturatedFatII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>MonounsaturatedFat Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatUB" @oninput="HandleUpdateMonounsaturatedFatUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>PolyunsaturatedFat Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatLB" @oninput="HandleUpdatePolyunsaturatedFatLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>PolyunsaturatedFat Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatII" @oninput="HandleUpdatePolyunsaturatedFatII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>PolyunsaturatedFat Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatUB" @oninput="HandleUpdatePolyunsaturatedFatUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>TransFat Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.TransFatLB" @oninput="HandleUpdateTransFatLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>TransFat Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.TransFatII" @oninput="HandleUpdateTransFatII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>TransFat Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.TransFatUB" @oninput="HandleUpdateTransFatUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>VitaminA Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminALB" @oninput="HandleUpdateVitaminALB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminA Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminAII" @oninput="HandleUpdateVitaminAII"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminA Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminAUB" @oninput="HandleUpdateVitaminAUB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>VitaminB6 Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminB6LB" @oninput="HandleUpdateVitaminB6LB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminB6 Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminB6II" @oninput="HandleUpdateVitaminB6II"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminB6 Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminB6UB" @oninput="HandleUpdateVitaminB6UB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>VitaminB12 Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminB12LB" @oninput="HandleUpdateVitaminB12LB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminB12 Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminB12II" @oninput="HandleUpdateVitaminB12II"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminB12 Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminB12UB" @oninput="HandleUpdateVitaminB12UB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>VitaminC Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminCLB" @oninput="HandleUpdateVitaminCLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminC Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminCII" @oninput="HandleUpdateVitaminCII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminC Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminCUB" @oninput="HandleUpdateVitaminCUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>VitaminD Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminDLB" @oninput="HandleUpdateVitaminDLB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminD Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminDII" @oninput="HandleUpdateVitaminDII"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminD Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminDUB" @oninput="HandleUpdateVitaminDUB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>VitaminE Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminELB" @oninput="HandleUpdateVitaminELB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminE Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminEII" @oninput="HandleUpdateVitaminEII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>VitaminE Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.VitaminEUB" @oninput="HandleUpdateVitaminEUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Thiamin Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ThiaminLB" @oninput="HandleUpdateThiaminLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Thiamin Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ThiaminII" @oninput="HandleUpdateThiaminII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Thiamin Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ThiaminUB" @oninput="HandleUpdateThiaminUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Riboflavin Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.RiboflavinLB" @oninput="HandleUpdateRiboflavinLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Riboflavin Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.RiboflavinII" @oninput="HandleUpdateRiboflavinII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Riboflavin Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.RiboflavinUB" @oninput="HandleUpdateRiboflavinUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Niacin Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.NiacinLB" @oninput="HandleUpdateNiacinLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Niacin Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.NiacinII" @oninput="HandleUpdateNiacinII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Niacin Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.NiacinUB" @oninput="HandleUpdateNiacinUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Folate Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.FolateLB" @oninput="HandleUpdateFolateLB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Folate Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.FolateII" @oninput="HandleUpdateFolateII"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Folate Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.FolateUB" @oninput="HandleUpdateFolateUB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Salt Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SaltLB" @oninput="HandleUpdateSaltLB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Salt Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SaltII" @oninput="HandleUpdateSaltII"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Salt Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SaltUB" @oninput="HandleUpdateSaltUB"/>
+                        </span> 
+                        <span>g</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Potassium Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PotassiumLB" @oninput="HandleUpdatePotassiumLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Potassium Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PotassiumII" @oninput="HandleUpdatePotassiumII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Potassium Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PotassiumUB" @oninput="HandleUpdatePotassiumUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Magnesium Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.MagnesiumLB" @oninput="HandleUpdateMagnesiumLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Magnesium Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.MagnesiumII" @oninput="HandleUpdateMagnesiumII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Magnesium Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.MagnesiumUB"  @oninput="HandleUpdateMagnesiumUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Iron Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.IronLB"  @oninput="HandleUpdateIronLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Iron Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.IronII"  @oninput="HandleUpdateIronII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Iron Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.IronUB" @oninput="HandleUpdateIronUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Zinc Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ZincLB" @oninput="HandleUpdateZincLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Zinc Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ZincII" @oninput="HandleUpdateZincII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Zinc Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.ZincUB" @oninput="HandleUpdateZincUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Phosphorus Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PhosphorusLB" @oninput="HandleUpdatePhosphorusLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Phosphorus Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PhosphorusII" @oninput="HandleUpdatePhosphorusII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Phosphorus Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.PhosphorusUB" @oninput="HandleUpdatePhosphorusUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Copper Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CopperLB" @oninput="HandleUpdateCopperLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Copper Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CopperII" @oninput="HandleUpdateCopperII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Copper Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CopperUB" @oninput="HandleUpdateCopperUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Iodine Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.IodineLB" @oninput="HandleUpdateIodineLB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Iodine Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.IodineII" @oninput="HandleUpdateIodineII"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Iodine Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.IodineUB" @oninput="HandleUpdateIodineUB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Selenium Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SeleniumLB" @oninput="HandleUpdateSeleniumLB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Selenium Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SeleniumII" @oninput="HandleUpdateSeleniumII" />
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Selenium Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.SeleniumUB" @oninput="HandleUpdateSeleniumUB"/>
+                        </span> 
+                        <span>µg</span> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="justify-content-between">
+                <td>Calcium Lower Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CalciumLB" @oninput="HandleUpdateCalciumLB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Calcium Ideal</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CalciumII" @oninput="HandleUpdateCalciumII"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <tr class="justify-content-between">
+                <td>Calcium Upper Bound</td>
+                <td class="value">
+                    <div class="d-flex align-items-center justify-content-end">
+                        <span>
+                        <input type="number" class="form-control input-field" @bind-value="User.CalciumUB" @oninput="HandleUpdateCalciumUB"/>
+                        </span> 
+                        <span>mg</span> 
+                    </div>
+                </td>
+            </tr>
+            <!-- Add more nutrient rows as needed -->
+        </tbody>
+
+</table>
+
+<style>
+    .value {
+        text-align: end;
+    }
+    .input-field {
+        width: 100px;
+        margin-right: 5px;
+        text-align: end;
+    }
+</style>
+
+@code {
+
+    private UserNutritionDTO User {get; set;} = new UserNutritionDTO{};
+
+    protected override async Task OnInitializedAsync()
+    {
+        var claim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = claim.FindFirst(ClaimTypes.NameIdentifier)!;
+        User = Scale(await UserService.GetUserNutritionByID(int.Parse(userIdClaim!.Value)), 1.0f/7.0f);
+    }
+
+    private async Task HandleUpdate()
+    {
+        StateHasChanged();
+        var updateUser = ScaleToUpdate(User, 7.0f);
+        await UserService.UpdateUser(updateUser);
+    }
+
+    private float UserCalories()
+    {
+        try
+        {
+            return (float) User.BreakfastCalories! + (float) User.LunchCalories! + (float) User.DinnerCalories! + (float) User.SnackCalories!;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return 0.0f;
+        }
+    }
+
+    private UserNutritionDTO Scale(UserNutritionDTO user, float scale)
+    {
+        return new UserNutritionDTO
+        {
+            Id = user.Id,
+            Nickname = user.Nickname,
+            Email = user.Email,
+            SavedRecipeIds = user.SavedRecipeIds,
+            BreakfastCalories = user.BreakfastCalories * scale,
+            LunchCalories = user.LunchCalories * scale,
+            DinnerCalories = user.DinnerCalories * scale,
+            SnackCalories = user.SnackCalories * scale,
+            
+            ProteinLB = user.ProteinLB * scale,
+            ProteinII = user.ProteinII * scale,
+            ProteinUB = user.ProteinUB * scale,
+
+            CarbohydratesLB = user.CarbohydratesLB * scale,
+            CarbohydratesII = user.CarbohydratesII * scale,
+            CarbohydratesUB = user.CarbohydratesUB * scale,
+
+            SugarsLB = user.SugarsLB * scale,
+            SugarsII = user.SugarsII * scale,
+            SugarsUB = user.SugarsUB * scale,
+
+            FibresLB = user.FibresLB * scale,
+            FibresII = user.FibresII * scale,
+            FibresUB = user.FibresUB * scale,
+
+            TotalFatLB = user.TotalFatLB * scale,
+            TotalFatII = user.TotalFatII * scale,
+            TotalFatUB = user.TotalFatUB * scale,
+
+            SaturatedFatLB = user.SaturatedFatLB * scale,
+            SaturatedFatII = user.SaturatedFatII * scale,
+            SaturatedFatUB = user.SaturatedFatUB * scale,
+
+            MonounsaturatedFatLB = user.MonounsaturatedFatLB * scale,
+            MonounsaturatedFatII = user.MonounsaturatedFatII * scale,
+            MonounsaturatedFatUB = user.MonounsaturatedFatUB * scale,
+
+            PolyunsaturatedFatLB = user.PolyunsaturatedFatLB * scale,
+            PolyunsaturatedFatII = user.PolyunsaturatedFatII * scale,
+            PolyunsaturatedFatUB = user.PolyunsaturatedFatUB * scale,
+
+            TransFatLB = user.TransFatLB * scale,
+            TransFatII = user.TransFatII * scale,
+            TransFatUB = user.TransFatUB * scale,
+
+            VitaminALB = user.VitaminALB * scale,
+            VitaminAII = user.VitaminAII * scale,
+            VitaminAUB = user.VitaminAUB * scale,
+
+            VitaminB6LB = user.VitaminB6LB * scale,
+            VitaminB6II = user.VitaminB6II * scale,
+            VitaminB6UB = user.VitaminB6UB * scale,
+
+            VitaminB12LB = user.VitaminB12LB * scale,
+            VitaminB12II = user.VitaminB12II * scale,
+            VitaminB12UB = user.VitaminB12UB * scale,
+
+            VitaminCLB = user.VitaminCLB * scale,
+            VitaminCII = user.VitaminCII * scale,
+            VitaminCUB = user.VitaminCUB * scale,
+
+            VitaminDLB = user.VitaminDLB * scale,
+            VitaminDII = user.VitaminDII * scale,
+            VitaminDUB = user.VitaminDUB * scale,
+
+            VitaminELB = user.VitaminELB * scale,
+            VitaminEII = user.VitaminEII * scale,
+            VitaminEUB = user.VitaminEUB * scale,
+
+            ThiaminLB = user.ThiaminLB * scale,
+            ThiaminII = user.ThiaminII * scale,
+            ThiaminUB = user.ThiaminUB * scale,
+
+            RiboflavinLB = user.RiboflavinLB * scale,
+            RiboflavinII = user.RiboflavinII * scale,
+            RiboflavinUB = user.RiboflavinUB * scale,
+
+            NiacinLB = user.NiacinLB * scale,
+            NiacinII = user.NiacinII * scale,
+            NiacinUB = user.NiacinUB * scale,
+
+            FolateLB = user.FolateLB * scale,
+            FolateII = user.FolateII * scale,
+            FolateUB = user.FolateUB * scale,
+
+            SaltLB = user.SaltLB * scale,
+            SaltII = user.SaltII * scale,
+            SaltUB = user.SaltUB * scale,
+
+            PotassiumLB = user.PotassiumLB * scale,
+            PotassiumII = user.PotassiumII * scale,
+            PotassiumUB = user.PotassiumUB * scale,
+
+            MagnesiumLB = user.MagnesiumLB * scale,
+            MagnesiumII = user.MagnesiumII * scale,
+            MagnesiumUB = user.MagnesiumUB * scale,
+
+            IronLB = user.IronLB * scale,
+            IronII = user.IronII * scale,
+            IronUB = user.IronUB * scale,
+
+            ZincLB = user.ZincLB * scale,
+            ZincII = user.ZincII * scale,
+            ZincUB = user.ZincUB * scale,
+
+            PhosphorusLB = user.PhosphorusLB * scale,
+            PhosphorusII = user.PhosphorusII * scale,
+            PhosphorusUB = user.PhosphorusUB * scale,
+
+            CopperLB = user.CopperLB * scale,
+            CopperII = user.CopperII * scale,
+            CopperUB = user.CopperUB * scale,
+
+            IodineLB = user.IodineLB * scale,
+            IodineII = user.IodineII * scale,
+            IodineUB = user.IodineUB * scale,
+
+            SeleniumLB = user.SeleniumLB * scale,
+            SeleniumII = user.SeleniumII * scale,
+            SeleniumUB = user.SeleniumUB * scale,
+
+            CalciumLB = user.CalciumLB * scale,
+            CalciumII = user.CalciumII * scale,
+            CalciumUB = user.CalciumUB * scale
+        };
+    }
+
+
+    private UserUpdateDTO ScaleToUpdate(UserNutritionDTO user, float scale)
+    {
+        return new UserUpdateDTO
+        {
+            Id = user.Id,
+
+            BreakfastCalories = user.BreakfastCalories * scale,
+            LunchCalories = user.LunchCalories * scale,
+            DinnerCalories = user.DinnerCalories * scale,
+            SnackCalories = user.SnackCalories * scale,
+            
+            ProteinLB = user.ProteinLB * scale,
+            ProteinII = user.ProteinII * scale,
+            ProteinUB = user.ProteinUB * scale,
+
+            CarbohydratesLB = user.CarbohydratesLB * scale,
+            CarbohydratesII = user.CarbohydratesII * scale,
+            CarbohydratesUB = user.CarbohydratesUB * scale,
+
+            SugarsLB = user.SugarsLB * scale,
+            SugarsII = user.SugarsII * scale,
+            SugarsUB = user.SugarsUB * scale,
+
+            FibresLB = user.FibresLB * scale,
+            FibresII = user.FibresII * scale,
+            FibresUB = user.FibresUB * scale,
+
+            TotalFatLB = user.TotalFatLB * scale,
+            TotalFatII = user.TotalFatII * scale,
+            TotalFatUB = user.TotalFatUB * scale,
+
+            SaturatedFatLB = user.SaturatedFatLB * scale,
+            SaturatedFatII = user.SaturatedFatII * scale,
+            SaturatedFatUB = user.SaturatedFatUB * scale,
+
+            MonounsaturatedFatLB = user.MonounsaturatedFatLB * scale,
+            MonounsaturatedFatII = user.MonounsaturatedFatII * scale,
+            MonounsaturatedFatUB = user.MonounsaturatedFatUB * scale,
+
+            PolyunsaturatedFatLB = user.PolyunsaturatedFatLB * scale,
+            PolyunsaturatedFatII = user.PolyunsaturatedFatII * scale,
+            PolyunsaturatedFatUB = user.PolyunsaturatedFatUB * scale,
+
+            TransFatLB = user.TransFatLB * scale,
+            TransFatII = user.TransFatII * scale,
+            TransFatUB = user.TransFatUB * scale,
+
+            VitaminALB = user.VitaminALB * scale,
+            VitaminAII = user.VitaminAII * scale,
+            VitaminAUB = user.VitaminAUB * scale,
+
+            VitaminB6LB = user.VitaminB6LB * scale,
+            VitaminB6II = user.VitaminB6II * scale,
+            VitaminB6UB = user.VitaminB6UB * scale,
+
+            VitaminB12LB = user.VitaminB12LB * scale,
+            VitaminB12II = user.VitaminB12II * scale,
+            VitaminB12UB = user.VitaminB12UB * scale,
+
+            VitaminCLB = user.VitaminCLB * scale,
+            VitaminCII = user.VitaminCII * scale,
+            VitaminCUB = user.VitaminCUB * scale,
+
+            VitaminDLB = user.VitaminDLB * scale,
+            VitaminDII = user.VitaminDII * scale,
+            VitaminDUB = user.VitaminDUB * scale,
+
+            VitaminELB = user.VitaminELB * scale,
+            VitaminEII = user.VitaminEII * scale,
+            VitaminEUB = user.VitaminEUB * scale,
+
+            ThiaminLB = user.ThiaminLB * scale,
+            ThiaminII = user.ThiaminII * scale,
+            ThiaminUB = user.ThiaminUB * scale,
+
+            RiboflavinLB = user.RiboflavinLB * scale,
+            RiboflavinII = user.RiboflavinII * scale,
+            RiboflavinUB = user.RiboflavinUB * scale,
+
+            NiacinLB = user.NiacinLB * scale,
+            NiacinII = user.NiacinII * scale,
+            NiacinUB = user.NiacinUB * scale,
+
+            FolateLB = user.FolateLB * scale,
+            FolateII = user.FolateII * scale,
+            FolateUB = user.FolateUB * scale,
+
+            SaltLB = user.SaltLB * scale,
+            SaltII = user.SaltII * scale,
+            SaltUB = user.SaltUB * scale,
+
+            PotassiumLB = user.PotassiumLB * scale,
+            PotassiumII = user.PotassiumII * scale,
+            PotassiumUB = user.PotassiumUB * scale,
+
+            MagnesiumLB = user.MagnesiumLB * scale,
+            MagnesiumII = user.MagnesiumII * scale,
+            MagnesiumUB = user.MagnesiumUB * scale,
+
+            IronLB = user.IronLB * scale,
+            IronII = user.IronII * scale,
+            IronUB = user.IronUB * scale,
+
+            ZincLB = user.ZincLB * scale,
+            ZincII = user.ZincII * scale,
+            ZincUB = user.ZincUB * scale,
+
+            PhosphorusLB = user.PhosphorusLB * scale,
+            PhosphorusII = user.PhosphorusII * scale,
+            PhosphorusUB = user.PhosphorusUB * scale,
+
+            CopperLB = user.CopperLB * scale,
+            CopperII = user.CopperII * scale,
+            CopperUB = user.CopperUB * scale,
+
+            IodineLB = user.IodineLB * scale,
+            IodineII = user.IodineII * scale,
+            IodineUB = user.IodineUB * scale,
+
+            SeleniumLB = user.SeleniumLB * scale,
+            SeleniumII = user.SeleniumII * scale,
+            SeleniumUB = user.SeleniumUB * scale,
+
+            CalciumLB = user.CalciumLB * scale,
+            CalciumII = user.CalciumII * scale,
+            CalciumUB = user.CalciumUB * scale
+        };
+    }
+
+    private async Task HandleUpdateBreakfastCalories(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.BreakfastCalories = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateLunchCalories(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.LunchCalories = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateDinnerCalories(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.DinnerCalories = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSnackCalories(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SnackCalories = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateProteinLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ProteinLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateProteinII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ProteinII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateProteinUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ProteinUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateCarbohydratesLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CarbohydratesLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateCarbohydratesII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CarbohydratesII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateCarbohydratesUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CarbohydratesUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateSugarsLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SugarsLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSugarsII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SugarsII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSugarsUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SugarsUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateFibresLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.FibresLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateFibresII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.FibresII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateFibresUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.FibresUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateTotalFatLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.TotalFatLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateTotalFatII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.TotalFatII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateTotalFatUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.TotalFatUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateSaturatedFatLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SaturatedFatLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSaturatedFatII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SaturatedFatII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSaturatedFatUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SaturatedFatUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateMonounsaturatedFatLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.MonounsaturatedFatLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateMonounsaturatedFatII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.MonounsaturatedFatII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateMonounsaturatedFatUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.MonounsaturatedFatUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdatePolyunsaturatedFatLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PolyunsaturatedFatLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdatePolyunsaturatedFatII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PolyunsaturatedFatII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdatePolyunsaturatedFatUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PolyunsaturatedFatUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateTransFatLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.TransFatLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateTransFatII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.TransFatII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateTransFatUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.TransFatUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateVitaminALB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminALB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminAII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminAII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminAUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminAUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateVitaminB6LB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminB6LB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminB6II(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminB6II = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminB6UB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminB6UB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateVitaminB12LB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminB12LB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminB12II(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminB12II = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminB12UB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminB12UB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateVitaminCLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminCLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminCII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminCII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminCUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminCUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateVitaminDLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminDLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminDII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminDII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminDUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminDUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateVitaminELB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminELB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminEII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminEII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateVitaminEUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.VitaminEUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateThiaminLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ThiaminLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateThiaminII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ThiaminII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateThiaminUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ThiaminUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateRiboflavinLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.RiboflavinLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateRiboflavinII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.RiboflavinII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateRiboflavinUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.RiboflavinUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateNiacinLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.NiacinLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateNiacinII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.NiacinII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateNiacinUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.NiacinUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateFolateLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.FolateLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateFolateII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.FolateII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateFolateUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.FolateUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateSaltLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SaltLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSaltII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SaltII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSaltUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SaltUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdatePotassiumLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PotassiumLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdatePotassiumII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PotassiumII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdatePotassiumUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PotassiumUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateMagnesiumLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.MagnesiumLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateMagnesiumII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.MagnesiumII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateMagnesiumUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.MagnesiumUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateIronLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.IronLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateIronII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.IronII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateIronUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.IronUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateZincLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ZincLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateZincII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ZincII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateZincUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.ZincUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdatePhosphorusLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PhosphorusLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdatePhosphorusII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PhosphorusII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdatePhosphorusUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.PhosphorusUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateCopperLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CopperLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateCopperII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CopperII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateCopperUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CopperUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateIodineLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.IodineLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateIodineII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.IodineII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateIodineUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.IodineUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateSeleniumLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SeleniumLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSeleniumII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SeleniumII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateSeleniumUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.SeleniumUB = newAmount;
+        await HandleUpdate();
+    }
+
+
+    private async Task HandleUpdateCalciumLB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CalciumLB = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateCalciumII(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CalciumII = newAmount;
+        await HandleUpdate();
+    }
+
+    private async Task HandleUpdateCalciumUB(ChangeEventArgs e)
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        if (float.TryParse(e.Value!.ToString(), out float newAmount) && newAmount >= 0) User.CalciumUB = newAmount;
+        await HandleUpdate();
+    }
+}
