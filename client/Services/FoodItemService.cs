@@ -42,4 +42,12 @@ public class FoodItemService
         var result = await _http.PutAsJsonAsync($"api/FoodItem/setingredients/{recipeID}", foodItems);
         return result;
     }
+
+    public async Task<List<FoodItemAmountDTO>> GetByMeal(int mealID)
+    {
+        var result = await _http.GetAsync($"api/FoodItem/meal/{mealID}");
+        return await result.Content.ReadFromJsonAsync<List<FoodItemAmountDTO>>() ?? new List<FoodItemAmountDTO>();
+    }
+
+
 }

@@ -107,6 +107,7 @@ public class RecipeController : ControllerBase
         }
         catch (Exception e)
         {
+            _logger.LogError(e, e.Message);
             return StatusCode(500, e.Message);        
         }
     }
@@ -120,8 +121,25 @@ public class RecipeController : ControllerBase
             var r = await _recipeRepo.ReadAllByCategoryIDAsync(categoryID);
             return Ok(r ?? new List<RecipeDTO>{});
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
+    [HttpGet("meal/{mealID}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetRecipesByMealID(int mealID)
+    {
+        try
+        {
+            var r = await _recipeRepo.ReadAllByMealId(mealID);
+            return Ok(r ?? new List<RecipeAmountDTO>{});
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
             return StatusCode(500, "Internal Server Error");
         }
     }
@@ -143,8 +161,9 @@ public class RecipeController : ControllerBase
             }
             return Ok(res);
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogError(e, e.Message);
             return StatusCode(500, "Internal Server Error");
         }
     }
@@ -158,8 +177,9 @@ public class RecipeController : ControllerBase
             var r = await _recipeRepo.ReadAllByAuthorIDAsync(authorID);
             return Ok(r ?? new List<RecipeDTO>{});
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogError(e, e.Message);
             return StatusCode(500, "Internal Server Error");
         }
     }
@@ -173,8 +193,9 @@ public class RecipeController : ControllerBase
             var r = await _recipeRepo.ReadAllPublicAsync();
             return Ok(r ?? new List<RecipeDTO>{});
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogError(e, e.Message);
             return StatusCode(500, "Internal Server Error");
         }
     }
@@ -208,6 +229,8 @@ public class RecipeController : ControllerBase
             return StatusCode(500, "Internal Server Error");
         }
     }
+
+    
 }
 
    

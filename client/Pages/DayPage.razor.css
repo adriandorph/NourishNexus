@@ -17,14 +17,30 @@ h1 {
 }
 
 .ingredient-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    background-color: #ddd;
-    width: 50em; /* Update width as needed */
-    height: 5em; /* Update height as needed */
+    background-color: #eee;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 }
+
+#mealtype {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+#mealkcal{
+    justify-content: end;
+}
+
+#recipetitle{
+    text-decoration: underline;
+}
+
+#recipetitle:hover{
+    cursor: pointer;
+}
+
 
 .ingredient-name {
     margin: 0;
@@ -44,11 +60,4 @@ h1 {
 
 .add-food-button {
     margin-top: 10px;
-}
-
-@media (max-width: 768px) {
-    .ingredient-box {
-        height: 6em;
-        width: 20em; /* Update height for smaller screens */
-    }
 }

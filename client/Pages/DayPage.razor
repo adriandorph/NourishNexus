@@ -1,64 +1,372 @@
-@page "/day"
+@page "/day/{dateString}"
 @attribute [Authorize]
+@using System.Globalization
+@using System.Security.Claims
+@using System.Text.Json
+@using Microsoft.JSInterop
+@inject AuthenticationStateProvider AuthStateProvider
+@inject MealService MealService
+@inject FoodItemService FoodItemService
+@inject RecipeService RecipeService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <!-- DayPage.razor -->
 
-<h1>@CurrentDay</h1>
-<p class="total-calories">Total Calories: @TotalCalories</p>
-
-@foreach (var meal in Meals)
-{
-    <div class="meal-box">
-        <h2>@meal.Name</h2>
-		<h5 class="calories-heading">Calories: @meal.Calories kcal</h5>
-        <div class="ingredient-box-container mt-3">
-            @foreach (var ingredient in meal.Ingredients)
-            {
-                <div class="ingredient-box d-flex justify-content-between align-items-center mb-2 rounded">
-                    <div>
-                        <span class="ingredient-name">@ingredient</span>
-                        <span class="calorie-amount">1000 kcal</span>
-                    </div>
-                    <button class="btn btn-danger btn-sm"><i>X</i></button>
-                </div>
-            }
-        </div>
-
-		     <button class="btn btn-success mt-2">
-    <i class="fas fa-plus"></i> Add Food
-</button>
-    </div>
+<div class="d-inline-flex align-items-center">
+    <button type="button" class="btn btn-primary" @onclick="() => GoToWeek(date)">
+        <i class="oi oi-arrow-thick-left mr-2"></i>
+        Week @CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
+    </button>
+</div>
+<h1>@GetDateString()</h1>
+<p class="total-calories">Total Calories: @FloatFormat(TotalCalories())</p>
+@if(meals == null){
+    <p>Loading</p> 
 }
+else
+{
+    @foreach (var meal in meals)
+    {
+        <div class="meal-box">
+            <div class="meal-box-header d-flex justify-content-between">
+                <span id="mealtype"> @MealTypeToString(meal.MealType)</span>
+                <span class="calories-heading" id="mealkcal">@FloatFormat(MealCalories(meal)) kcal</span>
+            </div>
+
+            <div class="ingredient-box-container mt-3">
+                @if (meal.FoodItems.Any())
+                {
+                    @foreach (var foodItem in meal.FoodItems)
+                    {
+                        <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                            <div>
+                                <span class="ingredient-name">@foodItem.FoodItem!.Name</span>
+                            </div>
+                            <span>
+                            <span class="calorie-amount">@FloatFormat(Scale(foodItem.Amount, foodItem.FoodItem.Calories)) kcal</span>
+                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveFoodItem(meal, foodItem)"><i>X</i></button>
+                            </span>
+                        </div>
+                    }
+                }
+
+                @if (meal.Recipes.Any())
+                {
+                    @foreach (var recipe in meal.Recipes)
+                    {
+                        
+                        <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                            <a @onclick="() => ViewRecipe(recipe.Recipe.Id)">
+                                <div id="recipetitle">
+                                    <span class="ingredient-name">@recipe.Recipe!.Title</span>
+                                </div>
+                            </a>
+                            <span>
+                                <span class="calorie-amount">@FloatFormat(RecipeCalories(recipe)) kcal</span>
+        
+                                <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(meal, recipe)"><i>X</i></button>
+                            </span>
+                        </div>
+                        
+                    }
+                }
+                <button class="btn btn-success mt-2" @onclick="async () => await HandleAddFood(meal.Id, meal.MealType)">
+                    Add Food
+                </button>
+            </div>
+        </div>
+    }
+}
+
 
 @code {
     // Properties
-    private string CurrentDay = "Monday 21/11 2022";
-    private int TotalCalories = 300;
+    [Parameter]
+    public string dateString {get; set;} = "today";
+    private int userID;
+    private DateTime date {get; set;} = DateTime.Now;
+    private List<MealWithFood> meals { get; set; } = new List<MealWithFood>();
+    
 
-    private List<Meal> Meals = new List<Meal>()
-    {
-        new Meal() { Name = "Breakfast", Ingredients = new List<string>{"Oatmeal", "Beef"}, Calories = 150 },
-        new Meal() { Name = "Lunch", Ingredients = new List<string>{"Oatmeal", "Beef"}, Calories = 200 },
-        new Meal() { Name = "Dinner", Ingredients = new List<string>{"Oatmeal", "Beef"} , Calories = 350 },
-        new Meal() { Name = "Snack", Ingredients = new List<string>{"Oatmeal", "Beef"}, Calories = 100 },
-    };
+    private record MealWithFood(int? Id, MealType MealType, List<FoodItemAmountDTO> FoodItems, List<RecipeAmountWithFoodItemsDTO> Recipes);
 
-    // Methods
-    private void AddFood(Meal meal)
+    protected override async Task OnInitializedAsync()
     {
-        TotalCalories += meal.Calories;
+        date = LoadDate(dateString);
+        await LoadAddedFood();
+        var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
+        int.TryParse(userIdClaim!.Value, out userID);
+        await LoadMeals();
     }
 
-    private void RemoveIngredient(Meal meal)
+    private string MealTypeToString(MealType type)
     {
-        TotalCalories -= meal.Calories;
+        if (type == MealType.BREAKFAST) return "Breakfast";
+        if (type == MealType.LUNCH) return "Lunch";
+        if (type == MealType.DINNER) return "Dinner";
+        if (type == MealType.SNACK) return "Snacks";
+        return "Unknown Meal";
     }
 
-    // Model
-    private class Meal
+    private string GetDateString()
     {
-        public string Name { get; set; }
-        public List<string> Ingredients { get; set; }
-        public int Calories { get; set; }
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        return date.ToLongDateString();
     }
+
+
+    private float TotalCalories()
+    {
+        var sum = 0.0f;
+        foreach(var meal in meals) sum += MealCalories(meal);
+        return sum;
+    }
+
+    private float MealCalories(MealWithFood meal)
+    {
+        float sum = 0.0f;
+        foreach(var foodItem in meal.FoodItems) sum += foodItem.Amount * foodItem.FoodItem!.Calories;
+        foreach(var recipe in meal.Recipes)
+        {
+            sum += RecipeCalories(recipe);
+        }
+        return sum;
+    }
+
+    private float RecipeCalories(RecipeAmountWithFoodItemsDTO recipe)
+    {
+        float sum = 0.0f;
+        foreach(var foodItem in recipe.Fooditems) sum += foodItem.Amount * foodItem.FoodItem!.Calories;
+        return sum;
+    }
+
+    private float Scale(float a, float b) => a * b;
+
+    private async Task HandleAddFood(int? mealID, MealType type)
+    {
+        if(mealID == null)
+        {
+            var id = await CreateNewMeal(type);
+            if (id == null) return;
+            mealID = id;
+        }
+        string foodItemsSerialized = JsonSerializer.Serialize(mealID);
+        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_AddFoodToMeal", foodItemsSerialized);
+
+        NavigationManager.NavigateTo("/search");
+    }
+
+    private async Task LoadAddedFood()
+    {
+        string? addFoodToMeal = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_AddFoodToMeal");
+        await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_AddFoodToMeal");
+
+        if (string.IsNullOrEmpty(addFoodToMeal)) return;
+        int mealID = JsonSerializer.Deserialize<int>(addFoodToMeal);
+
+        //Get meal
+        var meal = await MealService.GetMealByID(mealID);
+
+        string? foodItemsSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_Ingredients");
+        await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_Ingredients");
+        string? recipeSerialized = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "NN_Recipe");
+        await JSRuntime.InvokeAsync<string>("sessionStorage.removeItem", "NN_Recipe");
+
+        if(!string.IsNullOrEmpty(foodItemsSerialized))
+        {
+            var loadedFoodItems = JsonSerializer.Deserialize<List<FoodItemAmountDTO>>(foodItemsSerialized);
+            if (loadedFoodItems != null)
+            {
+                meal!.FoodItems.AddRange(loadedFoodItems);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(recipeSerialized))
+        {
+            var recipe = JsonSerializer.Deserialize<RecipeAmountDTO>(recipeSerialized);
+            if (recipe != null)
+            {
+                meal!.Recipes.Add(recipe);
+            }
+        }
+
+        var foodItemMeals = meal!.FoodItems
+            .Select(r => new FoodItemMealCreateDTO
+                {
+                    MealID = meal!.Meal.Id,
+                    FoodItemID = r.FoodItem!.Id,
+                    Amount = r.Amount
+                }
+            )
+            .ToList();
+
+        var recipeMeals = meal!.Recipes
+            .Select(r => new RecipeMealCreateDTO
+                {
+                    MealID = meal!.Meal.Id,
+                    RecipeID = r.Recipe.Id,
+                    Amount = r.Amount
+                }
+            )
+            .ToList();
+
+        var mealUpdate = new MealUpdateDTO
+        {
+            Id = meal!.Meal.Id,
+            FoodItemMeals = foodItemMeals,
+            RecipeMeals = recipeMeals
+        };
+
+        await MealService.UpdateMeal(mealUpdate);
+    }
+
+    private async Task<int?> CreateNewMeal(MealType type)
+    {
+        var meal = await MealService.PostMeal(userID, date, type);
+        if (meal != null) return meal.Id;
+        else return null;
+    }
+
+    private async Task<List<RecipeAmountWithFoodItemsDTO>> GetRecipeWithFoods(int mealID)
+    {
+        var recipes = await RecipeService.GetByMeal(mealID);
+        var recipeWithFoods = new List<RecipeAmountWithFoodItemsDTO>();
+        foreach(var recipe in recipes)
+        {
+            var foodItems = await FoodItemService.GetByRecipe(recipe.Recipe.Id);
+            var recipeWithFood = new RecipeAmountWithFoodItemsDTO(recipe.Amount, recipe.Recipe, foodItems);
+            recipeWithFoods.Add(recipeWithFood);
+        }
+        return recipeWithFoods;
+    }
+
+    private string FloatFormat(float f) => $"{(f):0.##}";
+
+    private async Task HandleRemoveFoodItem(MealWithFood meal, FoodItemAmountDTO foodItem)
+    {
+        var foodItemMeals = meal.FoodItems
+            .Where(f => f != foodItem)
+            .Select(f => new FoodItemMealCreateDTO
+                {
+                    FoodItemID = f.FoodItem!.Id,
+                    MealID = (int) meal.Id!,
+                    Amount = f.Amount
+                }
+            ).ToList();
+
+        var mealUpdate = new MealUpdateDTO
+        {
+            Id = (int) meal.Id!,
+            FoodItemMeals = foodItemMeals
+        };
+        await MealService.UpdateMeal(mealUpdate);
+        await LoadMeals();
+        StateHasChanged();
+    }
+
+    private async Task HandleRemoveRecipe(MealWithFood meal, RecipeAmountWithFoodItemsDTO recipe)
+    {
+        var recipeMeals = meal.Recipes
+            .Where(r => r != recipe)
+            .Select(r => new RecipeMealCreateDTO
+                {
+                    RecipeID = r.Recipe.Id,
+                    MealID = (int) meal.Id!,
+                    Amount = r.Amount
+                }
+            ).ToList();
+
+        var mealUpdate = new MealUpdateDTO
+        {
+            Id = (int) meal.Id!,
+            RecipeMeals = recipeMeals
+        };
+        await MealService.UpdateMeal(mealUpdate);
+        await LoadMeals();
+        StateHasChanged();
+    }
+
+    private async Task LoadMeals()
+    {
+        meals.Clear();
+        List<MealDTO> mealDTOs = await MealService.GetMealsByUserIDAndDate(userID, date);
+        var mealWithFoods = (await Task.WhenAll(
+            mealDTOs.Select(
+                async m => new MealWithFood
+                (
+                    m.Id,
+                    m.MealType,
+                    await FoodItemService.GetByMeal(m.Id),
+                    await GetRecipeWithFoods(m.Id)
+                )
+            )
+        )).ToList();
+
+        var breakfast = mealWithFoods.Where(m => m.MealType == MealType.BREAKFAST).FirstOrDefault();
+        if (breakfast != null)
+        {
+            meals.Add(breakfast);
+        }
+        else meals.Add(new MealWithFood(null, MealType.BREAKFAST, new List<FoodItemAmountDTO>(), new List<RecipeAmountWithFoodItemsDTO>()));
+
+        //Lunch
+        var lunch = mealWithFoods.Where(m => m.MealType == MealType.LUNCH).FirstOrDefault();
+        if (lunch != null)
+        {
+            meals.Add(lunch);
+        }
+        else meals.Add(new MealWithFood(null, MealType.LUNCH, new List<FoodItemAmountDTO>(), new List<RecipeAmountWithFoodItemsDTO>()));
+
+        //Dinner
+        var dinner = mealWithFoods.Where(m => m.MealType == MealType.DINNER).FirstOrDefault();
+        if (dinner != null)
+        {
+            meals.Add(dinner);
+        }
+        else meals.Add(new MealWithFood(null, MealType.DINNER, new List<FoodItemAmountDTO>(), new List<RecipeAmountWithFoodItemsDTO>()));
+
+        //Snacks
+        var snacks = mealWithFoods.Where(m => m.MealType == MealType.SNACK).FirstOrDefault();
+        if (snacks != null)
+        {
+            meals.Add(snacks);
+        }
+        else meals.Add(new MealWithFood(null, MealType.SNACK, new List<FoodItemAmountDTO>(), new List<RecipeAmountWithFoodItemsDTO>()));
+    }
+
+    private void ViewRecipe(int id)
+    {
+        NavigationManager.NavigateTo($"viewRecipe/{id}/view");
+    }
+
+    protected async void GoBack(){
+        await JSRuntime.InvokeVoidAsync("history.back");
+    }
+
+    public void GoToWeek(DateTime date)
+    {
+        NavigationManager.NavigateTo($"/Week/{ToDateString(date)}");
+    }
+
+    private DateTime LoadDate(string date)
+    {
+        var split = date.Split("-");
+        try
+        {
+            var year = int.Parse(split[2]);
+            var day = int.Parse(split[0]);
+            var month = int.Parse(split[1]);
+            return new DateTime(year, month, day);
+        }
+        catch (Exception)
+        {
+            return DateTime.Now;
+        }
+    }
+
+    private string ToDateString(DateTime date)
+    => $"{date.Day}-{date.Month}-{date.Year}";
+    
 }

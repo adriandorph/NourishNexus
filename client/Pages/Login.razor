@@ -46,8 +46,6 @@
         
         if(response.IsSuccessStatusCode)
         {
-            messageCssClass = "text-success";
-            message = "Login Succesful";
             var token = await response.Content.ReadAsStringAsync();
             await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
             await AuthStateProvider.GetAuthenticationStateAsync();

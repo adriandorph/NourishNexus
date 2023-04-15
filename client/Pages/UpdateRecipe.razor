@@ -219,8 +219,6 @@
         ClearUsedSessionStorage();
         if(responseRecipe.IsSuccessStatusCode && responseIngredients.IsSuccessStatusCode)
         {
-            messageCssClass = "text-success";
-            message = "Recipe updated successfully";
             NavigationManager.NavigateTo("savedRecipes");
         } 
         else 
@@ -236,8 +234,6 @@
         ClearUsedSessionStorage();
         if (response.IsSuccessStatusCode)
         {
-            messageCssClass = "text-success";
-            message = "Recipe deleted successfully";
             NavigationManager.NavigateTo("savedRecipes");
         }
         else

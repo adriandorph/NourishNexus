@@ -1,5 +1,4 @@
 @inject CategoryService CategoryService
-@inject IJSRuntime JSRuntime
 <!-- ModalComponent.razor -->
 <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog" role="document">
@@ -31,9 +30,6 @@
 
     CategoryCreateDTO category = new ();
 
-    [Parameter]
-    public EventCallback<string> OnCategoryAdded { get; set; }
-
     [CascadingParameter] BlazoredModalInstance BlazoredModal{ get; set; } = default!;
 
     private async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
@@ -42,7 +38,6 @@
     async Task HandleCreateCategory(){
         var response = await CategoryService.CreateCategory(category);
         if(response.IsSuccessStatusCode){
-            await OnCategoryAdded.InvokeAsync();
             await Close();
         }
         else{

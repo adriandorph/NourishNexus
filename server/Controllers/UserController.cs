@@ -107,6 +107,23 @@ public class UserController : ControllerBase
         }
     }
 
+    [HttpGet("nutrition/{id}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetUserWithNutritionById(int id)
+    {
+        try
+        {
+            var r = await _userRepo.ReadWithNutritionByIDAsync(id);
+
+            if (r.IsNone) return NotFound();
+            return Ok(r.Value);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal Server Error");        
+        }
+    }
+
     [HttpGet("readbyemail/{email}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetUserByEmail(string email)

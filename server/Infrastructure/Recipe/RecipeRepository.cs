@@ -188,7 +188,7 @@ public class RecipeRepository : IRecipeRepository
             .Where(rm => rm.Meal.Id == mealID)
             .Select(rm => new Tuple<float, int>(rm.Amount, rm.Recipe.Id))
             .ToListAsync())
-            .Join(_context.Recipes, i => i.Item2, r => r.Id, (item, recipe) => new RecipeAmountDTO(item.Item1, recipe.ToDTO()))
+            .Join(_context.Recipes.Include(r => r.Categories), i => i.Item2, r => r.Id, (item, recipe) => new RecipeAmountDTO(item.Item1, recipe.ToDTO()))
             .ToList();
     
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadSavedBySearchWord(string word, int userID)
