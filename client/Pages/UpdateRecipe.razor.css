@@ -1,0 +1,33 @@
+.category-box {
+    background-color: #eee;
+    padding: 4px 8px;
+    margin: 4px 8px;
+}
+
+.category-box label {
+    margin-bottom: 0;
+}
+
+.category-box input[type=checkbox] {
+    margin-right: 4px;
+}
+
+.ingredient-box {
+    background-color: #eee;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ingredient-name {
+    margin-right: 8px;
+}
+
+.ingredient-g {
+    color: #000000;
+}
+
+.kcal {
+    font-weight: normal;
+}

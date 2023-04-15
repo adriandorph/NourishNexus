@@ -16,45 +16,31 @@
 
 <PageTitle> Create Recipe </PageTitle>
 
-<h1 class="mb-4">Create Recipe</h1>
-
+<h1>Create Recipe</h1>
+<div class="form-group">
+    <label for="title">Title</label>
+    <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
+</div>
 
 <EditForm Model="@recipe" OnSubmit="HandleCreateRecipe">
-
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group my-2">
-                <label for="title">
-                    <h3>Title</h3>
-                </label>
-                <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
-            </div>
-        </div>
-    </div>
-
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group my-2">
-                <h3>Categories</h3>
-                <div class="category-checkboxes d-flex flex-wrap">
-                    @if (AllCategories != null && AllCategories.Any())
-                    {
-                        var sortedCategories = AllCategories.OrderBy(c => c.Name);
-                        @foreach (var category in sortedCategories)
-                        {
-                            <div class="category-box mr-2 mb-2 rounded">
-                                <label>
-                                    <input type="checkbox" value="@category.Id"
-                                        checked="@selectedCategoryIds.Contains(category.Id)"
-                                @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
-                                    @category.Name
-                                </label>
-                            </div>
-                        }
-                        <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
-                    }
-                </div>
-            </div>
+    <div class="form-group my-2">
+        <h6>Categories</h6>
+        <div class="category-checkboxes d-flex flex-wrap">
+            @if (AllCategories != null && AllCategories.Any())
+            {
+                var sortedCategories = AllCategories.OrderBy(c => c.Name);
+                @foreach (var category in sortedCategories)
+                {
+                    <div class="category-box mr-2 mb-2 rounded">
+                        <label>
+                            <input type="checkbox" value="@category.Id" checked="@selectedCategoryIds.Contains(category.Id)"
+                        @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
+                            @category.Name
+                        </label>
+                    </div>
+                }
+                <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
+            }
         </div>
     </div>
 
@@ -62,7 +48,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span>
-                <h3 class="card-title">Description</h3>
+                <h2 class="card-title">Description</h2>
             </span>
             <div class="form-group my-2">
                 <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
@@ -74,7 +60,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span class="d-flex justify-content-between">
-                <h3 class="card-title">Ingredients</h3>
+                <h2 class="card-title">Ingredients</h2>
                 <h4 class="text-right kcal ">@TotalCalories() kcal </h4>
             </span>
             @foreach (FoodItemAmountDTO ingredient in ingredients)
@@ -100,7 +86,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span>
-                <h3 class="card-title">Method</h3>
+                <h2 class="card-title">Method</h2>
             </span>
             <div class="form-group my-2">
                 <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
@@ -108,24 +94,19 @@
         </div>
     </div>
 
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group my-2">
-                <div>
-                    <h3>Recipe visibility</h3>
-                </div>
-                <InputRadioGroup @bind-Value="recipe.IsPublic">
-                    <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)" />
-                    <label class="form-check-label" for="Public">Public</label>
 
-                    <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)" />
-                    <label class="form-check-label" for="Private">Private</label>
-                </InputRadioGroup>
-            </div>
-            <div class="form-group">
-                <p>If you choose to create a private recipe, it will not be visible to other users</p>
-            </div>
-        </div>
+    <div class="form-group my-2">
+        <div>Recipe visibility</div>
+        <InputRadioGroup @bind-Value="recipe.IsPublic">
+            <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)"/>
+            <label class="form-check-label" for="Public">Public</label>
+
+            <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)"/>
+            <label class="form-check-label" for="Private">Private</label>
+        </InputRadioGroup>
+    </div>
+    <div class="form-group">
+        <p>If you choose to create a private recipe, it will not be visible to other users</p>
     </div>
     <div class="form-group my-2">
         <button type="button" class="btn btn-danger" @onclick="GoBack">Cancel</button>
@@ -135,44 +116,6 @@
         </div>
     </div>
 </EditForm>
-
-
-
-<style>
-    .category-box {
-        background-color: #eee;
-        padding: 4px 8px;
-        margin: 4px 8px;
-    }
-
-    .category-box label {
-        margin-bottom: 0;
-    }
-
-    .category-box input[type=checkbox] {
-        margin-right: 4px;
-    }
-
-    .ingredient-box {
-        background-color: #eee;
-        padding: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .ingredient-name {
-        margin-right: 8px;
-    }
-
-    .ingredient-g {
-        color: #000000;
-    }
-
-    .kcal {
-        font-weight: normal;
-    }
-</style>
 
 
 @code {
