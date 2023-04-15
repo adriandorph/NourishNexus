@@ -31,4 +31,10 @@ public class UserService
         var result = await _http.GetAsync($"api/User/{id}");
         return await result.Content.ReadAsAsync<UserDTO>();
     }
+
+    public async Task<UserNutritionDTO> GetUserNutritionByID(int id)
+    {
+        var result = await _http.GetAsync($"api/User/nutrition/{id}");
+        return await result.Content.ReadAsAsync<UserNutritionDTO>();
+    }
 }

@@ -1,9 +1,9 @@
-@page "/day"
+@page "/day/{dateString}"
 @attribute [Authorize]
 @using System.Globalization
 @using System.Security.Claims
 @using System.Text.Json
-@using Microsoft.JSInterop;
+@using Microsoft.JSInterop
 @inject AuthenticationStateProvider AuthStateProvider
 @inject MealService MealService
 @inject FoodItemService FoodItemService
@@ -13,9 +13,12 @@
 
 <!-- DayPage.razor -->
 
-<!-- async () => await HandleDeleteIngredient(ingredient) -->
-
-
+<div class="d-inline-flex align-items-center">
+    <button type="button" class="btn btn-primary" @onclick="() => GoToWeek(date)">
+        <i class="oi oi-arrow-thick-left mr-2"></i>
+        Week @CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
+    </button>
+</div>
 <h1>@GetDateString()</h1>
 <p class="total-calories">Total Calories: @FloatFormat(TotalCalories())</p>
 @if(meals == null){
@@ -52,13 +55,20 @@ else
                 {
                     @foreach (var recipe in meal.Recipes)
                     {
+                        
                         <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
-                            <div>
-                                <span class="ingredient-name">@recipe.Recipe!.Title</span>
+                            <a @onclick="() => ViewRecipe(recipe.Recipe.Id)">
+                                <div id="recipetitle">
+                                    <span class="ingredient-name">@recipe.Recipe!.Title</span>
+                                </div>
+                            </a>
+                            <span>
                                 <span class="calorie-amount">@FloatFormat(RecipeCalories(recipe)) kcal</span>
-                            </div>
-                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(meal, recipe)"><i>X</i></button>
+        
+                                <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(meal, recipe)"><i>X</i></button>
+                            </span>
                         </div>
+                        
                     }
                 }
                 <button class="btn btn-success mt-2" @onclick="async () => await HandleAddFood(meal.Id, meal.MealType)">
@@ -72,8 +82,10 @@ else
 
 @code {
     // Properties
+    [Parameter]
+    public string dateString {get; set;} = "today";
     private int userID;
-    private DateTime date = DateTime.Now;
+    private DateTime date {get; set;} = DateTime.Now;
     private List<MealWithFood> meals { get; set; } = new List<MealWithFood>();
     
 
@@ -81,6 +93,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        date = LoadDate(dateString);
         await LoadAddedFood();
         var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
@@ -322,5 +335,38 @@ else
         }
         else meals.Add(new MealWithFood(null, MealType.SNACK, new List<FoodItemAmountDTO>(), new List<RecipeAmountWithFoodItemsDTO>()));
     }
+
+    private void ViewRecipe(int id)
+    {
+        NavigationManager.NavigateTo($"viewRecipe/{id}/view");
+    }
+
+    protected async void GoBack(){
+        await JSRuntime.InvokeVoidAsync("history.back");
+    }
+
+    public void GoToWeek(DateTime date)
+    {
+        NavigationManager.NavigateTo($"/Week/{ToDateString(date)}");
+    }
+
+    private DateTime LoadDate(string date)
+    {
+        var split = date.Split("-");
+        try
+        {
+            var year = int.Parse(split[2]);
+            var day = int.Parse(split[0]);
+            var month = int.Parse(split[1]);
+            return new DateTime(year, month, day);
+        }
+        catch (Exception)
+        {
+            return DateTime.Now;
+        }
+    }
+
+    private string ToDateString(DateTime date)
+    => $"{date.Day}-{date.Month}-{date.Year}";
     
 }

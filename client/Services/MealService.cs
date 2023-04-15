@@ -50,4 +50,10 @@ public class MealService
         var result = await _http.GetAsync($"api/Meal/{mealID}");
         return await result.Content.ReadFromJsonAsync<MealWithFoodDTO>();
     }
+
+    public async Task<List<MealWithFoodDTO>> GetMealsWithFoodByUserIDAndDate(int userId, DateTime date)
+    {
+        var result = await _http.GetAsync($"api/Meal/mealswithfood/{userId}/{date.ToString("yyyy-MM-ddTHH:mm:ss").Replace(".", "%3A")}");
+        return await result.Content.ReadFromJsonAsync<List<MealWithFoodDTO>>() ?? new List<MealWithFoodDTO>();
+    }
 }

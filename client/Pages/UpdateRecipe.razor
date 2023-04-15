@@ -15,47 +15,27 @@
 
 <PageTitle> Edit Recipe </PageTitle>
 
-
-
+<h1>Edit Recipe</h1>
 
 <EditForm Model="@recipe" OnSubmit="HandleUpdateRecipe">
-
-    <h1 class="mb-4">Edit Recipe</h1>
-
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group">
-                <label for="title">
-                    <h3>Title</h3>
-                </label>
-                <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
-            </div>
-        </div>
-    </div>
-
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group my-2">
-                <h3>Categories</h3>
-                <div class="category-checkboxes d-flex flex-wrap">
-                    @if (AllCategories != null && AllCategories.Any())
-                    {
-                        var sortedCategories = AllCategories.OrderBy(c => c.Name);
-                        @foreach (var category in sortedCategories)
-                        {
-                            <div class="category-box mr-2 mb-2 rounded">
-                                <label>
-                                    <input type="checkbox" value="@category.Id"
-                                        checked="@selectedCategoryIds.Contains(category.Id)"
-                                @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
-                                    @category.Name
-                                </label>
-                            </div>
-                        }
-                        <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
-                    }
-                </div>
-            </div>
+    <div class="form-group my-2">
+        <h6>Categories</h6>
+        <div class="category-checkboxes d-flex flex-wrap">
+            @if (AllCategories != null && AllCategories.Any())
+            {
+                var sortedCategories = AllCategories.OrderBy(c => c.Name);
+                @foreach (var category in sortedCategories)
+                {
+                    <div class="category-box mr-2 mb-2 rounded">
+                        <label>
+                            <input type="checkbox" value="@category.Id" checked="@selectedCategoryIds.Contains(category.Id)"
+                        @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
+                            @category.Name
+                        </label>
+                    </div>
+                }
+                <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
+            }
         </div>
     </div>
 
@@ -63,7 +43,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span>
-                <h3 class="card-title">Description</h3>
+                <h2 class="card-title">Description</h2>
             </span>
             <div class="form-group my-2">
                 <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
@@ -75,7 +55,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span class="d-flex justify-content-between">
-                <h3 class="card-title">Ingredients</h3>
+                <h2 class="card-title">Ingredients</h2>
                 <h4 class="text-right kcal ">@TotalCalories() kcal </h4>
             </span>
             @foreach (FoodItemAmountDTO ingredient in ingredients)
@@ -101,7 +81,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span>
-                <h3 class="card-title">Method</h3>
+                <h2 class="card-title">Method</h2>
             </span>
             <div class="form-group my-2">
                 <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
@@ -109,19 +89,16 @@
         </div>
     </div>
 
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group my-2">
-                <div> <h3>Recipe visibility</h3></div>
-                <InputRadioGroup @bind-Value="recipe.IsPublic">
-                    <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)" />
-                    <label class="form-check-label" for="Public">Public</label>
 
-                    <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)" />
-                    <label class="form-check-label" for="Private">Private</label>
-                </InputRadioGroup>
-            </div>
-        </div>
+    <div class="form-group my-2">
+        <div>Recipe visibility</div>
+        <InputRadioGroup @bind-Value="recipe.IsPublic">
+            <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)"/>
+            <label class="form-check-label" for="Public">Public</label>
+
+            <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)"/>
+            <label class="form-check-label" for="Private">Private</label>
+        </InputRadioGroup>
     </div>
     <div class="form-group">
         <p>If you choose to create a private recipe, it will not be visible to other users</p>
@@ -135,24 +112,24 @@
         </div>
     </div>
 </EditForm>
-
+ 
 
 <style>
-    .category-box {
-        background-color: #eee;
-        padding: 4px 8px;
-        margin: 4px 8px;
-    }
+        .category-box {
+            background-color: #eee;
+            padding: 4px 8px;
+            margin: 4px 8px;
+        }
 
-    .category-box label {
-        margin-bottom: 0;
-    }
+        .category-box label {
+            margin-bottom: 0;
+        }
 
-    .category-box input[type=checkbox] {
-        margin-right: 4px;
-    }
+        .category-box input[type=checkbox] {
+            margin-right: 4px;
+        }
 
-    .ingredient-box {
+        .ingredient-box {
         background-color: #eee;
         padding: 8px;
         display: flex;
@@ -175,7 +152,7 @@
 
 @code {
     [Parameter]
-    public string Id { get; set; } = "";
+    public string Id {get; set;} = "";
 
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
 
@@ -206,8 +183,7 @@
         }
     }
 
-    protected override async Task OnInitializedAsync()
-    {
+    protected override async Task OnInitializedAsync(){
         var existingRecipe = await RecipeService.GetRecipe(int.Parse(Id));
         recipe.Id = existingRecipe.Id;
         recipe.CategoryIDs = existingRecipe.CategoryIDs;
@@ -215,7 +191,7 @@
         recipe.Description = existingRecipe.Description;
         recipe.Method = existingRecipe.Method;
         recipe.IsPublic = existingRecipe.IsPublic;
-        foreach (int catid in existingRecipe.CategoryIDs)
+        foreach(int catid in existingRecipe.CategoryIDs)
         {
             selectedCategoryIds.Add(catid);
         }
@@ -241,13 +217,11 @@
         var responseIngredients = await FoodItemService.SetIngredients(ingredients, recipe.Id);
 
         ClearUsedSessionStorage();
-        if (responseRecipe.IsSuccessStatusCode && responseIngredients.IsSuccessStatusCode)
+        if(responseRecipe.IsSuccessStatusCode && responseIngredients.IsSuccessStatusCode)
         {
-            messageCssClass = "text-success";
-            message = "Recipe updated successfully";
             NavigationManager.NavigateTo("savedRecipes");
-        }
-        else
+        } 
+        else 
         {
             messageCssClass = "text-danger";
             message = "Recipe update failed";
@@ -260,8 +234,6 @@
         ClearUsedSessionStorage();
         if (response.IsSuccessStatusCode)
         {
-            messageCssClass = "text-success";
-            message = "Recipe deleted successfully";
             NavigationManager.NavigateTo("savedRecipes");
         }
         else
@@ -371,6 +343,6 @@
         await SaveChanges();
         NavigationManager.NavigateTo("/search");
     }
-
+     
 }
 

@@ -194,6 +194,45 @@ public class MealRepository : IMealRepository
         return new MealWithFoodDTO(meal, foodItems, recipes);
     }
 
+    public async Task<IReadOnlyCollection<MealWithFoodDTO>> ReadAllWithFoodByUserAndDateAsync(int userID, DateTime date)
+    {
+        var meals = await _context.Meals
+            .Include(m => m.Categories)
+            .Include(m => m.User)
+            .Where(m => m.User.Id == userID && m.Date.Date == date.Date)
+            .Select(m => m.ToDTO())
+            .ToListAsync();
+
+        var mealsWithFood = new List<MealWithFoodDTO>();
+
+        foreach(var meal in meals)
+        {
+            List<FoodItemAmountDTO> foodItems = await _context.FoodItemMeals
+                .Where(fim => fim.Meal.Id == meal.Id)
+                .Select(fim => new FoodItemAmountDTO
+                    {
+                        Amount = fim.Amount,
+                        FoodItem = fim.FoodItem.ToDTO()
+                    }
+                )
+                .ToListAsync();
+        
+            List<RecipeAmountDTO> recipes = await _context.RecipeMeals
+                .Where(fir => fir.Meal.Id == meal.Id)
+                .Include(fir => fir.Recipe.Categories)
+                .Select(fir => new RecipeAmountDTO(
+                        fir.Amount,
+                        fir.Recipe.ToDTO()
+                    )
+                )
+                .ToListAsync();
+            
+            var mealWithFood = new MealWithFoodDTO(meal, foodItems, recipes);
+            mealsWithFood.Add(mealWithFood);
+        }
+        return mealsWithFood;
+    }
+
 
 
     //Helper functions

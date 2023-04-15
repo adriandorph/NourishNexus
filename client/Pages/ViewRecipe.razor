@@ -1,9 +1,11 @@
-@page "/viewRecipe/{Id}"
+@page "/viewRecipe/{Id}/{Add}"
 @using System.Globalization
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
+@using System.Text.Json
 @using server.Core.EF.DTO
+@using Microsoft.JSInterop;
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
@@ -143,9 +145,13 @@
     }
     <div>
         <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
-        @if (recipe.AuthorId == authorID)
+        @if (recipe.AuthorId == authorID && Add == "view")
         {
             <button class="btn btn-success mx-1" @onclick="EditRecipe">Edit</button>
+        }
+        else if (Add == "add")
+        {
+            <button class="btn btn-success mx-1" @onclick="AddRecipe">Add</button>
         }
     </div>
 }
@@ -161,6 +167,8 @@ else
     private RecipeDTO? recipe { get; set; }
     [Parameter]
     public string Id { get; set; } = "";
+    [Parameter]
+    public string Add {get; set;} = "";
 
     public string authorName { get; set; } = "";
 
@@ -217,6 +225,18 @@ else
     public void EditRecipe()
     {
         NavigationManager.NavigateTo($"recipes/edit/{recipe!.Id}");
+    }
+
+    public async Task AddRecipe()
+    {
+        //Make recipeAmountDTO
+        var recipeAmount = new RecipeAmountDTO(scale, recipe!);
+
+        //Save in NN_Recipe
+        string recipeSerialized = JsonSerializer.Serialize<RecipeAmountDTO>(recipeAmount);
+        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_Recipe", recipeSerialized);
+
+        await JSRuntime.InvokeVoidAsync("history.go", -2);
     }
 
     public async Task<string> GetRecipeAuthor(int userid)

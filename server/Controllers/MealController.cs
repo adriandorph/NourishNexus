@@ -71,6 +71,21 @@ public class MealController : ControllerBase
         }
     }
 
+    [HttpGet("mealswithfood/{userID}/{date}")]
+    public async Task<IActionResult> GetWithFoodByUserAndDate(int userID, DateTime date)
+    {
+        try
+        {
+            var r = await _repo.ReadAllWithFoodByUserAndDateAsync(userID, date);
+            return Ok(r);
+        }   
+        catch (Exception e)
+        {
+            _logger.LogError(e,e.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
     [HttpGet("{userID}/{date}")]
     public async Task<IActionResult> GetByUserAndDate(int userID, DateTime date)
     {

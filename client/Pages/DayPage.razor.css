@@ -33,6 +33,14 @@ h1 {
     justify-content: end;
 }
 
+#recipetitle{
+    text-decoration: underline;
+}
+
+#recipetitle:hover{
+    cursor: pointer;
+}
+
 
 .ingredient-name {
     margin: 0;

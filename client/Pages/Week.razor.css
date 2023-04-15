@@ -1,0 +1,12 @@
+.day-box {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+#totalcalories {
+    font-size: 24px;
+    font-weight: 500;
+}
+
