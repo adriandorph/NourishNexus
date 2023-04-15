@@ -17,13 +17,11 @@ h1 {
 }
 
 .ingredient-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    background-color: #ddd;
-    width: 50em;
-    height: 5em; 
+    background-color: #eee;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 }
 
 #mealtype {
@@ -54,11 +52,4 @@ h1 {
 
 .add-food-button {
     margin-top: 10px;
-}
-
-@media (max-width: 768px) {
-    .ingredient-box {
-        height: 6em;
-        width: 20em; /* Update height for smaller screens */
-    }
 }

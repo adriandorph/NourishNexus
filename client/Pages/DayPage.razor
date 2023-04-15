@@ -36,12 +36,14 @@ else
                 {
                     @foreach (var foodItem in meal.FoodItems)
                     {
-                        <div class="ingredient-box d-flex justify-content-between align-items-center mb-2 rounded">
+                        <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
                             <div>
                                 <span class="ingredient-name">@foodItem.FoodItem!.Name</span>
-                                <span class="calorie-amount">@FloatFormat(Scale(foodItem.Amount, foodItem.FoodItem.Calories)) kcal</span>
                             </div>
-                            <button class="btn btn-danger btn-sm" @onclick="async () => await HandleRemoveFoodItem(meal, foodItem)"><i>X</i></button>
+                            <span>
+                            <span class="calorie-amount">@FloatFormat(Scale(foodItem.Amount, foodItem.FoodItem.Calories)) kcal</span>
+                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveFoodItem(meal, foodItem)"><i>X</i></button>
+                            </span>
                         </div>
                     }
                 }
@@ -50,12 +52,12 @@ else
                 {
                     @foreach (var recipe in meal.Recipes)
                     {
-                        <div class="ingredient-box d-flex justify-content-between align-items-center mb-2 rounded">
+                        <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
                             <div>
                                 <span class="ingredient-name">@recipe.Recipe!.Title</span>
                                 <span class="calorie-amount">@FloatFormat(RecipeCalories(recipe)) kcal</span>
                             </div>
-                            <button class="btn btn-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(meal, recipe)"><i>X</i></button>
+                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(meal, recipe)"><i>X</i></button>
                         </div>
                     }
                 }
