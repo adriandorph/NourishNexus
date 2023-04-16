@@ -6,7 +6,12 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject UserService UserService
 
-<h2>Nutritional values</h2>
+<div id="recommended">
+    <button class="btn-lg btn-primary" @onclick="ShowModal">Set to recommended</button>
+</div>
+
+<hr>
+<h2 id="targets">Daily nutritional targets</h2>
 
     <table class="table">
 
@@ -1072,11 +1077,31 @@
 
     private UserNutritionDTO User {get; set;} = new UserNutritionDTO{};
 
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+
     protected override async Task OnInitializedAsync()
     {
         var claim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = claim.FindFirst(ClaimTypes.NameIdentifier)!;
         User = Scale(await UserService.GetUserNutritionByID(int.Parse(userIdClaim!.Value)), 1.0f/7.0f);
+    }
+
+    private async void ShowModal()
+    {
+        var options = new ModalOptions
+            {
+                UseCustomLayout = true
+            };
+        var modal = Modal.Show<NutrientTargetModal>("Nut Modal", options);
+
+        var result = await modal.Result;
+
+
+        if (!result.Cancelled)
+        {
+
+            StateHasChanged();
+        }
     }
 
     private async Task HandleUpdate()

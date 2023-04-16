@@ -1,0 +1,79 @@
+@inject CategoryService CategoryService
+<!-- ModalComponent.razor -->
+<div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Calculate nutritional targets</h5>
+                <button type="button" class="close" @onclick="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="form-group">
+                <label for="ageInput">Age:</label>
+                <input type="number" class="form-control" id="ageInput" @bind="age" min="0" />
+            </div>
+            <div class="form-group">
+                <label for="genderInput">Gender:</label>
+                <select class="form-control" id="genderInput" @bind="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="weightInput">Weight (kg):</label>
+                <input type="number" class="form-control" id="weightInput" @bind="weight" min="0" />
+            </div>
+            <div class="form-group">
+                <label for="heightInput">Height (cm):</label>
+                <input type="number" class="form-control" id="heightInput" @bind="height" min="0" />
+            </div>
+            <div class="form-group">
+                <label for="activityLevelInput">Physical Activity Level:</label>
+                <select class="form-control" id="activityLevelInput" @bind="activityLevel">
+                    <option value="Sedentary">Sedentary</option>
+                    <option value="Lightly Active">Lightly Active</option>
+                    <option value="Moderately Active">Moderately Active</option>
+                    <option value="Very Active">Very Active</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="weightGoalInput">Weight Goal:</label>
+                <select class="form-control" id="weightGoalInput" @bind="weightGoal">
+                    <option value="Lose weight fast">Lose weight fast</option>
+                    <option value="Lose weight slow">Lose weight slow</option>
+                    <option value="Maintain weight">Maintain weight</option>
+                    <option value="Gain weight fast">Gain weight fast</option>
+                    <option value="Gain weight slow">Gain weight slow</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int age;
+    private string gender = "Male";
+    private decimal weight;
+    private decimal height;
+    private string activityLevel = "Sedentary";
+    private string weightGoal = "Maintain weight";
+
+
+    string message = "";
+
+    string messageCssClass = "";
+
+    CategoryCreateDTO category = new();
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    private async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+
+}
