@@ -9,23 +9,17 @@
 <div id="welcomediv">
     <h1 id="welcome" class="pop"> <b>Welcome back!</b> </h1>
 </div>
-
-<EditForm class="my-5" Model="userEmail" OnSubmit="HandleLogin">
+<EditForm class="my-5" Model="login" OnSubmit="HandleLogin">
+    <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" type="email" @bind-Value="userEmail" class="form-control" />
-        @if (!string.IsNullOrEmpty(userEmail) && !IsValidEmail(userEmail))
-        {
-            <div class="text-danger">Invalid email address</div>
-        }
+        <InputText id="email" type="email" @bind-Value="login.Email" class="form-control" />
+        <ValidationMessage For="@(() => login.Email)" />
     </div>
     <div class="mb-3">
         <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="userPassword" class="form-control" />
-        @if (string.IsNullOrEmpty(userPassword))
-        {
-            <div class="text-danger">Password is required</div>
-        }
+        <InputText id="password" type="password" @bind-Value="login.Password" class="form-control" />
+        <ValidationMessage For="@(() => login.Password)" />
     </div>
     <div id="signindiv">
         <button type="submit" class="btn btn-primary">Sign in</button>
@@ -42,15 +36,14 @@
 
 @code {
 
-    string userEmail { get; set; } = "";
-    string userPassword { get; set; } = "";
+    private UserLoginDTO login = new UserLoginDTO();
 
     string message = string.Empty;
     string messageCssClass = string.Empty;
 
     async Task HandleLogin()
     {
-        var loginRequest = new LoginRequest(userEmail, userPassword);
+        var loginRequest = new LoginRequest(login.Email ?? "", login.Password ?? "");
         var response = await UserService.Login(loginRequest);
 
         if (response.IsSuccessStatusCode)
@@ -70,19 +63,6 @@
         {
             messageCssClass = "text-danger";
             message = "Login failed";
-        }
-    }
-
-    bool IsValidEmail(string email)
-    {
-        try
-        {
-            var addr = new System.Net.Mail.MailAddress(email);
-            return addr.Address == email;
-        }
-        catch
-        {
-            return false;
         }
     }
 }
