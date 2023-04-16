@@ -10,15 +10,15 @@
 
 <center>
     <div class="d-flex align-items-center justify-content-center">
-        <button class="btn btn-link" @onclick="async () => await PreviousWeek()"><i class="oi oi-arrow-left"></i></button>
+        <button class="btn btn-link" @onclick="async () => await PreviousWeek()"><i class="oi oi-arrow-circle-left"></i></button>
         <h4>Week @currentWeek @ToShortDateOnly(startDate) - @ToShortDateOnly(endDate)</h4>
-        <button class="btn btn-link" @onclick="async () => await NextWeek()"><i class="oi oi-arrow-right"></i></button>
+        <button class="btn btn-link" @onclick="async () => await NextWeek()"><i class="oi oi-arrow-circle-right"></i></button>
     </div>
     <div>
-        <button class="btn btn-primary btn-lg">Generate food plan</button>
+        <button class="btn-primary btn-lg">Generate food plan</button>
         <span class="d-flex justify-content-between mt-3">
-            <span>Daily calorie goal</span>
-            <span>2650 kcal</span>
+            <span><h5>Daily calorie goal</h5></span>
+            <span><h5>2650 kcal</h5></span>
         </span>
     </div>
 </center>
@@ -46,8 +46,10 @@
     </div>
 </div>
 
-<div>
-    <button class="btn btn-primary" @onclick="() => GoToDay(DayOfWeek.Monday)"> <i class="oi oi-arrow-thick-right">Monday</i></button>
+<div class="my-2">
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Monday)"> 
+        <span style="margin-right: 0.25rem;">Monday</span>
+        <i class="oi oi-arrow-thick-right"></i></button>
 </div>
 
 
@@ -77,8 +79,10 @@
     </div>
 </div>
 
-<div>
-    <button class="btn btn-primary" @onclick="() => GoToDay(DayOfWeek.Tuesday)"> <i class="oi oi-arrow-thick-right">Tuesday</i></button>
+<div class="my-2">
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Tuesday)"> 
+        <span style="margin-right: 0.25rem;">Tuesday</span>
+        <i class="oi oi-arrow-thick-right"></i></button>
 </div>
 
 
@@ -107,8 +111,10 @@
     </div>
 </div>
 
-<div>
-    <div class="btn btn-primary" @onclick="() => GoToDay(DayOfWeek.Wednesday)"> <i class="oi oi-arrow-thick-right">Wednesday</i></div>
+<div class="my-2">
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Wednesday)"> 
+        <span style="margin-right: 0.25rem;">Wednesday</span>
+        <i class="oi oi-arrow-thick-right"></i></button>
 </div>
 
 
@@ -136,8 +142,10 @@
     </div>
 </div>
 
-<div>
-    <div class="btn btn-primary" @onclick="() => GoToDay(DayOfWeek.Thursday)"> <i class="oi oi-arrow-thick-right">Thursday</i></div>
+<div class="my-2">
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Thursday)"> 
+        <span style="margin-right: 0.25rem;">Thursday</span>
+        <i class="oi oi-arrow-thick-right"></i></button>
 </div>
 
 
@@ -164,8 +172,10 @@
     </div>
 </div>
 
-<div>
-    <div class="btn btn-primary" @onclick="() => GoToDay(DayOfWeek.Friday)"> <i class="oi oi-arrow-thick-right">Friday</i></div>
+<div class="my-2">
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Friday)"> 
+        <span style="margin-right: 0.25rem;">Friday</span>
+        <i class="oi oi-arrow-thick-right"></i></button>
 </div>
 
 
@@ -192,8 +202,11 @@
     </div>
 </div>
 
-<div>
-    <div class="btn btn-primary" @onclick="() => GoToDay(DayOfWeek.Saturday)"> <i class="oi oi-arrow-thick-right">Saturday</i></div>
+<div class="my-2">
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Saturday)"> 
+        <span style="margin-right: 0.25rem;">Saturday</span>
+        <i class="oi oi-arrow-thick-right"></i>
+    </button>
 </div>
 
 
@@ -220,8 +233,11 @@
     </div>
 </div>
 
-<div>
-    <div class="btn btn-primary" @onclick="() => GoToDay(DayOfWeek.Sunday)"> <i class="oi oi-arrow-thick-right">Sunday</i></div>
+<div class="my-2">
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Sunday)"> 
+        <span style="margin-right: 0.25rem;">Sunday</span>
+        <i class="oi oi-arrow-thick-right"></i>
+    </button>
 </div>
 
 

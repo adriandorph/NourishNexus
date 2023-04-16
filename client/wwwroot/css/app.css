@@ -13,9 +13,58 @@ a, .btn-link {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    color: rgb(0, 0, 0);
+    background-color: #94F1B4;
+    border-color: #94F1B4;
+}
+
+.btn-lg{
+    box-shadow: none;
+    outline:none;
+    border:none;
+}
+
+.btn-primary:active, .btn-primary:focus{
+    border-color: #94F1B4;
+    color: #000000;
+    background-color:  #94F1B4;
+    box-shadow: none;
+    border: none;
+    outline: none;
+
+}
+
+.btn-secondary{
+    color: #000000;
+    background-color: #B8B8B8;
+    border-color:#B8B8B8;
+}
+
+.btn-secondary:hover{
+    background-color: #9c9292;
+    color: #000000;
+    border-color: #9c9292;
+}
+
+.btn-danger{
+    color: #000000;
+    background-color: #ed4d4d;
+}
+
+.btn-danger:hover{
+    color: #000000;
+    background-color: #c03c3c;
+    border-color: #c03c3c;
+}
+
+.btn-primary:hover{
+    background-color: #84D39F;
+    border-color: #84D39F;
+    color: #000000;
+}
+
+.btn-primary:hover{
+    box-shadow: none;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {

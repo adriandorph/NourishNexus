@@ -1,8 +1,6 @@
 @page "/recipes/edit/{Id}"
 @attribute [Authorize]
 @using System.Threading.Tasks
-@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using server.Core.EF.DTO;
 @using System.Text.Json;
 @using Microsoft.JSInterop;
@@ -15,27 +13,44 @@
 
 <PageTitle> Edit Recipe </PageTitle>
 
-<h1>Edit Recipe</h1>
-
 <EditForm Model="@recipe" OnSubmit="HandleUpdateRecipe">
-    <div class="form-group my-2">
-        <h6>Categories</h6>
-        <div class="category-checkboxes d-flex flex-wrap">
-            @if (AllCategories != null && AllCategories.Any())
-            {
-                var sortedCategories = AllCategories.OrderBy(c => c.Name);
-                @foreach (var category in sortedCategories)
-                {
-                    <div class="category-box mr-2 mb-2 rounded">
-                        <label>
-                            <input type="checkbox" value="@category.Id" checked="@selectedCategoryIds.Contains(category.Id)"
-                        @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
-                            @category.Name
-                        </label>
-                    </div>
-                }
-                <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
-            }
+
+    <h1 class="mb-4">Edit Recipe</h1>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <div class="form-group">
+                <label for="title">
+                    <h3>Title</h3>
+                </label>
+                <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
+            </div>
+        </div>
+    </div>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <div class="form-group my-2">
+                <h3>Categories</h3>
+                <div class="category-checkboxes d-flex flex-wrap">
+                    @if (AllCategories != null && AllCategories.Any())
+                    {
+                        var sortedCategories = AllCategories.OrderBy(c => c.Name);
+                        @foreach (var category in sortedCategories)
+                        {
+                            <div class="category-box mr-2 mb-2 rounded">
+                                <label>
+                                    <input type="checkbox" value="@category.Id"
+                                        checked="@selectedCategoryIds.Contains(category.Id)"
+                                @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
+                                    @category.Name
+                                </label>
+                            </div>
+                        }
+                        <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 
@@ -43,7 +58,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span>
-                <h2 class="card-title">Description</h2>
+                <h3 class="card-title">Description</h3>
             </span>
             <div class="form-group my-2">
                 <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
@@ -55,7 +70,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span class="d-flex justify-content-between">
-                <h2 class="card-title">Ingredients</h2>
+                <h3 class="card-title">Ingredients</h3>
                 <h4 class="text-right kcal ">@TotalCalories() kcal </h4>
             </span>
             @foreach (FoodItemAmountDTO ingredient in ingredients)
@@ -81,7 +96,7 @@
     <div class="card my-4">
         <div class="card-body">
             <span>
-                <h2 class="card-title">Method</h2>
+                <h3 class="card-title">Method</h3>
             </span>
             <div class="form-group my-2">
                 <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
@@ -89,23 +104,26 @@
         </div>
     </div>
 
+    <div class="card my-4">
+        <div class="card-body">
+            <div class="form-group my-2">
+                <div> <h3>Recipe visibility</h3></div>
+                <InputRadioGroup @bind-Value="recipe.IsPublic">
+                    <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)" />
+                    <label class="form-check-label" for="Public">Public</label>
 
-    <div class="form-group my-2">
-        <div>Recipe visibility</div>
-        <InputRadioGroup @bind-Value="recipe.IsPublic">
-            <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)"/>
-            <label class="form-check-label" for="Public">Public</label>
-
-            <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)"/>
-            <label class="form-check-label" for="Private">Private</label>
-        </InputRadioGroup>
+                    <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)" />
+                    <label class="form-check-label" for="Private">Private</label>
+                </InputRadioGroup>
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <p>If you choose to create a private recipe, it will not be visible to other users</p>
     </div>
     <div class="form-group my-2">
-        <button type="button" class="btn btn-primary" @onclick="GoBack">Cancel</button>
-        <button type="submit" class="btn btn-success btn-block">Update</button>
+        <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-block">Update</button>
         <button type="button" class="btn btn-danger" @onclick="HandleDeleteRecipe">Delete</button>
         <div class="@messageCssClass">
             <span>@message</span>
@@ -188,7 +206,7 @@
         else 
         {
             messageCssClass = "text-danger";
-            message = "Recipe update failed";
+            message = "Error.You already have a recipe with that name";
         }
     }
 

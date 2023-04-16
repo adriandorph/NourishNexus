@@ -7,38 +7,43 @@
 
 <PageTitle>Register</PageTitle>
 
-<h1>Register</h1>
+<div id="registerdiv">
+<h1 id="register" class="pop"><b>Register</b></h1>
+</div>
 
-<EditForm Model="user" OnValidSubmit="HandleRegistration" Context="editext">
-    <DataAnnotationsValidator/>
+<EditForm class="my-5" Model="user" OnValidSubmit="HandleRegistration" Context="editext">
+    <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" type="email" @bind-Value="user.Email" class ="form-control"/>
-        <ValidationMessage For="@(() => user.Email)" />   
+        <InputText id="email" type="email" @bind-Value="user.Email" class="form-control" />
+        <ValidationMessage For="@(() => user.Email)" />
     </div>
-     <div class="mb-3">
+    <div class="mb-3">
         <label for="nickname">Nickname</label>
-        <InputText id="nickname" @bind-Value="user.Nickname" class ="form-control"/>
-        <ValidationMessage For="@(() => user.Nickname)" />   
+        <InputText id="nickname" @bind-Value="user.Nickname" class="form-control" />
+        <ValidationMessage For="@(() => user.Nickname)" />
     </div>
     <div class="mb-3">
         <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="user.Password" class ="form-control"/>
-        <ValidationMessage For="@(() => user.Password)" />   
+        <InputText id="password" type="password" @bind-Value="user.Password" class="form-control" />
+        <ValidationMessage For="@(() => user.Password)" />
     </div>
     <div class="mb-3">
         <label for="confirmpassword">Confirm Password</label>
-        <InputText id="confirmpassword" type="password" @bind-Value="user.ConfirmPassword" class ="form-control"/>
-        <ValidationMessage For="@(() => user.ConfirmPassword)" />   
+        <InputText id="confirmpassword" type="password" @bind-Value="user.ConfirmPassword" class="form-control" />
+        <ValidationMessage For="@(() => user.ConfirmPassword)" />
     </div>
+    <div id="signupdiv">
     <button type="submit" class="btn btn-primary">Register</button>
-    <div class ="@messageCssClass">
+    <div class="@messageCssClass">
         <span>@message</span>
     </div>
-</EditForm>
-<div class="my-3">
+    </div>
+    <div id="message" class="my-3">
         <span>Already signed up? <a href="/login">Click here to sign in!</a></span>
     </div>
+</EditForm>
+
 @code {
     private UserCreateDTO user = new UserCreateDTO();
 
@@ -48,26 +53,26 @@
     private async Task HandleRegistration()
     {
         var response = await UserService.RegisterUser(user);
-        if(response.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode)
         {
             var loginRequest = new LoginRequest(user.Email ?? "", user.Password ?? "");
             var loginResponse = await UserService.Login(loginRequest);
             if (loginResponse.IsSuccessStatusCode)
             {
                 var token = await loginResponse.Content.ReadAsStringAsync();
-                await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
+                await LocalStorage.SetItemAsync("nourish_nexus_auth_token", token);
                 await AuthStateProvider.GetAuthenticationStateAsync();
                 manager.NavigateTo("");
             }
-            else 
+            else
             {
-                messageCssClass ="text-danger";
+                messageCssClass = "text-danger";
                 message = "Could not authenticate you after registration";
             }
-        } 
+        }
         else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
         {
-            messageCssClass ="text-danger";
+            messageCssClass = "text-danger";
             message = "User already exists in the system, please login";
         }
     }
