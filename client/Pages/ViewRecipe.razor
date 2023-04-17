@@ -1,4 +1,4 @@
-@page "/viewRecipe/{Id}/{Add}"
+@page "/viewRecipe/{Id}/{Add}/{Scale}"
 @using System.Globalization
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
@@ -64,7 +64,7 @@
             </span>
             <div class="scale">
                 Scale x
-                <input class="scale-input" step="0.5" type="number" id="scaleInput" value="1" @onchange="UpdateIngredients"
+                <input class="scale-input" step="0.5" type="number" id="scaleInput" value="@scale"  @onchange="UpdateIngredients"
                     min="0">
             </div>
             @foreach (FoodItemAmountDTO ingredient in ingredients)
@@ -126,7 +126,11 @@ else
     public string authorName { get; set; } = "";
 
     private int authorID;
-    private float scale { get; set; } = 1.0f;
+
+    [Parameter]
+    public string Scale { get; set; } = "";
+
+    private float scale {get; set;} = 1.0f;
 
     private string? recipeAuthor;
     private List<FoodItemAmountDTO> ingredients { get; set; } = new List<FoodItemAmountDTO>();
@@ -146,28 +150,24 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        try
+        var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+        int.TryParse(userIdClaim!.Value, out authorID);
+        recipe = await RecipeService.GetRecipe(int.Parse(Id));
+        recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
+        if (recipe == null)
         {
-            var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            int.TryParse(userIdClaim!.Value, out authorID);
-            recipe = await RecipeService.GetRecipe(int.Parse(Id));
-            recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
-            if (recipe == null)
-            {
-                throw new ApplicationException("Recipe not found");
-            }
-            ingredients = await FoodItemService.GetByRecipe(recipe.Id);
+            throw new ApplicationException("Recipe not found");
         }
-        catch (Exception)
-        {
-        }
+        ingredients = await FoodItemService.GetByRecipe(recipe.Id);
 
         var catResponse = await CategoryService.GetCategories();
         if (catResponse.IsSuccessStatusCode)
         {
             AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
         }
+
+        UpdateIngredients(Scale);
     }
     protected async void GoBack()
     {
@@ -219,6 +219,17 @@ else
     private void UpdateIngredients(ChangeEventArgs e)
     {
         CultureInfo.CurrentCulture = new CultureInfo("en-US");
-        if (float.TryParse(e.Value!.ToString(), out float newScale) && newScale >= 0) scale = newScale;
+        UpdateIngredients(e.Value!.ToString()!);
+    }
+
+    private void UpdateIngredients(string s)
+    {
+        try
+        {
+            var newscale = Convert.ToSingle(s, CultureInfo.InvariantCulture);
+            if (newscale >= 0) scale = newscale;
+        }
+        catch (Exception)
+        {}
     }
 }

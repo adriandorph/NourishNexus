@@ -360,10 +360,10 @@ public class MealPlanGenerator
     {
         var calories = new UserCalories
         {
-            Breakfast = (float)user.BreakfastCalories!,
-            Lunch = (float)user.LunchCalories!,
-            Dinner = (float)user.DinnerCalories!,
-            Snacks = (float)user.SnackCalories!,
+            Breakfast = (float)user.BreakfastCalories! / 7.0f,
+            Lunch = (float)user.LunchCalories! / 7.0f,
+            Dinner = (float)user.DinnerCalories! / 7.0f,
+            Snacks = (float)user.SnackCalories! / 7.0f,
         };
         return calories;
     }

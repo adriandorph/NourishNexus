@@ -54,7 +54,7 @@ public class MealRepository : IMealRepository
         if(mealEntity == null) return Response.NotFound;
 
         var allNull = meal.Date == null && meal.UserID == null && meal.MealType == null;
-        
+
         if(!allNull && _context.Meals.Any(m => m.Date.Date == (meal.Date ?? mealEntity.Date).Date 
             && m.User.Id == (meal.UserID ?? mealEntity.User.Id) 
             && m.MealType == (meal.MealType ?? mealEntity.MealType)))
@@ -186,6 +186,7 @@ public class MealRepository : IMealRepository
         
         List<RecipeAmountDTO> recipes = await _context.RecipeMeals
             .Where(fir => fir.Meal.Id == id)
+            .Include(fir => fir.Recipe.Categories)
             .Select(fir => new RecipeAmountDTO(
                     fir.Amount,
                     fir.Recipe.ToDTO()

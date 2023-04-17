@@ -25,7 +25,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@recipe.Title</h5>
                                 <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
-                                <a href="@($"viewRecipe/{recipe.Id}/{"view"}")" class="btn btn-primary mx-2">View</a>
+                                <a href="@($"viewRecipe/{recipe.Id}/view/1")" class="btn btn-primary mx-2">View</a>
                                 @if (_user!.SavedRecipeIds.Contains(recipe.Id))
                                 {
                                     <button class="btn btn-danger"

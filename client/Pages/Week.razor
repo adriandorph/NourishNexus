@@ -365,16 +365,18 @@
 
     private void UpdateDates()
     {
-        int diff = date.DayOfWeek - DayOfWeek.Monday; // calculate difference from Monday
+        int diff; //Calculate difference from monday
+        if (date.DayOfWeek == DayOfWeek.Sunday) diff = 6;
+        else diff = date.DayOfWeek - DayOfWeek.Monday;
         startDate = date.AddDays(-diff); // get Monday date
         endDate = startDate.AddDays(6);
-        currentWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+        currentWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, System.DayOfWeek.Monday);
     }
 
     private async Task<float> DayKcal(DayOfWeek dayOfWeek)
     {
 
-        DateTime daysDate = startDate.AddDays((int)dayOfWeek - 1);
+        DateTime daysDate = GetDay(dayOfWeek);
         var meals = await MealService.GetMealsWithFoodByUserIDAndDate(userID, daysDate);
         float sum = 0.0f;
         foreach (var meal in meals)
@@ -431,8 +433,16 @@
 
     private string ToDayDateString(DayOfWeek day)
     {
-        var date = startDate.AddDays((int)day - 1);
+        DateTime date = GetDay(day);
         return ToDateString(date);
+    }
+
+    private DateTime GetDay(DayOfWeek day)
+    {
+        DateTime date;
+        if(day == DayOfWeek.Sunday) date = startDate.AddDays(6);
+        else date = startDate.AddDays((int)day - 1);
+        return date;
     }
 
     private string ToDateString(DateTime date)
