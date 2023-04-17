@@ -32,7 +32,7 @@
                             <a href="@($"viewRecipe/{recipe.Id}/{"view"}")" class="btn btn-primary mx-2">View</a>
                             @if (recipe.AuthorId == userID)
                             {
-                                <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-success mx-2">Edit</a>
+                                <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-secondary mx-2">Edit</a>
                             }
                         </div>
                     </div>
@@ -48,16 +48,8 @@
 </div>
 
 <div class="sticky-button my-5">
-    <button class="btn btn-success btn-lg" @onclick="HandleCreateRecipe">Create Recipe</button>
+    <button class="btn btn-primary btn-lg" @onclick="HandleCreateRecipe">Create Recipe</button>
 </div>
-
-<style>
-    .sticky-button {
-        position: fixed;
-        left: 50%;
-        bottom: 20px;
-    }
-</style>
 
 @code
 {

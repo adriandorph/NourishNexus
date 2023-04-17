@@ -13,14 +13,18 @@
 
 <!-- DayPage.razor -->
 
-<div class="d-inline-flex align-items-center">
+<div class="d-inline-flex align-items-center mb-3">
     <button type="button" class="btn btn-primary" @onclick="() => GoToWeek(date)">
         <i class="oi oi-arrow-thick-left mr-2"></i>
         Week @CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
     </button>
 </div>
+<div id="topday">
 <h1>@GetDateString()</h1>
+</div>
+<div id="calories">
 <p class="total-calories">Total Calories: @FloatFormat(TotalCalories())</p>
+</div>
 @if(meals == null){
     <p>Loading</p> 
 }
@@ -71,9 +75,11 @@ else
                         
                     }
                 }
-                <button class="btn btn-success mt-2" @onclick="async () => await HandleAddFood(meal.Id, meal.MealType)">
-                    Add Food
+                <div id="addfood">
+                <button class="btn btn-primary mt-2" @onclick="async () => await HandleAddFood(meal.Id, meal.MealType)">
+                   <i class="oi oi-plus"></i> Add Food
                 </button>
+                </div>
             </div>
         </div>
     }

@@ -1,5 +1,24 @@
+hr{
+    margin: 0%;
+    padding: 0%;
+}
+
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    box-shadow: none;
+}
+
+#navhead{
+    background-color: #94F1B4;
+}
+
+#navheadtext{
+    color: #000000;
+}
+
+#logout:hover{
+    cursor: pointer;
 }
 
 .top-row {
@@ -41,12 +60,12 @@
     }
 
 .nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.25);
+    background-color: #94F1B4;
     color: #000000;
 }
 
 .nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: #94F1B4;
     color: #000000
 }
 

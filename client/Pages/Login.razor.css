@@ -1,0 +1,53 @@
+#welcome {
+    position:absolute;
+    margin-bottom: 100px;
+}
+
+.pop {
+    animation: pop 0.58s infinite;
+    -webkit-animation: pop 0.58s infinite;
+}
+
+@keyframes pop {
+    from {
+        transform:scale(0.95)
+    }
+    50% {
+        transform:scale(1)
+    }
+    to {
+        transform:scale(0.95)
+    }
+}
+@-webkit-keyframes pop {
+    from {
+        -webkit-transform:scale(0.95)
+    }
+    50% {
+        -webkit-transform:scale(1)
+    }
+    to {
+        -webkit-transform:scale(0.95)
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    #welcomediv{
+        display: flex;
+        text-align: center;
+        justify-content: center;
+    }
+
+    #signindiv{
+        display: flex;
+        justify-content: center;
+    }
+
+    #message{
+        display: flex;
+        font-size: 15px;
+        justify-content: center;
+    }
+ }

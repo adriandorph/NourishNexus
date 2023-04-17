@@ -61,3 +61,11 @@ h1 {
 .add-food-button {
     margin-top: 10px;
 }
+
+@media (max-width: 768px) {
+    #addfood, #topday, #calories{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

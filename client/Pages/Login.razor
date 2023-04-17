@@ -6,58 +6,60 @@
 @inject UserService UserService
 
 <PageTitle>Login</PageTitle>
-<h1>Login</h1>
-
-<EditForm Model="userEmail" OnSubmit="HandleLogin">
+<div id="welcomediv">
+    <h1 id="welcome" class="pop"> <b>Welcome back!</b> </h1>
+</div>
+<EditForm class="my-5" Model="login" OnSubmit="HandleLogin">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="email">Email</label>
-        <InputText id="email" type="email" @bind-Value="userEmail" class="form-control" />
-        <ValidationMessage For="@(() => userEmail)" />
+        <InputText id="email" type="email" @bind-Value="login.Email" class="form-control" />
+        <ValidationMessage For="@(() => login.Email)" />
     </div>
-    <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="userPassword" class="form-control" />
-        <ValidationMessage For="@(() => userPassword)" />
+        <InputText id="password" type="password" @bind-Value="login.Password" class="form-control" />
+        <ValidationMessage For="@(() => login.Password)" />
     </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
-     <div class ="@messageCssClass">
-        <span>@message</span>
+    <div id="signindiv">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+        <div class="@messageCssClass">
+            <p>@message</p>
+        </div>
+    </div>
+    <div id="message" class="my-3">
+        <span>Don't have an account yet? <a href="/register">Click here to register!</a></span>
     </div>
 </EditForm>
 
- <div class="my-3">
-        <span>Don't have an account yet? <a href="/register">Click here to register!</a></span>
-    </div>
+
 
 @code {
 
-    string userEmail {get; set;} = "";
-    string userPassword {get; set;} = "";
+    private UserLoginDTO login = new UserLoginDTO();
 
     string message = string.Empty;
     string messageCssClass = string.Empty;
 
     async Task HandleLogin()
     {
-        var loginRequest = new LoginRequest(userEmail, userPassword);
+        var loginRequest = new LoginRequest(login.Email ?? "", login.Password ?? "");
         var response = await UserService.Login(loginRequest);
-        
-        if(response.IsSuccessStatusCode)
+
+        if (response.IsSuccessStatusCode)
         {
             var token = await response.Content.ReadAsStringAsync();
-            await LocalStorage.SetItemAsync("nourish_nexus_auth_token",token);
+            await LocalStorage.SetItemAsync("nourish_nexus_auth_token", token);
             await AuthStateProvider.GetAuthenticationStateAsync();
             manager.NavigateTo("");
-        } 
-        
-        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound) 
+        }
+
+        else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
             messageCssClass = "text-danger";
             message = "Login failed, user does not exist. Please register.";
-        } 
-        else 
+        }
+        else
         {
             messageCssClass = "text-danger";
             message = "Login failed";
