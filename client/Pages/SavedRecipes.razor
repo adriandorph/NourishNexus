@@ -11,10 +11,14 @@
 @inject RecipeService RecipeService
 @inject UserService UserService
 
-
 <h1 class="text-center mb-3">Saved Recipes</h1>
 
-<div class="container">
+<div class="form-group my-3">
+    <input type="text" class="form-control rounded-edge" placeholder="Search..." id="search-query" @oninput="PerformSearch" />
+</div>
+<hr class="mb-4">
+
+<div class="container mb-5">
     <div class="row">
         <div class="col-md-12">
             @if (recipes == null)
@@ -25,7 +29,7 @@
             {
                 foreach (var recipe in recipes)
                 {
-                    <div class="card mb-3">
+                    <div class="card mb-5">
                         <div class="card-body">
                             <h5 class="card-title">@recipe.Title</h5>
                             <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
@@ -47,7 +51,7 @@
     </div>
 </div>
 
-<div class="d-flex align-items-center mb-3 justify-content-center fixed-bottom">
+<div id="createrecipebtn" class="d-flex align-items-center my-3 justify-content-center fixed-bottom container">
     <button class="btn btn-primary btn-lg" @onclick="HandleCreateRecipe">Create Recipe</button>
 </div>
 
@@ -57,31 +61,48 @@
     private List<RecipeDTO>? recipes;
 
     private int userID;
+    private UserDTO? user {get; set;}
 
     private int recipeDescriptionLength = 200;
 
     protected override async Task OnInitializedAsync()
     {
-        try
+        var userClaim = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
+        int.TryParse(userIdClaim!.Value, out userID);
+        user = await UserService.GetUserByID(userID);
+        recipes = await GetAllSavedRecipes();
+    }
+
+    public void HandleCreateRecipe()
+    {
+        NavigationManager.NavigateTo("recipes/create");
+    }
+
+    private async Task PerformSearch(ChangeEventArgs e)
+    {
+        string searchQuery = e.Value != null ? e.Value!.ToString() ?? "" : "";
+        if (searchQuery.Length < 1) 
         {
-            var userClaim = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-            var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
-            int.TryParse(userIdClaim!.Value, out userID);
-            var user = await UserService.GetUserByID(userID);
-            recipes = new List<RecipeDTO>();
+            recipes = await GetAllSavedRecipes();
+        }
+        else
+        {
+            recipes = await RecipeService.GetSavedBySearchWord(searchQuery, userID);
+        }
+    }
+
+    private async Task<List<RecipeDTO>> GetAllSavedRecipes()
+    {
+        var recipes = new List<RecipeDTO>();
+        if (user != null)
+        {
             foreach (var id in user.SavedRecipeIds)
             {
                 var recipe = await RecipeService.GetRecipe(id);
                 recipes.Add(recipe);
             }
         }
-        catch (Exception)
-        {
-        }
-    }
-
-    public void HandleCreateRecipe()
-    {
-        NavigationManager.NavigateTo("recipes/create");
+        return recipes;
     }
 }

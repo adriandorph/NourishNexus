@@ -1,0 +1,24 @@
+@media (min-width: 640px) {
+    #createrecipebtn{
+        margin-left: 15em;
+    }
+}
+
+@media (min-width: 992px) {
+    #createrecipebtn{
+        margin-left: 10em;
+    }
+}
+
+@media (min-width: 1200px) {
+    #createrecipebtn{
+        margin-left: 10em;
+    }
+}
+
+@media (min-width: 1600px) {
+    #createrecipebtn{
+        margin-left: 22.5em;
+    }
+}
+
