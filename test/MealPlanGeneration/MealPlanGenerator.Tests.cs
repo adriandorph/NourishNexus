@@ -730,7 +730,7 @@ public class MealPlanGeneratorTests
 
         _author.FibresLB = 25f;
         _author.FibresII = 33.285f; //3g/MJ = 0.01256018421g/kcal
-        _author.FibresUB = 70f; //ChatGPT
+        _author.FibresUB = float.MaxValue;
 
         _author.TotalFatLB = 73.61f; //25 E%
         _author.TotalFatII = 95.694443f; //32.5 E%
@@ -750,7 +750,7 @@ public class MealPlanGeneratorTests
 
         _author.TransFatLB = 0f; //0 E%
         _author.TransFatII = 0f; //0 E%
-        _author.TransFatUB = 14.72222f; //5 E% ?
+        _author.TransFatUB = 2.5f;
 
         _author.VitaminALB = 500f; //400 for women, 500 for men
         _author.VitaminAII = 900f; //700 for women, 900 for men
@@ -793,8 +793,8 @@ public class MealPlanGeneratorTests
         _author.FolateUB = float.MaxValue; //No health effects of high intake
 
         _author.SaltLB = 1.5f;//?
-        _author.SaltII = 6f;
-        _author.SaltUB = 12f;//?
+        _author.SaltII = 6f;//      //TODO DET ER SALT
+        _author.SaltUB = 12f;//
 
         //Potasium is in mg/d in frida
         _author.PotassiumLB = 1600f;
@@ -2077,6 +2077,6 @@ public class MealPlanGeneratorTests
             Console.WriteLine();
         }
 
-        Assert.Equal(server.Services.MealPlan.Response.Success, r.Response);
+        Assert.Equal(MealPlanResponse.Success, r.Response);
     }
 }

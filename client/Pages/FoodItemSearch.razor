@@ -41,7 +41,7 @@
         @foreach (var result in SearchResults)
         {
             
-            <a href="@(IsSearchOptionActive(SearchOption.FoodItems) ? $"/addfooditem/{result.Id}" : $"/viewRecipe/{result.Id}/add")" class="searchresult rounded-edge">
+            <a href="@(IsSearchOptionActive(SearchOption.FoodItems) ? $"/addfooditem/{result.Id}" : $"/viewRecipe/{result.Id}/add/1")" class="searchresult rounded-edge">
                 <li class="list-group-item">
                     <h4>@result.Title</h4>
                     @if(result.Type != SearchResultType.FoodItem)

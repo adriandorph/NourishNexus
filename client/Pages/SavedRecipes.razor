@@ -29,7 +29,7 @@
                         <div class="card-body">
                             <h5 class="card-title">@recipe.Title</h5>
                             <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
-                            <a href="@($"viewRecipe/{recipe.Id}/{"view"}")" class="btn btn-primary mx-2">View</a>
+                            <a href="@($"viewRecipe/{recipe.Id}/{"view"}/1")" class="btn btn-primary mx-2">View</a>
                             @if (recipe.AuthorId == userID)
                             {
                                 <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-secondary mx-2">Edit</a>
@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<div class="sticky-button my-5">
+<div class="d-flex align-items-center mb-3 justify-content-center fixed-bottom">
     <button class="btn btn-primary btn-lg" @onclick="HandleCreateRecipe">Create Recipe</button>
 </div>
 
@@ -75,9 +75,8 @@
                 recipes.Add(recipe);
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine("Oh, it failed!" + e.Message);
         }
     }
 

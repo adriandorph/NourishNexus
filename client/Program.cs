@@ -15,6 +15,7 @@ builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<FoodItemService>();
 builder.Services.AddScoped<MealService>();
+builder.Services.AddScoped<PlanningService>();
 builder.Services.AddBlazoredModal();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);

@@ -1,4 +1,4 @@
-using server.Services.MealPlan;
+namespace server.Services.MealPlan;
 
 public record DietReport
 (
@@ -6,6 +6,6 @@ public record DietReport
     NutrientTargets? II,
     NutrientTargets? UB,
     NutrientTargets? PlannedIntake,
-    server.Services.MealPlan.Response Response,
+    MealPlanResponse Response,
     MealPlan? MealPlan
 );

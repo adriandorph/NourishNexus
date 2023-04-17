@@ -61,7 +61,7 @@ else
                     {
                         
                         <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
-                            <a @onclick="() => ViewRecipe(recipe.Recipe.Id)">
+                            <a @onclick="() => ViewRecipe(recipe.Recipe.Id, recipe.Amount)">
                                 <div id="recipetitle">
                                     <span class="ingredient-name">@recipe.Recipe!.Title</span>
                                 </div>
@@ -145,7 +145,7 @@ else
     {
         float sum = 0.0f;
         foreach(var foodItem in recipe.Fooditems) sum += foodItem.Amount * foodItem.FoodItem!.Calories;
-        return sum;
+        return sum * recipe.Amount;
     }
 
     private float Scale(float a, float b) => a * b;
@@ -342,9 +342,9 @@ else
         else meals.Add(new MealWithFood(null, MealType.SNACK, new List<FoodItemAmountDTO>(), new List<RecipeAmountWithFoodItemsDTO>()));
     }
 
-    private void ViewRecipe(int id)
+    private void ViewRecipe(int id, float scale)
     {
-        NavigationManager.NavigateTo($"viewRecipe/{id}/view");
+        NavigationManager.NavigateTo($"viewRecipe/{id}/view/{scale.ToString(CultureInfo.InvariantCulture)}");
     }
 
     protected async void GoBack(){

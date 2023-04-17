@@ -762,7 +762,6 @@ public class FoodItemSeeding
         InitializeFoodItems();
         InitializeRecipes();
         AddFoodItemsToRecipes();
-        Console.WriteLine($"Author ID is: {_author.Id}");
     }
 
 

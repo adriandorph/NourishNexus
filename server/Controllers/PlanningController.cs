@@ -19,13 +19,13 @@ public class PlanningController : ControllerBase
         _userRepo = userRepo;
     }
 
-    [HttpGet]
+    [HttpPost]
     public async Task<IActionResult> Generate7DayMealPlan(int userID, DateTime startingDate)
     {
         try
         {
             var r = await _generator.Generate7DayMealPlan(userID, startingDate);
-            return Ok(r);
+            return Ok(r.Response);
         }
         catch (Exception e)
         {
@@ -35,15 +35,15 @@ public class PlanningController : ControllerBase
     }
 
     [HttpPut("targets")]
-    public async Task<IActionResult> SetIntakeTargets(int userID, int age, Gender gender, float weight, float height, float physicalActivityLevel, WeightGoal weightGoal)
+    public async Task<IActionResult> SetIntakeTargets([FromBody] IntakeTargetForm form)
     {
         try
         {
-            TargetsResult r = _intakeTargetCalculator.CalculateTargets(age, gender, weight, height, physicalActivityLevel, weightGoal);
+            TargetsResult r = _intakeTargetCalculator.CalculateTargets(form.Age, form.Gender, form.Weight, form.Height, form.PAL, form.WeightGoal);
             
             var user = new UserUpdateDTO
             {
-                Id = userID,
+                Id = form.UserID,
                 BreakfastCalories = r.BreakfastCalories,
                 LunchCalories = r.LunchCalories,
                 DinnerCalories = r.DinnerCalories,

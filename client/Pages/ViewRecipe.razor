@@ -1,4 +1,4 @@
-@page "/viewRecipe/{Id}/{Add}"
+@page "/viewRecipe/{Id}/{Add}/{Scale}"
 @using System.Globalization
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Authorization
@@ -64,7 +64,7 @@
             </span>
             <div class="scale">
                 Scale x
-                <input class="scale-input" step="0.5" type="number" id="scaleInput" value="1" @onchange="UpdateIngredients"
+                <input class="scale-input" step="0.5" type="number" id="scaleInput" value="@scale"  @onchange="UpdateIngredients"
                     min="0">
             </div>
             @foreach (FoodItemAmountDTO ingredient in ingredients)
@@ -85,7 +85,7 @@
             </p>
         </div>
     </div>
-    @if (recipe.AuthorId == authorID)
+    @if (recipe.AuthorId == userID)
     {
         <div class="card my-4">
             <div class="card-body">
@@ -96,15 +96,23 @@
             </div>
         </div>
     }
-    <div class="my-3">
-        <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
-        @if (recipe.AuthorId == authorID && Add == "view")
+    <div class="">
+        <button type="button" class="btn btn-primary btn-margin" @onclick="GoBack">Return</button>
+        @if (recipe.AuthorId == userID && Add == "view")
         {
-            <button class="btn btn-success mx-1" @onclick="EditRecipe">Edit</button>
+            <button class="btn btn-success btn-margin" @onclick="EditRecipe">Edit</button>
         }
         else if (Add == "add")
         {
-            <button class="btn btn-success mx-1" @onclick="AddRecipe">Add</button>
+            <button class="btn btn-success btn-margin" @onclick="AddRecipe">Add</button>
+        }
+        else if (recipe.AuthorId != userID && user != null && user.SavedRecipeIds.Contains(recipe.Id))
+        {
+            <button class="btn btn-danger mr-3 btn-margin" onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave recipe </button>
+        }
+        else if (recipe.AuthorId != userID && user != null && !user.SavedRecipeIds.Contains(recipe.Id))
+        {
+            <button class="btn btn-secondary btn-margin" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save recipe </button>
         }
     </div>
 }
@@ -123,10 +131,16 @@ else
     [Parameter]
     public string Add {get; set;} = "";
 
-    public string authorName { get; set; } = "";
+    private string authorName { get; set; } = "";
+    
+    private UserDTO? user { get; set; }
 
-    private int authorID;
-    private float scale { get; set; } = 1.0f;
+    private int userID;
+
+    [Parameter]
+    public string Scale { get; set; } = "";
+
+    private float scale {get; set;} = 1.0f;
 
     private string? recipeAuthor;
     private List<FoodItemAmountDTO> ingredients { get; set; } = new List<FoodItemAmountDTO>();
@@ -146,29 +160,25 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        try
+        var userClaim = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
+        int.TryParse(userIdClaim!.Value, out userID);
+        user = await UserService.GetUserByID(userID);
+        recipe = await RecipeService.GetRecipe(int.Parse(Id));
+        recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
+        if (recipe == null)
         {
-            var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            int.TryParse(userIdClaim!.Value, out authorID);
-            recipe = await RecipeService.GetRecipe(int.Parse(Id));
-            recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
-            if (recipe == null)
-            {
-                throw new ApplicationException("Recipe not found");
-            }
-            ingredients = await FoodItemService.GetByRecipe(recipe.Id);
+            throw new ApplicationException("Recipe not found");
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
+        ingredients = await FoodItemService.GetByRecipe(recipe.Id);
 
         var catResponse = await CategoryService.GetCategories();
         if (catResponse.IsSuccessStatusCode)
         {
             AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
         }
+
+        UpdateIngredients(Scale);
     }
     protected async void GoBack()
     {
@@ -220,6 +230,51 @@ else
     private void UpdateIngredients(ChangeEventArgs e)
     {
         CultureInfo.CurrentCulture = new CultureInfo("en-US");
-        if (float.TryParse(e.Value!.ToString(), out float newScale) && newScale >= 0) scale = newScale;
+        UpdateIngredients(e.Value!.ToString()!);
+    }
+
+    private void UpdateIngredients(string s)
+    {
+        try
+        {
+            var newscale = Convert.ToSingle(s, CultureInfo.InvariantCulture);
+            if (newscale >= 0) scale = newscale;
+        }
+        catch (Exception)
+        {}
+    }
+
+    public async Task HandleUnsaveRecipe(int id)
+    {
+        var updatedSavedRecipes = new List<int>();
+        updatedSavedRecipes.AddRange(user!.SavedRecipeIds);
+        updatedSavedRecipes.Remove(id);
+        var userUpdate = new UserUpdateDTO
+            {
+                Id = userID,
+                SavedRecipeIds = updatedSavedRecipes
+            };
+
+        await UserService.UpdateUser(userUpdate);
+
+        user = await UserService.GetUserByID(userID);
+        StateHasChanged();
+    }
+
+    public async Task HandleSaveRecipe(int id)
+    {
+        var updatedSavedRecipes = new List<int>();
+        updatedSavedRecipes.AddRange(user!.SavedRecipeIds);
+        updatedSavedRecipes.Add(recipe!.Id);
+        var userUpdate = new UserUpdateDTO
+            {
+                Id = userID,
+                SavedRecipeIds = updatedSavedRecipes
+            };
+
+        await UserService.UpdateUser(userUpdate);
+
+        user = await UserService.GetUserByID(userID);
+        StateHasChanged();
     }
 }

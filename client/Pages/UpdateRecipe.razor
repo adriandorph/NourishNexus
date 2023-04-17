@@ -186,10 +186,6 @@
         {
             AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
         }
-        else
-        {
-            Console.WriteLine("The response was not successful");
-        }
     }
 
     async Task HandleUpdateRecipe()
@@ -249,10 +245,6 @@
         if (catResponse.IsSuccessStatusCode)
         {
             AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
-        }
-        else
-        {
-            Console.WriteLine("The response was not successful");
         }
 
     }

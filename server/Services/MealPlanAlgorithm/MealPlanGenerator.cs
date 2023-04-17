@@ -34,8 +34,8 @@ public class MealPlanGenerator
         for(int i = 0; i<50; i++) //Tries to create a meal plan 50 times
         {
             dietReport = await Create7DayMealPlan(userID, startingDate);
-            if (dietReport.Response == Response.Success) break;
-            if (dietReport.Response == Response.Cancelled) return dietReport;
+            if (dietReport.Response == MealPlanResponse.Success) break;
+            if (dietReport.Response == MealPlanResponse.Cancelled && i == 0) return dietReport;
         }
 
         if(dietReport == null || dietReport.MealPlan == null) throw new Exception("Mealplan or dietReport is null");
@@ -46,7 +46,7 @@ public class MealPlanGenerator
     public async Task<DietReport> Create7DayMealPlan(int userID, DateTime startingDate)
     {
         //Initial checks
-        if (!(await UserPrerequisites(userID))) return (new DietReport(null,null,null,null, Response.Cancelled, null));
+        if (!(await UserPrerequisites(userID))) return (new DietReport(null,null,null,null, MealPlanResponse.Cancelled, null));
 
         var userResult = await _userRepo.ReadWithNutritionByIDAsync(userID);
         if (userResult.IsNone) throw new Exception("User not found");
@@ -64,7 +64,7 @@ public class MealPlanGenerator
 
         //Insert recipes
         var mealPlanResult = await CreateInitialMealPlan(recipes, userID, calorieTargets, startingDate);
-        if(mealPlanResult.IsNone) return (new DietReport(null,null,null,null, Response.Cancelled, null));
+        if(mealPlanResult.IsNone) return (new DietReport(null,null,null,null, MealPlanResponse.Cancelled, null));
         MealPlan mealPlan = mealPlanResult.Value;
         
         // Ideal Intake met/exceeded?
@@ -73,7 +73,7 @@ public class MealPlanGenerator
         {
             var r = await ReplaceLowestMeals(mealPlan, IdealIntake, recipes, calorieTargets);
             curNutrientSums = mealPlan.CalculateNutrientSums();
-            if (r == Response.Fail)
+            if (r == MealPlanResponse.Fail)
             {
                 return new DietReport
                 (
@@ -81,7 +81,7 @@ public class MealPlanGenerator
                     IdealIntake,
                     UpperBounds,
                     curNutrientSums,
-                    Response.Fail,
+                    MealPlanResponse.Fail,
                     mealPlan
                 );
             }
@@ -94,7 +94,7 @@ public class MealPlanGenerator
             {
                 var r = await ReplaceHighest(mealPlan, UpperBounds, recipes, calorieTargets);
                 curNutrientSums = mealPlan.CalculateNutrientSums();
-                if (r == Response.Fail) 
+                if (r == MealPlanResponse.Fail) 
                 {
                     return new DietReport
                     (
@@ -102,7 +102,7 @@ public class MealPlanGenerator
                         IdealIntake,
                         UpperBounds,
                         curNutrientSums,
-                        Response.Fail,
+                        MealPlanResponse.Fail,
                         mealPlan
                     );
                 }
@@ -112,7 +112,7 @@ public class MealPlanGenerator
             {
                 var r = await ReplaceLowestMeals(mealPlan, LowerBounds, recipes, calorieTargets);
                 curNutrientSums = mealPlan.CalculateNutrientSums();
-                if (r == Response.Fail)
+                if (r == MealPlanResponse.Fail)
                 {
                     return new DietReport
                     (
@@ -120,7 +120,7 @@ public class MealPlanGenerator
                         IdealIntake,
                         UpperBounds,
                         curNutrientSums,
-                        Response.Fail,
+                        MealPlanResponse.Fail,
                         mealPlan
                     );
                 }
@@ -133,7 +133,7 @@ public class MealPlanGenerator
             IdealIntake,
             UpperBounds,
             curNutrientSums,
-            Response.Success,
+            MealPlanResponse.Success,
             mealPlan
         );
     }
@@ -143,9 +143,12 @@ public class MealPlanGenerator
     {
         //Check if intake targets are set
         if (!(await IsNutritionSet(userID))) return false;
+        Console.WriteLine("Nutrition is set");
 
         //Check if user has enough recipes
-        return (await _recipeRepo.ReadAllByAuthorIDAsync(userID)).Count >= MinRecipes;
+        var count = (await _userRepo.ReadByIDAsync(userID)).Value.SavedRecipeIds.Count;
+        Console.WriteLine($"Recipes {count}");
+        return  count >= MinRecipes;
     }
 
     //Lower Bounds for a week
@@ -439,7 +442,7 @@ public class MealPlanGenerator
             {
                 //Find
                 var selectedRecipeLunch = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Lunch!);
-                if(selectedRecipeLunch.IsNone) return new Option<MealPlan>(null);
+                if(selectedRecipeLunch.IsNone) return new Option<MealPlan>(null);//TODO wtf hvorfor sker det her?
                 //Adjust amount
                 var lunchFoodItems = (await _foodItemRepo.ReadAllByRecipeId(selectedRecipeLunch.Value.Id)).ToList();
                 float lunchAmount = calories.Lunch / CountCalories(lunchFoodItems);
@@ -599,15 +602,15 @@ public class MealPlanGenerator
     }
 
     //Plan to be returned in case of error
-    private async Task<Response> FailPlan(MealPlan mealPlan)
+    private async Task<MealPlanResponse> FailPlan(MealPlan mealPlan)
     {
         await InsertPlan(mealPlan);
-        return Response.Fail;
+        return MealPlanResponse.Fail;
     }
 
 
     //Replace meal with most nutrient scores that are lower than II
-    private async Task<Response> ReplaceLowestMeals(MealPlan mealPlan, NutrientTargets weeklyReference, List<RecipeDTO> recipes, UserCalories calorieTargets)
+    private async Task<MealPlanResponse> ReplaceLowestMeals(MealPlan mealPlan, NutrientTargets weeklyReference, List<RecipeDTO> recipes, UserCalories calorieTargets)
     {
         int mostLowerBreakfast = 0;
         int mostLowerLunch = 0;
@@ -679,16 +682,16 @@ public class MealPlanGenerator
         }
         
         //Replace lowest
-        var breakfastResult = breakfast == null ? Response.Fail : await Replace(recipes, breakfast, calorieTargets.Breakfast);
-        var lunchResult = lunch == null ? Response.Fail : await Replace(recipes, lunch, calorieTargets.Lunch);
-        var dinnerResult = dinner == null ? Response.Fail : await Replace(recipes, dinner, calorieTargets.Dinner);
-        var snacksResult = snacks == null ? Response.Fail : await Replace(recipes, snacks, calorieTargets.Snacks);
+        var breakfastResult = breakfast == null ? MealPlanResponse.Fail : await Replace(recipes, breakfast, calorieTargets.Breakfast);
+        var lunchResult = lunch == null ? MealPlanResponse.Fail : await Replace(recipes, lunch, calorieTargets.Lunch);
+        var dinnerResult = dinner == null ? MealPlanResponse.Fail : await Replace(recipes, dinner, calorieTargets.Dinner);
+        var snacksResult = snacks == null ? MealPlanResponse.Fail : await Replace(recipes, snacks, calorieTargets.Snacks);
 
-        return breakfastResult == Response.Success || 
-               lunchResult == Response.Success ||
-               dinnerResult == Response.Success ||
-               snacksResult == Response.Success
-               ? Response.Success : Response.Fail;
+        return breakfastResult == MealPlanResponse.Success || 
+               lunchResult == MealPlanResponse.Success ||
+               dinnerResult == MealPlanResponse.Success ||
+               snacksResult == MealPlanResponse.Success
+               ? MealPlanResponse.Success : MealPlanResponse.Fail;
     }
 
     private NutrientTargets FilterReferenceWhereNutrientsAreMetOrExceeds(NutrientTargets reference, NutrientTargets planned, NutrientTargets toBeMetOrExceeded)
@@ -725,11 +728,11 @@ public class MealPlanGenerator
             Calcium = planned.Calcium >= toBeMetOrExceeded.Calcium ? 0f : reference.Calcium
         };
 
-    private async Task<Response> Replace(List<RecipeDTO> recipes, PlannedMeal meal, float calorieTarget)
+    private async Task<MealPlanResponse> Replace(List<RecipeDTO> recipes, PlannedMeal meal, float calorieTarget)
     {
         //Find next recipe
         var recipe = FindAndRemoveRecipe(recipes, meal);
-        if (recipe.IsNone) return Response.Fail;
+        if (recipe.IsNone) return MealPlanResponse.Fail;
         //Adjust amount
         var recipeFoodItems = (await _foodItemRepo.ReadAllByRecipeId(recipe.Value.Id)).ToList();
         float amount = calorieTarget / CountCalories(recipeFoodItems);
@@ -745,11 +748,11 @@ public class MealPlanGenerator
             recipeAmount
         };
 
-        return Response.Success;
+        return MealPlanResponse.Success;
     }
 
     //Replace meal with most nutrient scores that are higher than UB
-    private async Task<Response> ReplaceHighest(MealPlan mealPlan, NutrientTargets weeklyReference, List<RecipeDTO> recipes, UserCalories calorieTargets)
+    private async Task<MealPlanResponse> ReplaceHighest(MealPlan mealPlan, NutrientTargets weeklyReference, List<RecipeDTO> recipes, UserCalories calorieTargets)
     {
         int mostHigherBreakfast = 0;
         int mostHigherLunch = 0;
@@ -814,19 +817,19 @@ public class MealPlanGenerator
         }
         
         //Replace highest
-        var breakfastResult = breakfast == null ? Response.Fail : await Replace(recipes, breakfast, calorieTargets.Breakfast);
-        var lunchResult = lunch == null ? Response.Fail : await Replace(recipes, lunch, calorieTargets.Lunch);
-        var dinnerResult = dinner == null ? Response.Fail : await Replace(recipes, dinner, calorieTargets.Dinner);
-        var snacksResult = snacks == null ? Response.Fail : await Replace(recipes, snacks, calorieTargets.Snacks);
+        var breakfastResult = breakfast == null ? MealPlanResponse.Fail : await Replace(recipes, breakfast, calorieTargets.Breakfast);
+        var lunchResult = lunch == null ? MealPlanResponse.Fail : await Replace(recipes, lunch, calorieTargets.Lunch);
+        var dinnerResult = dinner == null ? MealPlanResponse.Fail : await Replace(recipes, dinner, calorieTargets.Dinner);
+        var snacksResult = snacks == null ? MealPlanResponse.Fail : await Replace(recipes, snacks, calorieTargets.Snacks);
 
-        return breakfastResult == Response.Success || 
-               lunchResult == Response.Success ||
-               dinnerResult == Response.Success ||
-               snacksResult == Response.Success
-               ? Response.Success : Response.Fail;
+        return breakfastResult == MealPlanResponse.Success || 
+               lunchResult == MealPlanResponse.Success ||
+               dinnerResult == MealPlanResponse.Success ||
+               snacksResult == MealPlanResponse.Success
+               ? MealPlanResponse.Success : MealPlanResponse.Fail;
     }
 
-    public async Task<Response> InsertPlan(MealPlan mealPlan)
+    public async Task<MealPlanResponse> InsertPlan(MealPlan mealPlan)
     {
         foreach(var day in mealPlan.Days)
         {
@@ -835,7 +838,7 @@ public class MealPlanGenerator
             if(!day.DinnerLocked) await InsertMeal(day.Dinner!);
             if(!day.SnacksLocked) await InsertMeal(day.Snacks!);
         }
-        return Response.Success;
+        return MealPlanResponse.Success;
     }
 
     private async Task InsertMeal(PlannedMeal meal)
@@ -849,7 +852,7 @@ public class MealPlanGenerator
             
         };
         (Core.Response r, MealDTO dto) = await _mealRepo.CreateAsync(mealCreate);
-        if (r != Core.Response.Created) throw new Exception("Could not insert the meal");
+        //Doesn't matter if the meal already exists and therefore does not get created
 
         //Update the fooditems and recipes linked to this meal
         var recipeMeals = new List<RecipeMealCreateDTO>();
@@ -874,7 +877,7 @@ public class MealPlanGenerator
         if (r != Core.Response.Updated) throw new Exception("Could not update the meal");
     }
 
-    private async Task<Response> OrderRecipesByRecency(List<RecipeDTO> recipes, DateTime date, int userID)
+    private async Task<MealPlanResponse> OrderRecipesByRecency(List<RecipeDTO> recipes, DateTime date, int userID)
     {
         //Ascending
         var alreadyAdded = new HashSet<RecipeDTO>();
@@ -904,7 +907,7 @@ public class MealPlanGenerator
 
         orderedRecipesDescending.Reverse();
         recipes = orderedRecipesDescending;
-        return Response.Success;
+        return MealPlanResponse.Success;
     }
 
     private async Task<bool> IsNutritionSet(int userID)
