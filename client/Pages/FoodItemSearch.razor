@@ -1,4 +1,4 @@
-@page "/search"
+@page "/search/{searchScope}"
 @attribute [Authorize]
 @using System.Security.Claims
 @inject HttpClient Http
@@ -11,12 +11,15 @@
 
 <h1>Search for Food</h1>
 
-<div class="d-inline-flex align-items-center">
-  <button type="button" class="btn btn-primary" @onclick="GoBack">
+<div>
+  <button type="button" class="btn btn-primary mb-2" @onclick="GoBack">
     <i class="oi oi-arrow-thick-left mr-2"></i>
   </button>
-</div>
-<div class="btn-group mb-3">
+  
+@if(searchScope == "all")
+{
+
+<div class="btn-group mx-3 mb-2">
     <button class="btn btn-secondary @((IsSearchOptionActive(SearchOption.FoodItems) ? "active" : ""))" @onclick="() => SetSearchOption(SearchOption.FoodItems)">
         Food Items
     </button>
@@ -27,9 +30,10 @@
         Community Recipes
     </button>
 </div>
+}
+</div>
 
-
-<div class="form-group">
+<div class="form-group mt-3">
     <input type="text" class="form-control rounded-edge" placeholder="Search..." id="search-query" @oninput="PerformSearch" />
 </div>
 
@@ -60,7 +64,11 @@
     <p>No results found.</p>
 }
 
+<br>
+
 @code {
+    [Parameter]
+    public string searchScope {get; set;} = "all";
     private int userID;
     private bool SearchPerformed {get; set;} = false;
     private List<SearchResult> SearchResults {get; set;} = new List<SearchResult>();

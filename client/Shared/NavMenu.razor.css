@@ -42,14 +42,6 @@ hr{
     padding-bottom: 0.5rem;
 }
 
-    .nav-item:first-of-type {
-        padding-top: 1rem;
-    }
-
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
-
     .nav-item ::deep a {
         color: #000000;
         border-radius: 4px;
@@ -59,14 +51,14 @@ hr{
         line-height: 3rem;
     }
 
-.nav-item ::deep a.active {
+.nav-item:hover{
     background-color: #94F1B4;
     color: #000000;
 }
 
-.nav-item ::deep a:hover {
+.nav-item ::deep a.active {
     background-color: #94F1B4;
-    color: #000000
+    color: #000000;
 }
 
 @media (min-width: 641px) {

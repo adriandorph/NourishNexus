@@ -12,6 +12,12 @@
 @inject UserService UserService
 
 <h1 class="text-center mb-3">Community Recipes</h1>
+
+<div class="form-group my-3">
+    <input type="text" class="form-control rounded-edge" placeholder="Search..." id="search-query" @oninput="PerformSearch" />
+</div>
+<hr class="mb-4">
+
 <div class="container">
     <div class="row">
         @if (recipes != null && recipes.Any())
@@ -47,6 +53,14 @@
     </div>
 </div>
 
+<br>
+
+<style>
+    .rounded-edge {
+    border-radius: 10px !important;
+}
+</style>
+
 
 @code
 {
@@ -64,15 +78,7 @@
             var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
             int.TryParse(userIdClaim!.Value, out theAuthorId);
             _user = await UserService.GetUserByID(theAuthorId);
-            var response = await RecipeService.GetPublicRecipes();
-            if (response.IsSuccessStatusCode)
-            {
-                recipes = await response.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
-            }
-            else
-            {
-                recipes = new List<RecipeDTO>();
-            }
+            recipes = await RecipeService.GetPublicRecipes();
         }
         catch (Exception)
         {
@@ -111,5 +117,19 @@
 
         _user = await UserService.GetUserByID(theAuthorId);
         StateHasChanged();
+    }
+
+
+    private async Task PerformSearch(ChangeEventArgs e)
+    {
+        string searchQuery = e.Value != null ? e.Value!.ToString() ?? "" : "";
+        if (searchQuery.Length < 1) 
+        {
+            recipes = await RecipeService.GetPublicRecipes();
+        }
+        else
+        {
+            recipes = await RecipeService.GetFromCommunityBySearchWord(searchQuery);
+        }
     }
 }

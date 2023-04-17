@@ -30,8 +30,12 @@ public class RecipeService
         return await result.Content.ReadAsAsync<RecipeDTO>();
     }
 
-    public async Task<HttpResponseMessage> GetPublicRecipes()
-        => await _http.GetAsync($"api/Recipe/communityRecipes");
+    public async Task<List<RecipeDTO>> GetPublicRecipes() 
+    {
+        var result = await _http.GetAsync($"api/Recipe/communityRecipes");
+        return await result.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
+    }
+
 
     public async Task<HttpResponseMessage> UpdateRecipe(RecipeUpdateDTO recipe)
         => await _http.PutAsJsonAsync($"api/Recipe/update/{recipe.Id}", recipe);

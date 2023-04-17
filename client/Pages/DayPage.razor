@@ -85,6 +85,8 @@ else
     }
 }
 
+<br>
+
 
 @code {
     // Properties
@@ -161,7 +163,7 @@ else
         string foodItemsSerialized = JsonSerializer.Serialize(mealID);
         await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "NN_AddFoodToMeal", foodItemsSerialized);
 
-        NavigationManager.NavigateTo("/search");
+        NavigationManager.NavigateTo("/search/all");
     }
 
     private async Task LoadAddedFood()

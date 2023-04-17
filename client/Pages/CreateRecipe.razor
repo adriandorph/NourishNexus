@@ -136,6 +136,8 @@
     </div>
 </EditForm>
 
+<br>
+
 
 
 @code {
@@ -246,7 +248,7 @@
     private async Task HandleAddIngredient()
     {
         await SaveChanges();
-        NavigationManager.NavigateTo("/search");
+        NavigationManager.NavigateTo("/search/fooditems");
     }
 
     private async Task HandleDeleteIngredient(FoodItemAmountDTO ingredient)
