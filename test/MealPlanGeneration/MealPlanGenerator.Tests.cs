@@ -688,7 +688,7 @@ public class MealPlanGeneratorTests
         _mealRepo = new MealRepository(context);
         _categoryRepo = new CategoryRepository(context);
         _recipeRepo = new RecipeRepository(context);
-        _mealPlanGenerator = new MealPlanGenerator(_foodRepo, _mealRepo, _recipeRepo, _userRepo, _categoryRepo);
+        _mealPlanGenerator = new MealPlanGenerator(_foodRepo, _mealRepo, _recipeRepo, _userRepo);
         
         _context = context;
 
