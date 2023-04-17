@@ -105,7 +105,6 @@
         if (userUpdate.Nickname == user!.Nickname) userUpdate.Nickname = null;
         if (userUpdate.Email == user!.Email) userUpdate.Email = null;
 
-        Console.WriteLine("Ok, updating a user with the id" + userUpdate.Id + "with Nickname" + userUpdate.Nickname + "with Email" + userUpdate.Email);
         
         var response = await UserService.UpdateUser(userUpdate);
 

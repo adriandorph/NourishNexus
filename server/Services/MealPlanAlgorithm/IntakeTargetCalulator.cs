@@ -1,13 +1,5 @@
 namespace server.Services.MealPlan;
 
-public enum WeightGoal
-{
-    LoseFast,
-    Lose,
-    Keep,
-    Gain,
-    GainFast
-}
 
 public record TargetsResult(
     NutrientTargets LowerBound, 
@@ -28,7 +20,7 @@ public class IntakeTargetCalculator
 
     public TargetsResult CalculateTargets(int age, Gender gender, float weight, float height, float physicalActivityLevel, WeightGoal weightGoal)
     {
-        float totalKcal = CalculateCalorieTarget(age, gender, weight, height,physicalActivityLevel, weightGoal);
+        float totalKcal = CalculateCalorieTarget(age, gender, weight, height, physicalActivityLevel, weightGoal);
         return CalculateTargets(age, gender, totalKcal);
     }
 
@@ -80,7 +72,7 @@ public class IntakeTargetCalculator
                 throw new Exception();
         }
 
-        return maintenance + balance;
+        return (maintenance + balance);
     }
 
     public TargetsResult CalculateTargets(int age, Gender gender, float kcalPerDay)
@@ -214,12 +206,14 @@ public class IntakeTargetCalculator
             Calcium = CalciumUB
         };
 
-        float BreakfastCalories = kcalPerDay * 0.2f;
-        float LunchCalories = kcalPerDay * 0.3f;
-        float DinnerCalories = kcalPerDay * 0.35f;
-        float SnackCalories = kcalPerDay * 0.15f;
+        float kcalPerWeek = kcalPerDay * 7;
 
-        return new TargetsResult(LB, II, UB, BreakfastCalories, LunchCalories, DinnerCalories, SnackCalories, kcalPerDay);
+        float BreakfastCalories = kcalPerWeek * 0.2f;
+        float LunchCalories = kcalPerWeek * 0.3f;
+        float DinnerCalories = kcalPerWeek * 0.35f;
+        float SnackCalories = kcalPerWeek * 0.15f;
+
+        return new TargetsResult(LB, II, UB, BreakfastCalories, LunchCalories, DinnerCalories, SnackCalories, kcalPerWeek);
     }
     
     public (float, float, float) CalculateProtein(int age, Gender gender, float kcalPerDay)

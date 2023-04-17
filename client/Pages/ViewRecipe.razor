@@ -159,9 +159,8 @@ else
             }
             ingredients = await FoodItemService.GetByRecipe(recipe.Id);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e.Message);
         }
 
         var catResponse = await CategoryService.GetCategories();

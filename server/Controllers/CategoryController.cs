@@ -36,14 +36,12 @@ public class CategoryController : ControllerBase
         try
         {
             var r = await _repo.ReadAllAsync();
-            Console.WriteLine("Categories are" + r);
             return Ok(r ?? new List<CategoryDTO>{});
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            _logger.LogError(e, e.Message);
             return StatusCode(500, "Internal Server Error");
-            
         }
     }
 

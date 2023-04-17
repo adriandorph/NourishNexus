@@ -52,7 +52,9 @@ public class MealRepository : IMealRepository
             .FirstOrDefaultAsync();
         
         if(mealEntity == null) return Response.NotFound;
+
         var allNull = meal.Date == null && meal.UserID == null && meal.MealType == null;
+        
         if(!allNull && _context.Meals.Any(m => m.Date.Date == (meal.Date ?? mealEntity.Date).Date 
             && m.User.Id == (meal.UserID ?? mealEntity.User.Id) 
             && m.MealType == (meal.MealType ?? mealEntity.MealType)))

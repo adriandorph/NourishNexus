@@ -214,10 +214,6 @@
         {
             AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
         }
-        else
-        {
-            Console.WriteLine("The response was not successful");
-        }
     }
     void UpdateSelectedCategories(int categoryId, ChangeEventArgs e)
     {
@@ -237,10 +233,6 @@
         if (catResponse.IsSuccessStatusCode)
         {
             AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
-        }
-        else
-        {
-            Console.WriteLine("The response was not successful");
         }
 
     }

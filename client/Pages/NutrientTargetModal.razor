@@ -1,5 +1,8 @@
-@inject CategoryService CategoryService
 <!-- ModalComponent.razor -->
+@inject PlanningService PlanningService
+@inject AuthenticationStateProvider AuthStateProvider
+@using System.Security.Claims
+
 <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -9,71 +12,99 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="form-group">
-                <label for="ageInput">Age:</label>
-                <input type="number" class="form-control" id="ageInput" @bind="age" min="0" />
-            </div>
-            <div class="form-group">
-                <label for="genderInput">Gender:</label>
-                <select class="form-control" id="genderInput" @bind="gender">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="weightInput">Weight (kg):</label>
-                <input type="number" class="form-control" id="weightInput" @bind="weight" min="0" />
-            </div>
-            <div class="form-group">
-                <label for="heightInput">Height (cm):</label>
-                <input type="number" class="form-control" id="heightInput" @bind="height" min="0" />
-            </div>
-            <div class="form-group">
-                <label for="activityLevelInput">Physical Activity Level:</label>
-                <select class="form-control" id="activityLevelInput" @bind="activityLevel">
-                    <option value="Sedentary">Sedentary</option>
-                    <option value="Lightly Active">Lightly Active</option>
-                    <option value="Moderately Active">Moderately Active</option>
-                    <option value="Very Active">Very Active</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="weightGoalInput">Weight Goal:</label>
-                <select class="form-control" id="weightGoalInput" @bind="weightGoal">
-                    <option value="Lose weight fast">Lose weight fast</option>
-                    <option value="Lose weight slow">Lose weight slow</option>
-                    <option value="Maintain weight">Maintain weight</option>
-                    <option value="Gain weight fast">Gain weight fast</option>
-                    <option value="Gain weight slow">Gain weight slow</option>
-                </select>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="ageInput">Age:</label>
+                    <input type="number" class="form-control" id="ageInput" @bind="age" min="0" />
+                </div>
+                <div class="form-group">
+                    <label for="genderInput">Gender:</label>
+                    <select class="form-control" id="genderInput" @bind="gender">
+                        <option value="@Gender.Male">Male</option>
+                        <option value="@Gender.Female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="weightInput">Weight (kg):</label>
+                    <input type="number" class="form-control" id="weightInput" @bind="weight" min="0" />
+                </div>
+                <div class="form-group">
+                    <label for="heightInput">Height (cm):</label>
+                    <input type="number" class="form-control" id="heightInput" @bind="height" min="0" />
+                </div>
+                <div class="form-group">
+                    <label for="activityLevelInput">Physical Activity Level:</label>
+                    <select class="form-control" id="activityLevelInput" @bind="activityLevel">
+                        <option value="@Sedentary">Sedentary</option>
+                        <option value="@LightlyActive">Lightly Active</option>
+                        <option value="@ModeratelyActive">Moderately Active</option>
+                        <option value="@VeryActive">Very Active</option>
+                        <option value="@PhysicalJob">Physical Job</option>
+                        <option value="@ExtremelyActive">Extremely Active</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="weightGoalInput">Weight Goal:</label>
+                    <select class="form-control" id="weightGoalInput" @bind="weightGoal">
+                        <option value="@WeightGoal.LoseFast">Lose weight fast</option>
+                        <option value="@WeightGoal.Lose">Lose weight slow</option>
+                        <option value="@WeightGoal.Keep">Maintain weight</option>
+                        <option value="@WeightGoal.Gain">Gain weight slow</option>
+                        <option value="@WeightGoal.GainFast">Gain weight fast</option>
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
                 <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    .form-group {
+        margin:10px;
+    }
+</style>
+
 @code {
-    private int age;
-    private string gender = "Male";
-    private decimal weight;
-    private decimal height;
-    private string activityLevel = "Sedentary";
-    private string weightGoal = "Maintain weight";
+    private int age = 42;
+
+    private int userID;
+    private Gender gender = Gender.Male;
+    private float weight = 74.0f;
+    private float height = 179f;
+    private WeightGoal weightGoal = WeightGoal.Keep;
+
+    private float activityLevel = LightlyActive;
 
 
-    string message = "";
 
-    string messageCssClass = "";
+    private static float Sedentary = 1.2f;
+    private static float LightlyActive = 1.4f;
+    private static float ModeratelyActive = 1.6f;
+    private static float VeryActive = 1.8f;
+    private static float PhysicalJob = 2.0f;
+    private static float ExtremelyActive = 2.4f;
 
-    CategoryCreateDTO category = new();
 
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     private async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
     private async Task Cancel() => await BlazoredModal.CancelAsync();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
+        int.TryParse(userIdClaim!.Value, out userID);
+    }
+
+    private async Task HandleSubmit()
+    {
+        var result = await PlanningService.SetTargets(userID, age, gender, height, weight, activityLevel, weightGoal);
+        await BlazoredModal.CloseAsync();
+    }
 
 }

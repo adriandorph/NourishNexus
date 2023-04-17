@@ -2077,6 +2077,6 @@ public class MealPlanGeneratorTests
             Console.WriteLine();
         }
 
-        Assert.Equal(server.Services.MealPlan.Response.Success, r.Response);
+        Assert.Equal(MealPlanResponse.Success, r.Response);
     }
 }

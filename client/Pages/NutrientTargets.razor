@@ -1099,7 +1099,7 @@
 
         if (!result.Cancelled)
         {
-
+            await OnInitializedAsync();
             StateHasChanged();
         }
     }
@@ -1117,9 +1117,8 @@
         {
             return (float) User.BreakfastCalories! + (float) User.LunchCalories! + (float) User.DinnerCalories! + (float) User.SnackCalories!;
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e.Message);
             return 0.0f;
         }
     }

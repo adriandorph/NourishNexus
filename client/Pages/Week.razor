@@ -7,18 +7,28 @@
 @inject UserService UserService
 @inject MealService MealService
 @inject FoodItemService FoodItemService
+@inject PlanningService PlanningService
 
 <center>
     <div class="d-flex align-items-center justify-content-center">
-        <button class="btn btn-link" @onclick="async () => await PreviousWeek()"><i class="oi oi-arrow-circle-left"></i></button>
+        <button class="btn btn-link" @onclick="async () => await PreviousWeek()"><i
+                class="oi oi-arrow-circle-left"></i></button>
         <h4>Week @currentWeek @ToShortDateOnly(startDate) - @ToShortDateOnly(endDate)</h4>
-        <button class="btn btn-link" @onclick="async () => await NextWeek()"><i class="oi oi-arrow-circle-right"></i></button>
+        <button class="btn btn-link" @onclick="async () => await NextWeek()"><i
+                class="oi oi-arrow-circle-right"></i></button>
     </div>
     <div>
-        <button class="btn-primary btn-lg">Generate food plan</button>
+        <button class="btn-primary btn-lg" @onclick="HandleGenerateFoodPlan">Generate food plan</button>
+        <div class="@messageCssClass">
+            <p>@message</p>
+        </div>
         <span class="d-flex justify-content-between mt-3">
-            <span><h5>Daily calorie goal</h5></span>
-            <span><h5>2650 kcal</h5></span>
+            <span>
+                <h5>Daily calorie goal</h5>
+            </span>
+            <span>
+                <h5>@FloatFormat(DayliCalories()) kcal</h5>
+            </span>
         </span>
     </div>
 </center>
@@ -47,7 +57,7 @@
 </div>
 
 <div class="my-2">
-    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Monday)"> 
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Monday)">
         <span style="margin-right: 0.25rem;">Monday</span>
         <i class="oi oi-arrow-thick-right"></i></button>
 </div>
@@ -80,7 +90,7 @@
 </div>
 
 <div class="my-2">
-    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Tuesday)"> 
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Tuesday)">
         <span style="margin-right: 0.25rem;">Tuesday</span>
         <i class="oi oi-arrow-thick-right"></i></button>
 </div>
@@ -112,7 +122,7 @@
 </div>
 
 <div class="my-2">
-    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Wednesday)"> 
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Wednesday)">
         <span style="margin-right: 0.25rem;">Wednesday</span>
         <i class="oi oi-arrow-thick-right"></i></button>
 </div>
@@ -143,7 +153,7 @@
 </div>
 
 <div class="my-2">
-    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Thursday)"> 
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Thursday)">
         <span style="margin-right: 0.25rem;">Thursday</span>
         <i class="oi oi-arrow-thick-right"></i></button>
 </div>
@@ -173,7 +183,7 @@
 </div>
 
 <div class="my-2">
-    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Friday)"> 
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Friday)">
         <span style="margin-right: 0.25rem;">Friday</span>
         <i class="oi oi-arrow-thick-right"></i></button>
 </div>
@@ -203,7 +213,7 @@
 </div>
 
 <div class="my-2">
-    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Saturday)"> 
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Saturday)">
         <span style="margin-right: 0.25rem;">Saturday</span>
         <i class="oi oi-arrow-thick-right"></i>
     </button>
@@ -234,7 +244,7 @@
 </div>
 
 <div class="my-2">
-    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Sunday)"> 
+    <button class="d-flex align-items-center btn-lg btn-primary" @onclick="() => GoToDay(DayOfWeek.Sunday)">
         <span style="margin-right: 0.25rem;">Sunday</span>
         <i class="oi oi-arrow-thick-right"></i>
     </button>
@@ -244,22 +254,24 @@
 @code {
 #pragma warning disable CS8618
     [Parameter]
-    public string dateString {get; set;} = "today";
+    public string dateString { get; set; } = "today";
     private DateTime date { get; set; } = DateTime.MinValue;
     private DateTime startDate { get; set; }
     private DateTime endDate { get; set; }
 
     private int userID { get; set; }
 
-    private UserNutritionDTO user { get; set; }
+    private string message {get; set;}
+
+    private string messageCssClass {get; set;}
+
+    private UserNutritionDTO? user { get; set; }
 
     private int currentWeek;
 
-    private List<List<MealWithFoodDTO>> days {get; set;} = new List<List<MealWithFoodDTO>>();
-    private List<float> dayCalories {get; set;} = new List<float>();
-    private List<List<float>> mealCalories {get; set;} = new List<List<float>>();
-
-    //TODO: Only 2 decimals in floats
+    private List<List<MealWithFoodDTO>> days { get; set; } = new List<List<MealWithFoodDTO>>();
+    private List<float> dayCalories { get; set; } = new List<float>();
+    private List<List<float>> mealCalories { get; set; } = new List<List<float>>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -285,7 +297,7 @@
         dayCalories.Add(await DayKcal(DayOfWeek.Sunday));
 
         mealCalories = new List<List<float>>();
-        foreach(var day in days)
+        foreach (var day in days)
         {
             var meals = new List<float>();
             var breakfast = day.Where(m => m.Meal.MealType == MealType.BREAKFAST).FirstOrDefault();
@@ -305,7 +317,7 @@
             else meals.Add(0.0f);
 
             mealCalories.Add(meals);
-            
+
         }
     }
 
@@ -362,10 +374,10 @@
     private async Task<float> DayKcal(DayOfWeek dayOfWeek)
     {
 
-        DateTime daysDate =  startDate.AddDays((int)dayOfWeek - 1);
+        DateTime daysDate = startDate.AddDays((int)dayOfWeek - 1);
         var meals = await MealService.GetMealsWithFoodByUserIDAndDate(userID, daysDate);
         float sum = 0.0f;
-        foreach(var meal in meals)
+        foreach (var meal in meals)
         {
             sum += await MealKcal(meal);
         }
@@ -376,13 +388,13 @@
     {
         var sum = 0.0f;
 
-        foreach(var foodItem in meal.FoodItems)
+        foreach (var foodItem in meal.FoodItems)
         {
             sum += foodItem.Amount * foodItem.FoodItem!.Calories;
         }
-        foreach(var recipe in meal.Recipes)
+        foreach (var recipe in meal.Recipes)
         {
-            foreach(var foodItem in await FoodItemService.GetByRecipe(recipe.Recipe.Id))
+            foreach (var foodItem in await FoodItemService.GetByRecipe(recipe.Recipe.Id))
             {
                 sum += recipe.Amount * foodItem.Amount * foodItem.FoodItem!.Calories;
             }
@@ -393,7 +405,7 @@
     private async Task<List<List<MealWithFoodDTO>>> GetDaysWithMeals()
     {
         var days = new List<List<MealWithFoodDTO>>();
-        for(int i = 0; i < 7; i++)
+        for (int i = 0; i < 7; i++)
         {
             var daysDate = startDate.AddDays(i);
             var meals = await MealService.GetMealsWithFoodByUserIDAndDate(userID, daysDate);
@@ -419,7 +431,7 @@
 
     private string ToDayDateString(DayOfWeek day)
     {
-        var date = startDate.AddDays((int) day - 1);
+        var date = startDate.AddDays((int)day - 1);
         return ToDateString(date);
     }
 
@@ -432,4 +444,34 @@
     }
 
     private string FloatFormat(float f) => $"{(f):0.##}";
+
+    private async Task HandleGenerateFoodPlan()
+    {
+        var response = await PlanningService.GenerateMealPlan(userID, startDate);
+        if (response == MealPlanResponse.Success)
+        {
+            await OnInitializedAsync();
+            StateHasChanged();
+            message ="Successfully generated a meal plan to suit your nutritional needs";
+            messageCssClass="text-success";
+        }
+        else if (response == MealPlanResponse.Fail)
+        {
+            await OnInitializedAsync();
+            StateHasChanged();
+            message = "Could not generate a plan that suits all of your nutritional needs, but here is the next best thing";
+            messageCssClass="text-warning";
+        }
+        else //Cancelled
+        {
+            message = "Plan cancelled. You need to set your nutritional goals and save xx recipes to generate a plan.";
+            messageCssClass="text-danger";
+        }
+    }
+
+    private float DayliCalories()
+    {
+        if (user == null) return 0;
+        return ((user.BreakfastCalories ?? 0) + (user.LunchCalories ?? 0) + (user.DinnerCalories ?? 0) + (user.SnackCalories ?? 0)) / 7.0f;
+    }
 }
