@@ -206,14 +206,12 @@ public class IntakeTargetCalculator
             Calcium = CalciumUB
         };
 
-        float kcalPerWeek = kcalPerDay * 7;
+        float BreakfastCalories = kcalPerDay * 0.2f;
+        float LunchCalories = kcalPerDay * 0.3f;
+        float DinnerCalories = kcalPerDay * 0.35f;
+        float SnackCalories = kcalPerDay * 0.15f;
 
-        float BreakfastCalories = kcalPerWeek * 0.2f;
-        float LunchCalories = kcalPerWeek * 0.3f;
-        float DinnerCalories = kcalPerWeek * 0.35f;
-        float SnackCalories = kcalPerWeek * 0.15f;
-
-        return new TargetsResult(LB, II, UB, BreakfastCalories, LunchCalories, DinnerCalories, SnackCalories, kcalPerWeek);
+        return new TargetsResult(LB, II, UB, BreakfastCalories, LunchCalories, DinnerCalories, SnackCalories, kcalPerDay);
     }
     
     public (float, float, float) CalculateProtein(int age, Gender gender, float kcalPerDay)
@@ -268,6 +266,7 @@ public class IntakeTargetCalculator
             if(gender == Gender.Male) LB = 35f;
             else LB = 25f;
             II = MegaJoulePerDay * 3;
+            if (LB >  II) II = LB;
             UB = float.MaxValue;
         }
         return (LB, II, UB);
@@ -693,22 +692,22 @@ public class IntakeTargetCalculator
         if (age <= 5)
         {
             LB = 0f;
-            II = 1.8f;
+            II = 1800f;
         }
         else if (age >= 6 && age <= 9)
         {
             LB = 0f;
-            II = 2.0f;
+            II = 2000f;
         }
         else if (age >= 10 && age <= 13)
         {
             LB = 0f;
-            II = gender == Gender.Female ? 2.9f : 3.3f;
+            II = gender == Gender.Female ? 2900f : 3300f;
         }
         else
         {
-            LB = 1.6f;
-            II = gender == Gender.Female ? 3.1f : 3.5f; 
+            LB = 1600f;
+            II = gender == Gender.Female ? 3100f : 3500f; 
         }
 
         return (LB, II, UB);

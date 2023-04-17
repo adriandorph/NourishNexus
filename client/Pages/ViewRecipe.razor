@@ -85,7 +85,7 @@
             </p>
         </div>
     </div>
-    @if (recipe.AuthorId == authorID)
+    @if (recipe.AuthorId == userID)
     {
         <div class="card my-4">
             <div class="card-body">
@@ -96,15 +96,23 @@
             </div>
         </div>
     }
-    <div class="my-3">
-        <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
-        @if (recipe.AuthorId == authorID && Add == "view")
+    <div class="">
+        <button type="button" class="btn btn-primary btn-margin" @onclick="GoBack">Return</button>
+        @if (recipe.AuthorId == userID && Add == "view")
         {
-            <button class="btn btn-success mx-1" @onclick="EditRecipe">Edit</button>
+            <button class="btn btn-success btn-margin" @onclick="EditRecipe">Edit</button>
         }
         else if (Add == "add")
         {
-            <button class="btn btn-success mx-1" @onclick="AddRecipe">Add</button>
+            <button class="btn btn-success btn-margin" @onclick="AddRecipe">Add</button>
+        }
+        else if (recipe.AuthorId != userID && user != null && user.SavedRecipeIds.Contains(recipe.Id))
+        {
+            <button class="btn btn-danger mr-3 btn-margin" onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave recipe </button>
+        }
+        else if (recipe.AuthorId != userID && user != null && !user.SavedRecipeIds.Contains(recipe.Id))
+        {
+            <button class="btn btn-secondary btn-margin" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save recipe </button>
         }
     </div>
 }
@@ -123,9 +131,11 @@ else
     [Parameter]
     public string Add {get; set;} = "";
 
-    public string authorName { get; set; } = "";
+    private string authorName { get; set; } = "";
+    
+    private UserDTO? user { get; set; }
 
-    private int authorID;
+    private int userID;
 
     [Parameter]
     public string Scale { get; set; } = "";
@@ -150,9 +160,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
-        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-        int.TryParse(userIdClaim!.Value, out authorID);
+        var userClaim = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
+        var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
+        int.TryParse(userIdClaim!.Value, out userID);
+        user = await UserService.GetUserByID(userID);
         recipe = await RecipeService.GetRecipe(int.Parse(Id));
         recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
         if (recipe == null)
@@ -231,5 +242,39 @@ else
         }
         catch (Exception)
         {}
+    }
+
+    public async Task HandleUnsaveRecipe(int id)
+    {
+        var updatedSavedRecipes = new List<int>();
+        updatedSavedRecipes.AddRange(user!.SavedRecipeIds);
+        updatedSavedRecipes.Remove(id);
+        var userUpdate = new UserUpdateDTO
+            {
+                Id = userID,
+                SavedRecipeIds = updatedSavedRecipes
+            };
+
+        await UserService.UpdateUser(userUpdate);
+
+        user = await UserService.GetUserByID(userID);
+        StateHasChanged();
+    }
+
+    public async Task HandleSaveRecipe(int id)
+    {
+        var updatedSavedRecipes = new List<int>();
+        updatedSavedRecipes.AddRange(user!.SavedRecipeIds);
+        updatedSavedRecipes.Add(recipe!.Id);
+        var userUpdate = new UserUpdateDTO
+            {
+                Id = userID,
+                SavedRecipeIds = updatedSavedRecipes
+            };
+
+        await UserService.UpdateUser(userUpdate);
+
+        user = await UserService.GetUserByID(userID);
+        StateHasChanged();
     }
 }

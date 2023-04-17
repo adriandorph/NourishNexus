@@ -35,7 +35,7 @@ public class MealPlanGenerator
         {
             dietReport = await Create7DayMealPlan(userID, startingDate);
             if (dietReport.Response == MealPlanResponse.Success) break;
-            if (dietReport.Response == MealPlanResponse.Cancelled) return dietReport;
+            if (dietReport.Response == MealPlanResponse.Cancelled && i == 0) return dietReport;
         }
 
         if(dietReport == null || dietReport.MealPlan == null) throw new Exception("Mealplan or dietReport is null");
@@ -63,7 +63,9 @@ public class MealPlanGenerator
         List<RecipeDTO> recipes = await CreateRecipeList(user, startingDate);
 
         //Insert recipes
-        MealPlan mealPlan = await CreateInitialMealPlan(recipes, userID, calorieTargets, startingDate);
+        var mealPlanResult = await CreateInitialMealPlan(recipes, userID, calorieTargets, startingDate);
+        if(mealPlanResult.IsNone) return (new DietReport(null,null,null,null, MealPlanResponse.Cancelled, null));
+        MealPlan mealPlan = mealPlanResult.Value;
         
         // Ideal Intake met/exceeded?
         var curNutrientSums = mealPlan.CalculateNutrientSums();
@@ -360,10 +362,10 @@ public class MealPlanGenerator
     {
         var calories = new UserCalories
         {
-            Breakfast = (float)user.BreakfastCalories! / 7.0f,
-            Lunch = (float)user.LunchCalories! / 7.0f,
-            Dinner = (float)user.DinnerCalories! / 7.0f,
-            Snacks = (float)user.SnackCalories! / 7.0f,
+            Breakfast = (float)user.BreakfastCalories!,
+            Lunch = (float)user.LunchCalories!,
+            Dinner = (float)user.DinnerCalories!,
+            Snacks = (float)user.SnackCalories!,
         };
         return calories;
     }
@@ -399,7 +401,7 @@ public class MealPlanGenerator
         return recipes;
     }
 
-    private async Task<MealPlan> CreateInitialMealPlan(List<RecipeDTO> recipes, int userID, UserCalories calories, DateTime date)
+    private async Task<Option<MealPlan>> CreateInitialMealPlan(List<RecipeDTO> recipes, int userID, UserCalories calories, DateTime date)
     {
         MealPlan mealPlan = new MealPlan();
 

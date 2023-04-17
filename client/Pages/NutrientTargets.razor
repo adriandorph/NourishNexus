@@ -1083,7 +1083,7 @@
     {
         var claim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = claim.FindFirst(ClaimTypes.NameIdentifier)!;
-        User = Scale(await UserService.GetUserNutritionByID(int.Parse(userIdClaim!.Value)), 1.0f/7.0f);
+        User = await UserService.GetUserNutritionByID(int.Parse(userIdClaim!.Value));
     }
 
     private async void ShowModal()
@@ -1107,7 +1107,7 @@
     private async Task HandleUpdate()
     {
         StateHasChanged();
-        var updateUser = ScaleToUpdate(User, 7.0f);
+        var updateUser = ScaleToUpdate(User, 1.0f);
         await UserService.UpdateUser(updateUser);
     }
 

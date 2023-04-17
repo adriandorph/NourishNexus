@@ -54,7 +54,7 @@ public class IntakeTargetCalculatorTests
 
     
     [Theory]
-    [InlineData(25, Gender.Male, 2650, 35f, 33.285f, float.MaxValue)]
+    [InlineData(25, Gender.Male, 2650, 35f, 35f, float.MaxValue)]
     [InlineData(25, Gender.Female, 2650, 25f, 33.285f, float.MaxValue)]
     [InlineData(15, Gender.Male, 2650, 22.19004f, 27.73755, 33.285f)]
     
@@ -323,12 +323,12 @@ public class IntakeTargetCalculatorTests
 
     
     [Theory]
-    [InlineData(25, Gender.Male, 1.6f, 3.5f, float.MaxValue)]
-    [InlineData(25, Gender.Female, 1.6f, 3.1f, float.MaxValue)]
-    [InlineData(3, Gender.Male, 0f, 1.8f, float.MaxValue)]
-    [InlineData(7, Gender.Male, 0f, 2.0f, float.MaxValue)]
-    [InlineData(11, Gender.Male, 0f, 3.3f, float.MaxValue)]
-    [InlineData(11, Gender.Female, 0f, 2.9f, float.MaxValue)]
+    [InlineData(25, Gender.Male, 1600f, 3500f, float.MaxValue)]
+    [InlineData(25, Gender.Female, 1600f, 3100f, float.MaxValue)]
+    [InlineData(3, Gender.Male, 0f, 1800f, float.MaxValue)]
+    [InlineData(7, Gender.Male, 0f, 2000f, float.MaxValue)]
+    [InlineData(11, Gender.Male, 0f, 3300f, float.MaxValue)]
+    [InlineData(11, Gender.Female, 0f, 2900f, float.MaxValue)]
     void CalculatePotassium(int age, Gender gender, float expected1, float expected2, float expected3)
     {
         //Act
