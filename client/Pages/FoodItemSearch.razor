@@ -46,7 +46,7 @@
         {
             
             <a href="@(IsSearchOptionActive(SearchOption.FoodItems) ? $"/addfooditem/{result.Id}" : $"/viewRecipe/{result.Id}/add/1")" class="searchresult rounded-edge">
-                <li class="list-group-item">
+                <li class="list-group-item searchitem">
                     <h4>@result.Title</h4>
                     @if(result.Type != SearchResultType.FoodItem)
                     {

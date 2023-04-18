@@ -5,11 +5,14 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
 @using server.Core.EF.DTO;
+@using Microsoft.JSInterop
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject RecipeService RecipeService
 @inject UserService UserService
+@inject IJSRuntime JSRuntime
+
 
 <h1 class="text-center mb-3">Saved Recipes</h1>
 
@@ -52,11 +55,20 @@
 </div>
 
 <div id="createrecipebtn" class="d-flex align-items-center my-3 justify-content-center fixed-bottom container">
-    <button class="btn btn-primary btn-lg" @onclick="HandleCreateRecipe">Create Recipe</button>
+    <button class="btn btn-primary btn-lg" @onclick="HandleCreateRecipe">
+         Create Recipe </button>
 </div>
+
+<div class="d-flex scrolltop align-items-center justify-content-left fixed-bottom">
+    <button @onclick="ScrollToTop" class="btn btn-info scroll-to-top"> 
+        <i class ="oi oi-chevron-top"></i>To top</button>
+</div>
+
+
 
 @code
 {
+
 
     private List<RecipeDTO>? recipes;
 
@@ -72,6 +84,11 @@
         int.TryParse(userIdClaim!.Value, out userID);
         user = await UserService.GetUserByID(userID);
         recipes = await GetAllSavedRecipes();
+    }
+
+    private void ScrollToTop()
+    {
+        JSRuntime.InvokeVoidAsync("scrollTo", 0, 0);
     }
 
     public void HandleCreateRecipe()

@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+    frontend:
+        build: ./client
+        container_name: frontend
+        depends_on:
+            - backend
+        ports:
+            - 3000:3000
+
+    backend:
+        build: ./server
+        container_name: backend
+        depends_on:
+            - db
+        ports:
+            - '2222:80'
+            - '2223:443'
+
+    db:
+        platform: 'linux/amd64'
+        image: mcr.microsoft.com/azure-sql-edge:latest
+        container_name: db
+        ports:
+            - '1433:1433'

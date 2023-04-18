@@ -1,7 +1,12 @@
 .category-box {
-    background-color: #eee;
     padding: 4px 8px;
     margin: 4px 8px;
+    background-color: #d9d9d9;
+    border-radius: 10px !important;
+}
+
+.view{
+    background-color: #d9d9d9;
 }
 
 .category-box label {
@@ -13,7 +18,7 @@
 }
 
 .ingredient-box {
-    background-color: #eee;
+    background-color: #bdbdbd;
     padding: 8px;
     display: flex;
     align-items: center;
