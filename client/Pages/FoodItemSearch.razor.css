@@ -10,6 +10,11 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.searchitem{
+    background-color: #d9d9d9;
+}
+
 .list-group-item:hover {
     background-color : #94F1B4;
 }

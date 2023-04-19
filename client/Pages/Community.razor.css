@@ -1,0 +1,14 @@
+.rounded-edge {
+    border-radius: 10px !important;
+}
+
+.scrolltop{
+    margin-left: 17.5em;
+    margin-bottom: 1em;
+}
+
+@media (max-width: 640px) {
+    .scrolltop{
+        margin-left: 0.5em;
+    }
+}

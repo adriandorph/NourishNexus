@@ -31,7 +31,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "AllowOrigin",
             pol =>
             {
-                pol.WithOrigins("https://localhost:7138", "http://localhost:5136", "http://client.localhost", "http://crosshost:5136")
+                pol.WithOrigins("https://localhost:7138", "http://localhost:5136", "http://client.localhost", "http://crosshost:5136", "http://165.227.158.105:5136")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });

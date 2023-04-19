@@ -1,6 +1,17 @@
+.scrolltop{
+    margin-left: 17.5em;
+    margin-bottom: 1em;
+}
+
 @media (min-width: 640px) {
     #createrecipebtn{
         margin-left: 15em;
+    }
+}
+
+@media (max-width: 640px) {
+    .scrolltop{
+        margin-left: 0.5em;
     }
 }
 
@@ -21,4 +32,3 @@
         margin-left: 22.5em;
     }
 }
-
