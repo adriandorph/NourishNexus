@@ -39,12 +39,10 @@ hr{
 
 .nav-item {
     font-size: 0.9rem;
-    padding-bottom: 0.5rem;
 }
 
     .nav-item ::deep a {
         color: #000000;
-        border-radius: 4px;
         height: 3rem;
         display: flex;
         align-items: center;
