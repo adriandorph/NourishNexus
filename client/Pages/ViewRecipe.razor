@@ -23,7 +23,8 @@
     <div class="row">
         <div class="col">
             <div class="category-checkboxes d-flex flex-wrap">
-                @if(AllCategories == null){
+                @if (AllCategories == null)
+                {
                     <p><em>Loading...</em></p>
                 }
                 else if (recipe != null && AllCategories.Any())
@@ -64,8 +65,8 @@
             </span>
             <div class="scale">
                 Scale x
-                <input class="scale-input" step="0.5" type="number" id="scaleInput" value="@scale"  @onchange="UpdateIngredients"
-                    min="0">
+                <input class="scale-input" step="0.5" type="number" id="scaleInput" value="@scale"
+                @onchange="UpdateIngredients" min="0">
             </div>
             @foreach (FoodItemAmountDTO ingredient in ingredients)
             {
@@ -106,20 +107,26 @@
         }
         else if (recipe.AuthorId != userID && user != null && user.SavedRecipeIds.Contains(recipe.Id))
         {
-            <button class="btn btn-danger mr-3 btn-margin" onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave recipe </button>
+            <button class="btn btn-danger mr-3 btn-margin" onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave
+                recipe </button>
         }
         else if (recipe.AuthorId != userID && user != null && !user.SavedRecipeIds.Contains(recipe.Id))
         {
-            <button class="btn btn-secondary btn-margin" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save recipe </button>
+            <button class="btn btn-secondary btn-margin" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save recipe
+            </button>
         }
     </div>
 }
-else
+else if (notfound)
 {
     <div class="text-center mt-4">
         <h4>Recipe not found</h4>
         <button type="button" class="btn btn-primary" @onclick="GoBack">Return</button>
     </div>
+}
+else
+{
+    <p>Loading...</p>
 }
 
 <br>
@@ -129,10 +136,11 @@ else
     [Parameter]
     public string Id { get; set; } = "";
     [Parameter]
-    public string Add {get; set;} = "";
+    public string Add { get; set; } = "";
+    private bool notfound { get; set; } = false;
 
     private string authorName { get; set; } = "";
-    
+
     private UserDTO? user { get; set; }
 
     private int userID;
@@ -140,7 +148,7 @@ else
     [Parameter]
     public string Scale { get; set; } = "";
 
-    private float scale {get; set;} = 1.0f;
+    private float scale { get; set; } = 1.0f;
 
     private string? recipeAuthor;
     private List<FoodItemAmountDTO> ingredients { get; set; } = new List<FoodItemAmountDTO>();
@@ -168,7 +176,7 @@ else
         recipeAuthor = await GetRecipeAuthor(recipe.AuthorId);
         if (recipe == null)
         {
-            throw new ApplicationException("Recipe not found");
+            notfound = true;
         }
         ingredients = await FoodItemService.GetByRecipe(recipe.Id);
 
@@ -241,7 +249,7 @@ else
             if (newscale >= 0) scale = newscale;
         }
         catch (Exception)
-        {}
+        { }
     }
 
     public async Task HandleUnsaveRecipe(int id)
