@@ -1,3 +1,5 @@
+using Microsoft.IdentityModel.Tokens;
+
 namespace server.Infrastructure;
 
 public class RecipeRepository : IRecipeRepository
@@ -204,13 +206,27 @@ public class RecipeRepository : IRecipeRepository
 
         var savedRecipeIds = user.SavedRecipes;
 
-         return await _context.Recipes
-            .Include(r => r.Categories)
-            .Where(r => savedRecipeIds.Contains(r) && r.Title.Contains(word))
-            .OrderBy(r => r.Title.Length)
-            .Take(100)
-            .Select(r => r.ToDTO())
-            .ToListAsync();
+        if(word == "_" || word.IsNullOrEmpty())
+        {
+            return await _context.Recipes
+                .Include(r => r.Categories)
+                .Where(r => savedRecipeIds.Contains(r))
+                .OrderBy(r => r.Title)
+                .Select(r => r.ToDTO())
+                .ToListAsync();
+        }
+        else 
+        {
+            return await _context.Recipes
+                .Include(r => r.Categories)
+                .Where(r => savedRecipeIds.Contains(r) && r.Title.Contains(word))
+                .OrderBy(r => r.Title.Length)
+                .Take(100)
+                .Select(r => r.ToDTO())
+                .ToListAsync();
+        }
+
+         
     }
        
     
