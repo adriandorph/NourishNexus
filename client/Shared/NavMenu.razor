@@ -1,6 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 @inject ILocalStorageService LocalStorage
 @inject AuthenticationStateProvider AuthStateProvider
+@inject IJSRuntime JSRuntime
 
 <div id="navhead" class="top-row ps-3 navbar navbar-light">
     <div class="container-fluid">
@@ -78,6 +79,7 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+        JSRuntime.InvokeVoidAsync("scrollTo", 0, 0);
     }
 
     async Task Logout()

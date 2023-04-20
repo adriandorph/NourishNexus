@@ -3,46 +3,25 @@
 }
 
 .scrolltop{
-    z-index: 1;
-}
-#createrecipebtn{
-    z-index: 2;
-}
-.scrolltop{
-    margin-left: 17.5em;
-    margin-bottom: 1em;
+    margin-left: 10px;
 }
 
 .shadow-custom {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
 }
 
-@media (min-width: 640px) {
-    #createrecipebtn{
-        margin-left: 15em;
-    }
+.buttondiv {
+    margin-bottom: 30px;
 }
 
-@media (max-width: 640px) {
-    .scrolltop{
-        margin-left: 0.5em;
-    }
+.space {
+    width : 90px;
 }
 
-@media (min-width: 992px) {
-    #createrecipebtn{
-        margin-left: 10em;
-    }
-}
 
-@media (min-width: 1200px) {
-    #createrecipebtn{
-        margin-left: 10em;
-    }
-}
 
-@media (min-width: 1600px) {
-    #createrecipebtn{
-        margin-left: 22.5em;
+@media (min-width: 800px) {
+    .buttondiv{
+       margin-left: 275px;
     }
 }
