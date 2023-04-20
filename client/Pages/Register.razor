@@ -62,7 +62,7 @@
                 var token = await loginResponse.Content.ReadAsStringAsync();
                 await LocalStorage.SetItemAsync("nourish_nexus_auth_token", token);
                 await AuthStateProvider.GetAuthenticationStateAsync();
-                manager.NavigateTo("");
+                manager.NavigateTo("/nutrienttargets/firsttime");
             }
             else
             {
