@@ -24,7 +24,7 @@ else
                     class="oi oi-arrow-circle-right"></i></button>
         </div>
         <div>
-            <button class="btn-primary btn-lg" @onclick="HandleGenerateFoodPlan">Generate food plan</button>
+            <button class="btn-primary btn-lg" @onclick="HandleGenerateFoodPlan">Generate meal plan</button>
             <div class="@messageCssClass">
                 <p>@message</p>
             </div>
@@ -489,7 +489,7 @@ else
         }
         else //Cancelled
         {
-            message = "Plan cancelled. You need to set your nutritional goals and save xx recipes to generate a plan.";
+            message = "Plan cancelled. You need to set your nutritional goals and save more recipes to generate a plan.";
             messageCssClass="text-danger";
         }
     }
