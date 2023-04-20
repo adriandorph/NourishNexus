@@ -9,6 +9,8 @@ LaTex report: https://www.overleaf.com/read/mvvsfbyktffz
 
 Azure DevOps: https://dev.azure.com/NourishNexus/NourishNexus
 
+Production url: http://165.227.158.105:5136/
+
 
 
 ## How to run

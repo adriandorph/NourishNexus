@@ -178,7 +178,7 @@ else
         {
             notfound = true;
         }
-        ingredients = await FoodItemService.GetByRecipe(recipe.Id);
+        ingredients = await FoodItemService.GetByRecipe(recipe!.Id);
 
         var catResponse = await CategoryService.GetCategories();
         if (catResponse.IsSuccessStatusCode)

@@ -1,9 +1,9 @@
 @page "/recipes/edit/{Id}"
 @attribute [Authorize]
 @using System.Threading.Tasks
-@using server.Core.EF.DTO;
-@using System.Text.Json;
-@using Microsoft.JSInterop;
+@using server.Core.EF.DTO
+@using System.Text.Json
+@using Microsoft.JSInterop
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
@@ -42,7 +42,7 @@
                                 <label>
                                     <input type="checkbox" value="@category.Id"
                                         checked="@selectedCategoryIds.Contains(category.Id)"
-                                @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
+                                @onchange="@(e => UpdateSelectedCategories(category.Id, e))"/>
                                     @category.Name
                                 </label>
                             </div>
@@ -61,7 +61,7 @@
                 <h3 class="card-title">Description</h3>
             </span>
             <div class="form-group my-2">
-                <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
+                <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="8" />
             </div>
         </div>
     </div>
@@ -99,7 +99,7 @@
                 <h3 class="card-title">Method</h3>
             </span>
             <div class="form-group my-2">
-                <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="4" />
+                <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="8" />
             </div>
         </div>
     </div>

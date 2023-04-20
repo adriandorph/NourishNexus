@@ -55,13 +55,13 @@
     </div>
 </div>
 
-<div id="createrecipebtn" class="d-flex my-3 justify-content-center fixed-bottom container">
-    <button class="btn btn-primary btn-lg" @onclick="HandleCreateRecipe">
+<div id="createrecipebtn" class="d-flex align-items-center my-3 justify-content-center fixed-bottom container">
+    <button class="btn btn-primary btn-lg shadow-custom" @onclick="HandleCreateRecipe">
          Create Recipe </button>
 </div>
 
-<div class="d-flex scrolltop justify-content-left fixed-bottom">
-    <button @onclick="ScrollToTop" class="btn btn-info scroll-to-top"> 
+<div class="d-flex scrolltop align-items-center justify-content-left fixed-bottom">
+    <button @onclick="ScrollToTop" class="btn btn-info scroll-to-top shadow-custom"> 
         <i class ="oi oi-chevron-top"></i>To top</button>
 </div>
 
@@ -75,7 +75,6 @@
     private List<RecipeDTO>? recipes;
 
     private int userID;
-    private UserDTO? user {get; set;}
 
     private string searchQuery = "";
     private int recipeDescriptionLength = 200;
@@ -85,8 +84,7 @@
         var userClaim = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
         int.TryParse(userIdClaim!.Value, out userID);
-        user = await UserService.GetUserByID(userID);
-        recipes = await GetAllSavedRecipes();
+        recipes = await RecipeService.GetSavedBySearchWord("_", userID);
     }
 
     private void ScrollToTop()
@@ -101,28 +99,8 @@
 
     private async Task PerformSearch(ChangeEventArgs e)
     {
-        searchQuery = e.Value != null ? e.Value!.ToString() ?? "" : "";
-        if (searchQuery.Length < 1) 
-        {
-            recipes = await GetAllSavedRecipes();
-        }
-        else
-        {
-            recipes = await RecipeService.GetSavedBySearchWord(searchQuery, userID);
-        }
-    }
-
-    private async Task<List<RecipeDTO>> GetAllSavedRecipes()
-    {
-        var recipes = new List<RecipeDTO>();
-        if (user != null)
-        {
-            foreach (var id in user.SavedRecipeIds)
-            {
-                var recipe = await RecipeService.GetRecipe(id);
-                recipes.Add(recipe);
-            }
-        }
-        return recipes;
+        string searchQuery = e.Value != null ? e.Value!.ToString() ?? "_" : "_";
+        if (searchQuery.Length == 0) searchQuery = "_";
+        recipes = await RecipeService.GetSavedBySearchWord(searchQuery, userID);
     }
 }
