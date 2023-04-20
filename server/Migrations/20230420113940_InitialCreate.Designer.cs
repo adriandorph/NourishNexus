@@ -12,7 +12,7 @@ using server.Infrastructure;
 namespace server.Migrations
 {
     [DbContext(typeof(NourishNexusContext))]
-    [Migration("20230417203507_InitialCreate")]
+    [Migration("20230420113940_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -38,6 +38,21 @@ namespace server.Migrations
                     b.HasIndex("RecipesId");
 
                     b.ToTable("CategoryRecipe");
+                });
+
+            modelBuilder.Entity("RecipeUser", b =>
+                {
+                    b.Property<int>("SavedRecipesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SavedRecipesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("RecipeUser");
                 });
 
             modelBuilder.Entity("server.Infrastructure.Avoidance", b =>
@@ -305,12 +320,7 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -660,6 +670,21 @@ namespace server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RecipeUser", b =>
+                {
+                    b.HasOne("server.Infrastructure.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("SavedRecipesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Infrastructure.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("server.Infrastructure.Avoidance", b =>
                 {
                     b.HasOne("server.Infrastructure.User", "User")
@@ -727,13 +752,6 @@ namespace server.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("server.Infrastructure.Recipe", b =>
-                {
-                    b.HasOne("server.Infrastructure.User", null)
-                        .WithMany("SavedRecipes")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("server.Infrastructure.RecipeMeal", b =>
                 {
                     b.HasOne("server.Infrastructure.Meal", "Meal")
@@ -756,11 +774,6 @@ namespace server.Migrations
             modelBuilder.Entity("server.Infrastructure.Meal", b =>
                 {
                     b.Navigation("Categories");
-                });
-
-            modelBuilder.Entity("server.Infrastructure.User", b =>
-                {
-                    b.Navigation("SavedRecipes");
                 });
 #pragma warning restore 612, 618
         }

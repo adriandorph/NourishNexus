@@ -16,6 +16,7 @@ public class RecipeRepository : IRecipeRepository
         var conflict = await _context.Recipes
         .Where(r => r.Title == recipe.Title && r.AuthorId == recipe.AuthorId)
         .Include(r => r.Categories)
+        .Include(r => r.Users)
         .Select(r => r.ToDTO())
         .FirstOrDefaultAsync();
 
@@ -52,6 +53,7 @@ public class RecipeRepository : IRecipeRepository
         var recipeEntity = await _context.Recipes
             .Where (r => r.Id == recipe.Id)
             .Include(r => r.Categories)
+            .Include(r => r.Users)
             .FirstOrDefaultAsync();
         
         if(recipeEntity == null) return Response.NotFound;
@@ -136,6 +138,7 @@ public class RecipeRepository : IRecipeRepository
     {
          return(await _context.Recipes
                         .Include(r => r.Categories)
+                        .Include(r => r.Users)
                         .Select(r => r.ToDTO())
                         .ToListAsync())
                         .AsReadOnly();
@@ -146,6 +149,7 @@ public class RecipeRepository : IRecipeRepository
          return(await _context.Recipes
                         .Where(r => r.IsPublic)
                         .Include(r => r.Categories)
+                        .Include(r => r.Users)
                         .OrderBy(r => r.Title)
                         .Select(r => r.ToDTO())
                         .ToListAsync())
@@ -157,6 +161,7 @@ public class RecipeRepository : IRecipeRepository
         return await ( _context.Recipes
                         .Where(r => r.AuthorId == authorID)
                         .Include(r => r.Categories)
+                        .Include(r => r.Users)
                         .Select(r => r.ToDTO())
                         .ToListAsync());
     }
@@ -174,12 +179,14 @@ public class RecipeRepository : IRecipeRepository
         => await _context.Recipes
                 .Where(r => r.AuthorId == authorID && r.Title == title)
                 .Include(r => r.Categories)
+                .Include(r => r.Users)
                 .Select(r => r.ToDTO())
                 .FirstOrDefaultAsync();
 
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByCategoryIDAsync(int categoryID)
         => await _context.Recipes
             .Include(r => r.Categories)
+            .Include(r => r.Users)
             .Where(r => r.Categories.Any(c => c.Id == categoryID))
             .Select(r => r.ToDTO())
             .ToListAsync();
@@ -191,7 +198,7 @@ public class RecipeRepository : IRecipeRepository
             .Where(rm => rm.Meal.Id == mealID)
             .Select(rm => new Tuple<float, int>(rm.Amount, rm.Recipe.Id))
             .ToListAsync())
-            .Join(_context.Recipes.Include(r => r.Categories), i => i.Item2, r => r.Id, (item, recipe) => new RecipeAmountDTO(item.Item1, recipe.ToDTO()))
+            .Join(_context.Recipes.Include(r => r.Categories).Include(r => r.Users), i => i.Item2, r => r.Id, (item, recipe) => new RecipeAmountDTO(item.Item1, recipe.ToDTO()))
             .ToList();
     
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadSavedBySearchWord(string word, int userID)
@@ -211,6 +218,7 @@ public class RecipeRepository : IRecipeRepository
         {
             return await _context.Recipes
                 .Include(r => r.Categories)
+                .Include(r => r.Users)
                 .Where(r => savedRecipeIds.Contains(r))
                 .OrderBy(r => r.Title)
                 .Select(r => r.ToDTO())
@@ -220,6 +228,7 @@ public class RecipeRepository : IRecipeRepository
         {
             return await _context.Recipes
                 .Include(r => r.Categories)
+                .Include(r => r.Users)
                 .Where(r => savedRecipeIds.Contains(r) && r.Title.Contains(word))
                 .OrderBy(r => r.Title.Length)
                 .Take(100)
@@ -234,6 +243,7 @@ public class RecipeRepository : IRecipeRepository
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadPublicBySearchWord(string word)
         => await _context.Recipes
             .Include(r => r.Categories)
+            .Include(r => r.Users)
             .Where(r => r.IsPublic && r.Title.Contains(word))
             .OrderBy(r => r.Title.Length)
             .Take(100)
