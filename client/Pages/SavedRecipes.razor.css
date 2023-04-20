@@ -1,4 +1,10 @@
 .scrolltop{
+    z-index: 1;
+}
+#createrecipebtn{
+    z-index: 2;
+}
+.scrolltop{
     margin-left: 17.5em;
     margin-bottom: 1em;
 }

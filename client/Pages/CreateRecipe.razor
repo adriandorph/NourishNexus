@@ -65,7 +65,7 @@
                 <h3 class="card-title">Description</h3>
             </span>
             <div class="form-group my-2">
-                <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="4" />
+                <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="@Rows" />
             </div>
         </div>
     </div>
@@ -144,6 +144,9 @@
     string message = string.Empty;
     string messageCssClass = string.Empty;
 
+
+    int Rows = 0;
+
     private RecipeCreateDTO recipe = new();
 
     private List<FoodItemAmountDTO> ingredients { get; set; } = new List<FoodItemAmountDTO>();
@@ -155,7 +158,6 @@
     List<int> selectedCategoryIds = new List<int>();
 
     private List<CategoryDTO>? AllCategories { get; set; }
-
 
 
     private async void ShowModal()
@@ -194,9 +196,10 @@
                 NavigationManager.NavigateTo("savedRecipes");
             }
         }
-        else{
+        else
+        {
             message = "You already have a recipe with that name";
-            messageCssClass="text-danger";
+            messageCssClass = "text-danger";
         }
     }
 
