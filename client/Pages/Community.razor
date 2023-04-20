@@ -19,40 +19,49 @@
 </div>
 <hr class="mb-4">
 
-<div class="container">
-    <div class="row">
-        @if (recipes != null && recipes.Any())
-        {
-            @foreach (var recipe in recipes)
+@if(recipes != null && recipes.Count == 0)
+{
+    <h4>No results...</h4>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            @if (recipes != null && recipes.Any())
             {
-                @if (recipe.AuthorId != theAuthorId)
+                @foreach (var recipe in recipes)
                 {
-                    <div class="col-12 col-md-6 col-xl-4">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">@recipe.Title</h5>
-                                <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
-                                <a href="@($"viewRecipe/{recipe.Id}/view/1")" class="btn btn-primary mx-2">View</a>
-                                @if (_user!.SavedRecipeIds.Contains(recipe.Id))
-                                {
-                                    <button class="btn btn-danger"
-                                        onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave recipe
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-secondary" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save
-                                        recipe
-                                    </button>
-                                }
+                    @if (recipe.AuthorId != theAuthorId)
+                    {
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">@recipe.Title</h5>
+                                    <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
+                                    <a href="@($"viewRecipe/{recipe.Id}/view/1")" class="btn btn-primary mx-2">View</a>
+                                    @if (_user!.SavedRecipeIds.Contains(recipe.Id))
+                                    {
+                                        <button class="btn btn-danger"
+                                            onclick="@(async () => await HandleUnsaveRecipe(recipe.Id))">Unsave recipe
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-secondary" onclick="@(async () => await HandleSaveRecipe(recipe.Id))">Save
+                                            recipe
+                                        </button>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
             }
-        }
+        </div>
     </div>
-</div>
+}
+
+
 
 <div class="d-flex scrolltop align-items-center justify-content-left fixed-bottom">
     <button @onclick="ScrollToTop" class="btn btn-info scroll-to-top shadow-custom"> 

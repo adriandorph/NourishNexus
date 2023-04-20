@@ -108,6 +108,50 @@
         </div>
     </div>
 
+
+    <div class="card my-4">
+        <div class="card-body">
+            <div class="form-group my-2">
+                <h3>Meal type</h3>
+                <div class="category-checkboxes d-flex flex-wrap">
+                    <div class="category-box mr-2 mb-2 rounded">
+                        <label>
+                            <input type="checkbox" value="recipe.IsBreakfast"
+                                checked="recipe.IsBreakfast"
+                        @onchange="UpdateIsBreakfast" />
+                            Breakfast
+                        </label>
+                    </div>
+                    <div class="category-box mr-2 mb-2 rounded">
+                        <label>
+                            <input type="checkbox" value="recipe.IsLunch"
+                                checked="recipe.IsLunch"
+                        @onchange="UpdateIsLunch" />
+                            Lunch
+                        </label>
+                    </div>
+                    <div class="category-box mr-2 mb-2 rounded">
+                        <label>
+                            <input type="checkbox" value="recipe.IsDinner"
+                                checked="recipe.IsDinner"
+                        @onchange="UpdateIsDinner" />
+                            Dinner
+                        </label>
+                    </div>
+                    <div class="category-box mr-2 mb-2 rounded">
+                        <label>
+                            <input type="checkbox" value="recipe.IsSnack"
+                                checked="recipe.IsSnack"
+                                @onchange="UpdateIsSnack" />
+                            Snack
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="card my-4">
         <div class="card-body">
             <div class="form-group my-2">
@@ -309,6 +353,27 @@
 
     private float FoodItemCalories(FoodItemAmountDTO item)
     => item.Amount * item.FoodItem!.Calories;
+
+    private void UpdateIsBreakfast(ChangeEventArgs e)
+    {
+        recipe.IsBreakfast = (bool) e.Value!;
+    }
+    private void UpdateIsLunch(ChangeEventArgs e)
+    {
+        recipe.IsLunch = (bool) e.Value!;
+        Console.WriteLine($"IsLunch: {recipe.IsLunch}");
+    }
+    private void UpdateIsDinner(ChangeEventArgs e)
+    {
+        recipe.IsDinner = (bool) e.Value!;
+        Console.WriteLine($"IsDinner: {recipe.IsDinner}");
+    }
+    private void UpdateIsSnack(ChangeEventArgs e)
+    {
+        recipe.IsSnack = (bool) e.Value!;
+        Console.WriteLine($"IsSnack: {recipe.IsSnack}");
+    }
+    
 }
 
 

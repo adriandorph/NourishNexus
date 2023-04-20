@@ -33,10 +33,10 @@ public class RecipeRepository : IRecipeRepository
             recipe.Method ?? "",
             recipe.AuthorId,
             recipe.CategoryIDs != null ? await CategoryIDsToCategories(recipe.CategoryIDs) : new List<Category>(),
-            true,
-            true,
-            true,
-            true
+            recipe.IsBreakfast ?? true,
+            recipe.IsLunch ?? true,
+            recipe.IsDinner ?? true,
+            recipe.IsSnack ?? true
         );
 
         _context.Recipes.Add(entity);
@@ -146,6 +146,7 @@ public class RecipeRepository : IRecipeRepository
          return(await _context.Recipes
                         .Where(r => r.IsPublic)
                         .Include(r => r.Categories)
+                        .OrderBy(r => r.Title)
                         .Select(r => r.ToDTO())
                         .ToListAsync())
                         .AsReadOnly();
