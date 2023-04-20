@@ -63,7 +63,7 @@ hr{
     color: #000000;
 }
 
-@media (min-width: 641px) {
+@media (min-width: 800px) {
     .navbar-toggler {
         display: none;
     }
