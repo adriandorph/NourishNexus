@@ -11,6 +11,10 @@ hr{
 
 #navhead{
     background-color: #94F1B4;
+    position: fixed; /* Set position to fixed */
+    top: 0; /* Stick to the top of the viewport */
+    width: 100%; /* Set width to 100% to span across the viewport */
+    z-index: 100;
 }
 
 #navheadtext{

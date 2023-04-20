@@ -7,6 +7,10 @@
     margin-bottom: 1em;
 }
 
+.shadow-custom {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+}
+
 @media (max-width: 640px) {
     .scrolltop{
         margin-left: 0.5em;
