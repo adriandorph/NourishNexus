@@ -23,15 +23,15 @@
 
 <div class="container mb-5">
     <div class="row">
-        <div class="col-md-12">
             @if (recipes == null)
             {
                 <p><em>Loading...</em></p>
             }
-            else if (recipes.Any())
+            else if (recipes.Any() || searchQuery.Length > 0)
             {
                 foreach (var recipe in recipes)
                 {
+                    <div class="col-12 col-md-6 col-xl-4">
                     <div class="card mb-5">
                         <div class="card-body">
                             <h5 class="card-title">@recipe.Title</h5>
@@ -43,6 +43,7 @@
                             }
                         </div>
                     </div>
+                    </div>
                 }
             }
             else
@@ -52,7 +53,6 @@
             }
         </div>
     </div>
-</div>
 
 <div id="createrecipebtn" class="d-flex align-items-center my-3 justify-content-center fixed-bottom container">
     <button class="btn btn-primary btn-lg shadow-custom" @onclick="HandleCreateRecipe">
@@ -66,6 +66,7 @@
 
 
 
+
 @code
 {
 
@@ -74,6 +75,7 @@
 
     private int userID;
 
+    private string searchQuery = "";
     private int recipeDescriptionLength = 200;
 
     protected override async Task OnInitializedAsync()

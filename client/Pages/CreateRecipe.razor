@@ -157,7 +157,6 @@
     private List<CategoryDTO>? AllCategories { get; set; }
 
 
-
     private async void ShowModal()
     {
         var options = new ModalOptions
@@ -194,9 +193,10 @@
                 NavigationManager.NavigateTo("savedRecipes");
             }
         }
-        else{
+        else
+        {
             message = "You already have a recipe with that name";
-            messageCssClass="text-danger";
+            messageCssClass = "text-danger";
         }
     }
 
