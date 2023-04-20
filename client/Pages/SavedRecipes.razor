@@ -21,38 +21,49 @@
 </div>
 <hr class="mb-4">
 
-<div class="container mb-5">
-    <div class="row">
-            @if (recipes == null)
-            {
-                <p><em>Loading...</em></p>
-            }
-            else if (recipes.Any() || searchQuery.Length > 0)
-            {
-                foreach (var recipe in recipes)
+@if (recipes == null)
+{
+    <p><em>Loading...</em></p>
+} else if (recipes.Any() || searchQuery != "_")
+{
+    if (recipes.Count == 0)
+    {
+        <div class="d-flex justify-content-left">
+            <h4>No results...</h4>
+        </div>
+    }
+    else
+    {
+        <div class="container mb-5">
+            <div class="row">
+            
+                @foreach (var recipe in recipes)
                 {
                     <div class="col-12 col-md-6 col-xl-4">
-                    <div class="card mb-5">
-                        <div class="card-body">
-                            <h5 class="card-title">@recipe.Title</h5>
-                            <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
-                            <a href="@($"viewRecipe/{recipe.Id}/{"view"}/1")" class="btn btn-primary mx-2">View</a>
-                            @if (recipe.AuthorId == userID)
-                            {
-                                <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-secondary mx-2">Edit</a>
-                            }
+                        <div class="card mb-5">
+                            <div class="card-body">
+                                <h5 class="card-title">@recipe.Title</h5>
+                                <p class="card-text">@((recipe.Description.Length > 200) ? $"{recipe.Description.Substring(0, recipeDescriptionLength)}..." : recipe.Description)</p>
+                                <a href="@($"viewRecipe/{recipe.Id}/{"view"}/1")" class="btn btn-primary mx-2">View</a>
+                                @if (recipe.AuthorId == userID)
+                                {
+                                    <a href="@($"recipes/edit/{recipe.Id}")" class="btn btn-secondary mx-2">Edit</a>
+                                }
+                            </div>
                         </div>
                     </div>
-                    </div>
                 }
-            }
-            else
-            {
-                <p>You have not saved any recipes yet. Please <a href="recipes/create">create a recipe</a>, or <a
-                        href="Community">add a recipe from the Community</a></p>
-            }
+    
+            </div>
         </div>
-    </div>
+
+    }        
+}
+else
+{
+    <p>You have not saved any recipes yet. Please <a href="recipes/create">create a recipe</a>, or <a
+            href="Community">add a recipe from the Community</a></p>
+}
 
 <div id="createrecipebtn" class="d-flex align-items-center my-3 justify-content-center fixed-bottom container">
     <button class="btn btn-primary btn-lg shadow-custom" @onclick="HandleCreateRecipe">

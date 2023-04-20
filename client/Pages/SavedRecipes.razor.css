@@ -1,3 +1,7 @@
+.rounded-edge {
+    border-radius: 10px !important;
+}
+
 .scrolltop{
     z-index: 1;
 }

@@ -86,11 +86,48 @@
             </p>
         </div>
     </div>
+    <div class="view card my-4">
+        <div class="card-body">
+            <h2 class="card-title">Meal type</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="category-checkboxes d-flex flex-wrap">
+                        @if(recipe.IsBreakfast)
+                        {
+                            <div class="category-box mr-2 mb-2 rounded">
+                                <label>Breakfast</label>
+                            </div>
+                        }
+                        @if(recipe.IsLunch)
+                        {
+                            <div class="category-box mr-2 mb-2 rounded">
+                                <label>Lunch</label>
+                            </div>
+                        }
+                        @if(recipe.IsDinner)
+                        {
+                            <div class="category-box mr-2 mb-2 rounded">
+                                <label>Dinner</label>
+                            </div>
+                        }
+                        @if(recipe.IsSnack)
+                        {
+                            <div class="category-box mr-2 mb-2 rounded">
+                                <label>Snack</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @if (recipe.AuthorId == userID)
     {
         <div class="view card my-4">
             <div class="card-body">
-                <h4 class="card-title">Visibility</h4>
+                <h2 class="card-title">Visibility</h2>
                 <p>@(recipe.IsPublic ? "Public" : "Private")</p>
             </div>
         </div>

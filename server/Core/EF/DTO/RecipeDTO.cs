@@ -22,16 +22,16 @@ public record RecipeCreateDTO{
     public string? Method {get; set;}
     public int AuthorId {get; set;} 
     public List<int>? CategoryIDs {get; set;}
+    public bool? IsBreakfast {get; set;}
+    public bool? IsLunch {get; set;}
+    public bool? IsDinner {get; set;}
+    public bool? IsSnack {get; set;}
 }
 
 public record RecipeUpdateDTO : RecipeCreateDTO
 {
     public int Id                                           {get; set;}
     public List<FoodItemRecipeCreateDTO>? FoodItemRecipes   {get; set;}
-    public bool? IsBreakfast                                {get; set;}
-    public bool? IsLunch                                    {get; set;}
-    public bool? IsDinner                                   {get; set;}
-    public bool? IsSnack                                    {get; set;}
 }
 
 
