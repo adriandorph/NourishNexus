@@ -55,6 +55,27 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Recipes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Method = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    IsBreakfast = table.Column<bool>(type: "bit", nullable: false),
+                    IsLunch = table.Column<bool>(type: "bit", nullable: false),
+                    IsDinner = table.Column<bool>(type: "bit", nullable: false),
+                    IsSnack = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -162,6 +183,33 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FoodItemRecipes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    FoodItemId = table.Column<int>(type: "int", nullable: false),
+                    RecipeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodItemRecipes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FoodItemRecipes_FoodItems_FoodItemId",
+                        column: x => x.FoodItemId,
+                        principalTable: "FoodItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FoodItemRecipes_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Avoidances",
                 columns: table => new
                 {
@@ -203,30 +251,27 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recipes",
+                name: "RecipeUser",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Method = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    IsBreakfast = table.Column<bool>(type: "bit", nullable: false),
-                    IsLunch = table.Column<bool>(type: "bit", nullable: false),
-                    IsDinner = table.Column<bool>(type: "bit", nullable: false),
-                    IsSnack = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    SavedRecipesId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recipes", x => x.Id);
+                    table.PrimaryKey("PK_RecipeUser", x => new { x.SavedRecipesId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_Recipes_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_RecipeUser_Recipes_SavedRecipesId",
+                        column: x => x.SavedRecipesId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RecipeUser_Users_UsersId",
+                        column: x => x.UsersId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -271,33 +316,6 @@ namespace server.Migrations
                         name: "FK_FoodItemMeals_Meals_MealId",
                         column: x => x.MealId,
                         principalTable: "Meals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FoodItemRecipes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<float>(type: "real", nullable: false),
-                    FoodItemId = table.Column<int>(type: "int", nullable: false),
-                    RecipeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FoodItemRecipes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FoodItemRecipes_FoodItems_FoodItemId",
-                        column: x => x.FoodItemId,
-                        principalTable: "FoodItems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FoodItemRecipes_Recipes_RecipeId",
-                        column: x => x.RecipeId,
-                        principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -404,9 +422,9 @@ namespace server.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_UserId",
-                table: "Recipes",
-                column: "UserId");
+                name: "IX_RecipeUser_UsersId",
+                table: "RecipeUser",
+                column: "UsersId");
         }
 
         /// <inheritdoc />
@@ -426,6 +444,9 @@ namespace server.Migrations
 
             migrationBuilder.DropTable(
                 name: "RecipeMeals");
+
+            migrationBuilder.DropTable(
+                name: "RecipeUser");
 
             migrationBuilder.DropTable(
                 name: "Categories");

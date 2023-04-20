@@ -142,13 +142,15 @@ else
 
     private async Task PerformSearch(ChangeEventArgs e)
     {
-        string searchQuery = e.Value != null ? e.Value!.ToString() ?? "" : "";
+        string searchQuery = e.Value != null ? e.Value!.ToString() ?? "_" : "_";
+        
         if (searchQuery.Length < 1) 
         {
             recipes = await RecipeService.GetPublicRecipes();
         }
         else
         {
+            if (searchQuery.StartsWith(" ")) searchQuery = "_";
             recipes = await RecipeService.GetFromCommunityBySearchWord(searchQuery);
         }
     }

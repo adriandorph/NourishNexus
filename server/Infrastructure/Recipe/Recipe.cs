@@ -12,6 +12,7 @@ public class Recipe {
     public bool IsLunch {get; set;}
     public bool IsDinner {get; set;}
     public bool IsSnack {get; set;}
+    public List<User> Users {get; set;}
 
     public Recipe(string title, bool isPublic, string description, string method, int authorId, List<Category> categories, bool isBreakfast, bool isLunch, bool isDinner, bool isSnack)
     {
@@ -25,7 +26,7 @@ public class Recipe {
         this.IsLunch = isLunch;
         this.IsDinner = isDinner;
         this.IsSnack = isSnack;
-
+        this.Users = new List<User>();
     }
 
     #nullable disable
