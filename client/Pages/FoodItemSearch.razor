@@ -103,8 +103,8 @@
 
     private async Task PerformSearch(ChangeEventArgs e)
     {
-        string searchQuery = e.Value != null ? e.Value!.ToString() ?? "" : "";
-        if (searchQuery.Length < 1) 
+        string searchQuery = e.Value != null ? e.Value!.ToString() ?? " " : " ";
+        if (searchQuery.Length < 1 || searchQuery.StartsWith(" ")) 
         {
             SearchPerformed = false;
             return;

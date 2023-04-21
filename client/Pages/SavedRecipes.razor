@@ -111,7 +111,8 @@ else
     private async Task PerformSearch(ChangeEventArgs e)
     {
         string searchQuery = e.Value != null ? e.Value!.ToString() ?? "_" : "_";
-        if (searchQuery.Length == 0) searchQuery = "_";
+        
+        if (searchQuery.Length == 0 || searchQuery.StartsWith(" ")) searchQuery = "_";
         recipes = await RecipeService.GetSavedBySearchWord(searchQuery, userID);
     }
 }

@@ -1,10 +1,34 @@
-@page "/nutrienttargets"
+@page "/nutrienttargets/{firsttime}"
 @attribute [Authorize]
 @using System.ComponentModel.DataAnnotations
 @using System.Security.Claims
 @using System.Globalization
 @inject AuthenticationStateProvider AuthStateProvider
 @inject UserService UserService
+
+@if(firsttime == "firsttime")
+{
+    <h4>Welcome!</h4>
+
+    <h6>Get started by following the steps below</h6>
+
+    <ol>
+        <li>
+            <p>Set your daily nutritional targets on this page</p>
+        </li>
+        <li>
+            <p> <a href="recipes/create">Create recipes</a> or go to the <a href="community">community tab</a> to save all the recipes you want to see in your meal plans!</p>
+        </li>
+        <li>
+            <p>
+                Once you have saved or created enough recipes and set your nutritional targets you can generate your meal plan in the <a href="week/today">week page</a>!
+            </p>
+        </li>
+            
+    </ol>
+    <hr>
+}
+
 
 <div id="recommended">
     <button class="btn-lg btn-primary" @onclick="ShowModal">Set to recommended</button>
@@ -1073,6 +1097,9 @@
 </style>
 
 @code {
+
+    [Parameter]
+    public string firsttime {get; set;} = "";
 
     private UserNutritionDTO User {get; set;} = new UserNutritionDTO{};
 

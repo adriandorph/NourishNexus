@@ -33,6 +33,9 @@ public class MealPlanGenerator
         if (userResult.IsNone) throw new Exception("User not found");
         UserNutritionDTO user = userResult.Value;
 
+        //Initial checks
+        if (!UserPrerequisites(user)) return (new DietReport(null,null,null,null, MealPlanResponse.Cancelled, null));
+
         NutrientTargets lowerBounds = GetLowerBounds(user);
         NutrientTargets idealIntake = await CalculateIdealIntake(user, startingDate);
         NutrientTargets upperBounds = GetUpperBounds(user);
@@ -57,10 +60,7 @@ public class MealPlanGenerator
     }
 
     private async Task<DietReport> Create7DayMealPlan(UserNutritionDTO user, DateTime startingDate, NutrientTargets LowerBounds, NutrientTargets IdealIntake, NutrientTargets UpperBounds, UserCalories calorieTargets, List<RecipeAmountWithFoodItemsDTO> savedRecipes)
-    {
-        //Initial checks
-        if (!UserPrerequisites(user)) return (new DietReport(null,null,null,null, MealPlanResponse.Cancelled, null));
-        
+    {   
 
         // Recipe selection
         List<RecipeAmountWithFoodItemsDTO> recipes = CreateRecipeList(user, startingDate, savedRecipes);
