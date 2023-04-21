@@ -308,8 +308,8 @@ public class IntakeTargetCalculatorTests
 
     
     [Theory]
-    [InlineData(25, 2650, 1.5f, 4f, 6f)]
-    [InlineData(7, 1700, 0f, 3.55878, 6f)]
+    [InlineData(25, 2650, 1.5f, 4f, 10f)]
+    [InlineData(7, 1700, 0f, 3.55878, 10f)]
     void CalculateSalt(int age, float kcalPerDay, float expected1, float expected2, float expected3)
     {
         //Act

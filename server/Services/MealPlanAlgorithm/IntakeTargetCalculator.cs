@@ -667,7 +667,7 @@ public class IntakeTargetCalculator
     {
         float LB;
         float II;
-        float UB = 6f;
+        float UB = 10f;
 
         if (age < 10)
         {
