@@ -9,7 +9,7 @@ LaTex report: https://www.overleaf.com/read/mvvsfbyktffz
 
 Azure DevOps: https://dev.azure.com/NourishNexus/NourishNexus
 
-Production url: nourishnexus.dk
+Production url: https://nourishnexus.dk
 
 
 
