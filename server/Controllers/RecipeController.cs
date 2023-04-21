@@ -112,22 +112,6 @@ public class RecipeController : ControllerBase
         }
     }
 
-    [HttpGet("category/{categoryID}")]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetRecipesByCategoryID(int categoryID)
-    {
-        try
-        {
-            var r = await _recipeRepo.ReadAllByCategoryIDAsync(categoryID);
-            return Ok(r ?? new List<RecipeDTO>{});
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, e.Message);
-            return StatusCode(500, "Internal Server Error");
-        }
-    }
-
     [HttpGet("meal/{mealID}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetRecipesByMealID(int mealID)
@@ -168,21 +152,6 @@ public class RecipeController : ControllerBase
         }
     }
 
-    [HttpGet("author/{authorID}")]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetRecipesByAuthorID(int authorID)
-    {
-        try
-        {
-            var r = await _recipeRepo.ReadAllByAuthorIDAsync(authorID);
-            return Ok(r ?? new List<RecipeDTO>{});
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, e.Message);
-            return StatusCode(500, "Internal Server Error");
-        }
-    }
 
     [HttpGet("communityRecipes")]
     [AllowAnonymous]
