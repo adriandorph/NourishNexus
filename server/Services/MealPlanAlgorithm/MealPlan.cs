@@ -4,8 +4,6 @@ public class MealPlan
 {
     private List<Day> days;
     public List<Day> Days 
-
-    
     {
         get
         {
@@ -43,8 +41,6 @@ public class MealPlan
 
         return nutrientSums;
     }
-
-    
 }
 
 public class Day
