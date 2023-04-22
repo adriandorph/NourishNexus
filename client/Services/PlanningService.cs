@@ -1,14 +1,11 @@
-using System.Net;
 namespace client.Services;
 using server.Core.EF.DTO;
 using System.Net.Http.Json;
 using System.Net.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
 using server.Core.EF;
-using server.Core;
+using ServiceInterfaces;
 
-public class PlanningService
+public class PlanningService : IPlanningService
 {
 
     private readonly HttpClient _http;

@@ -5,8 +5,9 @@ using System.Net.Http.Json;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
+using ServiceInterfaces;
 
-public class RecipeService
+public class RecipeService : IRecipeService
 {
 
     private readonly HttpClient _http;

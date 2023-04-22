@@ -4,10 +4,10 @@
 @using System.Security.Claims
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthStateProvider
-@inject UserService UserService
-@inject MealService MealService
-@inject FoodItemService FoodItemService
-@inject PlanningService PlanningService
+@inject IUserService UserService
+@inject IMealService MealService
+@inject IFoodItemService FoodItemService
+@inject IPlanningService PlanningService
 
 @if(!dayCalories.Any() || !mealCalories.Any() || !days.Any())
 {

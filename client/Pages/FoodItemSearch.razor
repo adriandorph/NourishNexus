@@ -2,9 +2,9 @@
 @attribute [Authorize]
 @using System.Security.Claims
 @inject HttpClient Http
-@inject FoodItemService FoodItemService
-@inject RecipeService RecipeService
-@inject UserService UserService
+@inject IFoodItemService FoodItemService
+@inject IRecipeService RecipeService
+@inject IUserService UserService
 @inject AuthenticationStateProvider CustomAuthStateProvider
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
