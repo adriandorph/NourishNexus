@@ -5,9 +5,9 @@
 @using System.Text.Json
 @using Microsoft.JSInterop
 @inject AuthenticationStateProvider AuthStateProvider
-@inject MealService MealService
-@inject FoodItemService FoodItemService
-@inject RecipeService RecipeService
+@inject IMealService MealService
+@inject IFoodItemService FoodItemService
+@inject IRecipeService RecipeService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 

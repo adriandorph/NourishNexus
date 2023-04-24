@@ -9,10 +9,10 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject AuthenticationStateProvider CustomAuthStateProvider
-@inject RecipeService RecipeService
-@inject CategoryService CategoryService
-@inject UserService UserService
-@inject FoodItemService FoodItemService
+@inject IRecipeService RecipeService
+@inject ICategoryService CategoryService
+@inject IUserService UserService
+@inject IFoodItemService FoodItemService
 @inject IJSRuntime JSRuntime
 
 @if (recipe != null)
