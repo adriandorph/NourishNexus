@@ -11,11 +11,9 @@ public class UserService : IUserService
 
     private readonly HttpClient _http;
 
-    public UserService(HttpClient http){
+    public UserService(HttpClient http)
+    {
         _http = http;
-        if (_http.BaseAddress != new Uri("http://localhost:5288")){
-            _http.BaseAddress = new Uri("http://localhost:5288");
-        }
     }
     
     public async Task<HttpResponseMessage> RegisterUser(UserCreateDTO user)

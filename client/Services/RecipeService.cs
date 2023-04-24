@@ -1,4 +1,3 @@
-using System.Net;
 namespace client.Services;
 using server.Core.EF.DTO;
 using System.Net.Http.Json;
@@ -12,11 +11,9 @@ public class RecipeService : IRecipeService
 
     private readonly HttpClient _http;
 
-    public RecipeService(HttpClient http){
+    public RecipeService(HttpClient http)
+    {
         _http = http;
-        if (_http.BaseAddress != new Uri("http://localhost:5288")){
-            _http.BaseAddress = new Uri("http://localhost:5288");
-        }
     }
     
     public async Task<HttpResponseMessage> CreateRecipe(RecipeCreateDTO recipe)

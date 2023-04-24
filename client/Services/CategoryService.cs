@@ -9,11 +9,9 @@ public class CategoryService : ICategoryService
 
     private readonly HttpClient _http;
 
-    public CategoryService(HttpClient http){
+    public CategoryService(HttpClient http)
+    {
         _http = http;
-        if (_http.BaseAddress != new Uri("http://localhost:5288")){
-            _http.BaseAddress = new Uri("http://localhost:5288");
-        }
     }
     
     public async Task<HttpResponseMessage> CreateCategory(CategoryCreateDTO category)

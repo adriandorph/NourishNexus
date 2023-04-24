@@ -9,11 +9,9 @@ public class FoodItemService : IFoodItemService
 
     private readonly HttpClient _http;
 
-    public FoodItemService(HttpClient http){
+    public FoodItemService(HttpClient http)
+    {
         _http = http;
-        if (_http.BaseAddress != new Uri("http://localhost:5288")){
-            _http.BaseAddress = new Uri("http://localhost:5288");
-        }
     }
     
     public async Task<List<FoodItemAmountDTO>> GetByRecipe(int recipeID)

@@ -13,10 +13,6 @@ public class MealService : IMealService
     public MealService(HttpClient http)
     {
         _http = http;
-        if (_http.BaseAddress != new Uri("http://localhost:5288"))
-        {
-            _http.BaseAddress = new Uri("http://localhost:5288");
-        }
     }
 
     public async Task<MealDTO?> PostMeal(int userID, DateTime date, MealType type)

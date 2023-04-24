@@ -13,10 +13,6 @@ public class PlanningService : IPlanningService
     public PlanningService(HttpClient http)
     {
         _http = http;
-        if (_http.BaseAddress != new Uri("http://localhost:5288"))
-        {
-            _http.BaseAddress = new Uri("http://localhost:5288");
-        }
     }
 
     public async Task<MealPlanResponse> GenerateMealPlan(int userID, DateTime startingDate)
