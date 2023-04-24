@@ -7,7 +7,7 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject AuthenticationStateProvider AuthStateProvider
-@inject UserService UserService
+@inject IUserService UserService
 @inject ILocalStorageService LocalStorage
 
 <PageTitle> Account </PageTitle>
@@ -126,15 +126,10 @@
             message = "Updated user successfully";
         } 
         
-        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound) 
-        {
-            messageCssClass = "text-danger";
-            message = "Login failed, user does not exist. Please register.";
-        } 
         else 
         {
             messageCssClass = "text-danger";
-            message = "Login failed";
+            message = "Could not update your user";
         }
 
         userUpdate.Password = null;

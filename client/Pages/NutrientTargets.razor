@@ -1,10 +1,9 @@
 @page "/nutrienttargets/{firsttime}"
 @attribute [Authorize]
-@using System.ComponentModel.DataAnnotations
 @using System.Security.Claims
 @using System.Globalization
 @inject AuthenticationStateProvider AuthStateProvider
-@inject UserService UserService
+@inject IUserService UserService
 
 @if(firsttime == "firsttime")
 {

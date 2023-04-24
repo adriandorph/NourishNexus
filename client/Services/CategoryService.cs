@@ -2,8 +2,9 @@ namespace client.Services;
 using server.Core.EF.DTO;
 using System.Net.Http.Json;
 using System.Net.Http;
+using ServiceInterfaces;
 
-public class CategoryService
+public class CategoryService : ICategoryService
 {
 
     private readonly HttpClient _http;

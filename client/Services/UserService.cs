@@ -2,8 +2,11 @@ namespace client.Services;
 using server.Core.EF.DTO;
 using System.Net.Http.Json;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.JSInterop;
+using ServiceInterfaces;
 
-public class UserService
+public class UserService : IUserService
 {
 
     private readonly HttpClient _http;

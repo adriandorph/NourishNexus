@@ -3,8 +3,9 @@ using server.Core.EF.DTO;
 using System.Net.Http.Json;
 using System.Net.Http;
 using server.Core.EF;
+using ServiceInterfaces;
 
-public class PlanningService
+public class PlanningService : IPlanningService
 {
 
     private readonly HttpClient _http;

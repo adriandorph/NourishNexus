@@ -1,10 +1,11 @@
 namespace client.Services;
+using ServiceInterfaces;
 using server.Core.EF.DTO;
 using System.Net.Http.Json;
 using System.Net.Http;
 using server.Core.EF;
 
-public class MealService
+public class MealService : IMealService
 {
 
     private readonly HttpClient _http;
