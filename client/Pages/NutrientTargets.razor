@@ -5,18 +5,24 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IUserService UserService
 
+
+
+<h2 id="targets">Daily nutritional targets</h2>
+<hr>
+
 @if(firsttime == "firsttime")
 {
+    
     <h4>Welcome!</h4>
 
     <h6>Get started by following the steps below</h6>
 
     <ol>
         <li>
-            <p>Set your daily nutritional targets on this page</p>
+            <p>Set your daily nutritional targets on this page either manually, or with the button below</p>
         </li>
         <li>
-            <p> <a href="recipes/create">Create recipes</a> or go to the <a href="community">community tab</a> to save all the recipes you want to see in your meal plans!</p>
+            <p> <a href="recipes/create">Create recipes</a> or go to the <a href="community">community page</a> to save all the recipes you want to see in your meal plans!</p>
         </li>
         <li>
             <p>
@@ -28,15 +34,14 @@
     <hr>
 }
 
-
 <div id="recommended">
-    <button class="btn-lg btn-primary" @onclick="ShowModal">Set to recommended</button>
+    <button class="btn-lg btn-primary shadow" @onclick="ShowModal">Set to recommended</button>
 </div>
 
-<hr>
-<h2 id="targets">Daily nutritional targets</h2>
 
-    <table class="table">
+
+
+    <table class="table mt-3">
 
         <thead>
             <tr>
