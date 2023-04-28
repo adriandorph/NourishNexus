@@ -92,12 +92,6 @@ public class Day
             else throw new Exception("Snacks was locked!");
         }
     }
-    public bool SnacksLocked{get; set;} = false;
-    public Day(PlannedMeal? breakfast, PlannedMeal? lunch, PlannedMeal? dinner, PlannedMeal snacks){
-        this.Breakfast = breakfast;
-        this.Lunch = lunch;
-        this.Dinner = dinner;
-        this.Snacks = snacks;
-    }
+    public bool SnacksLocked {get; set;} = false;
     public Day(){}
 }

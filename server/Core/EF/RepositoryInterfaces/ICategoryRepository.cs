@@ -8,7 +8,6 @@ using server.Core.EF.DTO;
     
     //Read
     public Task<Option<CategoryDTO>> ReadByIDAsync(int categoryID);
-    public Task<Option<CategoryDTO>> ReadByNameAsync(string name);
 
     public Task<IList<CategoryDTO>> ReadAllAsync();
 
