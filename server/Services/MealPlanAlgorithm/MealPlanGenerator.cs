@@ -11,7 +11,7 @@ public interface IMealPlanGenerator
 public class MealPlanGenerator
 {
     //Settings
-    private readonly static int MinRecipes = 20;
+    private readonly static int MinRecipes = 28;
     private readonly static int PreviousWeeks = 2;
 
     private readonly IFoodItemRepository _foodItemRepo;
@@ -63,21 +63,14 @@ public class MealPlanGenerator
     {   
 
         // Recipe selection
-        List<RecipeAmountWithFoodItemsDTO> recipes = CreateRecipeList(user, startingDate, savedRecipes);
+        List<RecipeAmountWithFoodItemsDTO> recipes = RandomizeFirstHalf(user, startingDate, savedRecipes);
 
         //Insert recipes
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
         var mealPlanResult = await CreateInitialMealPlan(recipes, user.Id, calorieTargets, startingDate);
-        stopwatch.Stop();
-        var ts = stopwatch.ElapsedMilliseconds;
-        Console.WriteLine($"CreateInitialMealPlan: {ts}ms");
         if(mealPlanResult.IsNone) return (new DietReport(null,null,null,null, MealPlanResponse.Cancelled, null));
         MealPlan mealPlan = mealPlanResult.Value;
         
         // Ideal Intake met/exceeded?
-        stopwatch = new Stopwatch();
-        stopwatch.Start();
         var curNutrientSums = mealPlan.CalculateNutrientSums();
         while(!(curNutrientSums.lowerCount(IdealIntake * 0.95f) < 4))
         {
@@ -96,11 +89,7 @@ public class MealPlanGenerator
                 );
             }
         }
-        stopwatch.Stop();
-        Console.WriteLine($"Ideal intake met: {stopwatch.ElapsedMilliseconds}ms");
         //Is UpperBounds exceeded?
-        stopwatch = new Stopwatch();
-        stopwatch.Start();
         while(curNutrientSums > UpperBounds || !(curNutrientSums >= LowerBounds))
         {
             if (curNutrientSums >= LowerBounds)
@@ -139,8 +128,6 @@ public class MealPlanGenerator
                 }
             }
         }
-        stopwatch.Stop();
-        Console.WriteLine($"Upperbounds: {stopwatch.ElapsedMilliseconds}ms");
 
         return new DietReport
         (
@@ -405,7 +392,7 @@ public class MealPlanGenerator
     }
 
 
-    private List<RecipeAmountWithFoodItemsDTO> CreateRecipeList(UserNutritionDTO user, DateTime date, List<RecipeAmountWithFoodItemsDTO> savedrecipes)
+    private List<RecipeAmountWithFoodItemsDTO> RandomizeFirstHalf(UserNutritionDTO user, DateTime date, List<RecipeAmountWithFoodItemsDTO> savedrecipes)
     {
         //First half
         List<RecipeAmountWithFoodItemsDTO> recipes = new List<RecipeAmountWithFoodItemsDTO>();
@@ -601,7 +588,6 @@ public class MealPlanGenerator
         }
         else
         {
-
             plannedMeal = new PlannedMeal
             (
                 null,
@@ -902,7 +888,7 @@ public class MealPlanGenerator
 
         List<RecipeAmountWithFoodItemsDTO> orderedRecipesDescending = new List<RecipeAmountWithFoodItemsDTO>();
 
-         //Most recent at the start.
+        //Most recent at the start.
         for(int i = 30; i > 0; i--)
         {
             date -= new TimeSpan(1, 0, 0, 0);
@@ -921,7 +907,9 @@ public class MealPlanGenerator
             }
         }
 
-        foreach(var recipe in recipes) if (!alreadyAdded.Contains(recipe)) orderedRecipesDescending.Add(recipe);
+        foreach(var recipe in recipes) 
+            if (!alreadyAdded.Contains(recipe)) 
+                orderedRecipesDescending.Add(recipe);
 
         orderedRecipesDescending.Reverse();
         recipes = orderedRecipesDescending;
