@@ -6,43 +6,52 @@
 @inject IUserService UserService
 
 <PageTitle>Register</PageTitle>
-
-<div id="registerdiv">
-<h1 id="register" class="pop"><b>Register</b></h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div id="registerdiv">
+                        <h1 id="register" class="pop"><b>Register</b></h1>
+                    </div>
+                    <EditForm class="my-5" Model="user" OnValidSubmit="HandleRegistration" Context="editext">
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label for="email">Email</label>
+                            <InputText id="email" type="email" @bind-Value="user.Email" class="form-control" />
+                            <ValidationMessage For="@(() => user.Email)" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="nickname">Nickname</label>
+                            <InputText id="nickname" @bind-Value="user.Nickname" class="form-control" />
+                            <ValidationMessage For="@(() => user.Nickname)" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Password</label>
+                            <InputText id="password" type="password" @bind-Value="user.Password" class="form-control" />
+                            <ValidationMessage For="@(() => user.Password)" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmpassword">Confirm Password</label>
+                            <InputText id="confirmpassword" type="password" @bind-Value="user.ConfirmPassword"
+                                class="form-control" />
+                            <ValidationMessage For="@(() => user.ConfirmPassword)" />
+                        </div>
+                        <div id="signupdiv">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                            <div class="@messageCssClass">
+                                <span>@message</span>
+                            </div>
+                        </div>
+                        <div id="message" class="my-3">
+                            <span>Already signed up? <a href="/login">Click here to sign in!</a></span>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<EditForm class="my-5" Model="user" OnValidSubmit="HandleRegistration" Context="editext">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <InputText id="email" type="email" @bind-Value="user.Email" class="form-control" />
-        <ValidationMessage For="@(() => user.Email)" />
-    </div>
-    <div class="mb-3">
-        <label for="nickname">Nickname</label>
-        <InputText id="nickname" @bind-Value="user.Nickname" class="form-control" />
-        <ValidationMessage For="@(() => user.Nickname)" />
-    </div>
-    <div class="mb-3">
-        <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="user.Password" class="form-control" />
-        <ValidationMessage For="@(() => user.Password)" />
-    </div>
-    <div class="mb-3">
-        <label for="confirmpassword">Confirm Password</label>
-        <InputText id="confirmpassword" type="password" @bind-Value="user.ConfirmPassword" class="form-control" />
-        <ValidationMessage For="@(() => user.ConfirmPassword)" />
-    </div>
-    <div id="signupdiv">
-    <button type="submit" class="btn btn-primary">Register</button>
-    <div class="@messageCssClass">
-        <span>@message</span>
-    </div>
-    </div>
-    <div id="message" class="my-3">
-        <span>Already signed up? <a href="/login">Click here to sign in!</a></span>
-    </div>
-</EditForm>
 
 @code {
     private UserCreateDTO user = new UserCreateDTO();

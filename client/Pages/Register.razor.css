@@ -3,6 +3,11 @@
     margin-bottom: 100px;
 }
 
+#registerdiv{
+    display: flex;
+    justify-content: center;
+}
+
 .pop {
     animation: pop 0.58s infinite;
     -webkit-animation: pop 0.58s infinite;

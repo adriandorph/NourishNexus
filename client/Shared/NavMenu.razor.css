@@ -17,6 +17,10 @@ hr{
     z-index: 100;
 }
 
+#navhead img {
+    margin-top: -10px;
+  }
+
 #navheadtext{
     color: #000000;
 }
