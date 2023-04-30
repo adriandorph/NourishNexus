@@ -6,31 +6,43 @@
 @inject IUserService UserService
 
 <PageTitle>Login</PageTitle>
-<div id="welcomediv">
-    <h1 id="welcome" class="pop"> <b>Welcome back!</b> </h1>
-</div>
-<EditForm class="my-5" Model="login" OnSubmit="HandleLogin">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <InputText id="email" type="email" @bind-Value="login.Email" class="form-control" />
-        <ValidationMessage For="@(() => login.Email)" />
-    </div>
-    <div class="mb-3">
-        <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="login.Password" class="form-control" />
-        <ValidationMessage For="@(() => login.Password)" />
-    </div>
-    <div id="signindiv">
-        <button type="submit" class="btn btn-primary">Sign in</button>
-        <div class="@messageCssClass">
-            <p>@message</p>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div id="welcomediv">
+                        <h1 id="welcome" class="pop card-title text-center"> <b>Welcome back!</b> </h1>
+                    </div>
+                    <EditForm class="my-5" Model="login" OnSubmit="HandleLogin">
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label for="email">Email</label>
+                            <InputText id="email" type="email" @bind-Value="login.Email" class="form-control" />
+                            <ValidationMessage For="@(() => login.Email)" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Password</label>
+                            <InputText id="password" type="password" @bind-Value="login.Password"
+                                class="form-control" />
+                            <ValidationMessage For="@(() => login.Password)" />
+                        </div>
+                        <div id="signindiv">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                        </div>
+                        <div id="errormessage" class="@messageCssClass mt-2">
+                            <p>@message</p>
+                        </div>
+                        <div id="message" class="my-3">
+                            <span>Don't have an account yet? <a href="/register">Click here to register!</a></span>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="message" class="my-3">
-        <span>Don't have an account yet? <a href="/register">Click here to register!</a></span>
-    </div>
-</EditForm>
+</div>
 
 
 

@@ -1,7 +1,19 @@
 #welcome {
     position:absolute;
     margin-bottom: 100px;
+
 }
+
+#welcomediv{
+    display: flex;
+    justify-content: center;
+}
+
+#logodiv{
+    display: flex;
+    justify-content: center;
+}
+
 
 .pop {
     animation: pop 0.58s infinite;
@@ -45,9 +57,10 @@
         justify-content: center;
     }
 
-    #message{
+    #message, #errormessage{
         display: flex;
-        font-size: 15px;
         justify-content: center;
+        font-size: 15px;
     }
+
  }
