@@ -26,7 +26,7 @@ public class RecipeController : ControllerBase
             (Response r, RecipeDTO dto) = await _recipeRepo.CreateAsync(recipe);
             if (r == Core.Response.Conflict) return Conflict("User already has a recipe with that title.");
             else if (r == Core.Response.NotFound) return NotFound("Could not find the user.");
-            else if (r == Core.Response.BadRequest) return BadRequest("Bad Request");
+            else if (r == Core.Response.BadRequest) return BadRequest();
             
             var userResult = await _userRepo.ReadByIDAsync(recipe.AuthorId);
             if (userResult.IsNone) throw new Exception("Could not find user");
@@ -59,11 +59,11 @@ public class RecipeController : ControllerBase
         try
         {
             Response r = await _recipeRepo.UpdateAsync(recipe);
-            if (r == Core.Response.Updated) return Ok("Success");
+            if (r == Core.Response.Updated) return NoContent();
             else if (r == Core.Response.Conflict) return Conflict("User already has a recipe with that title.");
             else if (r == Core.Response.NotFound) return NotFound("Could not find the recipe.");
-            else if (r == Core.Response.BadRequest) return BadRequest("Bad Request");
-            else return StatusCode(500, "An unknown error occured");
+            else if (r == Core.Response.BadRequest) return BadRequest();
+            else throw new Exception();
         }
         catch (Exception e)
         {
@@ -74,21 +74,19 @@ public class RecipeController : ControllerBase
 
 
     //DELETE
-     [HttpDelete("delete/{id}")]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteRecipe(int id)
     {
         try{   
             var r = await _recipeRepo.RemoveAsync(id);
-            if (r == Core.Response.Deleted) return Ok("Success");
-            else if (r == Core.Response.Conflict) return Conflict("User already has a recipe with that title.");
-            else if (r == Core.Response.NotFound) return NotFound("Could not find the user.");
-            else if (r == Core.Response.BadRequest) return BadRequest("Bad Request");
-            else return StatusCode(500, "An unknown error occured");
+            if (r == Core.Response.Deleted) return NoContent();
+            else if (r == Core.Response.NotFound) return NotFound();
+            else throw new Exception();
         }
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
-            return StatusCode(500, "Internal Server Error. Try again later");
+            return StatusCode(500, "Internal Server Error");
         }
     }
 
@@ -119,7 +117,7 @@ public class RecipeController : ControllerBase
         try
         {
             var r = await _recipeRepo.ReadAllByMealId(mealID);
-            return Ok(r ?? new List<RecipeAmountDTO>{});
+            return Ok(r);
         }
         catch (Exception e)
         {
@@ -160,7 +158,7 @@ public class RecipeController : ControllerBase
         try
         {
             var r = await _recipeRepo.ReadAllPublicAsync();
-            return Ok(r ?? new List<RecipeDTO>{});
+            return Ok(r);
         }
         catch (Exception e)
         {
@@ -198,8 +196,6 @@ public class RecipeController : ControllerBase
             return StatusCode(500, "Internal Server Error");
         }
     }
-
-    
 }
 
    

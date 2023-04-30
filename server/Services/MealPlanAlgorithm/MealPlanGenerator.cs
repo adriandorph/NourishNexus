@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 
 namespace server.Services.MealPlan;
@@ -8,7 +7,7 @@ public interface IMealPlanGenerator
     public Task<DietReport> Generate7DayMealPlan(int userID, DateTime startingDate);
 }
 
-public class MealPlanGenerator
+public class MealPlanGenerator : IMealPlanGenerator
 {
     //Settings
     private readonly static int MinRecipes = 28;
@@ -148,7 +147,6 @@ public class MealPlanGenerator
 
         //Check if user has enough recipes
         var count = user.SavedRecipeIds.Count;
-        Console.WriteLine($"Recipes {count}");
         return  count >= MinRecipes;
     }
 
