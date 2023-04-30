@@ -79,7 +79,7 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
-        JSRuntime.InvokeVoidAsync("scrollTo", 0, 0);
+        JSRuntime.InvokeVoidAsync("scrollUpInstant");
     }
 
     async Task Logout()

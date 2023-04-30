@@ -18,7 +18,7 @@ public class CategoryRepository : ICategoryRepository
 
         var entity = new Category
         (
-            category.Name  
+              category.Name.Substring(0, 1).ToUpper() + category.Name.Substring(1).ToLower()
         );
 
         await _context.Categories.AddAsync(entity);

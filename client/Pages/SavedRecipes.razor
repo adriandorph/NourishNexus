@@ -66,7 +66,7 @@ else
 }
 
 <div class="fixed-bottom d-flex justify-content-between buttondiv mb-4">
-    <button class="btn btn-info scroll-to-top scrolltop shadow-custom" @onclick="ScrollToTop"> 
+    <button id="scrollToTopButton" class="btn btn-info scroll-to-top scrolltop shadow-custom" @onclick="ScrollToTop"> 
         <i class ="oi oi-chevron-top"/>
         To top
     </button>
@@ -96,11 +96,12 @@ else
         var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
         int.TryParse(userIdClaim!.Value, out userID);
         recipes = await RecipeService.GetSavedBySearchWord("_", userID);
+        await JSRuntime.InvokeVoidAsync("toggleScrollToTopButton");
     }
 
     private void ScrollToTop()
     {
-        JSRuntime.InvokeVoidAsync("scrollTo", 0, 0);
+        JSRuntime.InvokeVoidAsync("scrollUpSmooth");
     }
 
     public void HandleCreateRecipe()
