@@ -212,10 +212,9 @@
         var result = await modal.Result;
 
 
-        if (!result.Cancelled)
-        {
-
+        if (!result.Cancelled){
             await HandleCategoryAdded();
+            Console.WriteLine("Added category!!!");
             StateHasChanged();
         }
     }
@@ -278,7 +277,9 @@
         var catResponse = await CategoryService.GetCategories();
         if (catResponse.IsSuccessStatusCode)
         {
+
             AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+            selectedCategoryIds.Add(AllCategories.Last().Id);
         }
 
     }

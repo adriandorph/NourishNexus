@@ -64,7 +64,7 @@ else
 
 
 <div class="d-flex scrolltop align-items-center justify-content-left fixed-bottom">
-    <button @onclick="ScrollToTop" class="btn btn-info scroll-to-top shadow-custom"> 
+    <button id ="scrollToTopButton" @onclick="ScrollToTop" class="btn btn-info scroll-to-top shadow-custom"> 
         <i class ="oi oi-chevron-top"></i>To top</button>
 </div>
 
@@ -87,6 +87,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        
         try
         {
             var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
@@ -98,12 +99,16 @@ else
         catch (Exception)
         {
         }
+
+        await JSRuntime.InvokeVoidAsync("toggleScrollToTopButton");
     }
+
 
     private void ScrollToTop()
     {
-        JSRuntime.InvokeVoidAsync("scrollTo", 0, 0);
+        JSRuntime.InvokeVoidAsync("scrollUpSmooth");
     }
+
 
     public async Task HandleSaveRecipe(int id)
     {
@@ -154,4 +159,5 @@ else
             recipes = await RecipeService.GetFromCommunityBySearchWord(searchQuery);
         }
     }
+
 }

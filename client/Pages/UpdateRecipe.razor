@@ -291,6 +291,7 @@
         if (catResponse.IsSuccessStatusCode)
         {
             AllCategories = await catResponse.Content.ReadFromJsonAsync<List<CategoryDTO>>() ?? new List<CategoryDTO>();
+            selectedCategoryIds.Add(AllCategories.Last().Id);
         }
 
     }

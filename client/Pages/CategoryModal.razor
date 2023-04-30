@@ -32,13 +32,14 @@
 
     [CascadingParameter] BlazoredModalInstance BlazoredModal{ get; set; } = default!;
 
-    private async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+    private async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Cancel(true));
+    private async Task Success() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
     private async Task Cancel() => await BlazoredModal.CancelAsync();
 
     async Task HandleCreateCategory(){
         var response = await CategoryService.CreateCategory(category);
         if(response.IsSuccessStatusCode){
-            await Close();
+            await Success();
         }
         else{
             message ="Category creation failed. Possible duplicate category.";
