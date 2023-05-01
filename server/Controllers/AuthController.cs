@@ -59,7 +59,7 @@ public class AuthController : ControllerBase
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
-        var secret = _configuration.GetSection("Jwt:Secret")?.Value ?? throw new Exception("Jwt secrets not configured");
+        var secret = _configuration.GetSection("Jwt:Secret").Value ?? throw new Exception("Jwt secrets not configured");
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secret));
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

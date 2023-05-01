@@ -14,7 +14,14 @@ public class AuthControllerTests
     public AuthControllerTests()
     {
         _repo = new Mock<IUserRepository>();
-        _config = (new ConfigurationBuilder()).AddJsonFile("appsettings.json").Build();
+        var configBuilder = new ConfigurationBuilder();
+        configBuilder.AddInMemoryCollection(new List<KeyValuePair<string, string?>>
+            {
+                new KeyValuePair<string, string?>("Jwt:Secret", "12345678910abcdefghijkLMn")
+            }
+        );
+
+        _config = configBuilder.Build();
         _logger = new Mock<ILogger<AuthController>>();
         _controller = new AuthController(_logger.Object, _repo.Object, _config);
     }
