@@ -179,6 +179,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("clearScrollBtn");
         if (Id == string.Empty) return;
         foodItem = await FoodItemService.GetFoodItemById(int.Parse(Id));
     }

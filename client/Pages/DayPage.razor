@@ -101,6 +101,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("clearScrollBtn");
         date = LoadDate(dateString);
         await LoadAddedFood();
         var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;

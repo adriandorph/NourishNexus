@@ -208,6 +208,7 @@
     }
 
     protected override async Task OnInitializedAsync(){
+        await JSRuntime.InvokeVoidAsync("clearScrollBtn");
         var existingRecipe = await RecipeService.GetRecipe(int.Parse(Id));
         recipe.Id = existingRecipe.Id;
         recipe.CategoryIDs = existingRecipe.CategoryIDs;
