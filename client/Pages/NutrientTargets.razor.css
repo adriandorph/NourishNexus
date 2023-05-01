@@ -1,4 +1,15 @@
+.blur{
+  filter: blur(5px);
+}
 
+.value {
+    text-align: end;
+}
+.input-field {
+    width: 100px;
+    margin-right: 5px;
+    text-align: end;
+}
 
 @media (max-width: 768px){
     #recommended, #targets{
@@ -7,3 +18,4 @@
         justify-content: center;
     }
 }
+

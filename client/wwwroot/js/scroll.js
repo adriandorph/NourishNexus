@@ -28,5 +28,15 @@ function scrollUpInstant(){
       });
 }
 
+function addElementClass(id, className) {
+    var element = document.getElementById(id);
+    element.classList.add(className);
+}
+
+function removeElementClass(id, className) {
+    var element = document.getElementById(id);
+    element.classList.remove(className);
+}
+
 
 

@@ -16,6 +16,8 @@
 
 <PageTitle> Create Recipe </PageTitle>
 
+<div id="everything">
+
 <h1 class="mb-4">Create Recipe</h1>
 
 
@@ -182,6 +184,8 @@
 
 <br>
 
+</div>
+
 
 
 @code {
@@ -196,6 +200,7 @@
 
     private CategoryCreateDTO category = new CategoryCreateDTO();
 
+
     List<int> selectedCategoryIds = new List<int>();
 
     private List<CategoryDTO>? AllCategories { get; set; }
@@ -203,6 +208,7 @@
 
     private async void ShowModal()
     {
+        await AddBlurClass();
         var options = new ModalOptions
             {
                 UseCustomLayout = true
@@ -210,13 +216,23 @@
         var modal = Modal.Show<CategoryModal>("Cat Modal", options);
 
         var result = await modal.Result;
-
+        await RemoveBlurClass();
 
         if (!result.Cancelled){
             await HandleCategoryAdded();
             Console.WriteLine("Added category!!!");
             StateHasChanged();
         }
+    }
+
+    private async Task AddBlurClass()
+    {
+    await JSRuntime.InvokeVoidAsync("addElementClass", "everything", "blur");
+    }
+
+    private async Task RemoveBlurClass()
+    {
+    await JSRuntime.InvokeVoidAsync("removeElementClass", "everything", "blur");
     }
 
     async Task HandleCreateRecipe()

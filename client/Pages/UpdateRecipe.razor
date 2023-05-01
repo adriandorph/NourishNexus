@@ -13,170 +13,171 @@
 
 <PageTitle> Edit Recipe </PageTitle>
 
-<EditForm Model="@recipe" OnSubmit="HandleUpdateRecipe">
+<div id="everything">
 
-    <h1 class="mb-4">Edit Recipe</h1>
+    <EditForm Model="@recipe" OnSubmit="HandleUpdateRecipe">
 
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group">
-                <label for="title">
-                    <h3>Title</h3>
-                </label>
-                <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
+        <h1 class="mb-4">Edit Recipe</h1>
+
+        <div class="card my-4">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="title">
+                        <h3>Title</h3>
+                    </label>
+                    <InputText class="form-control" id="title" @bind-Value="@recipe.Title" />
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group my-2">
-                <h3>Categories</h3>
-                <div class="category-checkboxes d-flex flex-wrap">
-                    @if (AllCategories != null && AllCategories.Any())
-                    {
-                        var sortedCategories = AllCategories.OrderBy(c => c.Name);
-                        @foreach (var category in sortedCategories)
+        <div class="card my-4">
+            <div class="card-body">
+                <div class="form-group my-2">
+                    <h3>Categories</h3>
+                    <div class="category-checkboxes d-flex flex-wrap">
+                        @if (AllCategories != null && AllCategories.Any())
                         {
-                            <div class="category-box mr-2 mb-2 rounded">
-                                <label>
-                                    <input type="checkbox" value="@category.Id"
-                                        checked="@selectedCategoryIds.Contains(category.Id)"
-                                @onchange="@(e => UpdateSelectedCategories(category.Id, e))"/>
-                                    @category.Name
-                                </label>
-                            </div>
+                            var sortedCategories = AllCategories.OrderBy(c => c.Name);
+                            @foreach (var category in sortedCategories)
+                            {
+                                <div class="category-box mr-2 mb-2 rounded">
+                                    <label>
+                                        <input type="checkbox" value="@category.Id"
+                                            checked="@selectedCategoryIds.Contains(category.Id)"
+                                    @onchange="@(e => UpdateSelectedCategories(category.Id, e))" />
+                                        @category.Name
+                                    </label>
+                                </div>
+                            }
+                            <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
                         }
-                        <button class="btn btn-success" type="button" @onclick="ShowModal">Add new</button>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="card my-4">
-        <div class="card-body">
-            <span>
-                <h3 class="card-title">Description</h3>
-            </span>
-            <div class="form-group my-2">
-                <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="8" />
-            </div>
-        </div>
-    </div>
-
-
-    <div class="card my-4">
-        <div class="card-body">
-            <span class="d-flex justify-content-between">
-                <h3 class="card-title">Ingredients</h3>
-                <h4 class="text-right kcal ">@TotalCalories() kcal </h4>
-            </span>
-            @foreach (FoodItemAmountDTO ingredient in ingredients)
-            {
-                <div class="ingredient-box d-flex justify-content-between rounded mb-2">
-                    <span class="ingredient-name">@ingredient.FoodItem!.Name</span>
-                    <span>
-                        <span class="ingredient-g">@Scale(ingredient.Amount, 100) g</span>
-                        <button class="cross" type="button"
-                        @onclick="async () => await HandleDeleteIngredient(ingredient)">X</button>
-                    </span>
-                </div>
-            }
-            <button class="btn btn-success" type="button" @onclick="HandleAddIngredient">
-                Add Ingredient
-            </button>
-        </div>
-    </div>
-
-
-
-
-    <div class="card my-4">
-        <div class="card-body">
-            <span>
-                <h3 class="card-title">Method</h3>
-            </span>
-            <div class="form-group my-2">
-                <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="8" />
-            </div>
-        </div>
-    </div>
-
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group my-2">
-                <h3>Meal type</h3>
-                <div class="category-checkboxes d-flex flex-wrap">
-                    <div class="category-box mr-2 mb-2 rounded">
-                        <label>
-                            <input type="checkbox" value="@recipe.IsBreakfast"
-                                checked="@recipe.IsBreakfast"
-                        @onchange="UpdateIsBreakfast" />
-                            Breakfast
-                        </label>
-                    </div>
-                    <div class="category-box mr-2 mb-2 rounded">
-                        <label>
-                            <input type="checkbox" value="@recipe.IsLunch"
-                                checked="@recipe.IsLunch"
-                        @onchange="UpdateIsLunch" />
-                            Lunch
-                        </label>
-                    </div>
-                    <div class="category-box mr-2 mb-2 rounded">
-                        <label>
-                            <input type="checkbox" value="@recipe.IsDinner"
-                                checked="@recipe.IsDinner"
-                        @onchange="UpdateIsDinner" />
-                            Dinner
-                        </label>
-                    </div>
-                    <div class="category-box mr-2 mb-2 rounded">
-                        <label>
-                            <input type="checkbox" value="@recipe.IsSnack"
-                                checked="@recipe.IsSnack"
-                                @onchange="UpdateIsSnack" />
-                            Snack
-                        </label>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="card my-4">
-        <div class="card-body">
-            <div class="form-group my-2">
-                <div> <h3>Recipe visibility</h3></div>
-                <InputRadioGroup @bind-Value="recipe.IsPublic">
-                    <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)" />
-                    <label class="form-check-label" for="Public">Public</label>
 
-                    <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)" />
-                    <label class="form-check-label" for="Private">Private</label>
-                </InputRadioGroup>
+        <div class="card my-4">
+            <div class="card-body">
+                <span>
+                    <h3 class="card-title">Description</h3>
+                </span>
+                <div class="form-group my-2">
+                    <InputTextArea class="form-control" id="description" @bind-Value="@recipe.Description" rows="8" />
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <p>Public recipes will be available for other users to save on the "Community Recipes" page.</p>
-    </div>
-    <div class="form-group my-2">
-        <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
-        <button type="submit" class="btn btn-primary btn-block">Update</button>
-        <button type="button" class="btn btn-danger" @onclick="HandleDeleteRecipe">Delete</button>
-        <div class="@messageCssClass">
-            <span>@message</span>
+
+
+        <div class="card my-4">
+            <div class="card-body">
+                <span class="d-flex justify-content-between">
+                    <h3 class="card-title">Ingredients</h3>
+                    <h4 class="text-right kcal ">@TotalCalories() kcal </h4>
+                </span>
+                @foreach (FoodItemAmountDTO ingredient in ingredients)
+                {
+                    <div class="ingredient-box d-flex justify-content-between rounded mb-2">
+                        <span class="ingredient-name">@ingredient.FoodItem!.Name</span>
+                        <span>
+                            <span class="ingredient-g">@Scale(ingredient.Amount, 100) g</span>
+                            <button class="cross" type="button"
+                            @onclick="async () => await HandleDeleteIngredient(ingredient)">X</button>
+                        </span>
+                    </div>
+                }
+                <button class="btn btn-success" type="button" @onclick="HandleAddIngredient">
+                    Add Ingredient
+                </button>
+            </div>
         </div>
-    </div>
-</EditForm>
- 
+
+
+
+
+        <div class="card my-4">
+            <div class="card-body">
+                <span>
+                    <h3 class="card-title">Method</h3>
+                </span>
+                <div class="form-group my-2">
+                    <InputTextArea class="form-control" id="method" @bind-Value="@recipe.Method" rows="8" />
+                </div>
+            </div>
+        </div>
+
+        <div class="card my-4">
+            <div class="card-body">
+                <div class="form-group my-2">
+                    <h3>Meal type</h3>
+                    <div class="category-checkboxes d-flex flex-wrap">
+                        <div class="category-box mr-2 mb-2 rounded">
+                            <label>
+                                <input type="checkbox" value="@recipe.IsBreakfast" checked="@recipe.IsBreakfast"
+                                    @onchange="UpdateIsBreakfast" />
+                                Breakfast
+                            </label>
+                        </div>
+                        <div class="category-box mr-2 mb-2 rounded">
+                            <label>
+                                <input type="checkbox" value="@recipe.IsLunch" checked="@recipe.IsLunch"
+                                    @onchange="UpdateIsLunch" />
+                                Lunch
+                            </label>
+                        </div>
+                        <div class="category-box mr-2 mb-2 rounded">
+                            <label>
+                                <input type="checkbox" value="@recipe.IsDinner" checked="@recipe.IsDinner"
+                                    @onchange="UpdateIsDinner" />
+                                Dinner
+                            </label>
+                        </div>
+                        <div class="category-box mr-2 mb-2 rounded">
+                            <label>
+                                <input type="checkbox" value="@recipe.IsSnack" checked="@recipe.IsSnack"
+                                    @onchange="UpdateIsSnack" />
+                                Snack
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card my-4">
+            <div class="card-body">
+                <div class="form-group my-2">
+                    <div>
+                        <h3>Recipe visibility</h3>
+                    </div>
+                    <InputRadioGroup @bind-Value="recipe.IsPublic">
+                        <InputRadio id="Public" Value="true" class="form-check-input" Checked="@(recipe.IsPublic)" />
+                        <label class="form-check-label" for="Public">Public</label>
+
+                        <InputRadio id="Private" Value="false" class="form-check-input" Checked="@(!recipe.IsPublic)" />
+                        <label class="form-check-label" for="Private">Private</label>
+                    </InputRadioGroup>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <p>Public recipes will be available for other users to save on the "Community Recipes" page.</p>
+        </div>
+        <div class="form-group my-2">
+            <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-block">Update</button>
+            <button type="button" class="btn btn-danger" @onclick="HandleDeleteRecipe">Delete</button>
+            <div class="@messageCssClass">
+                <span>@message</span>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
 
 @code {
     [Parameter]
-    public string Id {get; set;} = "";
+    public string Id { get; set; } = "";
 
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
 
@@ -191,6 +192,8 @@
 
     private async void ShowModal()
     {
+        await AddBlurClass();
+
         var options = new ModalOptions
             {
                 UseCustomLayout = true
@@ -199,7 +202,7 @@
 
         var result = await modal.Result;
 
-
+        await RemoveBlurClass();
         if (!result.Cancelled)
         {
             await HandleCategoryAdded();
@@ -207,7 +210,18 @@
         }
     }
 
-    protected override async Task OnInitializedAsync(){
+    private async Task AddBlurClass()
+    {
+        await JSRuntime.InvokeVoidAsync("addElementClass", "everything", "blur");
+    }
+
+    private async Task RemoveBlurClass()
+    {
+        await JSRuntime.InvokeVoidAsync("removeElementClass", "everything", "blur");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
         await JSRuntime.InvokeVoidAsync("clearScrollBtn");
         var existingRecipe = await RecipeService.GetRecipe(int.Parse(Id));
         recipe.Id = existingRecipe.Id;
@@ -220,7 +234,7 @@
         recipe.IsLunch = existingRecipe.IsLunch;
         recipe.IsDinner = existingRecipe.IsDinner;
         recipe.IsSnack = existingRecipe.IsSnack;
-        foreach(int catid in existingRecipe.CategoryIDs)
+        foreach (int catid in existingRecipe.CategoryIDs)
         {
             selectedCategoryIds.Add(catid);
         }
@@ -242,11 +256,11 @@
         var responseIngredients = await FoodItemService.SetIngredients(ingredients, recipe.Id);
 
         ClearUsedSessionStorage();
-        if(responseRecipe.IsSuccessStatusCode && responseIngredients.IsSuccessStatusCode)
+        if (responseRecipe.IsSuccessStatusCode && responseIngredients.IsSuccessStatusCode)
         {
             NavigationManager.NavigateTo("savedRecipes");
-        } 
-        else 
+        }
+        else
         {
             messageCssClass = "text-danger";
             message = "Error.You already have a recipe with that name";
@@ -369,24 +383,24 @@
 
     private void UpdateIsBreakfast(ChangeEventArgs e)
     {
-        recipe.IsBreakfast = (bool) e.Value!;
+        recipe.IsBreakfast = (bool)e.Value!;
     }
     private void UpdateIsLunch(ChangeEventArgs e)
     {
-        recipe.IsLunch = (bool) e.Value!;
+        recipe.IsLunch = (bool)e.Value!;
         Console.WriteLine($"IsLunch: {recipe.IsLunch}");
     }
     private void UpdateIsDinner(ChangeEventArgs e)
     {
-        recipe.IsDinner = (bool) e.Value!;
+        recipe.IsDinner = (bool)e.Value!;
         Console.WriteLine($"IsDinner: {recipe.IsDinner}");
     }
     private void UpdateIsSnack(ChangeEventArgs e)
     {
-        recipe.IsSnack = (bool) e.Value!;
+        recipe.IsSnack = (bool)e.Value!;
         Console.WriteLine($"IsSnack: {recipe.IsSnack}");
     }
-    
-     
+
+
 }
 
