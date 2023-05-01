@@ -93,6 +93,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("clearScrollBtn");
         var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
         int.TryParse(userIdClaim!.Value, out int id);

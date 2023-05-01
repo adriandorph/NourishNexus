@@ -6,6 +6,7 @@
 @using System.Security.Claims
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IUserService UserService
 @inject ILocalStorageService LocalStorage
@@ -72,6 +73,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("clearScrollBtn");
         var claim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
         userIdClaim = claim.FindFirst(ClaimTypes.NameIdentifier)!;
         var userEmailClaim = claim.FindFirst(ClaimTypes.Email)!.Value;

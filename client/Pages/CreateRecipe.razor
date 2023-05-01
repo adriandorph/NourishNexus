@@ -245,6 +245,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("clearScrollBtn");
         recipe.IsPublic = false;
         await LoadChanges();
         var user = (await CustomAuthStateProvider.GetAuthenticationStateAsync()).User;

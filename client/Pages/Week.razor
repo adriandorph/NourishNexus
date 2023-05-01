@@ -3,6 +3,7 @@
 @using System.Globalization
 @using System.Security.Claims
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IUserService UserService
 @inject IMealService MealService
@@ -282,6 +283,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("clearScrollBtn");
         date = LoadDate(dateString);
         var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
