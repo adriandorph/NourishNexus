@@ -6,7 +6,7 @@
 @inject IUserService UserService
 @inject IJSRuntime JSRuntime
 
-
+<div id="everything">
 
 <h2 id="targets">Daily nutritional targets</h2>
 <hr>
@@ -1090,16 +1090,9 @@
         </tbody>
 
 </table>
-<style>
-    .value {
-        text-align: end;
-    }
-    .input-field {
-        width: 100px;
-        margin-right: 5px;
-        text-align: end;
-    }
-</style>
+</div>
+
+
 
 @code {
 
@@ -1120,6 +1113,7 @@
 
     private async void ShowModal()
     {
+        await AddBlurClass();
         var options = new ModalOptions
             {
                 UseCustomLayout = true
@@ -1127,14 +1121,28 @@
         var modal = Modal.Show<NutrientTargetModal>("Nut Modal", options);
 
         var result = await modal.Result;
+        await RemoveBlurClass();
 
 
         if (!result.Cancelled)
         {
+
             await OnInitializedAsync();
             StateHasChanged();
         }
     }
+
+    private async Task AddBlurClass()
+    {
+    await JSRuntime.InvokeVoidAsync("addElementClass", "everything", "blur");
+    }
+
+    private async Task RemoveBlurClass()
+    {
+    await JSRuntime.InvokeVoidAsync("removeElementClass", "everything", "blur");
+    }
+
+
 
     private async Task HandleUpdate()
     {
