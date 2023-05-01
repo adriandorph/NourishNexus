@@ -266,11 +266,11 @@ public class MealPlanGenerator : IMealPlanGenerator
         return idealIntake;
     }
 
-    private float BalanceOut(float ideal, float previous, float LB, float UB)
+    public float BalanceOut(float ideal, float previous, float LB, float UB)
     {
         float balanced = ideal * (PreviousWeeks + 1) - previous;
-        if (ideal > UB) ideal = UB;
-        if (ideal < LB) ideal = LB;
+        if (balanced > UB) balanced = UB;
+        if (balanced < LB) balanced = LB;
         return balanced;
     }
 
@@ -314,9 +314,6 @@ public class MealPlanGenerator : IMealPlanGenerator
             
             date = date.Subtract(oneDay);
         }
-
-
-        
         return sum;
     }
 
@@ -429,6 +426,7 @@ public class MealPlanGenerator : IMealPlanGenerator
             //Find the next selected recipe in the list
             if (!mealPlan.Days[i].BreakfastLocked)
             {
+                //Find
                 var selectedRecipeBreakfast = FindAndRemoveRecipe(recipes, mealPlan.Days[i].Breakfast!);
                 if(selectedRecipeBreakfast.IsNone) return new Option<MealPlan>(null);
                 
@@ -533,7 +531,7 @@ public class MealPlanGenerator : IMealPlanGenerator
                     hasCorrectMealtype = recipe.Recipe.IsSnack;
                     break;
                 default:
-                    break;
+                    throw new Exception("MealType not known");
             }
             if (!hasCorrectMealtype) continue;
 
@@ -602,13 +600,6 @@ public class MealPlanGenerator : IMealPlanGenerator
         bool locked = (plannedMeal.FoodItemMeals.Count != 0) || (plannedMeal.RecipeMeals.Count != 0);
 
         return (plannedMeal, locked);
-    }
-
-    //Plan to be returned in case of error
-    private async Task<MealPlanResponse> FailPlan(MealPlan mealPlan)
-    {
-        await InsertPlan(mealPlan);
-        return MealPlanResponse.Fail;
     }
 
 
