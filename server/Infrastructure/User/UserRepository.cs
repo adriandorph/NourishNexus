@@ -234,7 +234,7 @@ public class UserRepository : IUserRepository
             .Include(u => u.SavedRecipes)
             .Select(u => u.ToDTO())
             .FirstOrDefaultAsync();
-    
+
 
      public async Task<Option<UserNutritionDTO>> ReadWithNutritionByIDAsync(int Id)
         => await _context.Users

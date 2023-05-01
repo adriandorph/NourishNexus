@@ -239,7 +239,6 @@ public class UserRepositoryTests
         Assert.True(Enumerable.SequenceEqual(userUpdateDTO.SavedRecipeIds, entity.SavedRecipes.Select(r => r.Id).ToList()));
     }
 
-
     [Fact]
     public async void Update_NotFound()
     {
@@ -346,6 +345,101 @@ public class UserRepositoryTests
     {
         //Act
         var result = await _repo.ReadByIDAsync(1);
+        
+        //Assert
+        Assert.True(result.IsNone);
+    }
+
+    //ReadById
+    [Fact]
+    public async void ReadByEmail_returns_UserDTO()
+    {
+        //Arrange
+        var userCreateDTO = new UserCreateDTO{
+            Email = "jhon@jhonson.com",
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
+        };
+
+        var recipe = new Recipe(
+            "Apples and Oranges",
+            false,
+            "A nice bowl of appels and oranges",
+            "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            1,
+            new List<Category>(),
+            false,
+            false,
+            false,
+            true
+        );
+
+        var userUpdateDTO = new UserUpdateDTO
+        {
+            Id = 1,
+            SavedRecipeIds = new List<int>{1}
+        };
+
+        //Act
+        await _repo.CreateAsync(userCreateDTO);
+        await _context.Recipes.AddAsync(recipe);
+        await _context.SaveChangesAsync();
+        await _repo.UpdateAsync(userUpdateDTO);
+        
+        var result = await _repo.ReadByEmailAsync("jhon@jhonson.com");
+        
+
+        //Assert
+        Assert.True(result.IsSome);
+        Assert.Equal(1, result.Value.Id);
+        Assert.Equal(userCreateDTO.Email, result.Value.Email);
+        Assert.Equal(userCreateDTO.Nickname, result.Value.Nickname);
+        Assert.True(Enumerable.SequenceEqual(new List<int>{1}, result.Value.SavedRecipeIds));
+    }
+
+    [Fact]
+    public async void ReadByEmail_returns_null()
+    {
+        //Act
+        var result = await _repo.ReadByEmailAsync("not@an.email");
+        
+        //Assert
+        Assert.True(result.IsNone);
+    }
+
+    [Fact]
+    async void ReadAuthByEmailAsync_returns_userAuthDTO()
+    {
+        //Arrange
+        var userCreateDTO = new UserCreateDTO
+        {
+            Email = "jhon@jhonson.com",
+            Nickname = "Johnny",
+            Password = "password123",
+            ConfirmPassword = "password123"
+        };
+
+        //Act
+        await _repo.CreateAsync(userCreateDTO);
+        
+        var result = await _repo.ReadAuthByEmailAsync("jhon@jhonson.com");
+
+        //Assert
+        Assert.True(result.IsSome);
+        Assert.NotNull(result.Value.PasswordHash);
+        Assert.NotNull(result.Value.PasswordSalt);
+        Assert.Equal(userCreateDTO.Email, result.Value.Email);
+        Assert.Equal(userCreateDTO.Nickname, result.Value.Nickname);
+        Assert.Equal(userCreateDTO.Email, result.Value.Email);
+        Assert.Equal(userCreateDTO.Email, result.Value.Email);
+    }
+
+    [Fact]
+    public async void ReadAuthByEmail_returns_null()
+    {
+        //Act
+        var result = await _repo.ReadAuthByEmailAsync("not@an.email");
         
         //Assert
         Assert.True(result.IsNone);

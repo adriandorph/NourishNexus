@@ -93,6 +93,38 @@ public class CategoryRepositoryTests
     }
 
     [Fact]
+    public async void ReadAll()
+    {
+        //Arrange
+        var categoryCreateDTO1 = new CategoryCreateDTO{
+            Name = "Vegan"
+        };
+
+        var categoryCreateDTO2 = new CategoryCreateDTO{
+            Name = "Vegetarian"
+        };
+
+        //Act
+        await _repo.CreateAsync(categoryCreateDTO1);
+        await _repo.CreateAsync(categoryCreateDTO2);
+        var result = await _repo.ReadAllAsync();
+        
+
+        //Assert
+        Assert.Collection<CategoryDTO>(
+            result,
+            item => {
+                Assert.Equal(1, item.Id);
+                Assert.Equal(categoryCreateDTO1.Name, item.Name);
+            },
+            item => {
+                Assert.Equal(2, item.Id);
+                Assert.Equal(categoryCreateDTO2.Name, item.Name);
+            }
+        );
+    }
+
+    [Fact]
     public async void ReadById_returns_null()
     {
         //Act

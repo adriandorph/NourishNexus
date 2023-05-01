@@ -26,7 +26,8 @@ public record LoginRequest
     string Password = ""
 );
 
-public record UserLoginDTO{
+public record UserLoginDTO
+{
     [Required, EmailAddress]
     public string? Email {get; set;}
     [Required, MinLength(6, ErrorMessage = "Password needs to be of minimum 6 characters")]
@@ -48,7 +49,8 @@ public record UserCreateDTO
     public string? ConfirmPassword {get; set;}
 }
 
-public record UserChangePasswordDTO{
+public record UserChangePasswordDTO
+{
     [Required, MinLength(6, ErrorMessage = "Password needs to be of minimum 6 characters")]
     public string? Password {get; set;}
     [Required, Compare("Password", ErrorMessage = "The passwords do not match")]

@@ -13,8 +13,8 @@ public class FoodItemSeeding
 
     public FoodItemSeeding(NourishNexusContext context, IFoodItemRepository repo)
     {
-        _context = context;
         _repo = repo;
+        _context = context;
     }
 
     public void Clear()
@@ -30,10 +30,13 @@ public class FoodItemSeeding
         if (user != null) _context.Users.Remove(user);
         _context.SaveChanges();
     }
-    public async Task<Response> Seed()
+
+    public async Task<Response> Seed() => await Seed(@"../data.csv");
+
+    public async Task<Response> Seed(string filePath)
     {
         CultureInfo.CurrentCulture = new CultureInfo("da-DK", false);
-        using(var reader = new StreamReader(@"../data.csv"))
+        using(var reader = new StreamReader(filePath))
         {
             List<FoodItemCreateDTO> foodItems = new List<FoodItemCreateDTO>();
             reader.ReadLine();//Skip first line: Danish field declaration

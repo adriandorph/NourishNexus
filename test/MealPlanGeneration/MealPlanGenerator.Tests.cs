@@ -2079,4 +2079,89 @@ public class MealPlanGeneratorTests
 
         Assert.Equal(MealPlanResponse.Success, r.Response);
     }
+
+    
+    [Fact]
+    async void Generating_when_already_full()
+    {
+        //Arrange
+        var date = new DateTime(2023, 1,1);
+        var r1 = await _mealPlanGenerator.Generate7DayMealPlan(_author.Id, date);
+
+        //Act
+        var r2 = await _mealPlanGenerator.Generate7DayMealPlan(_author.Id, date);
+        
+        //Assert
+        Assert.Equal(MealPlanResponse.Success, r1.Response);
+        Assert.Equal(MealPlanResponse.Success, r2.Response);
+    }
+    
+
+    
+    [Fact]
+    async void Generating_when_1_previous_week_is_full()
+    {
+        //Arrange
+        var dateprev = new DateTime(2023, 1,1);
+        var r1 = await _mealPlanGenerator.Generate7DayMealPlan(_author.Id, dateprev);
+        var datecur = new DateTime(2023, 1,8);
+        
+        //Act
+        var r2 = await _mealPlanGenerator.Generate7DayMealPlan(_author.Id, datecur);
+        
+        //Assert
+        Assert.Equal(MealPlanResponse.Success, r1.Response);
+        Assert.Equal(MealPlanResponse.Success, r2.Response);
+    }
+    
+    [Fact]
+    async void Generating_when_only_1_recipe_is_not_filled()
+    {
+        //Arrange
+        var date = new DateTime(2023, 1,1);
+        var r1 = await _mealPlanGenerator.Generate7DayMealPlan(_author.Id, date);
+        var toBeRemoved = _context.RecipeMeals.Where(rm => rm.Meal.Date == date && rm.Meal.MealType == MealType.DINNER).FirstOrDefault();
+        if (toBeRemoved == null) throw new Exception("Should not be null");
+        _context.RecipeMeals.Remove(toBeRemoved);
+        _context.SaveChanges();
+
+        //Act
+        var r2 = await _mealPlanGenerator.Generate7DayMealPlan(_author.Id, date);
+        
+        //Assert
+        Assert.Equal(MealPlanResponse.Success, r1.Response);
+        Assert.Equal(MealPlanResponse.Success, r2.Response);
+    }
+
+    [Fact]
+    void BalanceOut_with_ideal_previous_intake()
+    {
+        //Arrange
+        float previous = 2;
+        float ideal = 1;
+        float LB = 0.5f;
+        float UB = 1.5f;
+
+        //Act
+        var res = _mealPlanGenerator.BalanceOut(ideal, previous, LB, UB);
+
+        //Assert
+        Assert.Equal(1, res);
+    }
+
+    [Fact]
+    void BalanceOut_with_half_previous_intake()
+    {
+        //Arrange
+        float previous = 1;
+        float ideal = 1;
+        float LB = 0.5f;
+        float UB = 1.5f;
+
+        //Act
+        var res = _mealPlanGenerator.BalanceOut(ideal, previous, LB, UB);
+
+        //Assert
+        Assert.Equal(1.5f, res);
+    }
 }

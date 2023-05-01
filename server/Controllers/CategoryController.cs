@@ -19,7 +19,7 @@ public class CategoryController : ControllerBase
         try
         {
             (Response r, CategoryDTO dto) = await _repo.CreateAsync(category);
-            if (r == Core.Response.Created) return Ok("Success");
+            if (r == Core.Response.Created) return NoContent();
             else if (r == Core.Response.Conflict) return Conflict("There is already a category with that title.");
             else return StatusCode(500, "An unknown error occured");
         }
@@ -36,7 +36,7 @@ public class CategoryController : ControllerBase
         try
         {
             var r = await _repo.ReadAllAsync();
-            return Ok(r ?? new List<CategoryDTO>{});
+            return Ok(r);
         }
         catch (Exception e)
         {
@@ -62,6 +62,4 @@ public class CategoryController : ControllerBase
             return StatusCode(500, e.Message);        
         }
     }
-
-
 }

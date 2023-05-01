@@ -390,6 +390,4 @@ public class NutrientTargets
         if(this.Calcium > b.Calcium) count++;
         return count;
     }
-
-
 }

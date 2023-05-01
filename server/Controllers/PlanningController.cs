@@ -7,11 +7,11 @@ namespace server.Controllers;
 public class PlanningController : ControllerBase
 {
     private readonly ILogger<PlanningController> _logger;
-    private readonly MealPlanGenerator _generator;
+    private readonly IMealPlanGenerator _generator;
     private readonly IntakeTargetCalculator _intakeTargetCalculator;
     private readonly IUserRepository _userRepo;
 
-    public PlanningController(ILogger<PlanningController> logger, MealPlanGenerator generator, IntakeTargetCalculator intakeTargetCalculator, IUserRepository userRepo)
+    public PlanningController(ILogger<PlanningController> logger, IMealPlanGenerator generator, IntakeTargetCalculator intakeTargetCalculator, IUserRepository userRepo)
     {
         _logger = logger;
         _generator = generator;

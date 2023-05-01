@@ -96,6 +96,20 @@ public class FoodItemRepositoryTests
         Assert.Equal(Response.Conflict, response);
     }
 
+    [Fact]
+    public async void CreateAsync_FoodItem_with_Null_Name_BadResquest()
+    {
+        //Arrange
+        var foodItemCreateDTO = new FoodItemCreateDTO{};
+
+        //Act
+        await _repo.CreateAsync(foodItemCreateDTO);
+        (Response response, FoodItemDTO foodItemDTO) = await _repo.CreateAsync(foodItemCreateDTO);
+
+        //Assert
+        Assert.Equal(Response.BadRequest, response);
+    }
+
 
     //Update
 
@@ -360,14 +374,39 @@ public class FoodItemRepositoryTests
         Assert.Empty(list.AsEnumerable());
     }
 
+    [Fact]
+    public async void ReadAllBySearchWord_returns_all_fooditems_containing_serchword()
+    {
+        //Arrange
+        var foodItemCreateDTO1 = new FoodItemCreateDTO{
+            Name = "Apple",
+            Calories = 100.0f,
+            Protein = 0.3f
+        };
 
+        var foodItemCreateDTO2 = new FoodItemCreateDTO{
+            Name = "Orange",
+            Calories = 47.0f,
+            Protein = 0.9f
+        };
 
+        //Act
+        await _repo.CreateAsync(foodItemCreateDTO1);
+        await _repo.CreateAsync(foodItemCreateDTO2);
+        var list = await _repo.ReadAllBySearchWord("App");
 
-
-
-
-
-
+        //Assert
+        Assert.NotNull(list);
+        Assert.Collection<FoodItemDTO>
+        (
+            list,
+            item => {
+                Assert.Equal(foodItemCreateDTO1.Name,item.Name);
+                Assert.Equal(foodItemCreateDTO1.Calories,item.Calories);
+                Assert.Equal(foodItemCreateDTO1.Protein,item.Protein);
+            }
+        );
+    }
 
     
     [Fact]

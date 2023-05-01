@@ -23,6 +23,7 @@
     <ProjectReference Include="..\server/server.csproj" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
+    <PackageReference Include="coverlet.msbuild" Version="3.0.3" />
   </ItemGroup>
 
 </Project>

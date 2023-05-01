@@ -10,6 +10,33 @@ public class IntakeTargetCalculatorTests
         _intakeTargetCalculator = new IntakeTargetCalculator();
     }
 
+    [Theory]
+    [InlineData(Gender.Female, WeightGoal.LoseFast, 1289.34985f)]
+    [InlineData(Gender.Male, WeightGoal.Lose, 2021.75f)]
+    [InlineData(Gender.Male, WeightGoal.Keep, 2521.75)]
+    [InlineData(Gender.Male, WeightGoal.Gain, 3021.75f)]
+    [InlineData(Gender.Male, WeightGoal.GainFast, 3521.75f)]
+    void CalculateTargets_returns_TargetsResult(Gender gender, WeightGoal wg, float calories)
+    {
+        //Arrange
+        float BreakfastCalories = calories * 0.2f;
+        float LunchCalories = calories * 0.3f;
+        float DinnerCalories = calories * 0.35f;
+        float SnackCalories = calories * 0.15f;
+        //Act
+        var r = _intakeTargetCalculator.CalculateTargets(22, gender, 75, 185, 1.4f, wg);
+
+        //Assert
+        Assert.NotNull(r);
+        Assert.Equal(calories, r.TotalCalories);
+        Assert.Equal(BreakfastCalories, r.BreakfastCalories);
+        Assert.Equal(LunchCalories, r.LunchCalories);
+        Assert.Equal(DinnerCalories, r.DinnerCalories);
+        Assert.Equal(SnackCalories, r.SnackCalories);
+        Assert.NotNull(r.LowerBound);
+        Assert.NotNull(r.IdealIntake);
+        Assert.NotNull(r.UpperBound);
+    }
 
     [Theory]
     [InlineData(25, Gender.Male, 2650f, 66.25f, 99.375f, 132.5f)]

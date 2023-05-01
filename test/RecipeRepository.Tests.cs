@@ -937,4 +937,177 @@ public class RecipeRepositoryTests
         //Assert
         Assert.Empty(list.AsEnumerable());
     }
+
+    [Fact]
+    public async void ReadSavedBySearchWord_returns_list()
+    {
+        //Arrange
+        var recipe1 = new Recipe
+        {
+            Title = "Apples and Oranges box",
+            IsPublic = false,
+            Description = "A nice bowl of appels and oranges",
+            Method = "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            AuthorId = 1
+        };
+
+        var recipe2 = new Recipe
+        {
+            Title = "Apples and Oranges fruit cup",
+            IsPublic = true,
+            Description = "A nice cup of appels and oranges",
+            Method = "Slice the apples and oranges.\nPut the apples in a cup.\nAdd the oranges into the cup.",
+            AuthorId = 2
+        };
+
+        var recipe3 = new Recipe
+        {
+            Title = "Apples and Oranges fruit blend",
+            IsPublic = false,
+            Description = "A nice blend of appels and oranges",
+            Method = "Put the apples and oranges into a blender and blend for 1 minute.",
+            AuthorId = 2,
+        };
+        _context.Add(recipe1);
+        _context.Add(recipe2);
+        _context.Add(recipe3);
+        await _context.SaveChangesAsync();
+        User user = _context.Users.Where(u => u.Id == 1).FirstOrDefault()!;
+        user.SavedRecipes = new List<Recipe>{recipe1, recipe2};
+        await _context.SaveChangesAsync();
+
+        //Act
+        var list = await _repo.ReadSavedBySearchWord("box", 1);
+        var emptysearchwordlist = await _repo.ReadSavedBySearchWord("", 1);
+        var _list = await _repo.ReadSavedBySearchWord("_", 1);
+
+        //Assert
+        Assert.NotNull(list);
+        Assert.Collection<RecipeDTO>
+        (
+            list,
+            item => {
+                Assert.Equal(1, item.Id);
+                Assert.Equal(recipe1.Title, item.Title);
+                Assert.Equal(recipe1.IsPublic, item.IsPublic);
+                Assert.Equal(recipe1.Description, item.Description);
+                Assert.Equal(recipe1.Method, item.Method);
+                Assert.Equal(recipe1.AuthorId, item.AuthorId);
+            }
+        );
+    }
+
+    [Fact]
+    public async void ReadPublicBySearchWord_returns_list()
+    {
+        //Arrange
+        var recipe1 = new Recipe
+        {
+            Title = "Apples and Oranges fruit cup",
+            IsPublic = true,
+            Description = "A nice cup of appels and oranges",
+            Method = "Slice the apples and oranges.\nPut the apples in a cup.\nAdd the oranges into the cup.",
+            AuthorId = 2
+        };
+
+        var recipe2 = new Recipe
+        {
+            Title = "Apples and Oranges box",
+            IsPublic = false,
+            Description = "A nice bowl of appels and oranges",
+            Method = "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            AuthorId = 1
+        };
+
+        var recipe3 = new Recipe
+        {
+            Title = "Apples and Oranges fruit blend",
+            IsPublic = false,
+            Description = "A nice blend of appels and oranges",
+            Method = "Put the apples and oranges into a blender and blend for 1 minute.",
+            AuthorId = 2,
+        };
+        _context.Add(recipe1);
+        _context.Add(recipe2);
+        _context.Add(recipe3);
+        await _context.SaveChangesAsync();
+        User user = _context.Users.Where(u => u.Id == 1).FirstOrDefault()!;
+        user.SavedRecipes = new List<Recipe>{recipe1, recipe2};
+        await _context.SaveChangesAsync();
+
+        //Act
+        var list = await _repo.ReadPublicBySearchWord("fruit");
+
+        //Assert
+        Assert.NotNull(list);
+        Assert.Collection<RecipeDTO>
+        (
+            list,
+            item => {
+                Assert.Equal(1, item.Id);
+                Assert.Equal(recipe1.Title, item.Title);
+                Assert.Equal(recipe1.IsPublic, item.IsPublic);
+                Assert.Equal(recipe1.Description, item.Description);
+                Assert.Equal(recipe1.Method, item.Method);
+                Assert.Equal(recipe1.AuthorId, item.AuthorId);
+            }
+        );
+    }
+
+    [Fact]
+    public async void ReadAllPublic_returns_list()
+    {
+        //Arrange
+        var recipe1 = new Recipe
+        {
+            Title = "Apples and Oranges fruit cup",
+            IsPublic = true,
+            Description = "A nice cup of appels and oranges",
+            Method = "Slice the apples and oranges.\nPut the apples in a cup.\nAdd the oranges into the cup.",
+            AuthorId = 2
+        };
+
+        var recipe2 = new Recipe
+        {
+            Title = "Apples and Oranges box",
+            IsPublic = false,
+            Description = "A nice bowl of appels and oranges",
+            Method = "Put the apples in a bowl. \nAdd the oranges into the bowl.",
+            AuthorId = 1
+        };
+
+        var recipe3 = new Recipe
+        {
+            Title = "Apples and Oranges fruit blend",
+            IsPublic = false,
+            Description = "A nice blend of appels and oranges",
+            Method = "Put the apples and oranges into a blender and blend for 1 minute.",
+            AuthorId = 2,
+        };
+        _context.Add(recipe1);
+        _context.Add(recipe2);
+        _context.Add(recipe3);
+        await _context.SaveChangesAsync();
+        User user = _context.Users.Where(u => u.Id == 1).FirstOrDefault()!;
+        user.SavedRecipes = new List<Recipe>{recipe1, recipe2};
+        await _context.SaveChangesAsync();
+
+        //Act
+        var list = await _repo.ReadAllPublicAsync();
+
+        //Assert
+        Assert.NotNull(list);
+        Assert.Collection<RecipeDTO>
+        (
+            list,
+            item => {
+                Assert.Equal(1, item.Id);
+                Assert.Equal(recipe1.Title, item.Title);
+                Assert.Equal(recipe1.IsPublic, item.IsPublic);
+                Assert.Equal(recipe1.Description, item.Description);
+                Assert.Equal(recipe1.Method, item.Method);
+                Assert.Equal(recipe1.AuthorId, item.AuthorId);
+            }
+        );
+    }
 }
