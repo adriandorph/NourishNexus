@@ -29,7 +29,7 @@ public class CategoryRepositoryTests
     {
         //Arrange
         var categoryCreateDTO = new CategoryCreateDTO{
-            Name = "fruit"
+            Name = "Fruit"
         };
 
         //Act
@@ -56,7 +56,7 @@ public class CategoryRepositoryTests
     {
         //Arrange
         var categoryCreateDTO = new CategoryCreateDTO{
-            Name = "vegan"
+            Name = "Vegan"
         };
 
         //Act
@@ -73,11 +73,11 @@ public class CategoryRepositoryTests
     {
         //Arrange
         var categoryCreateDTO1 = new CategoryCreateDTO{
-            Name = "vegan"
+            Name = "Vegan"
         };
 
         var categoryCreateDTO2 = new CategoryCreateDTO{
-            Name = "vegetarian"
+            Name = "Vegetarian"
         };
 
         //Act
@@ -97,11 +97,11 @@ public class CategoryRepositoryTests
     {
         //Arrange
         var categoryCreateDTO1 = new CategoryCreateDTO{
-            Name = "vegan"
+            Name = "Vegan"
         };
 
         var categoryCreateDTO2 = new CategoryCreateDTO{
-            Name = "vegetarian"
+            Name = "Vegetarian"
         };
 
         //Act
