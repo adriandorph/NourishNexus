@@ -8,42 +8,38 @@
 
 <div id="everything">
 
-<h2 id="targets">Daily nutritional targets</h2>
-<hr>
-
-@if(firsttime == "firsttime")
-{
-    
-    <h4>Welcome!</h4>
-
-    <h6>Get started by following the steps below</h6>
-
-    <ol>
-        <li>
-            <p>Set your daily nutritional targets on this page with the button below. Afterward you can edit the individual fields, if you have a different preference than the recommended.</p>
-        </li>
-        <li>
-            <p> <a href="recipes/create">Create recipes</a> or go to the <a href="community">community page</a> to save all the recipes you want to see in your meal plans!</p>
-        </li>
-        <li>
-            <p>
-                Once you have saved or created enough recipes and set your nutritional targets you can generate your meal plan in the <a href="week/today">week page</a>!
-            </p>
-        </li>
-            
-    </ol>
+    <h2 id="targets">Daily nutritional targets</h2>
     <hr>
-}
 
-<div id="recommended">
-    <button class="btn-lg btn-primary shadow" @onclick="ShowModal">Set to recommended</button>
-</div>
+    @if(firsttime == "firsttime")
+    {
+        
+        <h4>Welcome!</h4>
 
+        <h6>Get started by following the steps below</h6>
 
+        <ol>
+            <li>
+                <p>Set your daily nutritional targets on this page with the button below. Afterward you can edit the individual fields, if you have a different preference than the recommended.</p>
+            </li>
+            <li>
+                <p> <a href="recipes/create">Create recipes</a> or go to the <a href="community">community page</a> to save all the recipes you want to see in your meal plans!</p>
+            </li>
+            <li>
+                <p>
+                    Once you have saved or created enough recipes and set your nutritional targets you can generate your meal plan in the <a href="week/today">week page</a>!
+                </p>
+            </li>
+                
+        </ol>
+        <hr>
+    }
 
+    <div id="recommended">
+        <button class="btn-lg btn-primary shadow" @onclick="ShowModal">Set to recommended</button>
+    </div>
 
     <table class="table mt-3">
-
         <thead>
             <tr>
                 <th>Nutrient</th>
@@ -89,12 +85,7 @@
                     </div>
                 </td>
             </tr>
-        </tbody>
-    </table>
-    <div id="showmore">
-        <table >
-            <tbody>
-                <tr class="justify-content-between">
+            <tr class="justify-content-between">
                     <td>Snack Calories</td>
                     <td class="value">
                         <div class=" d-flex align-items-center justify-content-end">
@@ -105,996 +96,1011 @@
                         </div>
                     </td>
                 </tr>
+        </tbody>
+    </table>
+    @if(showMore)
+    {
+        <button class="btn btn-primary" @onclick="HandleShowMoreOrLess">Show Less</button>
+    }
+    else
+    {
+        <button class="btn btn-primary" @onclick="HandleShowMoreOrLess">Show More</button>
+    }
+    @if(showMore)
+    {
+        <div id="showmore">
+            <table class="table mt-3">
+                <tbody>
+                    <tr class="justify-content-between">
+                        <td>Protein Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ProteinLB " @oninput="HandleUpdateProteinLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Protein Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ProteinII" @oninput="HandleUpdateProteinII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Protein Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ProteinUB" @oninput="HandleUpdateProteinUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Protein Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ProteinLB " @oninput="HandleUpdateProteinLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Protein Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ProteinII" @oninput="HandleUpdateProteinII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Protein Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ProteinUB" @oninput="HandleUpdateProteinUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Carbohydrates Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesLB" @oninput="HandleUpdateCarbohydratesLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Carbohydrates Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesII" @oninput="HandleUpdateCarbohydratesII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Carbohydrates Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesUB" @oninput="HandleUpdateCarbohydratesUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Carbohydrates Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesLB" @oninput="HandleUpdateCarbohydratesLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Carbohydrates Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesII" @oninput="HandleUpdateCarbohydratesII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Carbohydrates Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CarbohydratesUB" @oninput="HandleUpdateCarbohydratesUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Sugars Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SugarsLB" @oninput="HandleUpdateSugarsLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Sugars Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SugarsII" @oninput="HandleUpdateSugarsII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Sugars Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SugarsUB" @oninput="HandleUpdateSugarsUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr class="justify-content-between">
+                        <td>Fibres Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.FibresLB" @oninput="HandleUpdateFibresLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Fibres Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.FibresII" @oninput="HandleUpdateFibresII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Fibres Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.FibresUB" @oninput="HandleUpdateFibresUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Sugars Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SugarsLB" @oninput="HandleUpdateSugarsLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Sugars Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SugarsII" @oninput="HandleUpdateSugarsII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Sugars Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SugarsUB" @oninput="HandleUpdateSugarsUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Total Fat Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.TotalFatLB" @oninput="HandleUpdateTotalFatLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Total Fat Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.TotalFatII" @oninput="HandleUpdateTotalFatII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Total Fat Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.TotalFatUB" @oninput="HandleUpdateTotalFatUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Fibres Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.FibresLB" @oninput="HandleUpdateFibresLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Fibres Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.FibresII" @oninput="HandleUpdateFibresII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Fibres Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.FibresUB" @oninput="HandleUpdateFibresUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Saturated  Fat Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatLB" @oninput="HandleUpdateSaturatedFatLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Saturated Fat Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatII" @oninput="HandleUpdateSaturatedFatII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Saturated Fat Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatUB" @oninput="HandleUpdateSaturatedFatUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Total Fat Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.TotalFatLB" @oninput="HandleUpdateTotalFatLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Total Fat Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.TotalFatII" @oninput="HandleUpdateTotalFatII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Total Fat Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.TotalFatUB" @oninput="HandleUpdateTotalFatUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Monounsaturated Fat Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatLB" @oninput="HandleUpdateMonounsaturatedFatLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Monounsaturated Fat Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatII" @oninput="HandleUpdateMonounsaturatedFatII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Monounsaturated Fat Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatUB" @oninput="HandleUpdateMonounsaturatedFatUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Saturated  Fat Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatLB" @oninput="HandleUpdateSaturatedFatLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Saturated Fat Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatII" @oninput="HandleUpdateSaturatedFatII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Saturated Fat Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SaturatedFatUB" @oninput="HandleUpdateSaturatedFatUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Polyunsaturated Fat Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatLB" @oninput="HandleUpdatePolyunsaturatedFatLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Polyunsaturated Fat Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatII" @oninput="HandleUpdatePolyunsaturatedFatII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Polyunsaturated Fat Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatUB" @oninput="HandleUpdatePolyunsaturatedFatUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Monounsaturated Fat Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatLB" @oninput="HandleUpdateMonounsaturatedFatLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Monounsaturated Fat Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatII" @oninput="HandleUpdateMonounsaturatedFatII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Monounsaturated Fat Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.MonounsaturatedFatUB" @oninput="HandleUpdateMonounsaturatedFatUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Trans Fat Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.TransFatLB" @oninput="HandleUpdateTransFatLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Trans Fat Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.TransFatII" @oninput="HandleUpdateTransFatII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Trans Fat Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.TransFatUB" @oninput="HandleUpdateTransFatUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Polyunsaturated Fat Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatLB" @oninput="HandleUpdatePolyunsaturatedFatLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Polyunsaturated Fat Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatII" @oninput="HandleUpdatePolyunsaturatedFatII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Polyunsaturated Fat Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PolyunsaturatedFatUB" @oninput="HandleUpdatePolyunsaturatedFatUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin A Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminALB" @oninput="HandleUpdateVitaminALB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin A Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminAII" @oninput="HandleUpdateVitaminAII"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin A Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminAUB" @oninput="HandleUpdateVitaminAUB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Trans Fat Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.TransFatLB" @oninput="HandleUpdateTransFatLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Trans Fat Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.TransFatII" @oninput="HandleUpdateTransFatII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Trans Fat Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.TransFatUB" @oninput="HandleUpdateTransFatUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin B6 Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminB6LB" @oninput="HandleUpdateVitaminB6LB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin B6 Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminB6II" @oninput="HandleUpdateVitaminB6II"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin B6 Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminB6UB" @oninput="HandleUpdateVitaminB6UB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Vitamin A Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminALB" @oninput="HandleUpdateVitaminALB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin A Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminAII" @oninput="HandleUpdateVitaminAII"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin A Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminAUB" @oninput="HandleUpdateVitaminAUB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin B12 Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminB12LB" @oninput="HandleUpdateVitaminB12LB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin B12 Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminB12II" @oninput="HandleUpdateVitaminB12II"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin B12 Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminB12UB" @oninput="HandleUpdateVitaminB12UB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Vitamin B6 Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminB6LB" @oninput="HandleUpdateVitaminB6LB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin B6 Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminB6II" @oninput="HandleUpdateVitaminB6II"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin B6 Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminB6UB" @oninput="HandleUpdateVitaminB6UB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin C Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminCLB" @oninput="HandleUpdateVitaminCLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin C Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminCII" @oninput="HandleUpdateVitaminCII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin C Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminCUB" @oninput="HandleUpdateVitaminCUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Vitamin B12 Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminB12LB" @oninput="HandleUpdateVitaminB12LB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin B12 Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminB12II" @oninput="HandleUpdateVitaminB12II"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin B12 Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminB12UB" @oninput="HandleUpdateVitaminB12UB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin D Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminDLB" @oninput="HandleUpdateVitaminDLB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin D Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminDII" @oninput="HandleUpdateVitaminDII"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin D Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminDUB" @oninput="HandleUpdateVitaminDUB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Vitamin C Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminCLB" @oninput="HandleUpdateVitaminCLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin C Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminCII" @oninput="HandleUpdateVitaminCII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin C Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminCUB" @oninput="HandleUpdateVitaminCUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin E Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminELB" @oninput="HandleUpdateVitaminELB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin E Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminEII" @oninput="HandleUpdateVitaminEII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Vitamin E Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.VitaminEUB" @oninput="HandleUpdateVitaminEUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Vitamin D Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminDLB" @oninput="HandleUpdateVitaminDLB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin D Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminDII" @oninput="HandleUpdateVitaminDII"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin D Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminDUB" @oninput="HandleUpdateVitaminDUB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Thiamin Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ThiaminLB" @oninput="HandleUpdateThiaminLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Thiamin Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ThiaminII" @oninput="HandleUpdateThiaminII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Thiamin Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ThiaminUB" @oninput="HandleUpdateThiaminUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Vitamin E Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminELB" @oninput="HandleUpdateVitaminELB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin E Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminEII" @oninput="HandleUpdateVitaminEII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Vitamin E Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.VitaminEUB" @oninput="HandleUpdateVitaminEUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Riboflavin Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.RiboflavinLB" @oninput="HandleUpdateRiboflavinLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Riboflavin Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.RiboflavinII" @oninput="HandleUpdateRiboflavinII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Riboflavin Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.RiboflavinUB" @oninput="HandleUpdateRiboflavinUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Thiamin Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ThiaminLB" @oninput="HandleUpdateThiaminLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Thiamin Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ThiaminII" @oninput="HandleUpdateThiaminII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Thiamin Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ThiaminUB" @oninput="HandleUpdateThiaminUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Niacin Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.NiacinLB" @oninput="HandleUpdateNiacinLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Niacin Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.NiacinII" @oninput="HandleUpdateNiacinII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Niacin Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.NiacinUB" @oninput="HandleUpdateNiacinUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Riboflavin Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.RiboflavinLB" @oninput="HandleUpdateRiboflavinLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Riboflavin Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.RiboflavinII" @oninput="HandleUpdateRiboflavinII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Riboflavin Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.RiboflavinUB" @oninput="HandleUpdateRiboflavinUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Folate Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.FolateLB" @oninput="HandleUpdateFolateLB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Folate Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.FolateII" @oninput="HandleUpdateFolateII"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Folate Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.FolateUB" @oninput="HandleUpdateFolateUB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Niacin Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.NiacinLB" @oninput="HandleUpdateNiacinLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Niacin Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.NiacinII" @oninput="HandleUpdateNiacinII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Niacin Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.NiacinUB" @oninput="HandleUpdateNiacinUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Salt Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SaltLB" @oninput="HandleUpdateSaltLB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Salt Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SaltII" @oninput="HandleUpdateSaltII"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Salt Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SaltUB" @oninput="HandleUpdateSaltUB"/>
+                                </span> 
+                                <span>g</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Folate Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.FolateLB" @oninput="HandleUpdateFolateLB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Folate Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.FolateII" @oninput="HandleUpdateFolateII"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Folate Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.FolateUB" @oninput="HandleUpdateFolateUB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Potassium Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PotassiumLB" @oninput="HandleUpdatePotassiumLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Potassium Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PotassiumII" @oninput="HandleUpdatePotassiumII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Potassium Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PotassiumUB" @oninput="HandleUpdatePotassiumUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Salt Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SaltLB" @oninput="HandleUpdateSaltLB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Salt Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SaltII" @oninput="HandleUpdateSaltII"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Salt Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SaltUB" @oninput="HandleUpdateSaltUB"/>
-                            </span> 
-                            <span>g</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Magnesium Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.MagnesiumLB" @oninput="HandleUpdateMagnesiumLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Magnesium Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.MagnesiumII" @oninput="HandleUpdateMagnesiumII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Magnesium Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.MagnesiumUB"  @oninput="HandleUpdateMagnesiumUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Potassium Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PotassiumLB" @oninput="HandleUpdatePotassiumLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Potassium Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PotassiumII" @oninput="HandleUpdatePotassiumII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Potassium Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PotassiumUB" @oninput="HandleUpdatePotassiumUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Iron Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.IronLB"  @oninput="HandleUpdateIronLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Iron Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.IronII"  @oninput="HandleUpdateIronII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Iron Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.IronUB" @oninput="HandleUpdateIronUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Magnesium Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.MagnesiumLB" @oninput="HandleUpdateMagnesiumLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Magnesium Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.MagnesiumII" @oninput="HandleUpdateMagnesiumII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Magnesium Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.MagnesiumUB"  @oninput="HandleUpdateMagnesiumUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Zinc Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ZincLB" @oninput="HandleUpdateZincLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Zinc Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ZincII" @oninput="HandleUpdateZincII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Zinc Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.ZincUB" @oninput="HandleUpdateZincUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Iron Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.IronLB"  @oninput="HandleUpdateIronLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Iron Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.IronII"  @oninput="HandleUpdateIronII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Iron Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.IronUB" @oninput="HandleUpdateIronUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Phosphorus Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PhosphorusLB" @oninput="HandleUpdatePhosphorusLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Phosphorus Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PhosphorusII" @oninput="HandleUpdatePhosphorusII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Phosphorus Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.PhosphorusUB" @oninput="HandleUpdatePhosphorusUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Zinc Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ZincLB" @oninput="HandleUpdateZincLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Zinc Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ZincII" @oninput="HandleUpdateZincII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Zinc Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.ZincUB" @oninput="HandleUpdateZincUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Copper Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CopperLB" @oninput="HandleUpdateCopperLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Copper Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CopperII" @oninput="HandleUpdateCopperII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Copper Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CopperUB" @oninput="HandleUpdateCopperUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Phosphorus Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PhosphorusLB" @oninput="HandleUpdatePhosphorusLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Phosphorus Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PhosphorusII" @oninput="HandleUpdatePhosphorusII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Phosphorus Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.PhosphorusUB" @oninput="HandleUpdatePhosphorusUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Iodine Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.IodineLB" @oninput="HandleUpdateIodineLB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Iodine Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.IodineII" @oninput="HandleUpdateIodineII"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Iodine Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.IodineUB" @oninput="HandleUpdateIodineUB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Copper Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CopperLB" @oninput="HandleUpdateCopperLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Copper Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CopperII" @oninput="HandleUpdateCopperII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Copper Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CopperUB" @oninput="HandleUpdateCopperUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="justify-content-between">
+                        <td>Selenium Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SeleniumLB" @oninput="HandleUpdateSeleniumLB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Selenium Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SeleniumII" @oninput="HandleUpdateSeleniumII" />
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Selenium Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.SeleniumUB" @oninput="HandleUpdateSeleniumUB"/>
+                                </span> 
+                                <span>µg</span> 
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr class="justify-content-between">
-                    <td>Iodine Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.IodineLB" @oninput="HandleUpdateIodineLB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Iodine Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.IodineII" @oninput="HandleUpdateIodineII"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Iodine Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.IodineUB" @oninput="HandleUpdateIodineUB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-
-                <tr class="justify-content-between">
-                    <td>Selenium Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SeleniumLB" @oninput="HandleUpdateSeleniumLB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Selenium Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SeleniumII" @oninput="HandleUpdateSeleniumII" />
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Selenium Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.SeleniumUB" @oninput="HandleUpdateSeleniumUB"/>
-                            </span> 
-                            <span>µg</span> 
-                        </div>
-                    </td>
-                </tr>
-
-                <tr class="justify-content-between">
-                    <td>Calcium Lower Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CalciumLB" @oninput="HandleUpdateCalciumLB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Calcium Ideal</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CalciumII" @oninput="HandleUpdateCalciumII"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <tr class="justify-content-between">
-                    <td>Calcium Upper Bound</td>
-                    <td class="value">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <span>
-                            <input type="number" class="form-control input-field" @bind-value="User.CalciumUB" @oninput="HandleUpdateCalciumUB"/>
-                            </span> 
-                            <span>mg</span> 
-                        </div>
-                    </td>
-                </tr>
-                <!-- Add more nutrient rows as needed -->
-            </tbody>
-        </table>
-    </div>
+                    <tr class="justify-content-between">
+                        <td>Calcium Lower Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CalciumLB" @oninput="HandleUpdateCalciumLB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Calcium Ideal</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CalciumII" @oninput="HandleUpdateCalciumII"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="justify-content-between">
+                        <td>Calcium Upper Bound</td>
+                        <td class="value">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span>
+                                <input type="number" class="form-control input-field" @bind-value="User.CalciumUB" @oninput="HandleUpdateCalciumUB"/>
+                                </span> 
+                                <span>mg</span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Add more nutrient rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
 
 
@@ -1107,6 +1113,7 @@
     private UserNutritionDTO User {get; set;} = new UserNutritionDTO{};
 
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    private bool showMore {get; set;} = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -1147,7 +1154,10 @@
     await JSRuntime.InvokeVoidAsync("removeElementClass", "everything", "blur");
     }
 
-
+    private void HandleShowMoreOrLess()
+    {
+        showMore = !showMore;
+    }
 
     private async Task HandleUpdate()
     {
