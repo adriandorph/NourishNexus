@@ -36,3 +36,10 @@ public record MealWithFoodDTO
     List<FoodItemAmountDTO> FoodItems, 
     List<RecipeAmountDTO> Recipes
 );
+
+public record MealWithAllFoodDTO
+(
+    MealDTO Meal,
+    List<FoodItemAmountDTO> FoodItems, 
+    List<RecipeAmountWithFoodItemsDTO> Recipes
+);

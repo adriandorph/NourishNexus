@@ -10,7 +10,7 @@
 @inject IFoodItemService FoodItemService
 @inject IPlanningService PlanningService
 
-@if(!dayCalories.Any() || !mealCalories.Any() || !days.Any())
+@if(week == null)
 {
     <p>Loading...</p>
 }
@@ -43,23 +43,51 @@ else
     <div class="day-box">
         <div class="d-flex justify-content-between">
             <span id="totalcalories"> Total calories </span>
-            <span class="calories-heading" id="daykcal">@FloatFormat(FromDayCalories(0)) kcal</span>
+            <span class="calories-heading" id="daykcal">@week.Monday.Calories kcal</span>
         </div>
         <div class="d-flex justify-content-between">
             <span>Breakfast</span>
-            <span>@FloatFormat(FromMealCalories(0,0)) kcal</span>
+            @if(week.Monday.Breakfast.recipes.Count > 0)
+            {
+                <span>@week.Monday.Breakfast.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Monday.Breakfast.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Lunch</span>
-            <span>@FloatFormat(FromMealCalories(0,1)) kcal</span>
+            @if(week.Monday.Lunch.recipes.Count > 0)
+            {
+                <span>@week.Monday.Lunch.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Monday.Lunch.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Dinner</span>
-            <span>@FloatFormat(FromMealCalories(0,2)) kcal</span>
+            @if(week.Monday.Dinner.recipes.Count > 0)
+            {
+                <span>@week.Monday.Dinner.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Monday.Dinner.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Snacks</span>
-            <span>@FloatFormat(FromMealCalories(0,3)) kcal</span>
+            @if(week.Monday.Snacks.recipes.Count > 0)
+            {
+                <span>@week.Monday.Snacks.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Monday.Snacks.Calories kcal</span>
+            }
         </div>
     </div>
 
@@ -69,30 +97,54 @@ else
             <i class="oi oi-arrow-thick-right"></i></button>
     </div>
 
-
-
-
-
     <div class="day-box">
         <div class="d-flex justify-content-between">
             <span id="totalcalories"> Total calories </span>
-            <span class="calories-heading" id="daykcal">@FloatFormat(FromDayCalories(1)) kcal</span>
+            <span class="calories-heading" id="daykcal">@week.Tuesday.Calories kcal</span>
         </div>
         <div class="d-flex justify-content-between">
             <span>Breakfast</span>
-            <span>@FloatFormat(FromMealCalories(1,0)) kcal</span>
+            @if(week.Tuesday.Breakfast.recipes.Count > 0)
+            {
+                <span>@week.Tuesday.Breakfast.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Tuesday.Breakfast.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Lunch</span>
-            <span>@FloatFormat(FromMealCalories(1,1)) kcal</span>
+            @if(week.Tuesday.Lunch.recipes.Count > 0)
+            {
+                <span>@week.Tuesday.Lunch.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Tuesday.Lunch.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Dinner</span>
-            <span>@FloatFormat(FromMealCalories(1,2)) kcal</span>
+            @if(week.Tuesday.Dinner.recipes.Count > 0)
+            {
+                <span>@week.Tuesday.Dinner.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Tuesday.Dinner.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Snacks</span>
-            <span>@FloatFormat(FromMealCalories(1,3)) kcal</span>
+            @if(week.Tuesday.Snacks.recipes.Count > 0)
+            {
+                <span>@week.Tuesday.Snacks.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Tuesday.Snacks.Calories kcal</span>
+            }
         </div>
     </div>
 
@@ -104,27 +156,54 @@ else
 
 
 
-
     <div class="day-box">
         <div class="d-flex justify-content-between">
             <span id="totalcalories"> Total calories </span>
-            <span class="calories-heading" id="daykcal">@FloatFormat(FromDayCalories(2)) kcal</span>
+            <span class="calories-heading" id="daykcal">@week.Wednesday.Calories kcal</span>
         </div>
         <div class="d-flex justify-content-between">
             <span>Breakfast</span>
-            <span>@FloatFormat(FromMealCalories(2,0)) kcal</span>
+            @if(week.Wednesday.Breakfast.recipes.Count > 0)
+            {
+                <span>@week.Wednesday.Breakfast.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Wednesday.Breakfast.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Lunch</span>
-            <span>@FloatFormat(FromMealCalories(2,1)) kcal</span>
+            @if(week.Wednesday.Lunch.recipes.Count > 0)
+            {
+                <span>@week.Wednesday.Lunch.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Wednesday.Lunch.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Dinner</span>
-            <span>@FloatFormat(FromMealCalories(2,2)) kcal</span>
+            @if(week.Wednesday.Dinner.recipes.Count > 0)
+            {
+                <span>@week.Wednesday.Dinner.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Wednesday.Dinner.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Snacks</span>
-            <span>@FloatFormat(FromMealCalories(2,3)) kcal</span>
+            @if(week.Wednesday.Snacks.recipes.Count > 0)
+            {
+                <span>@week.Wednesday.Snacks.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Wednesday.Snacks.Calories kcal</span>
+            }
         </div>
     </div>
 
@@ -139,23 +218,51 @@ else
     <div class="day-box">
         <div class="d-flex justify-content-between">
             <span id="totalcalories"> Total calories </span>
-            <span class="calories-heading" id="daykcal">@FloatFormat(FromDayCalories(3)) kcal</span>
+            <span class="calories-heading" id="daykcal">@week.Thursday.Calories kcal</span>
         </div>
         <div class="d-flex justify-content-between">
             <span>Breakfast</span>
-            <span>@FloatFormat(FromMealCalories(3,0)) kcal</span>
+            @if(week.Thursday.Breakfast.recipes.Count > 0)
+            {
+                <span>@week.Thursday.Breakfast.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Thursday.Breakfast.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Lunch</span>
-            <span>@FloatFormat(FromMealCalories(3,1)) kcal</span>
+            @if(week.Thursday.Lunch.recipes.Count > 0)
+            {
+                <span>@week.Thursday.Lunch.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Thursday.Lunch.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Dinner</span>
-            <span>@FloatFormat(FromMealCalories(3,2)) kcal</span>
+            @if(week.Thursday.Dinner.recipes.Count > 0)
+            {
+                <span>@week.Thursday.Dinner.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Thursday.Dinner.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Snacks</span>
-            <span>@FloatFormat(FromMealCalories(3,3)) kcal</span>
+            @if(week.Thursday.Snacks.recipes.Count > 0)
+            {
+                <span>@week.Thursday.Snacks.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Thursday.Snacks.Calories kcal</span>
+            }
         </div>
     </div>
 
@@ -169,23 +276,51 @@ else
     <div class="day-box">
         <div class="d-flex justify-content-between">
             <span id="totalcalories"> Total calories </span>
-            <span class="calories-heading" id="daykcal">@FloatFormat(FromDayCalories(4)) kcal</span>
+            <span class="calories-heading" id="daykcal">@week.Friday.Calories kcal</span>
         </div>
         <div class="d-flex justify-content-between">
             <span>Breakfast</span>
-            <span>@FloatFormat(FromMealCalories(4,0)) kcal</span>
+            @if(week.Friday.Breakfast.recipes.Count > 0)
+            {
+                <span>@week.Friday.Breakfast.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Friday.Breakfast.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Lunch</span>
-            <span>@FloatFormat(FromMealCalories(4,1)) kcal</span>
+            @if(week.Friday.Lunch.recipes.Count > 0)
+            {
+                <span>@week.Friday.Lunch.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Friday.Lunch.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Dinner</span>
-            <span>@FloatFormat(FromMealCalories(4,2)) kcal</span>
+            @if(week.Friday.Dinner.recipes.Count > 0)
+            {
+                <span>@week.Friday.Dinner.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Friday.Dinner.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Snacks</span>
-            <span>@FloatFormat(FromMealCalories(4,3)) kcal</span>
+            @if(week.Friday.Snacks.recipes.Count > 0)
+            {
+                <span>@week.Friday.Snacks.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Friday.Snacks.Calories kcal</span>
+            }
         </div>
     </div>
 
@@ -199,23 +334,51 @@ else
     <div class="day-box">
         <div class="d-flex justify-content-between">
             <span id="totalcalories"> Total calories </span>
-            <span class="calories-heading" id="daykcal">@FloatFormat(FromDayCalories(5)) kcal</span>
+            <span class="calories-heading" id="daykcal">@week.Saturday.Calories kcal</span>
         </div>
         <div class="d-flex justify-content-between">
             <span>Breakfast</span>
-            <span>@FloatFormat(FromMealCalories(5,0)) kcal</span>
+            @if(week.Saturday.Breakfast.recipes.Count > 0)
+            {
+                <span>@week.Saturday.Breakfast.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Saturday.Breakfast.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Lunch</span>
-            <span>@FloatFormat(FromMealCalories(5,1)) kcal</span>
+            @if(week.Saturday.Lunch.recipes.Count > 0)
+            {
+                <span>@week.Saturday.Lunch.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Saturday.Lunch.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Dinner</span>
-            <span>@FloatFormat(FromMealCalories(5,2)) kcal</span>
+            @if(week.Saturday.Dinner.recipes.Count > 0)
+            {
+                <span>@week.Saturday.Dinner.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Saturday.Dinner.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Snacks</span>
-            <span>@FloatFormat(FromMealCalories(5,3)) kcal</span>
+            @if(week.Saturday.Snacks.recipes.Count > 0)
+            {
+                <span>@week.Saturday.Snacks.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Saturday.Snacks.Calories kcal</span>
+            }
         </div>
     </div>
 
@@ -230,23 +393,51 @@ else
     <div class="day-box">
         <div class="d-flex justify-content-between">
             <span id="totalcalories"> Total calories </span>
-            <span class="calories-heading" id="daykcal">@FloatFormat(FromDayCalories(6)) kcal</span>
+            <span class="calories-heading" id="daykcal">@week.Sunday.Calories kcal</span>
         </div>
         <div class="d-flex justify-content-between">
             <span>Breakfast</span>
-            <span>@FloatFormat(FromMealCalories(6,0)) kcal</span>
+            @if(week.Sunday.Breakfast.recipes.Count > 0)
+            {
+                <span>@week.Sunday.Breakfast.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Sunday.Breakfast.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Lunch</span>
-            <span>@FloatFormat(FromMealCalories(6,1)) kcal</span>
+            @if(week.Sunday.Lunch.recipes.Count > 0)
+            {
+                <span>@week.Sunday.Lunch.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Sunday.Lunch.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Dinner</span>
-            <span>@FloatFormat(FromMealCalories(6,2)) kcal</span>
+            @if(week.Sunday.Dinner.recipes.Count > 0)
+            {
+                <span>@week.Sunday.Dinner.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Sunday.Dinner.Calories kcal</span>
+            }
         </div>
         <div class="d-flex justify-content-between">
             <span>Snacks</span>
-            <span>@FloatFormat(FromMealCalories(6,3)) kcal</span>
+            @if(week.Sunday.Snacks.recipes.Count > 0)
+            {
+                <span>@week.Sunday.Snacks.recipes.FirstOrDefault()!.Title</span>
+            }
+            else
+            {
+                <span>@week.Sunday.Snacks.Calories kcal</span>
+            }
         </div>
     </div>
 
@@ -277,9 +468,7 @@ else
 
     private int currentWeek;
 
-    private List<List<MealWithFoodDTO>> days { get; set; } = new List<List<MealWithFoodDTO>>();
-    private List<float> dayCalories { get; set; } = new List<float>();
-    private List<List<float>> mealCalories { get; set; } = new List<List<float>>();
+    private server.Core.EF.DTO.Week? week {get; set;}
 
     protected override async Task OnInitializedAsync()
     {
@@ -290,76 +479,20 @@ else
         userID = int.Parse(userIdClaim!.Value);
         user = await UserService.GetUserNutritionByID(userID);
         UpdateDates();
-        await UpdateCalories();
+        week = await MealService.GetWeek(userID, startDate);
     }
-
-    private async Task UpdateCalories()
-    {
-        days = await GetDaysWithMeals();
-        dayCalories = new List<float>();
-        dayCalories.Add(await DayKcal(DayOfWeek.Monday));
-        dayCalories.Add(await DayKcal(DayOfWeek.Tuesday));
-        dayCalories.Add(await DayKcal(DayOfWeek.Wednesday));
-        dayCalories.Add(await DayKcal(DayOfWeek.Thursday));
-        dayCalories.Add(await DayKcal(DayOfWeek.Friday));
-        dayCalories.Add(await DayKcal(DayOfWeek.Saturday));
-        dayCalories.Add(await DayKcal(DayOfWeek.Sunday));
-
-        mealCalories = new List<List<float>>();
-        foreach (var day in days)
-        {
-            var meals = new List<float>();
-            var breakfast = day.Where(m => m.Meal.MealType == MealType.BREAKFAST).FirstOrDefault();
-            if (breakfast != null) meals.Add(await MealKcal(breakfast));
-            else meals.Add(0.0f);
-
-            var lunch = day.Where(m => m.Meal.MealType == MealType.LUNCH).FirstOrDefault();
-            if (lunch != null) meals.Add(await MealKcal(lunch));
-            else meals.Add(0.0f);
-
-            var dinner = day.Where(m => m.Meal.MealType == MealType.DINNER).FirstOrDefault();
-            if (dinner != null) meals.Add(await MealKcal(dinner));
-            else meals.Add(0.0f);
-
-            var snack = day.Where(m => m.Meal.MealType == MealType.SNACK).FirstOrDefault();
-            if (snack != null) meals.Add(await MealKcal(snack));
-            else meals.Add(0.0f);
-
-            mealCalories.Add(meals);
-
-        }
-    }
-
     private async Task PreviousWeek()
     {
-        days = new List<List<MealWithFoodDTO>>();
-        dayCalories = new List<float>();
-        mealCalories = new List<List<float>>();
         date = date.AddDays(-7);
         UpdateDates();
-        await UpdateCalories();
+        week = await MealService.GetWeek(userID, date);
     }
 
     private async Task NextWeek()
     {
-        days = new List<List<MealWithFoodDTO>>();
-        dayCalories = new List<float>();
-        mealCalories = new List<List<float>>();
         date = date.AddDays(7);
         UpdateDates();
-        await UpdateCalories();
-    }
-
-    private float FromMealCalories(int day, int meal)
-    {
-        try
-        {
-            return mealCalories[day][meal];
-        }
-        catch (Exception)
-        {
-            return 0.0f;
-        }
+        week = await MealService.GetWeek(userID, date);
     }
 
     private DateTime LoadDate(string date)
@@ -429,18 +562,6 @@ else
             days.Add(meals);
         }
         return days;
-    }
-
-    private float FromDayCalories(int day)
-    {
-        try
-        {
-            return dayCalories[day];
-        }
-        catch (Exception)
-        {
-            return 0.0f;
-        }
     }
 
     private string ToShortDateOnly(DateTime date)

@@ -14,3 +14,15 @@
     font-size: 24px;
     font-weight: 500;
 }
+
+@media(max-width:500px)
+{
+    .day-box span {
+        display: inline-block;
+        max-width: 200px; /* Set the maximum width of the span */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; /* Add the ellipsis at the end of the text */
+    }
+}
+

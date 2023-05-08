@@ -1,10 +1,12 @@
 namespace server.Services;
 using server.Core.EF;
+using server.Core.EF.DTO;
 
 public interface IMealService
 {
     public Task<IActionResult> ReportMeal(MealReportDTO mealReportDTO);
     public Task<IActionResult> GetMealsByUserAndDate(int userID, DateTime date);
+    public Task<IActionResult> GetWeekByUserAndDate(int userID, DateTime date); 
 }
 
 public class MealService : IMealService
@@ -123,7 +125,69 @@ public class MealService : IMealService
         return new OkObjectResult(meals);
     }
 
+    public async Task<IActionResult> GetWeekByUserAndDate(int userID, DateTime date)
+    {
+        //Get all meals in the week
+        var meals = await _repo.ReadAllWithFoodByUserAndDateRangeAsync(userID, date, date.AddDays(6));
+
+        var days = new List<Day>();
+
+        for(int i = 0; i<7; i++)
+        {
+            Meal breakfast = VedIkkeLigeNu(meals, date.Date, MealType.BREAKFAST);
+            Meal lunch = VedIkkeLigeNu(meals, date.Date, MealType.LUNCH);
+            Meal dinner = VedIkkeLigeNu(meals, date.Date, MealType.DINNER);
+            Meal snacks = VedIkkeLigeNu(meals, date.Date, MealType.SNACK);
+            float calories = breakfast.Calories + lunch.Calories + dinner.Calories + snacks.Calories;
+            days.Add(new Day(calories, breakfast, lunch, dinner, snacks));
+            date = date.AddDays(1);
+        }
+
+        return new OkObjectResult(new Week(days[0], days[1], days[2], days[3], days[4], days[5], days[6]));
+    }
+
     //Helper functions
+
+    private float CountCalories(MealWithAllFoodDTO meal)
+    {
+        var sum = 0f;
+
+        foreach(var f in meal.FoodItems)
+        {
+            sum += f.FoodItem!.Calories * f.Amount;
+        }
+
+        foreach(var r in meal.Recipes)
+        {
+            foreach(var f in r.Fooditems)
+            {
+                sum += f.FoodItem!.Calories * f.Amount * r.Amount;
+            }
+        }
+        return sum;
+    }
+
+    private Meal VedIkkeLigeNu(IReadOnlyCollection<MealWithAllFoodDTO> meals, DateTime date, MealType mealType)
+    {
+        Meal breakfast;
+        var breakfastMealDTO = meals
+            .Where(m => m.Meal.Date.Date == date.Date && m.Meal.MealType == mealType)
+            .FirstOrDefault();
+        if (breakfastMealDTO == null)
+            breakfast = new Meal(0, new List<FoodItemDTO>(), new List<RecipeDTO>());
+        else
+        {
+            float calories = CountCalories(breakfastMealDTO);
+            
+            breakfast = new Meal(
+                calories, 
+                breakfastMealDTO.FoodItems.Select(f => f.FoodItem!).ToList(), 
+                breakfastMealDTO.Recipes.Select(r => r.Recipe).ToList()
+            );
+
+        }
+        return breakfast;
+    }
 
     private void AddToMealTotal(MealNutrientInfo mealTotal, FoodItemAmountDTO foodItem)
     {

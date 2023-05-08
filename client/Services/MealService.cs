@@ -54,4 +54,10 @@ public class MealService : IMealService
         var result = await _http.GetAsync($"api/Meal/mealswithfood/{userId}/{date.ToString("yyyy-MM-ddTHH:mm:ss").Replace(".", "%3A")}");
         return await result.Content.ReadFromJsonAsync<List<MealWithFoodDTO>>() ?? new List<MealWithFoodDTO>();
     }
+
+    public async Task<Week?> GetWeek(int userID, DateTime startDate)
+    {
+        var result = await _http.GetAsync($"api/Meal/week/{userID}/{startDate.ToString("yyyy-MM-ddTHH:mm:ss").Replace(".", "%3A")}");
+        return await result.Content.ReadFromJsonAsync<Week>() ?? null;
+    }
 }
