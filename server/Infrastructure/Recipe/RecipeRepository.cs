@@ -241,7 +241,17 @@ public class RecipeRepository : IRecipeRepository
        
     
     public async Task<IReadOnlyCollection<RecipeDTO>> ReadPublicBySearchWord(string word)
-        => await _context.Recipes
+    {
+        if (word == "_")
+            return await _context.Recipes
+                .Include(r => r.Categories)
+                .Include(r => r.Users)
+                .Where(r => r.IsPublic)
+                .Take(100)
+                .Select(r => r.ToDTO())
+                .ToListAsync();
+                
+        return await _context.Recipes
             .Include(r => r.Categories)
             .Include(r => r.Users)
             .Where(r => r.IsPublic && r.Title.Contains(word))
@@ -249,6 +259,7 @@ public class RecipeRepository : IRecipeRepository
             .Take(100)
             .Select(r => r.ToDTO())
             .ToListAsync();
+    }
 
             
 

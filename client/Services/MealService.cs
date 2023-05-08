@@ -13,6 +13,10 @@ public class MealService : IMealService
     public MealService(HttpClient http)
     {
         _http = http;
+        string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+        if (environment != "Production")
+            if (_http.BaseAddress != new Uri("http://localhost:5288"))
+                _http.BaseAddress = new Uri("http://localhost:5288");
     }
 
     public async Task<MealDTO?> PostMeal(int userID, DateTime date, MealType type)
