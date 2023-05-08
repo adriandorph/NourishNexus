@@ -12,6 +12,11 @@ public class CategoryService : ICategoryService
     public CategoryService(HttpClient http)
     {
         _http = http;
+
+        string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
+        if (environment != "Production")
+            if (_http.BaseAddress != new Uri("http://localhost:5288"))
+                _http.BaseAddress = new Uri("http://localhost:5288");
     }
     
     public async Task<HttpResponseMessage> CreateCategory(CategoryCreateDTO category)

@@ -12,6 +12,10 @@ public class FoodItemService : IFoodItemService
     public FoodItemService(HttpClient http)
     {
         _http = http;
+        string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
+        if (environment != "Production")
+            if (_http.BaseAddress != new Uri("http://localhost:5288"))
+                _http.BaseAddress = new Uri("http://localhost:5288");
     }
     
     public async Task<List<FoodItemAmountDTO>> GetByRecipe(int recipeID)
@@ -22,6 +26,7 @@ public class FoodItemService : IFoodItemService
 
     public async Task<List<FoodItemDTO>> GetBySearchWord(string word)
     {
+        if (word.Length == 0 || word.StartsWith(" ")) word = "_";
         var result = await _http.GetAsync($"api/FoodItem/search/{word}");
         return await result.Content.ReadFromJsonAsync<List<FoodItemDTO>>() ?? new List<FoodItemDTO>();
     }

@@ -14,6 +14,10 @@ public class RecipeService : IRecipeService
     public RecipeService(HttpClient http)
     {
         _http = http;
+        string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
+        if (environment != "Production")
+            if (_http.BaseAddress != new Uri("http://localhost:5288"))
+                _http.BaseAddress = new Uri("http://localhost:5288");
     }
     
     public async Task<HttpResponseMessage> CreateRecipe(RecipeCreateDTO recipe)
@@ -43,12 +47,14 @@ public class RecipeService : IRecipeService
     
     public async Task<List<RecipeDTO>> GetSavedBySearchWord(string word, int userID)
     {
+        if (word.Length == 0 || word.StartsWith(" ")) word = "_";
         var result = await _http.GetAsync($"api/Recipe/search/saved?word={word}&userID={userID}");
         return await result.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
     }
 
     public async Task<List<RecipeDTO>> GetFromCommunityBySearchWord(string word)
     {
+        if (word.Length == 0 || word.StartsWith(" ")) word = "_";
         var result = await _http.GetAsync($"api/Recipe/search/community/{word}");
         return await result.Content.ReadFromJsonAsync<List<RecipeDTO>>() ?? new List<RecipeDTO>();
     }

@@ -98,18 +98,16 @@
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
         int.TryParse(userIdClaim!.Value, out int id);
         userID = id;
+        await PerformSearch(new ChangeEventArgs());
     }
 
     
 
     private async Task PerformSearch(ChangeEventArgs e)
     {
-        string searchQuery = e.Value != null ? e.Value!.ToString() ?? " " : " ";
-        if (searchQuery.Length < 1 || searchQuery.StartsWith(" ")) 
-        {
-            SearchPerformed = false;
-            return;
-        }
+        string searchQuery = e.Value != null ? e.Value!.ToString() ?? "_" : "_";
+        if (searchQuery.Length == 0) searchQuery = "_";
+
         switch (CurrentSearchOption)
         {
             case SearchOption.FoodItems:
@@ -134,12 +132,13 @@
     }
 
 
-    private void SetSearchOption(SearchOption searchOption)
+    private async Task SetSearchOption(SearchOption searchOption)
     {
         CurrentSearchOption = searchOption;
         SearchPerformed = false;
         // Perform additional logic based on the selected search option
         SearchResults = new List<SearchResult>();
+        await PerformSearch(new ChangeEventArgs());
     }
 
     // Check if the given search option is currently active

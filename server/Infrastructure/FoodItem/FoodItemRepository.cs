@@ -358,12 +358,20 @@ public class FoodItemRepository : IFoodItemRepository
             .ToList();
 
     public async Task<IReadOnlyCollection<FoodItemDTO>> ReadAllBySearchWord(string word)
-        => await  _context.FoodItems
+    {
+        if(word == "_") 
+            return await _context.FoodItems
+                .Take(100)
+                .Select(f => f.ToDTO())
+                .ToListAsync();
+
+        return await  _context.FoodItems
             .Where(f => f.Name.Contains(word))
             .OrderBy(f => f.Name.Length)
             .Take(100)
             .Select(f => f.ToDTO())
             .ToListAsync();
+    }
     
     public async Task<Response> RemoveFoodItemRecipesByRecipeID(int recipeID)
     {
