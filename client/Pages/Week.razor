@@ -489,9 +489,14 @@ else
             message = "Could not generate a plan that suits all of your nutritional needs, but here is the next best thing";
             messageCssClass="text-warning";
         }
-        else //Cancelled
+        else if (response == MealPlanResponse.Cancelled)
         {
-            message = "Plan cancelled. You need to save more recipes to generate a plan.";
+            message = "Plan cancelled. You need to have saved at least 7 breakfast recipes, 7 lunch recipes, 7 dinner recipes and 7 snack recipes, to generate a plan.";
+            messageCssClass="text-danger";
+        }
+        else //CancelledTargets
+        {
+            message = "Plan cancelled. You need to set your nutrition targets on the 'Nutrient Targets' page.";
             messageCssClass="text-danger";
         }
     }

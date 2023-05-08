@@ -33,7 +33,8 @@ public class MealPlanGenerator : IMealPlanGenerator
         UserNutritionDTO user = userResult.Value;
 
         //Initial checks
-        if (!UserPrerequisites(user)) return (new DietReport(null,null,null,null, MealPlanResponse.Cancelled, null));
+        var prerequisites = UserPrerequisites(user);
+        if (prerequisites != MealPlanResponse.Success) return (new DietReport(null,null,null,null, prerequisites, null));
 
         NutrientTargets lowerBounds = GetLowerBounds(user);
         NutrientTargets idealIntake = await CalculateIdealIntake(user, startingDate);
@@ -50,7 +51,7 @@ public class MealPlanGenerator : IMealPlanGenerator
         {
             dietReport = await Create7DayMealPlan(user, startingDate, lowerBounds, idealIntake, upperBounds, calorieTargets, savedRecipes);
             if (dietReport.Response == MealPlanResponse.Success) break;
-            if (dietReport.Response == MealPlanResponse.Cancelled && i == 0) return dietReport;
+            if ((dietReport.Response == MealPlanResponse.Cancelled && i == 0) || dietReport.Response == MealPlanResponse.CancelledTargets) return dietReport;
         }
 
         if(dietReport == null || dietReport.MealPlan == null) throw new Exception("Mealplan or dietReport is null");
@@ -140,14 +141,15 @@ public class MealPlanGenerator : IMealPlanGenerator
     }
 
     //Helper methods
-    private bool UserPrerequisites(UserNutritionDTO user)
+    private MealPlanResponse UserPrerequisites(UserNutritionDTO user)
     {
         //Check if intake targets are set
-        if (!IsNutritionSet(user)) return false;
+        if (!IsNutritionSet(user)) return MealPlanResponse.CancelledTargets;
 
         //Check if user has enough recipes
         var count = user.SavedRecipeIds.Count;
-        return  count >= MinRecipes;
+        if (count < MinRecipes) return MealPlanResponse.Cancelled;
+        return MealPlanResponse.Success;
     }
 
     //Lower Bounds for a week

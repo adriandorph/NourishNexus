@@ -3,5 +3,6 @@ public enum MealPlanResponse
 {
     Success,
     Fail,
-    Cancelled
+    Cancelled,
+    CancelledTargets
 }
