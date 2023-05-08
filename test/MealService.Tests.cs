@@ -232,9 +232,9 @@ public class MealServiceTests
         var user1 = new User("Bravo", "antbr@itu.dk", new byte[32], new byte[32], new List<Recipe>());
 
         //Meals
-        var meal1 = new Meal(MealType.BREAKFAST, user1, _date, new List<Category>());
+        var meal1 = new server.Infrastructure.Meal(MealType.BREAKFAST, user1, _date, new List<Category>());
         //3
-        var meal2 = new Meal(MealType.DINNER, user1, _date, new List<Category>());
+        var meal2 = new server.Infrastructure.Meal(MealType.DINNER, user1, _date, new List<Category>());
         //3 + 1.5/2 = 3.75
         
         //Recipe

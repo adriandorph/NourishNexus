@@ -13,7 +13,7 @@ public class RecipeRepositoryTests
     Category _vegan;
     Category _fruit;
 
-    Meal _christmas;
+    server.Infrastructure.Meal _christmas;
 
     //Setup
     public RecipeRepositoryTests()
@@ -146,7 +146,7 @@ public class RecipeRepositoryTests
         context.Categories.Add(_fruit);
 
         //Add meal
-        _christmas = new Meal(MealType.DINNER, _user1, new DateTime(2023, 12, 24), new List<Category>{_vegan, _fruit});
+        _christmas = new server.Infrastructure.Meal(MealType.DINNER, _user1, new DateTime(2023, 12, 24), new List<Category>{_vegan, _fruit});
 
         context.Meals.Add(_christmas);
 

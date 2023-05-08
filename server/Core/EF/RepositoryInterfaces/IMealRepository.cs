@@ -18,4 +18,5 @@ public interface IMealRepository
     public Task<IReadOnlyCollection<MealDTO>> ReadAllByDateRangeAndUser(int userID, DateTime startDate, DateTime endDate);
     public Task<Option<MealWithFoodDTO>> ReadWithFoodByIDAsync(int id);
     public Task<IReadOnlyCollection<MealWithFoodDTO>> ReadAllWithFoodByUserAndDateAsync(int userID, DateTime date);
+    public Task<IReadOnlyCollection<MealWithAllFoodDTO>> ReadAllWithFoodByUserAndDateRangeAsync(int userID, DateTime startDate, DateTime endDate);
 }

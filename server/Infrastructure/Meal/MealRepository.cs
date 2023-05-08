@@ -236,6 +236,70 @@ public class MealRepository : IMealRepository
         return mealsWithFood;
     }
 
+    public async Task<IReadOnlyCollection<MealWithAllFoodDTO>> ReadAllWithFoodByUserAndDateRangeAsync(int userID, DateTime startDate, DateTime endDate)
+    {
+        var meals = await _context.Meals
+            .Include(m => m.Categories)
+            .Include(m => m.User)
+            .Where(m => m.User.Id == userID && m.Date.Date >= startDate.Date && m.Date.Date <= endDate.Date)
+            .Select(m => m.ToDTO())
+            .ToListAsync();
+
+        var mealsWithFood = new List<MealWithAllFoodDTO>();
+
+        foreach(var meal in meals)
+        {
+            List<FoodItemAmountDTO> foodItems = await _context.FoodItemMeals
+                .Where(fim => fim.Meal.Id == meal.Id)
+                .Select(fim => new FoodItemAmountDTO
+                    {
+                        Amount = fim.Amount,
+                        FoodItem = fim.FoodItem.ToDTO()
+                    }
+                )
+                .ToListAsync();
+        
+            List<RecipeAmountDTO> recipes = await _context.RecipeMeals
+                .Where(rm => rm.Meal.Id == meal.Id)
+                .Include(rm => rm.Recipe.Categories)
+                .Select(rm => new RecipeAmountDTO(
+                        rm.Amount,
+                        rm.Recipe.ToDTO()
+                    )
+                )
+                .ToListAsync();
+            
+            List<RecipeAmountWithFoodItemsDTO> recipesWithFood = new List<RecipeAmountWithFoodItemsDTO>();
+            foreach(var r in recipes)
+            {
+                var foodItemsInRecipe = await _context.FoodItemRecipes
+                    .Where(fir => fir.Recipe.Id == r.Recipe.Id)
+                    .Select(fir => new FoodItemAmountDTO
+                        {
+                            Amount = fir.Amount,
+                            FoodItem = fir.FoodItem.ToDTO()
+                        }
+                    ).ToListAsync();
+                var recipe = new RecipeAmountWithFoodItemsDTO(r.Amount, r.Recipe, foodItemsInRecipe);
+                recipesWithFood.Add(recipe);
+            }
+            
+            var mealWithFood = new MealWithAllFoodDTO(meal, foodItems, recipesWithFood);
+            mealsWithFood.Add(mealWithFood);
+        }
+        return mealsWithFood;
+    }
+
+    private bool IsInDateRange(DateTime date, DateTime startDate, DateTime endDate)
+    {
+        if(startDate.Date > endDate.Date) throw new ArgumentOutOfRangeException();
+        while(startDate.Date <= endDate.Date)
+        {
+            if (date.Date == startDate.Date) return true;
+            startDate = startDate.AddDays(1);
+        }
+        return false;
+    }
 
 
     //Helper functions
@@ -243,4 +307,5 @@ public class MealRepository : IMealRepository
         => await _context.Categories
             .Where(c => categoryIDs.Any(cID => cID == c.Id))
             .ToListAsync();
+
 }

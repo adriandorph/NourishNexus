@@ -9,4 +9,5 @@ using server.Core.EF;
         Task<List<MealDTO>> GetMealsByUserIDAndDate(int userId, DateTime date);
         Task<MealWithFoodDTO?> GetMealByID(int mealID);
         Task<List<MealWithFoodDTO>> GetMealsWithFoodByUserIDAndDate(int userId, DateTime date);
+        Task<Week?> GetWeek(int userID, DateTime startDate);
     }
