@@ -20,47 +20,56 @@
                 <div class="card-body">
                     <h1 class="card-title text-center mb-4">Account</h1>
 
-<EditForm Model="userUpdate" OnValidSubmit="HandleUpdateUser">
+                    <EditForm Model="userUpdate" OnValidSubmit="HandleUpdateUser">
 
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <InputText id="email" type="email" class="form-control" @bind-Value="userUpdate.Email" />
-        <ValidationMessage For="@(() => userUpdate.Email)" />
-    </div>
+                        <div class="mb-3">
+                            <label for="email">Email</label>
+                            <InputText id="email" type="email" class="form-control" @bind-Value="userUpdate.Email" />
+                            <ValidationMessage For="@(() => userUpdate.Email)" />
+                        </div>
 
-    <div class="mb-3">
-        <label for="nickname">Nickname</label>
-        <InputText id="nickname" class="form-control" @bind-Value="userUpdate.Nickname" />
-    </div>
+                        <div class="mb-3">
+                            <label for="nickname">Nickname</label>
+                            <InputText id="nickname" class="form-control" @bind-Value="userUpdate.Nickname" />
+                        </div>
 
-    <div class="mb-3">
-        <label for="password">Password</label>
-        <InputText id="password" class="form-control" type="password" @bind-Value="password" />
-        <ValidationMessage For="@(() => password)" />
-    </div>
+                        <div class="mb-3">
+                            <label for="password">Password</label>
+                            <InputText id="password" class="form-control" type="password" @bind-Value="password" />
+                            <ValidationMessage For="@(() => password)" />
+                        </div>
 
-    <div class="mb-3">
-        <label for="newpassword">New Password</label>
-        <InputText id="newpassword" class="form-control" type="password" @bind-Value="userUpdate.Password" />
-        <ValidationMessage For="@(() => userUpdate.Password)" />
-    </div>
+                        <div class="mb-3">
+                            <label for="newpassword">New Password</label>
+                            <InputText id="newpassword" class="form-control" type="password" @bind-Value="userUpdate.Password" />
+                            <ValidationMessage For="@(() => userUpdate.Password)" />
+                        </div>
 
-    <div class="mb-3">
-        <label for="confirmpassword">Confirm New Password</label>
-        <InputText id="confirmpassword" class="form-control" type="password" @bind-Value="userUpdate.ConfirmPassword" />
-        <ValidationMessage For="@(() => userUpdate.ConfirmPassword)" />
-    </div>
+                        <div class="mb-3">
+                            <label for="confirmpassword">Confirm New Password</label>
+                            <InputText id="confirmpassword" class="form-control" type="password" @bind-Value="userUpdate.ConfirmPassword" />
+                            <ValidationMessage For="@(() => userUpdate.ConfirmPassword)" />
+                        </div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
-    <div class ="@messageCssClass">
-        <span>@message</span>
-    </div>
-</EditForm>
-</div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <div class ="@messageCssClass">
+                            <span>@message</span>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-</div>
+<center>
+    <span class="deleteinfo">If you want your account deleted or have other concerns about your data, please send an email to either addo@itu.dk or antbr@itu.dk</span>
+</center>
+
+<style>
+    .deleteinfo {
+        font-size: 11px;
+    }
+</style>
 
 @code {
     private UserUpdateDTO userUpdate = new UserUpdateDTO();
