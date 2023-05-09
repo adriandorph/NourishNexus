@@ -12,11 +12,19 @@
     text-align: end;
 }
 
-@media (max-width: 768px){
-    #recommended, #targets{
+
+    #recommended, #targets, .savemsg{
         display: flex;
         text-align: center;
         justify-content: center;
     }
-}
+
+    @media(max-width:768px){
+        #showmore, #showless{
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        }
+    }
+
 

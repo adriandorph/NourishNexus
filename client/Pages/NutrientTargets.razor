@@ -1,15 +1,20 @@
 @page "/nutrienttargets/{firsttime}"
 @attribute [Authorize]
 @using System.Security.Claims
+@using System.Diagnostics
 @using System.Globalization
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IUserService UserService
 @inject IJSRuntime JSRuntime
 
+
+
 <div id="everything">
 
     <h2 id="targets">Daily nutritional targets</h2>
     <hr>
+
+    
 
     @if(firsttime == "firsttime")
     {
@@ -35,9 +40,20 @@
         <hr>
     }
 
+    
+
     <div id="recommended">
         <button class="btn-lg btn-primary shadow" @onclick="ShowModal">Set to recommended</button>
     </div>
+
+    @if(changesSaved)
+    {
+        <span class="text-success savemsg mt-3">Changes are saved automatically</span>
+    }
+    else
+    {
+        <span class="text-success savemsg mt-5"></span>
+    }
 
     <table class="table mt-3">
         <thead>
@@ -100,15 +116,24 @@
     </table>
     @if(showMore)
     {
-        <button class="btn btn-primary" @onclick="HandleShowMoreOrLess">Show Less</button>
+        <div id ="showless">
+        <button class="btn btn-primary show" @onclick="HandleShowMoreOrLess">
+            <span>Show Less</span>
+            <i class="oi oi-caret-top"></i>
+        </button>
+        </div>
     }
     else
     {
-        <button class="btn btn-primary" @onclick="HandleShowMoreOrLess">Show More</button>
+        <div id="showmore">
+        <button class="btn btn-primary show" @onclick="HandleShowMoreOrLess">
+            <span>Show More</span>
+            <i class="oi oi-caret-bottom"></i>
+        </button>
+        </div>
     }
     @if(showMore)
     {
-        <div id="showmore">
             <table class="table mt-3">
                 <tbody>
                     <tr class="justify-content-between">
@@ -1099,7 +1124,6 @@
                     <!-- Add more nutrient rows as needed -->
                 </tbody>
             </table>
-        </div>
     }
 </div>
 
@@ -1112,8 +1136,10 @@
 
     private UserNutritionDTO User {get; set;} = new UserNutritionDTO{};
 
-    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    [CascadingParameter] public Blazored.Modal.Services.IModalService Modal { get; set; } = default!;
     private bool showMore {get; set;} = false;
+
+    private bool changesSaved = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -1163,7 +1189,9 @@
     {
         StateHasChanged();
         var updateUser = ScaleToUpdate(User, 1.0f);
+        
         await UserService.UpdateUser(updateUser);
+        changesSaved = true;
     }
 
     private float UserCalories()
