@@ -3,8 +3,8 @@
     "short_name": "NourishNexus",
     "icons": [
       {
-        "src": "icon-192.png",
-        "type": "image/ico",
+        "src": "images/appicon.png",
+        "type": "image/png",
         "sizes": "192x192",
         "purpose": "maskable any"
       }
