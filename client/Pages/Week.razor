@@ -485,14 +485,14 @@ else
     {
         date = date.AddDays(-7);
         UpdateDates();
-        week = await MealService.GetWeek(userID, date);
+        week = await MealService.GetWeek(userID, startDate);
     }
 
     private async Task NextWeek()
     {
         date = date.AddDays(7);
         UpdateDates();
-        week = await MealService.GetWeek(userID, date);
+        week = await MealService.GetWeek(userID, startDate);
     }
 
     private DateTime LoadDate(string date)
