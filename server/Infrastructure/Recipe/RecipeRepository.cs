@@ -183,14 +183,6 @@ public class RecipeRepository : IRecipeRepository
                 .Select(r => r.ToDTO())
                 .FirstOrDefaultAsync();
 
-    public async Task<IReadOnlyCollection<RecipeDTO>> ReadAllByCategoryIDAsync(int categoryID)
-        => await _context.Recipes
-            .Include(r => r.Categories)
-            .Include(r => r.Users)
-            .Where(r => r.Categories.Any(c => c.Id == categoryID))
-            .Select(r => r.ToDTO())
-            .ToListAsync();
-
     
     public async Task<IReadOnlyCollection<RecipeAmountDTO>> ReadAllByMealId(int mealID)
         => (await _context.RecipeMeals
@@ -221,6 +213,7 @@ public class RecipeRepository : IRecipeRepository
                 .Include(r => r.Users)
                 .Where(r => savedRecipeIds.Contains(r))
                 .OrderBy(r => r.Title)
+                .Take(100)
                 .Select(r => r.ToDTO())
                 .ToListAsync();
         }

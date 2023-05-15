@@ -3,6 +3,7 @@ namespace test;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using server.Controllers;
+using server.Core.EF.DTO;
 using server.Services;
 
 public class MealControllerTests
@@ -237,6 +238,89 @@ public class MealControllerTests
 
         //Act
         var r = await _controller.GetWithFoodByUserAndDate(1, DateTime.MaxValue);
+
+        //Assert
+        var act = Assert.IsType<OkObjectResult>(r);
+        Assert.Equal(expected, act.Value);
+    }
+
+    [Fact]
+    async void GetByUserAndDate()
+    {
+        //Arrange
+        var expected = new List<MealDTO>();
+        _repo.Setup(r => r.ReadAllByDateAndUser(DateTime.MaxValue, 1)).ReturnsAsync(expected);
+
+        //Act
+        var r = await _controller.GetByUserAndDate(1, DateTime.MaxValue);
+
+        //Assert
+        var act = Assert.IsType<OkObjectResult>(r);
+        Assert.Equal(expected, act.Value);
+    }
+
+    [Fact]
+    async void GetWeekByUserAndDate()
+    {
+        //Arrange
+        var meal = new Meal(
+            0,
+            625,
+            new List<FoodItemAmountDTO>(),
+            new List<RecipeCalories>()
+        );
+
+        var day = new Day(
+            2500,
+            meal,
+            meal,
+            meal,
+            meal
+        );
+
+        var expected = new Week(
+            day,
+            day,
+            day,
+            day,
+            day,
+            day,
+            day
+        );
+
+        _service.Setup(s => s.GetWeekByUserAndDate(1, DateTime.MinValue)).ReturnsAsync(new OkObjectResult(expected));
+
+        //Act
+        var r = await _controller.GetWeekByUserAndDate(1, DateTime.MinValue);
+
+        //Assert
+        var act = Assert.IsType<OkObjectResult>(r);
+        Assert.Equal(expected, act.Value);
+    }
+
+    [Fact]
+    async void GetDayByUserAndDate()
+    {
+        //Arrange
+        var meal = new Meal(
+            0,
+            625,
+            new List<FoodItemAmountDTO>(),
+            new List<RecipeCalories>()
+        );
+
+        var expected = new Day(
+            2500,
+            meal,
+            meal,
+            meal,
+            meal
+        );
+
+        _service.Setup(s => s.GetDayByUserAndDate(1, DateTime.MinValue)).ReturnsAsync(new OkObjectResult(expected));
+
+        //Act
+        var r = await _controller.GetDayByUserAndDate(1, DateTime.MinValue);
 
         //Assert
         var act = Assert.IsType<OkObjectResult>(r);

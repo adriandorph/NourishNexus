@@ -929,16 +929,6 @@ public class RecipeRepositoryTests
     }
 
     [Fact]
-    public async void ReadAllByCategoryID_returns_empty_list()
-    {
-        //Act
-        var list = await _repo.ReadAllByCategoryIDAsync(1000);
-
-        //Assert
-        Assert.Empty(list.AsEnumerable());
-    }
-
-    [Fact]
     public async void ReadSavedBySearchWord_returns_list()
     {
         //Arrange
@@ -968,12 +958,23 @@ public class RecipeRepositoryTests
             Method = "Put the apples and oranges into a blender and blend for 1 minute.",
             AuthorId = 2,
         };
+
+        var recipe4 = new Recipe
+        {
+            Title = "Apples and Oranges",
+            IsPublic = false,
+            Description = "A nice blend of appels and oranges",
+            Method = "Put the apples and oranges into a blender and blend for 1 minute.",
+            AuthorId = 1,
+        };
+
         _context.Add(recipe1);
         _context.Add(recipe2);
         _context.Add(recipe3);
+        _context.Add(recipe4);
         await _context.SaveChangesAsync();
         User user = _context.Users.Where(u => u.Id == 1).FirstOrDefault()!;
-        user.SavedRecipes = new List<Recipe>{recipe1, recipe2};
+        user.SavedRecipes = new List<Recipe>{recipe1, recipe2, recipe4};
         await _context.SaveChangesAsync();
 
         //Act
@@ -994,6 +995,24 @@ public class RecipeRepositoryTests
                 Assert.Equal(recipe1.Method, item.Method);
                 Assert.Equal(recipe1.AuthorId, item.AuthorId);
             }
+        );
+
+        Assert.NotNull(_list);
+        Assert.Collection<RecipeDTO>
+        (
+            _list,
+            item => Assert.Equal(4, item.Id),
+            item => Assert.Equal(1, item.Id),
+            item => Assert.Equal(2, item.Id)
+        );
+
+        Assert.NotNull(emptysearchwordlist);
+        Assert.Collection<RecipeDTO>
+        (
+            _list,
+            item => Assert.Equal(4, item.Id),
+            item => Assert.Equal(1, item.Id),
+            item => Assert.Equal(2, item.Id)
         );
     }
 
@@ -1037,6 +1056,8 @@ public class RecipeRepositoryTests
 
         //Act
         var list = await _repo.ReadPublicBySearchWord("fruit");
+        var emptysearchwordlist = await _repo.ReadPublicBySearchWord("");
+        var _list = await _repo.ReadPublicBySearchWord("_");
 
         //Assert
         Assert.NotNull(list);
@@ -1051,6 +1072,20 @@ public class RecipeRepositoryTests
                 Assert.Equal(recipe1.Method, item.Method);
                 Assert.Equal(recipe1.AuthorId, item.AuthorId);
             }
+        );
+
+        Assert.NotNull(_list);
+        Assert.Collection<RecipeDTO>
+        (
+            _list,
+            item => Assert.Equal(1, item.Id)
+        );
+
+        Assert.NotNull(emptysearchwordlist);
+        Assert.Collection<RecipeDTO>
+        (
+            _list,
+            item => Assert.Equal(1, item.Id)
         );
     }
 

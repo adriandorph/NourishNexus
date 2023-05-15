@@ -290,17 +290,6 @@ public class MealRepository : IMealRepository
         return mealsWithFood;
     }
 
-    private bool IsInDateRange(DateTime date, DateTime startDate, DateTime endDate)
-    {
-        if(startDate.Date > endDate.Date) throw new ArgumentOutOfRangeException();
-        while(startDate.Date <= endDate.Date)
-        {
-            if (date.Date == startDate.Date) return true;
-            startDate = startDate.AddDays(1);
-        }
-        return false;
-    }
-
 
     //Helper functions
      private async Task<List<Category>> CategoryIDsToCategories(List<int> categoryIDs)

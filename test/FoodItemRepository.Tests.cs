@@ -375,7 +375,7 @@ public class FoodItemRepositoryTests
     }
 
     [Fact]
-    public async void ReadAllBySearchWord_returns_all_fooditems_containing_serchword()
+    public async void ReadAllBySearchWord_returns_first_100_fooditems_containing_serchword()
     {
         //Arrange
         var foodItemCreateDTO1 = new FoodItemCreateDTO{
@@ -404,6 +404,45 @@ public class FoodItemRepositoryTests
                 Assert.Equal(foodItemCreateDTO1.Name,item.Name);
                 Assert.Equal(foodItemCreateDTO1.Calories,item.Calories);
                 Assert.Equal(foodItemCreateDTO1.Protein,item.Protein);
+            }
+        );
+    }
+
+    [Fact]
+    public async void ReadAllBySearchWord_returns_first_100_fooditems()
+    {
+        //Arrange
+        var foodItemCreateDTO1 = new FoodItemCreateDTO{
+            Name = "Apple",
+            Calories = 100.0f,
+            Protein = 0.3f
+        };
+
+        var foodItemCreateDTO2 = new FoodItemCreateDTO{
+            Name = "Orange",
+            Calories = 47.0f,
+            Protein = 0.9f
+        };
+
+        //Act
+        await _repo.CreateAsync(foodItemCreateDTO1);
+        await _repo.CreateAsync(foodItemCreateDTO2);
+        var list = await _repo.ReadAllBySearchWord("_");
+
+        //Assert
+        Assert.NotNull(list);
+        Assert.Collection<FoodItemDTO>
+        (
+            list,
+            item => {
+                Assert.Equal(foodItemCreateDTO1.Name,item.Name);
+                Assert.Equal(foodItemCreateDTO1.Calories,item.Calories);
+                Assert.Equal(foodItemCreateDTO1.Protein,item.Protein);
+            },
+            item => {
+                Assert.Equal(foodItemCreateDTO2.Name,item.Name);
+                Assert.Equal(foodItemCreateDTO2.Calories,item.Calories);
+                Assert.Equal(foodItemCreateDTO2.Protein,item.Protein);
             }
         );
     }

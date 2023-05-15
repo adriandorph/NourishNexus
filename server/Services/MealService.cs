@@ -7,6 +7,7 @@ public interface IMealService
     public Task<IActionResult> ReportMeal(MealReportDTO mealReportDTO);
     public Task<IActionResult> GetMealsByUserAndDate(int userID, DateTime date);
     public Task<IActionResult> GetWeekByUserAndDate(int userID, DateTime date); 
+    public Task<IActionResult> GetDayByUserAndDate(int userID, DateTime date); 
 }
 
 public class MealService : IMealService
@@ -134,16 +135,31 @@ public class MealService : IMealService
 
         for(int i = 0; i<7; i++)
         {
-            Meal breakfast = VedIkkeLigeNu(meals, date.Date, MealType.BREAKFAST);
-            Meal lunch = VedIkkeLigeNu(meals, date.Date, MealType.LUNCH);
-            Meal dinner = VedIkkeLigeNu(meals, date.Date, MealType.DINNER);
-            Meal snacks = VedIkkeLigeNu(meals, date.Date, MealType.SNACK);
+            Meal breakfast = FindMeal(meals, date.Date, MealType.BREAKFAST);
+            Meal lunch = FindMeal(meals, date.Date, MealType.LUNCH);
+            Meal dinner = FindMeal(meals, date.Date, MealType.DINNER);
+            Meal snacks = FindMeal(meals, date.Date, MealType.SNACK);
             float calories = breakfast.Calories + lunch.Calories + dinner.Calories + snacks.Calories;
             days.Add(new Day(calories, breakfast, lunch, dinner, snacks));
             date = date.AddDays(1);
         }
 
         return new OkObjectResult(new Week(days[0], days[1], days[2], days[3], days[4], days[5], days[6]));
+    }
+
+    public async Task<IActionResult> GetDayByUserAndDate(int userID, DateTime date)
+    {
+        //Get all meals in the week
+        var meals = await _repo.ReadAllWithFoodByUserAndDateRangeAsync(userID, date, date);
+
+        Meal breakfast = FindMeal(meals, date.Date, MealType.BREAKFAST);
+        Meal lunch = FindMeal(meals, date.Date, MealType.LUNCH);
+        Meal dinner = FindMeal(meals, date.Date, MealType.DINNER);
+        Meal snacks = FindMeal(meals, date.Date, MealType.SNACK);
+        float calories = breakfast.Calories + lunch.Calories + dinner.Calories + snacks.Calories;
+        var day = new Day(calories, breakfast, lunch, dinner, snacks);
+
+        return new OkObjectResult(day);
     }
 
     //Helper functions
@@ -167,26 +183,26 @@ public class MealService : IMealService
         return sum;
     }
 
-    private Meal VedIkkeLigeNu(IReadOnlyCollection<MealWithAllFoodDTO> meals, DateTime date, MealType mealType)
+    private Meal FindMeal(IReadOnlyCollection<MealWithAllFoodDTO> meals, DateTime date, MealType mealType)
     {
-        Meal breakfast;
-        var breakfastMealDTO = meals
+        Meal meal;
+        var mealDTO = meals
             .Where(m => m.Meal.Date.Date == date.Date && m.Meal.MealType == mealType)
             .FirstOrDefault();
-        if (breakfastMealDTO == null)
-            breakfast = new Meal(0, new List<FoodItemDTO>(), new List<RecipeDTO>());
+        if (mealDTO == null)
+            meal = new Meal(null, 0, new List<FoodItemAmountDTO>(), new List<RecipeCalories>());
         else
         {
-            float calories = CountCalories(breakfastMealDTO);
+            float calories = CountCalories(mealDTO);
             
-            breakfast = new Meal(
+            meal = new Meal(
+                mealDTO.Meal.Id,
                 calories, 
-                breakfastMealDTO.FoodItems.Select(f => f.FoodItem!).ToList(), 
-                breakfastMealDTO.Recipes.Select(r => r.Recipe).ToList()
+                mealDTO.FoodItems, 
+                mealDTO.Recipes.Select(r => new RecipeCalories(r.Recipe, r.Fooditems.Sum(f => f.FoodItem!.Calories * f.Amount * r.Amount), r.Amount)).ToList()
             );
-
         }
-        return breakfast;
+        return meal;
     }
 
     private void AddToMealTotal(MealNutrientInfo mealTotal, FoodItemAmountDTO foodItem)

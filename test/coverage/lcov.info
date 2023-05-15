@@ -1218,133 +1218,207 @@ FNF:8
 FNH:7
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Services/MealService.cs
-FN:128,System.Void server.Services.MealService::AddToMealTotal(server.Services.MealNutrientInfo,server.Core.EF.DTO.FoodItemAmountDTO)
+FN:167,System.Single server.Services.MealService::CountCalories(server.Core.EF.DTO.MealWithAllFoodDTO)
+FNDA:0,System.Single server.Services.MealService::CountCalories(server.Core.EF.DTO.MealWithAllFoodDTO)
+DA:168,0
+DA:169,0
+DA:171,0
+DA:172,0
+DA:173,0
+DA:174,0
+DA:176,0
+DA:177,0
+DA:178,0
+DA:179,0
+DA:180,0
+DA:181,0
+DA:182,0
+DA:183,0
+DA:184,0
+BRDA:171,60,1,0
+BRDA:171,60,0,0
+BRDA:176,197,1,0
+BRDA:178,170,1,0
+BRDA:178,170,0,0
+BRDA:176,197,0,0
+FN:186,server.Core.EF.DTO.Meal server.Services.MealService::FindMeal(System.Collections.Generic.IReadOnlyCollection`1<server.Core.EF.DTO.MealWithAllFoodDTO>,System.DateTime,server.Core.EF.MealType)
+FNDA:0,server.Core.EF.DTO.Meal server.Services.MealService::FindMeal(System.Collections.Generic.IReadOnlyCollection`1<server.Core.EF.DTO.MealWithAllFoodDTO>,System.DateTime,server.Core.EF.MealType)
+DA:187,0
+DA:189,0
+DA:190,0
+DA:191,0
+DA:192,0
+DA:193,0
+DA:195,0
+DA:196,0
+DA:198,0
+DA:199,0
+DA:200,0
+DA:201,0
+DA:202,0
+DA:203,0
+DA:204,0
+DA:205,0
+DA:206,0
+BRDA:192,54,0,0
+BRDA:192,54,1,0
+BRDA:190,35,0,0
+BRDA:190,35,1,0
+FN:208,System.Void server.Services.MealService::AddToMealTotal(server.Services.MealNutrientInfo,server.Core.EF.DTO.FoodItemAmountDTO)
 FNDA:5,System.Void server.Services.MealService::AddToMealTotal(server.Services.MealNutrientInfo,server.Core.EF.DTO.FoodItemAmountDTO)
-DA:129,5
-DA:130,5
-DA:131,5
-DA:132,5
-DA:133,5
-DA:134,5
-DA:135,5
-DA:136,5
-DA:137,5
-DA:138,5
-DA:139,5
-DA:140,5
-DA:141,5
-DA:142,5
-DA:143,5
-DA:144,5
-DA:145,5
-DA:146,5
-DA:147,5
-DA:148,5
-DA:149,5
-DA:150,5
-DA:151,5
-DA:152,5
-DA:153,5
-DA:154,5
-DA:155,5
-DA:156,5
-DA:157,5
-DA:158,5
-DA:159,5
-DA:160,5
-DA:161,5
-BRDA:130,15,1,5
-BRDA:130,15,0,5
-FN:15,System.Void server.Services.MealService::.ctor(server.Core.EF.RepositoryInterfaces.IMealRepository,server.Core.EF.RepositoryInterfaces.IFoodItemRepository,server.Core.EF.RepositoryInterfaces.IRecipeRepository)
+DA:209,5
+DA:210,5
+DA:211,5
+DA:212,5
+DA:213,5
+DA:214,5
+DA:215,5
+DA:216,5
+DA:217,5
+DA:218,5
+DA:219,5
+DA:220,5
+DA:221,5
+DA:222,5
+DA:223,5
+DA:224,5
+DA:225,5
+DA:226,5
+DA:227,5
+DA:228,5
+DA:229,5
+DA:230,5
+DA:231,5
+DA:232,5
+DA:233,5
+DA:234,5
+DA:235,5
+DA:236,5
+DA:237,5
+DA:238,5
+DA:239,5
+DA:240,5
+DA:241,5
+BRDA:210,15,1,5
+BRDA:210,15,0,5
+FN:18,System.Void server.Services.MealService::.ctor(server.Core.EF.RepositoryInterfaces.IMealRepository,server.Core.EF.RepositoryInterfaces.IFoodItemRepository,server.Core.EF.RepositoryInterfaces.IRecipeRepository)
 FNDA:11,System.Void server.Services.MealService::.ctor(server.Core.EF.RepositoryInterfaces.IMealRepository,server.Core.EF.RepositoryInterfaces.IFoodItemRepository,server.Core.EF.RepositoryInterfaces.IRecipeRepository)
-DA:16,11
-DA:17,11
-DA:18,11
 DA:19,11
 DA:20,11
 DA:21,11
-FN:95,System.Void server.Services.MealService/<GetMealsByUserAndDate>d__5::MoveNext()
+DA:22,11
+DA:23,11
+DA:24,11
+FN:150,System.Void server.Services.MealService/<GetDayByUserAndDate>d__7::MoveNext()
+FNDA:0,System.Void server.Services.MealService/<GetDayByUserAndDate>d__7::MoveNext()
+DA:151,0
+DA:153,0
+DA:155,0
+DA:156,0
+DA:157,0
+DA:158,0
+DA:159,0
+DA:160,0
+DA:162,0
+DA:163,0
+FN:98,System.Void server.Services.MealService/<GetMealsByUserAndDate>d__5::MoveNext()
 FNDA:1,System.Void server.Services.MealService/<GetMealsByUserAndDate>d__5::MoveNext()
-DA:96,1
-DA:97,1
 DA:99,1
-DA:102,7
-DA:103,2
-DA:104,2
-DA:106,8
-DA:107,1
-DA:108,1
-DA:109,1
-DA:111,12
-DA:112,3
-DA:113,17
-DA:114,4
-DA:115,4
-DA:116,4
+DA:100,1
+DA:102,1
+DA:105,7
+DA:106,2
+DA:107,2
+DA:109,8
+DA:110,1
+DA:111,1
+DA:112,1
+DA:114,12
+DA:115,3
+DA:116,17
 DA:117,4
-DA:118,3
-DA:120,2
-DA:121,2
-DA:123,1
-DA:124,1
-BRDA:96,16,0,1
-BRDA:96,16,1,1
-BRDA:102,1094,1,2
-BRDA:102,203,1,0
-BRDA:106,490,1,1
-BRDA:106,490,0,2
-BRDA:102,203,2,0
-BRDA:102,203,3,2
-BRDA:111,1011,1,3
-BRDA:113,956,1,4
-BRDA:113,956,0,3
-BRDA:111,1011,0,2
-BRDA:102,203,0,3
-BRDA:102,1094,0,1
-FN:23,System.Void server.Services.MealService/<ReportMeal>d__4::MoveNext()
+DA:118,4
+DA:119,4
+DA:120,4
+DA:121,3
+DA:123,2
+DA:124,2
+DA:126,1
+DA:127,1
+BRDA:99,16,0,1
+BRDA:99,16,1,1
+BRDA:105,1094,1,2
+BRDA:105,203,1,0
+BRDA:109,490,1,1
+BRDA:109,490,0,2
+BRDA:105,203,2,0
+BRDA:105,203,3,2
+BRDA:114,1011,1,3
+BRDA:116,956,1,4
+BRDA:116,956,0,3
+BRDA:114,1011,0,2
+BRDA:105,203,0,3
+BRDA:105,1094,0,1
+FN:129,System.Void server.Services.MealService/<GetWeekByUserAndDate>d__6::MoveNext()
+FNDA:0,System.Void server.Services.MealService/<GetWeekByUserAndDate>d__6::MoveNext()
+DA:130,0
+DA:132,0
+DA:134,0
+DA:136,0
+DA:137,0
+DA:138,0
+DA:139,0
+DA:140,0
+DA:141,0
+DA:142,0
+DA:143,0
+DA:144,0
+DA:145,0
+DA:147,0
+DA:148,0
+BRDA:136,527,1,0
+BRDA:136,527,0,0
+FN:26,System.Void server.Services.MealService/<ReportMeal>d__4::MoveNext()
 FNDA:5,System.Void server.Services.MealService/<ReportMeal>d__4::MoveNext()
-DA:24,5
-DA:25,5
-DA:26,1
-DA:29,4
-DA:30,4
-DA:31,4
+DA:27,5
+DA:28,5
+DA:29,1
 DA:32,4
 DA:33,4
+DA:34,4
 DA:35,4
-DA:36,2
-DA:37,2
-DA:38,1
-DA:39,1
-DA:43,1
-DA:45,1
-DA:46,2
-DA:47,0
-DA:51,2
-DA:52,2
-DA:53,1
-DA:55,1
+DA:36,4
+DA:38,4
+DA:39,2
+DA:40,2
+DA:41,1
+DA:42,1
+DA:46,1
+DA:48,1
+DA:49,2
+DA:50,0
+DA:54,2
+DA:55,2
 DA:56,1
-DA:57,1
 DA:58,1
 DA:59,1
 DA:60,1
 DA:61,1
 DA:62,1
 DA:63,1
+DA:64,1
 DA:65,1
 DA:66,1
-DA:67,1
 DA:68,1
 DA:69,1
 DA:70,1
 DA:71,1
-DA:72,2
-DA:73,0
-DA:76,1
-DA:78,1
+DA:72,1
+DA:73,1
+DA:74,1
+DA:75,2
+DA:76,0
 DA:79,1
-DA:80,1
 DA:81,1
 DA:82,1
 DA:83,1
@@ -1353,139 +1427,142 @@ DA:85,1
 DA:86,1
 DA:87,1
 DA:88,1
-DA:89,2
-DA:90,0
-DA:93,5
-BRDA:25,80,0,4
-BRDA:25,102,0,4
-BRDA:25,80,1,1
-BRDA:25,102,1,1
-BRDA:25,132,0,1
-BRDA:25,132,1,4
-BRDA:35,355,0,0
-BRDA:35,355,1,4
-BRDA:35,368,0,2
-BRDA:35,382,0,0
-BRDA:35,382,1,2
-BRDA:35,368,1,2
-BRDA:35,405,0,2
-BRDA:37,426,0,1
-BRDA:37,426,1,1
-BRDA:46,597,0,1
-BRDA:46,597,1,0
-BRDA:35,405,1,2
-BRDA:52,642,0,1
-BRDA:63,935,0,0
-BRDA:63,935,1,1
-BRDA:72,1164,0,1
-BRDA:72,1164,1,0
-BRDA:52,642,1,1
-BRDA:89,1512,0,1
-BRDA:89,1512,1,0
-FN:167,server.Core.EF.DTO.MealDTO server.Services.MealNutrientInfo::get_Meal()
+DA:89,1
+DA:90,1
+DA:91,1
+DA:92,2
+DA:93,0
+DA:96,5
+BRDA:28,80,0,4
+BRDA:28,102,0,4
+BRDA:28,80,1,1
+BRDA:28,102,1,1
+BRDA:28,132,0,1
+BRDA:28,132,1,4
+BRDA:38,355,0,0
+BRDA:38,355,1,4
+BRDA:38,368,0,2
+BRDA:38,382,0,0
+BRDA:38,382,1,2
+BRDA:38,368,1,2
+BRDA:38,405,0,2
+BRDA:40,426,0,1
+BRDA:40,426,1,1
+BRDA:49,597,0,1
+BRDA:49,597,1,0
+BRDA:38,405,1,2
+BRDA:55,642,0,1
+BRDA:66,935,0,0
+BRDA:66,935,1,1
+BRDA:75,1164,0,1
+BRDA:75,1164,1,0
+BRDA:55,642,1,1
+BRDA:92,1512,0,1
+BRDA:92,1512,1,0
+FN:247,server.Core.EF.DTO.MealDTO server.Services.MealNutrientInfo::get_Meal()
 FNDA:4,server.Core.EF.DTO.MealDTO server.Services.MealNutrientInfo::get_Meal()
-DA:168,4
-FN:168,System.Single server.Services.MealNutrientInfo::get_Calories()
+DA:248,4
+FN:248,System.Single server.Services.MealNutrientInfo::get_Calories()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Calories()
-DA:169,14
-FN:169,System.Single server.Services.MealNutrientInfo::get_Protein()
+DA:249,14
+FN:249,System.Single server.Services.MealNutrientInfo::get_Protein()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Protein()
-DA:170,14
-FN:172,System.Single server.Services.MealNutrientInfo::get_Carbohydrates()
+DA:250,14
+FN:252,System.Single server.Services.MealNutrientInfo::get_Carbohydrates()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Carbohydrates()
-DA:173,14
-FN:173,System.Single server.Services.MealNutrientInfo::get_Sugars()
+DA:253,14
+FN:253,System.Single server.Services.MealNutrientInfo::get_Sugars()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Sugars()
-DA:174,14
-FN:174,System.Single server.Services.MealNutrientInfo::get_Fibres()
+DA:254,14
+FN:254,System.Single server.Services.MealNutrientInfo::get_Fibres()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Fibres()
-DA:175,14
-FN:177,System.Single server.Services.MealNutrientInfo::get_TotalFat()
+DA:255,14
+FN:257,System.Single server.Services.MealNutrientInfo::get_TotalFat()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_TotalFat()
-DA:178,14
-FN:178,System.Single server.Services.MealNutrientInfo::get_SaturatedFat()
+DA:258,14
+FN:258,System.Single server.Services.MealNutrientInfo::get_SaturatedFat()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_SaturatedFat()
-DA:179,14
-FN:179,System.Single server.Services.MealNutrientInfo::get_MonounsaturatedFat()
+DA:259,14
+FN:259,System.Single server.Services.MealNutrientInfo::get_MonounsaturatedFat()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_MonounsaturatedFat()
-DA:180,14
-FN:180,System.Single server.Services.MealNutrientInfo::get_PolyunsaturatedFat()
+DA:260,14
+FN:260,System.Single server.Services.MealNutrientInfo::get_PolyunsaturatedFat()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_PolyunsaturatedFat()
-DA:181,14
-FN:181,System.Single server.Services.MealNutrientInfo::get_TransFat()
+DA:261,14
+FN:261,System.Single server.Services.MealNutrientInfo::get_TransFat()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_TransFat()
-DA:182,14
-FN:184,System.Single server.Services.MealNutrientInfo::get_VitaminA()
+DA:262,14
+FN:264,System.Single server.Services.MealNutrientInfo::get_VitaminA()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_VitaminA()
-DA:185,14
-FN:185,System.Single server.Services.MealNutrientInfo::get_VitaminB6()
+DA:265,14
+FN:265,System.Single server.Services.MealNutrientInfo::get_VitaminB6()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_VitaminB6()
-DA:186,14
-FN:186,System.Single server.Services.MealNutrientInfo::get_VitaminB12()
+DA:266,14
+FN:266,System.Single server.Services.MealNutrientInfo::get_VitaminB12()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_VitaminB12()
-DA:187,14
-FN:187,System.Single server.Services.MealNutrientInfo::get_VitaminC()
+DA:267,14
+FN:267,System.Single server.Services.MealNutrientInfo::get_VitaminC()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_VitaminC()
-DA:188,14
-FN:188,System.Single server.Services.MealNutrientInfo::get_VitaminD()
+DA:268,14
+FN:268,System.Single server.Services.MealNutrientInfo::get_VitaminD()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_VitaminD()
-DA:189,14
-FN:189,System.Single server.Services.MealNutrientInfo::get_VitaminE()
+DA:269,14
+FN:269,System.Single server.Services.MealNutrientInfo::get_VitaminE()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_VitaminE()
-DA:190,14
-FN:190,System.Single server.Services.MealNutrientInfo::get_Thiamin()
+DA:270,14
+FN:270,System.Single server.Services.MealNutrientInfo::get_Thiamin()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Thiamin()
-DA:191,14
-FN:191,System.Single server.Services.MealNutrientInfo::get_Riboflavin()
+DA:271,14
+FN:271,System.Single server.Services.MealNutrientInfo::get_Riboflavin()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Riboflavin()
-DA:192,14
-FN:192,System.Single server.Services.MealNutrientInfo::get_Niacin()
+DA:272,14
+FN:272,System.Single server.Services.MealNutrientInfo::get_Niacin()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Niacin()
-DA:193,14
-FN:193,System.Single server.Services.MealNutrientInfo::get_Folate()
+DA:273,14
+FN:273,System.Single server.Services.MealNutrientInfo::get_Folate()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Folate()
-DA:194,14
-FN:196,System.Single server.Services.MealNutrientInfo::get_Salt()
+DA:274,14
+FN:276,System.Single server.Services.MealNutrientInfo::get_Salt()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Salt()
-DA:197,14
-FN:197,System.Single server.Services.MealNutrientInfo::get_Potassium()
+DA:277,14
+FN:277,System.Single server.Services.MealNutrientInfo::get_Potassium()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Potassium()
-DA:198,14
-FN:198,System.Single server.Services.MealNutrientInfo::get_Magnesium()
+DA:278,14
+FN:278,System.Single server.Services.MealNutrientInfo::get_Magnesium()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Magnesium()
-DA:199,14
-FN:199,System.Single server.Services.MealNutrientInfo::get_Iron()
+DA:279,14
+FN:279,System.Single server.Services.MealNutrientInfo::get_Iron()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Iron()
-DA:200,14
-FN:200,System.Single server.Services.MealNutrientInfo::get_Zinc()
+DA:280,14
+FN:280,System.Single server.Services.MealNutrientInfo::get_Zinc()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Zinc()
-DA:201,14
-FN:201,System.Single server.Services.MealNutrientInfo::get_Phosphorus()
+DA:281,14
+FN:281,System.Single server.Services.MealNutrientInfo::get_Phosphorus()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Phosphorus()
-DA:202,14
-FN:202,System.Single server.Services.MealNutrientInfo::get_Copper()
+DA:282,14
+FN:282,System.Single server.Services.MealNutrientInfo::get_Copper()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Copper()
-DA:203,14
-FN:203,System.Single server.Services.MealNutrientInfo::get_Iodine()
+DA:283,14
+FN:283,System.Single server.Services.MealNutrientInfo::get_Iodine()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Iodine()
-DA:204,14
-FN:204,System.Single server.Services.MealNutrientInfo::get_Selenium()
+DA:284,14
+FN:284,System.Single server.Services.MealNutrientInfo::get_Selenium()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Selenium()
-DA:205,14
-FN:205,System.Single server.Services.MealNutrientInfo::get_Calcium()
+DA:285,14
+FN:285,System.Single server.Services.MealNutrientInfo::get_Calcium()
 FNDA:14,System.Single server.Services.MealNutrientInfo::get_Calcium()
-DA:206,14
-FN:207,System.Void server.Services.MealNutrientInfo::.ctor(server.Core.EF.DTO.MealDTO)
+DA:286,14
+FN:287,System.Void server.Services.MealNutrientInfo::.ctor(server.Core.EF.DTO.MealDTO)
 FNDA:2,System.Void server.Services.MealNutrientInfo::.ctor(server.Core.EF.DTO.MealDTO)
-DA:208,2
-DA:209,2
-DA:210,2
-DA:211,2
-LF:149
+DA:288,2
+DA:289,2
+DA:290,2
+DA:291,2
+LF:206
 LH:146
-BRF:42
+BRF:54
 BRH:34
-FNF:36
+FNF:40
 FNH:36
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Services/MealPlanAlgorithm/DietReport.cs
@@ -1502,8 +1579,8 @@ FN:7,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.DietRepor
 FNDA:9,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.DietReport::get_PlannedIntake()
 DA:8,9
 FN:8,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.DietReport::get_Response()
-FNDA:26,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.DietReport::get_Response()
-DA:9,26
+FNDA:27,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.DietReport::get_Response()
+DA:9,27
 FN:9,server.Services.MealPlan.MealPlan server.Services.MealPlan.DietReport::get_MealPlan()
 FNDA:23,server.Services.MealPlan.MealPlan server.Services.MealPlan.DietReport::get_MealPlan()
 DA:10,23
@@ -2628,10 +2705,10 @@ FNH:42
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Services/MealPlanAlgorithm/MealPlan.cs
 FN:8,System.Collections.Generic.List`1<server.Services.MealPlan.Day> server.Services.MealPlan.MealPlan::get_Days()
-FNDA:2551,System.Collections.Generic.List`1<server.Services.MealPlan.Day> server.Services.MealPlan.MealPlan::get_Days()
-DA:9,2551
-DA:10,2551
-DA:11,2551
+FNDA:2441,System.Collections.Generic.List`1<server.Services.MealPlan.Day> server.Services.MealPlan.MealPlan::get_Days()
+DA:9,2441
+DA:10,2441
+DA:11,2441
 FN:12,System.Void server.Services.MealPlan.MealPlan::set_Days(System.Collections.Generic.List`1<server.Services.MealPlan.Day>)
 FNDA:0,System.Void server.Services.MealPlan.MealPlan::set_Days(System.Collections.Generic.List`1<server.Services.MealPlan.Day>)
 DA:13,0
@@ -2641,29 +2718,29 @@ DA:16,0
 BRDA:14,15,0,0
 BRDA:14,15,1,0
 FN:29,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlan::CalculateNutrientSums()
-FNDA:154,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlan::CalculateNutrientSums()
-DA:30,154
-DA:31,154
-DA:33,2618
-DA:34,1078
-DA:35,1078
-DA:36,1078
-DA:37,1078
-DA:38,1078
-DA:39,1078
-DA:40,1078
-DA:42,154
-DA:43,154
-BRDA:33,182,1,1078
+FNDA:149,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlan::CalculateNutrientSums()
+DA:30,149
+DA:31,149
+DA:33,2533
+DA:34,1043
+DA:35,1043
+DA:36,1043
+DA:37,1043
+DA:38,1043
+DA:39,1043
+DA:40,1043
+DA:42,149
+DA:43,149
+BRDA:33,182,1,1043
 BRDA:35,40,0,0
-BRDA:35,40,1,1078
+BRDA:35,40,1,1043
 BRDA:36,67,0,0
-BRDA:36,67,1,1078
+BRDA:36,67,1,1043
 BRDA:37,95,0,0
-BRDA:37,95,1,1078
+BRDA:37,95,1,1043
 BRDA:38,123,0,0
-BRDA:38,123,1,1078
-BRDA:33,182,0,154
+BRDA:38,123,1,1043
+BRDA:33,182,0,149
 FN:19,System.Void server.Services.MealPlan.MealPlan::.ctor()
 FNDA:9,System.Void server.Services.MealPlan.MealPlan::.ctor()
 DA:20,9
@@ -2677,8 +2754,8 @@ DA:27,9
 BRDA:23,52,1,63
 BRDA:23,52,0,9
 FN:50,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Breakfast()
-FNDA:10956,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Breakfast()
-DA:51,10956
+FNDA:10536,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Breakfast()
+DA:51,10536
 FN:52,System.Void server.Services.MealPlan.Day::set_Breakfast(server.Services.MealPlan.PlannedMeal)
 FNDA:56,System.Void server.Services.MealPlan.Day::set_Breakfast(server.Services.MealPlan.PlannedMeal)
 DA:53,56
@@ -2688,11 +2765,11 @@ DA:56,56
 BRDA:54,12,0,56
 BRDA:54,12,1,0
 FN:57,System.Boolean server.Services.MealPlan.Day::get_BreakfastLocked()
-FNDA:924,System.Boolean server.Services.MealPlan.Day::get_BreakfastLocked()
-DA:58,924
+FNDA:875,System.Boolean server.Services.MealPlan.Day::get_BreakfastLocked()
+DA:58,875
 FN:61,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Lunch()
-FNDA:10890,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Lunch()
-DA:62,10890
+FNDA:10596,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Lunch()
+DA:62,10596
 FN:63,System.Void server.Services.MealPlan.Day::set_Lunch(server.Services.MealPlan.PlannedMeal)
 FNDA:56,System.Void server.Services.MealPlan.Day::set_Lunch(server.Services.MealPlan.PlannedMeal)
 DA:64,56
@@ -2702,11 +2779,11 @@ DA:67,56
 BRDA:65,12,0,56
 BRDA:65,12,1,0
 FN:68,System.Boolean server.Services.MealPlan.Day::get_LunchLocked()
-FNDA:924,System.Boolean server.Services.MealPlan.Day::get_LunchLocked()
-DA:69,924
+FNDA:875,System.Boolean server.Services.MealPlan.Day::get_LunchLocked()
+DA:69,875
 FN:74,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Dinner()
-FNDA:10938,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Dinner()
-DA:75,10938
+FNDA:10578,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Dinner()
+DA:75,10578
 FN:76,System.Void server.Services.MealPlan.Day::set_Dinner(server.Services.MealPlan.PlannedMeal)
 FNDA:56,System.Void server.Services.MealPlan.Day::set_Dinner(server.Services.MealPlan.PlannedMeal)
 DA:77,56
@@ -2716,11 +2793,11 @@ DA:80,56
 BRDA:78,12,0,56
 BRDA:78,12,1,0
 FN:81,System.Boolean server.Services.MealPlan.Day::get_DinnerLocked()
-FNDA:924,System.Boolean server.Services.MealPlan.Day::get_DinnerLocked()
-DA:82,924
+FNDA:875,System.Boolean server.Services.MealPlan.Day::get_DinnerLocked()
+DA:82,875
 FN:87,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Snacks()
-FNDA:10803,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Snacks()
-DA:88,10803
+FNDA:10530,server.Services.MealPlan.PlannedMeal server.Services.MealPlan.Day::get_Snacks()
+DA:88,10530
 FN:89,System.Void server.Services.MealPlan.Day::set_Snacks(server.Services.MealPlan.PlannedMeal)
 FNDA:56,System.Void server.Services.MealPlan.Day::set_Snacks(server.Services.MealPlan.PlannedMeal)
 DA:90,56
@@ -2730,8 +2807,8 @@ DA:93,56
 BRDA:91,12,0,56
 BRDA:91,12,1,0
 FN:94,System.Boolean server.Services.MealPlan.Day::get_SnacksLocked()
-FNDA:924,System.Boolean server.Services.MealPlan.Day::get_SnacksLocked()
-DA:95,924
+FNDA:875,System.Boolean server.Services.MealPlan.Day::get_SnacksLocked()
+DA:95,875
 FN:95,System.Void server.Services.MealPlan.Day::.ctor()
 FNDA:189,System.Void server.Services.MealPlan.Day::.ctor()
 DA:96,189
@@ -2743,21 +2820,22 @@ FNF:17
 FNH:16
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Services/MealPlanAlgorithm/MealPlanGenerator.cs
-FN:143,System.Boolean server.Services.MealPlan.MealPlanGenerator::UserPrerequisites(server.Core.EF.DTO.UserNutritionDTO)
-FNDA:7,System.Boolean server.Services.MealPlan.MealPlanGenerator::UserPrerequisites(server.Core.EF.DTO.UserNutritionDTO)
-DA:144,7
-DA:146,7
-DA:149,7
+FN:144,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::UserPrerequisites(server.Core.EF.DTO.UserNutritionDTO)
+FNDA:7,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::UserPrerequisites(server.Core.EF.DTO.UserNutritionDTO)
+DA:145,7
+DA:147,7
 DA:150,7
 DA:151,7
-BRDA:146,13,0,0
-BRDA:146,13,1,7
-FN:154,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetLowerBounds(server.Core.EF.DTO.UserNutritionDTO)
+DA:152,7
+DA:153,7
+BRDA:147,13,0,0
+BRDA:147,13,1,7
+BRDA:151,41,0,0
+BRDA:151,41,1,7
+FN:156,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetLowerBounds(server.Core.EF.DTO.UserNutritionDTO)
 FNDA:7,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetLowerBounds(server.Core.EF.DTO.UserNutritionDTO)
-DA:155,7
-DA:156,7
+DA:157,7
 DA:158,7
-DA:159,7
 DA:160,7
 DA:161,7
 DA:162,7
@@ -2785,14 +2863,14 @@ DA:183,7
 DA:184,7
 DA:185,7
 DA:186,7
+DA:187,7
 DA:188,7
-DA:189,7
-FN:232,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetDailyIdealIntake(server.Core.EF.DTO.UserNutritionDTO)
+DA:190,7
+DA:191,7
+FN:234,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetDailyIdealIntake(server.Core.EF.DTO.UserNutritionDTO)
 FNDA:7,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetDailyIdealIntake(server.Core.EF.DTO.UserNutritionDTO)
-DA:233,7
-DA:234,7
+DA:235,7
 DA:236,7
-DA:237,7
 DA:238,7
 DA:239,7
 DA:240,7
@@ -2820,24 +2898,24 @@ DA:261,7
 DA:262,7
 DA:263,7
 DA:264,7
+DA:265,7
 DA:266,7
-DA:267,7
-FN:269,System.Single server.Services.MealPlan.MealPlanGenerator::BalanceOut(System.Single,System.Single,System.Single,System.Single)
+DA:268,7
+DA:269,7
+FN:271,System.Single server.Services.MealPlan.MealPlanGenerator::BalanceOut(System.Single,System.Single,System.Single,System.Single)
 FNDA:205,System.Single server.Services.MealPlan.MealPlanGenerator::BalanceOut(System.Single,System.Single,System.Single,System.Single)
-DA:270,205
-DA:271,205
-DA:272,302
-DA:273,214
-DA:274,205
-DA:275,205
-BRDA:272,21,0,97
-BRDA:272,21,1,205
-BRDA:273,32,0,9
-BRDA:273,32,1,205
-FN:321,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetUpperBounds(server.Core.EF.DTO.UserNutritionDTO)
+DA:272,205
+DA:273,205
+DA:274,301
+DA:275,214
+DA:276,205
+DA:277,205
+BRDA:274,21,0,96
+BRDA:274,21,1,205
+BRDA:275,32,0,9
+BRDA:275,32,1,205
+FN:323,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetUpperBounds(server.Core.EF.DTO.UserNutritionDTO)
 FNDA:7,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::GetUpperBounds(server.Core.EF.DTO.UserNutritionDTO)
-DA:322,7
-DA:323,7
 DA:324,7
 DA:325,7
 DA:326,7
@@ -2867,12 +2945,12 @@ DA:349,7
 DA:350,7
 DA:351,7
 DA:352,7
+DA:353,7
 DA:354,7
-DA:355,7
-FN:357,server.Services.MealPlan.MealPlanGenerator/UserCalories server.Services.MealPlan.MealPlanGenerator::GetCalorieTargets(server.Core.EF.DTO.UserNutritionDTO)
+DA:356,7
+DA:357,7
+FN:359,server.Services.MealPlan.MealPlanGenerator/UserCalories server.Services.MealPlan.MealPlanGenerator::GetCalorieTargets(server.Core.EF.DTO.UserNutritionDTO)
 FNDA:7,server.Services.MealPlan.MealPlanGenerator/UserCalories server.Services.MealPlan.MealPlanGenerator::GetCalorieTargets(server.Core.EF.DTO.UserNutritionDTO)
-DA:358,7
-DA:359,7
 DA:360,7
 DA:361,7
 DA:362,7
@@ -2881,694 +2959,696 @@ DA:364,7
 DA:365,7
 DA:366,7
 DA:367,7
-FN:390,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.MealPlanGenerator::RandomizeFirstHalf(server.Core.EF.DTO.UserNutritionDTO,System.DateTime,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>)
+DA:368,7
+DA:369,7
+FN:392,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.MealPlanGenerator::RandomizeFirstHalf(server.Core.EF.DTO.UserNutritionDTO,System.DateTime,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>)
 FNDA:8,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.MealPlanGenerator::RandomizeFirstHalf(server.Core.EF.DTO.UserNutritionDTO,System.DateTime,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>)
-DA:391,8
 DA:393,8
-DA:394,8
 DA:395,8
 DA:396,8
-DA:397,264
+DA:397,8
 DA:398,8
-DA:401,560
-DA:402,272
-DA:403,272
+DA:399,264
+DA:400,8
+DA:403,560
 DA:404,272
-DA:406,8
-DA:407,8
-BRDA:401,106,1,272
-BRDA:401,106,0,8
-FN:502,System.Single server.Services.MealPlan.MealPlanGenerator::CountCalories(System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>)
-FNDA:362,System.Single server.Services.MealPlan.MealPlanGenerator::CountCalories(System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>)
-DA:503,362
-DA:504,362
-DA:505,4300
-DA:506,1607
-DA:507,1607
-DA:508,1607
-DA:509,362
-DA:510,362
-BRDA:505,55,1,1607
-BRDA:505,55,0,362
-FN:512,server.Core.Option`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.MealPlanGenerator::FindAndRemoveRecipe(System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.PlannedMeal)
-FNDA:518,server.Core.Option`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.MealPlanGenerator::FindAndRemoveRecipe(System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.PlannedMeal)
-DA:513,518
-DA:514,9396
-DA:515,4542
-DA:516,4542
-DA:518,4542
-DA:519,4542
-DA:522,1437
-DA:523,1437
-DA:525,1714
-DA:526,1714
-DA:528,501
-DA:529,501
-DA:531,890
-DA:532,890
-DA:534,0
-DA:536,8722
-DA:540,362
-DA:541,1086
-DA:542,0
-DA:543,0
+DA:405,272
+DA:406,272
+DA:408,8
+DA:409,8
+BRDA:403,106,1,272
+BRDA:403,106,0,8
+FN:504,System.Single server.Services.MealPlan.MealPlanGenerator::CountCalories(System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>)
+FNDA:356,System.Single server.Services.MealPlan.MealPlanGenerator::CountCalories(System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>)
+DA:505,356
+DA:506,356
+DA:507,4222
+DA:508,1577
+DA:509,1577
+DA:510,1577
+DA:511,356
+DA:512,356
+BRDA:507,55,1,1577
+BRDA:507,55,0,356
+FN:514,server.Core.Option`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.MealPlanGenerator::FindAndRemoveRecipe(System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.PlannedMeal)
+FNDA:501,server.Core.Option`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.MealPlanGenerator::FindAndRemoveRecipe(System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.PlannedMeal)
+DA:515,501
+DA:516,8772
+DA:517,4241
+DA:518,4241
+DA:520,4241
+DA:521,4241
+DA:524,1365
+DA:525,1365
+DA:527,1639
+DA:528,1639
+DA:530,419
+DA:531,419
+DA:533,818
+DA:534,818
+DA:536,0
+DA:538,8126
+DA:542,356
+DA:543,1068
 DA:544,0
-DA:545,362
-DA:549,362
-DA:550,362
-DA:552,156
-DA:553,518
-BRDA:514,266,1,4542
-BRDA:519,33,1,1437
-BRDA:519,33,2,1714
-BRDA:519,33,3,501
-BRDA:519,33,4,890
-BRDA:519,33,0,0
-BRDA:536,131,1,362
-BRDA:541,200,1,0
-BRDA:543,188,0,0
-BRDA:543,188,1,0
-BRDA:541,200,0,362
-BRDA:545,227,1,362
-BRDA:536,131,0,4180
-BRDA:545,227,0,4180
-BRDA:514,266,0,156
-FN:607,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::ReplaceLowestMeals(server.Services.MealPlan.MealPlan,server.Services.MealPlan.NutrientTargets,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.MealPlanGenerator/UserCalories)
-FNDA:54,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::ReplaceLowestMeals(server.Services.MealPlan.MealPlan,server.Services.MealPlan.NutrientTargets,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.MealPlanGenerator/UserCalories)
-DA:608,54
-DA:609,54
-DA:610,54
-DA:611,54
-DA:612,54
-DA:614,54
-DA:616,54
-DA:617,54
-DA:618,54
-DA:619,54
-DA:621,864
-DA:622,378
-DA:623,378
-DA:624,378
-DA:625,378
-DA:626,378
-DA:628,378
-DA:629,378
-DA:630,378
-DA:631,378
-DA:632,63
-DA:633,63
-DA:634,63
-DA:635,63
-DA:636,378
-DA:638,378
-DA:639,378
-DA:640,378
-DA:641,378
-DA:642,378
-DA:643,378
-DA:644,378
-DA:645,62
-DA:646,62
-DA:647,62
-DA:648,62
-DA:649,378
-DA:651,378
-DA:652,378
-DA:653,378
-DA:654,378
-DA:655,378
-DA:656,378
-DA:657,378
-DA:658,64
-DA:659,64
-DA:660,64
-DA:661,64
-DA:662,378
-DA:664,378
-DA:665,378
-DA:666,378
-DA:667,378
-DA:668,378
-DA:669,378
-DA:670,378
-DA:671,60
-DA:672,60
-DA:673,60
-DA:674,60
-DA:675,378
-DA:676,378
-DA:679,54
-DA:680,54
-DA:681,54
-DA:682,54
-DA:684,54
-DA:685,54
-DA:686,54
-DA:687,54
-DA:688,54
-DA:689,54
-BRDA:621,735,1,378
-BRDA:624,67,0,378
-BRDA:626,87,0,0
-BRDA:626,87,1,378
-BRDA:631,200,0,63
-BRDA:631,200,1,378
-BRDA:624,67,1,378
-BRDA:638,231,0,378
-BRDA:640,251,0,0
-BRDA:640,251,1,378
-BRDA:644,364,0,62
-BRDA:644,364,1,378
-BRDA:638,231,1,378
-BRDA:651,395,0,378
-BRDA:653,415,0,0
-BRDA:653,415,1,378
-BRDA:657,528,0,64
-BRDA:657,528,1,378
-BRDA:651,395,1,378
-BRDA:664,559,0,378
-BRDA:666,579,0,0
-BRDA:666,579,1,378
-BRDA:670,692,0,60
-BRDA:670,692,1,378
-BRDA:664,559,1,378
-BRDA:621,735,0,54
-BRDA:679,742,0,54
-BRDA:679,742,1,0
-BRDA:680,767,0,52
-BRDA:680,767,1,2
-BRDA:681,792,0,54
-BRDA:681,792,1,0
-BRDA:682,817,0,52
-BRDA:682,817,1,2
-BRDA:684,842,0,40
-BRDA:684,846,0,40
-BRDA:684,850,0,0
-BRDA:684,854,0,0
-BRDA:684,842,1,54
-BRDA:684,846,1,54
-BRDA:684,850,1,54
-BRDA:684,854,1,54
-FN:691,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::FilterReferenceWhereNutrientsAreMetOrExceeds(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-FNDA:1512,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::FilterReferenceWhereNutrientsAreMetOrExceeds(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-DA:692,1512
-DA:693,1512
-DA:694,1512
-DA:695,1512
-DA:696,1512
-DA:697,1512
-DA:698,1512
-DA:699,1512
-DA:700,1512
-DA:701,1512
-DA:702,1512
-DA:703,1512
-DA:704,1512
-DA:705,1512
-DA:706,1512
-DA:707,1512
-DA:708,1512
-DA:709,1512
-DA:710,1512
-DA:711,1512
-DA:712,1512
-DA:713,1512
-DA:714,1512
-DA:715,1512
-DA:716,1512
-DA:717,1512
-DA:718,1512
-DA:719,1512
-DA:720,1512
-DA:721,1512
-DA:722,1512
-DA:723,1512
-BRDA:692,18,0,0
-BRDA:692,18,1,1512
-BRDA:692,52,0,1064
-BRDA:692,52,1,448
-BRDA:692,86,0,0
-BRDA:692,86,1,1512
-BRDA:692,120,0,224
-BRDA:692,120,1,1288
-BRDA:692,154,0,0
-BRDA:692,154,1,1512
-BRDA:692,188,0,0
-BRDA:692,188,1,1512
-BRDA:692,222,0,56
-BRDA:692,222,1,1456
-BRDA:692,256,0,28
-BRDA:692,256,1,1484
-BRDA:692,290,0,0
-BRDA:692,290,1,1512
-BRDA:692,324,0,196
-BRDA:692,324,1,1316
-BRDA:692,358,0,0
-BRDA:692,358,1,1512
-BRDA:692,392,0,0
-BRDA:692,392,1,1512
-BRDA:692,426,0,84
-BRDA:692,426,1,1428
-BRDA:692,460,0,224
-BRDA:692,460,1,1288
-BRDA:692,494,0,0
-BRDA:692,494,1,1512
-BRDA:692,528,0,0
-BRDA:692,528,1,1512
-BRDA:692,562,0,224
-BRDA:692,562,1,1288
-BRDA:692,596,0,0
-BRDA:692,596,1,1512
-BRDA:692,630,0,0
-BRDA:692,630,1,1512
-BRDA:692,664,0,0
-BRDA:692,664,1,1512
-BRDA:692,698,0,224
-BRDA:692,698,1,1288
-BRDA:692,732,0,0
-BRDA:692,732,1,1512
-BRDA:692,766,0,0
-BRDA:692,766,1,1512
-BRDA:692,800,0,0
-BRDA:692,800,1,1512
-BRDA:692,834,0,0
-BRDA:692,834,1,1512
-BRDA:692,868,0,0
-BRDA:692,868,1,1512
-BRDA:692,902,0,196
-BRDA:692,902,1,1316
-BRDA:692,936,0,0
-BRDA:692,936,1,1512
-BRDA:692,970,0,0
-BRDA:692,970,1,1512
-FN:725,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::Replace(System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.PlannedMeal,System.Single)
-FNDA:349,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::Replace(System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.PlannedMeal,System.Single)
-DA:726,349
-DA:728,349
-DA:729,505
-DA:731,193
-DA:732,193
-DA:733,193
-DA:734,193
-DA:735,193
-DA:736,193
-DA:739,193
-DA:740,193
-DA:741,193
-DA:742,193
-DA:744,193
-DA:745,349
-BRDA:729,19,0,156
-BRDA:729,19,1,193
-FN:748,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::ReplaceHighest(server.Services.MealPlan.MealPlan,server.Services.MealPlan.NutrientTargets,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.MealPlanGenerator/UserCalories)
-FNDA:38,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::ReplaceHighest(server.Services.MealPlan.MealPlan,server.Services.MealPlan.NutrientTargets,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.MealPlanGenerator/UserCalories)
-DA:749,38
-DA:750,38
-DA:751,38
-DA:752,38
-DA:753,38
-DA:755,38
-DA:756,38
-DA:757,38
-DA:758,38
-DA:760,608
-DA:761,266
-DA:762,266
-DA:763,266
-DA:764,231
-DA:765,231
-DA:766,231
-DA:767,231
-DA:768,231
-DA:769,96
-DA:770,96
-DA:771,96
-DA:772,96
-DA:773,231
-DA:775,266
-DA:776,231
-DA:777,231
-DA:778,231
-DA:779,231
-DA:780,231
-DA:781,75
-DA:782,75
-DA:783,75
-DA:784,75
-DA:785,231
-DA:787,266
-DA:788,236
-DA:789,236
-DA:790,236
-DA:791,236
-DA:792,236
-DA:793,76
-DA:794,76
-DA:795,76
-DA:796,76
-DA:797,236
-DA:799,266
-DA:800,231
-DA:801,231
-DA:802,231
-DA:803,231
-DA:804,231
-DA:805,48
-DA:806,48
-DA:807,48
-DA:808,48
-DA:809,231
-DA:810,266
-DA:813,38
-DA:814,38
-DA:815,38
-DA:816,38
-DA:818,38
-DA:819,38
-DA:820,38
-DA:821,38
-DA:822,38
-DA:823,38
-BRDA:760,675,1,266
-BRDA:763,59,0,231
-BRDA:765,79,0,0
-BRDA:765,79,1,231
-BRDA:768,179,0,96
-BRDA:768,179,1,231
-BRDA:763,59,1,266
-BRDA:775,210,0,231
-BRDA:777,230,0,0
-BRDA:777,230,1,231
-BRDA:780,330,0,75
-BRDA:780,330,1,231
-BRDA:775,210,1,266
-BRDA:787,361,0,236
-BRDA:789,381,0,0
-BRDA:789,381,1,236
-BRDA:792,481,0,76
-BRDA:792,481,1,236
-BRDA:787,361,1,266
-BRDA:799,512,0,231
-BRDA:801,532,0,0
-BRDA:801,532,1,231
-BRDA:804,632,0,48
-BRDA:804,632,1,231
-BRDA:799,512,1,266
-BRDA:760,675,0,38
-BRDA:813,682,0,33
-BRDA:813,682,1,5
-BRDA:814,707,0,33
-BRDA:814,707,1,5
-BRDA:815,732,0,38
-BRDA:815,732,1,0
-BRDA:816,757,0,33
-BRDA:816,757,1,5
-BRDA:818,782,0,38
-BRDA:818,786,0,38
-BRDA:818,790,0,1
-BRDA:818,794,0,1
-BRDA:818,782,1,37
-BRDA:818,786,1,37
-BRDA:818,790,1,37
-BRDA:818,794,1,37
-FN:908,System.Boolean server.Services.MealPlan.MealPlanGenerator::IsNutritionSet(server.Core.EF.DTO.UserNutritionDTO)
+DA:545,0
+DA:546,0
+DA:547,356
+DA:551,356
+DA:552,356
+DA:554,145
+DA:555,501
+BRDA:516,266,1,4241
+BRDA:521,33,1,1365
+BRDA:521,33,2,1639
+BRDA:521,33,3,419
+BRDA:521,33,4,818
+BRDA:521,33,0,0
+BRDA:538,131,1,356
+BRDA:543,200,1,0
+BRDA:545,188,0,0
+BRDA:545,188,1,0
+BRDA:543,200,0,356
+BRDA:547,227,1,356
+BRDA:538,131,0,3885
+BRDA:547,227,0,3885
+BRDA:516,266,0,145
+FN:609,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::ReplaceLowestMeals(server.Services.MealPlan.MealPlan,server.Services.MealPlan.NutrientTargets,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.MealPlanGenerator/UserCalories)
+FNDA:56,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::ReplaceLowestMeals(server.Services.MealPlan.MealPlan,server.Services.MealPlan.NutrientTargets,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.MealPlanGenerator/UserCalories)
+DA:610,56
+DA:611,56
+DA:612,56
+DA:613,56
+DA:614,56
+DA:616,56
+DA:618,56
+DA:619,56
+DA:620,56
+DA:621,56
+DA:623,896
+DA:624,392
+DA:625,392
+DA:626,392
+DA:627,392
+DA:628,392
+DA:630,392
+DA:631,392
+DA:632,392
+DA:633,392
+DA:634,54
+DA:635,54
+DA:636,54
+DA:637,54
+DA:638,392
+DA:640,392
+DA:641,392
+DA:642,392
+DA:643,392
+DA:644,392
+DA:645,392
+DA:646,392
+DA:647,64
+DA:648,64
+DA:649,64
+DA:650,64
+DA:651,392
+DA:653,392
+DA:654,392
+DA:655,392
+DA:656,392
+DA:657,392
+DA:658,392
+DA:659,392
+DA:660,66
+DA:661,66
+DA:662,66
+DA:663,66
+DA:664,392
+DA:666,392
+DA:667,392
+DA:668,392
+DA:669,392
+DA:670,392
+DA:671,392
+DA:672,392
+DA:673,59
+DA:674,59
+DA:675,59
+DA:676,59
+DA:677,392
+DA:678,392
+DA:681,56
+DA:682,56
+DA:683,56
+DA:684,56
+DA:686,56
+DA:687,56
+DA:688,56
+DA:689,56
+DA:690,56
+DA:691,56
+BRDA:623,735,1,392
+BRDA:626,67,0,392
+BRDA:628,87,0,0
+BRDA:628,87,1,392
+BRDA:633,200,0,54
+BRDA:633,200,1,392
+BRDA:626,67,1,392
+BRDA:640,231,0,392
+BRDA:642,251,0,0
+BRDA:642,251,1,392
+BRDA:646,364,0,64
+BRDA:646,364,1,392
+BRDA:640,231,1,392
+BRDA:653,395,0,392
+BRDA:655,415,0,0
+BRDA:655,415,1,392
+BRDA:659,528,0,66
+BRDA:659,528,1,392
+BRDA:653,395,1,392
+BRDA:666,559,0,392
+BRDA:668,579,0,0
+BRDA:668,579,1,392
+BRDA:672,692,0,59
+BRDA:672,692,1,392
+BRDA:666,559,1,392
+BRDA:623,735,0,56
+BRDA:681,742,0,52
+BRDA:681,742,1,4
+BRDA:682,767,0,53
+BRDA:682,767,1,3
+BRDA:683,792,0,56
+BRDA:683,792,1,0
+BRDA:684,817,0,55
+BRDA:684,817,1,1
+BRDA:686,842,0,41
+BRDA:686,846,0,41
+BRDA:686,850,0,1
+BRDA:686,854,0,1
+BRDA:686,842,1,55
+BRDA:686,846,1,55
+BRDA:686,850,1,55
+BRDA:686,854,1,55
+FN:693,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::FilterReferenceWhereNutrientsAreMetOrExceeds(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
+FNDA:1568,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.MealPlanGenerator::FilterReferenceWhereNutrientsAreMetOrExceeds(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
+DA:694,1568
+DA:695,1568
+DA:696,1568
+DA:697,1568
+DA:698,1568
+DA:699,1568
+DA:700,1568
+DA:701,1568
+DA:702,1568
+DA:703,1568
+DA:704,1568
+DA:705,1568
+DA:706,1568
+DA:707,1568
+DA:708,1568
+DA:709,1568
+DA:710,1568
+DA:711,1568
+DA:712,1568
+DA:713,1568
+DA:714,1568
+DA:715,1568
+DA:716,1568
+DA:717,1568
+DA:718,1568
+DA:719,1568
+DA:720,1568
+DA:721,1568
+DA:722,1568
+DA:723,1568
+DA:724,1568
+DA:725,1568
+BRDA:694,18,0,0
+BRDA:694,18,1,1568
+BRDA:694,52,0,980
+BRDA:694,52,1,588
+BRDA:694,86,0,0
+BRDA:694,86,1,1568
+BRDA:694,120,0,196
+BRDA:694,120,1,1372
+BRDA:694,154,0,28
+BRDA:694,154,1,1540
+BRDA:694,188,0,0
+BRDA:694,188,1,1568
+BRDA:694,222,0,56
+BRDA:694,222,1,1512
+BRDA:694,256,0,140
+BRDA:694,256,1,1428
+BRDA:694,290,0,0
+BRDA:694,290,1,1568
+BRDA:694,324,0,0
+BRDA:694,324,1,1568
+BRDA:694,358,0,0
+BRDA:694,358,1,1568
+BRDA:694,392,0,0
+BRDA:694,392,1,1568
+BRDA:694,426,0,140
+BRDA:694,426,1,1428
+BRDA:694,460,0,196
+BRDA:694,460,1,1372
+BRDA:694,494,0,0
+BRDA:694,494,1,1568
+BRDA:694,528,0,0
+BRDA:694,528,1,1568
+BRDA:694,562,0,196
+BRDA:694,562,1,1372
+BRDA:694,596,0,0
+BRDA:694,596,1,1568
+BRDA:694,630,0,0
+BRDA:694,630,1,1568
+BRDA:694,664,0,0
+BRDA:694,664,1,1568
+BRDA:694,698,0,196
+BRDA:694,698,1,1372
+BRDA:694,732,0,0
+BRDA:694,732,1,1568
+BRDA:694,766,0,0
+BRDA:694,766,1,1568
+BRDA:694,800,0,0
+BRDA:694,800,1,1568
+BRDA:694,834,0,0
+BRDA:694,834,1,1568
+BRDA:694,868,0,0
+BRDA:694,868,1,1568
+BRDA:694,902,0,308
+BRDA:694,902,1,1260
+BRDA:694,936,0,0
+BRDA:694,936,1,1568
+BRDA:694,970,0,0
+BRDA:694,970,1,1568
+FN:727,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::Replace(System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.PlannedMeal,System.Single)
+FNDA:332,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::Replace(System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.PlannedMeal,System.Single)
+DA:728,332
+DA:730,332
+DA:731,477
+DA:733,187
+DA:734,187
+DA:735,187
+DA:736,187
+DA:737,187
+DA:738,187
+DA:741,187
+DA:742,187
+DA:743,187
+DA:744,187
+DA:746,187
+DA:747,332
+BRDA:731,19,0,145
+BRDA:731,19,1,187
+FN:750,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::ReplaceHighest(server.Services.MealPlan.MealPlan,server.Services.MealPlan.NutrientTargets,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.MealPlanGenerator/UserCalories)
+FNDA:29,server.Core.EF.DTO.MealPlanResponse server.Services.MealPlan.MealPlanGenerator::ReplaceHighest(server.Services.MealPlan.MealPlan,server.Services.MealPlan.NutrientTargets,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>,server.Services.MealPlan.MealPlanGenerator/UserCalories)
+DA:751,29
+DA:752,29
+DA:753,29
+DA:754,29
+DA:755,29
+DA:757,29
+DA:758,29
+DA:759,29
+DA:760,29
+DA:762,464
+DA:763,203
+DA:764,203
+DA:765,203
+DA:766,203
+DA:767,203
+DA:768,203
+DA:769,203
+DA:770,203
+DA:771,63
+DA:772,63
+DA:773,63
+DA:774,63
+DA:775,203
+DA:777,203
+DA:778,203
+DA:779,203
+DA:780,203
+DA:781,203
+DA:782,203
+DA:783,73
+DA:784,73
+DA:785,73
+DA:786,73
+DA:787,203
+DA:789,203
+DA:790,203
+DA:791,203
+DA:792,203
+DA:793,203
+DA:794,203
+DA:795,62
+DA:796,62
+DA:797,62
+DA:798,62
+DA:799,203
+DA:801,203
+DA:802,203
+DA:803,203
+DA:804,203
+DA:805,203
+DA:806,203
+DA:807,56
+DA:808,56
+DA:809,56
+DA:810,56
+DA:811,203
+DA:812,203
+DA:815,29
+DA:816,29
+DA:817,29
+DA:818,29
+DA:820,29
+DA:821,29
+DA:822,29
+DA:823,29
+DA:824,29
+DA:825,29
+BRDA:762,675,1,203
+BRDA:765,59,0,203
+BRDA:767,79,0,0
+BRDA:767,79,1,203
+BRDA:770,179,0,63
+BRDA:770,179,1,203
+BRDA:765,59,1,203
+BRDA:777,210,0,203
+BRDA:779,230,0,0
+BRDA:779,230,1,203
+BRDA:782,330,0,73
+BRDA:782,330,1,203
+BRDA:777,210,1,203
+BRDA:789,361,0,203
+BRDA:791,381,0,0
+BRDA:791,381,1,203
+BRDA:794,481,0,62
+BRDA:794,481,1,203
+BRDA:789,361,1,203
+BRDA:801,512,0,203
+BRDA:803,532,0,0
+BRDA:803,532,1,203
+BRDA:806,632,0,56
+BRDA:806,632,1,203
+BRDA:801,512,1,203
+BRDA:762,675,0,29
+BRDA:815,682,0,29
+BRDA:815,682,1,0
+BRDA:816,707,0,29
+BRDA:816,707,1,0
+BRDA:817,732,0,29
+BRDA:817,732,1,0
+BRDA:818,757,0,29
+BRDA:818,757,1,0
+BRDA:820,782,0,29
+BRDA:820,786,0,29
+BRDA:820,790,0,0
+BRDA:820,794,0,0
+BRDA:820,782,1,29
+BRDA:820,786,1,29
+BRDA:820,790,1,29
+BRDA:820,794,1,29
+FN:910,System.Boolean server.Services.MealPlan.MealPlanGenerator::IsNutritionSet(server.Core.EF.DTO.UserNutritionDTO)
 FNDA:7,System.Boolean server.Services.MealPlan.MealPlanGenerator::IsNutritionSet(server.Core.EF.DTO.UserNutritionDTO)
-DA:909,7
 DA:911,7
-DA:912,7
 DA:913,7
 DA:914,7
+DA:915,7
 DA:916,7
-DA:917,7
 DA:918,7
+DA:919,7
 DA:920,7
-DA:921,7
 DA:922,7
+DA:923,7
 DA:924,7
-DA:925,7
 DA:926,7
+DA:927,7
 DA:928,7
-DA:929,7
 DA:930,7
+DA:931,7
 DA:932,7
-DA:933,7
 DA:934,7
+DA:935,7
 DA:936,7
-DA:937,7
 DA:938,7
+DA:939,7
 DA:940,7
-DA:941,7
 DA:942,7
+DA:943,7
 DA:944,7
-DA:945,7
 DA:946,7
+DA:947,7
 DA:948,7
-DA:949,7
 DA:950,7
+DA:951,7
 DA:952,7
-DA:953,7
 DA:954,7
+DA:955,7
 DA:956,7
-DA:957,7
 DA:958,7
+DA:959,7
 DA:960,7
-DA:961,7
 DA:962,7
+DA:963,7
 DA:964,7
-DA:965,7
 DA:966,7
+DA:967,7
 DA:968,7
-DA:969,7
 DA:970,7
+DA:971,7
 DA:972,7
-DA:973,7
 DA:974,7
+DA:975,7
 DA:976,7
-DA:977,7
 DA:978,7
+DA:979,7
 DA:980,7
-DA:981,7
 DA:982,7
+DA:983,7
 DA:984,7
-DA:985,7
 DA:986,7
+DA:987,7
 DA:988,7
-DA:989,7
 DA:990,7
+DA:991,7
 DA:992,7
-DA:993,7
 DA:994,7
+DA:995,7
 DA:996,7
-DA:997,7
 DA:998,7
+DA:999,7
 DA:1000,7
-DA:1001,7
 DA:1002,7
+DA:1003,7
 DA:1004,7
-DA:1005,7
 DA:1006,7
+DA:1007,7
 DA:1008,7
-DA:1009,7
 DA:1010,7
+DA:1011,7
 DA:1012,7
-DA:1013,7
 DA:1014,7
+DA:1015,7
 DA:1016,7
-DA:1017,7
 DA:1018,7
+DA:1019,7
 DA:1020,7
-DA:1021,7
 DA:1022,7
+DA:1023,7
 DA:1024,7
-DA:1025,7
 DA:1026,7
+DA:1027,7
 DA:1028,7
-DA:1029,7
 DA:1030,7
+DA:1031,7
 DA:1032,7
-DA:1033,7
-BRDA:911,20,0,0
-BRDA:911,20,1,7
-BRDA:912,48,0,0
-BRDA:912,48,1,7
-BRDA:913,78,0,0
-BRDA:913,78,1,7
-BRDA:914,108,0,0
-BRDA:914,108,1,7
-BRDA:916,138,0,0
-BRDA:916,138,1,7
-BRDA:917,168,0,0
-BRDA:917,168,1,7
-BRDA:918,198,0,0
-BRDA:918,198,1,7
-BRDA:920,228,0,0
-BRDA:920,228,1,7
-BRDA:921,258,0,0
-BRDA:921,258,1,7
-BRDA:922,288,0,0
-BRDA:922,288,1,7
-BRDA:924,318,0,0
-BRDA:924,318,1,7
-BRDA:925,348,0,0
-BRDA:925,348,1,7
-BRDA:926,378,0,0
-BRDA:926,378,1,7
-BRDA:928,408,0,0
-BRDA:928,408,1,7
-BRDA:929,438,0,0
-BRDA:929,438,1,7
-BRDA:930,468,0,0
-BRDA:930,468,1,7
-BRDA:932,498,0,0
-BRDA:932,498,1,7
-BRDA:933,528,0,0
-BRDA:933,528,1,7
-BRDA:934,558,0,0
-BRDA:934,558,1,7
-BRDA:936,588,0,0
-BRDA:936,588,1,7
-BRDA:937,618,0,0
-BRDA:937,618,1,7
-BRDA:938,648,0,0
-BRDA:938,648,1,7
-BRDA:940,678,0,0
-BRDA:940,678,1,7
-BRDA:941,708,0,0
-BRDA:941,708,1,7
-BRDA:942,738,0,0
-BRDA:942,738,1,7
-BRDA:944,768,0,0
-BRDA:944,768,1,7
-BRDA:945,798,0,0
-BRDA:945,798,1,7
-BRDA:946,828,0,0
-BRDA:946,828,1,7
-BRDA:948,858,0,0
-BRDA:948,858,1,7
-BRDA:949,888,0,0
-BRDA:949,888,1,7
-BRDA:950,918,0,0
-BRDA:950,918,1,7
-BRDA:952,948,0,0
-BRDA:952,948,1,7
-BRDA:953,978,0,0
-BRDA:953,978,1,7
-BRDA:954,1008,0,0
-BRDA:954,1008,1,7
-BRDA:956,1038,0,0
-BRDA:956,1038,1,7
-BRDA:957,1068,0,0
-BRDA:957,1068,1,7
-BRDA:958,1098,0,0
-BRDA:958,1098,1,7
-BRDA:960,1128,0,0
-BRDA:960,1128,1,7
-BRDA:961,1158,0,0
-BRDA:961,1158,1,7
-BRDA:962,1188,0,0
-BRDA:962,1188,1,7
-BRDA:964,1218,0,0
-BRDA:964,1218,1,7
-BRDA:965,1248,0,0
-BRDA:965,1248,1,7
-BRDA:966,1278,0,0
-BRDA:966,1278,1,7
-BRDA:968,1308,0,0
-BRDA:968,1308,1,7
-BRDA:969,1338,0,0
-BRDA:969,1338,1,7
-BRDA:970,1368,0,0
-BRDA:970,1368,1,7
-BRDA:972,1398,0,0
-BRDA:972,1398,1,7
-BRDA:973,1428,0,0
-BRDA:973,1428,1,7
-BRDA:974,1458,0,0
-BRDA:974,1458,1,7
-BRDA:976,1488,0,0
-BRDA:976,1488,1,7
-BRDA:977,1518,0,0
-BRDA:977,1518,1,7
-BRDA:978,1548,0,0
-BRDA:978,1548,1,7
-BRDA:980,1578,0,0
-BRDA:980,1578,1,7
-BRDA:981,1608,0,0
-BRDA:981,1608,1,7
-BRDA:982,1638,0,0
-BRDA:982,1638,1,7
-BRDA:984,1668,0,0
-BRDA:984,1668,1,7
-BRDA:985,1698,0,0
-BRDA:985,1698,1,7
-BRDA:986,1728,0,0
-BRDA:986,1728,1,7
-BRDA:988,1758,0,0
-BRDA:988,1758,1,7
-BRDA:989,1788,0,0
-BRDA:989,1788,1,7
-BRDA:990,1818,0,0
-BRDA:990,1818,1,7
-BRDA:992,1848,0,0
-BRDA:992,1848,1,7
-BRDA:993,1878,0,0
-BRDA:993,1878,1,7
-BRDA:994,1908,0,0
-BRDA:994,1908,1,7
-BRDA:996,1938,0,0
-BRDA:996,1938,1,7
-BRDA:997,1968,0,0
-BRDA:997,1968,1,7
-BRDA:998,1998,0,0
-BRDA:998,1998,1,7
-BRDA:1000,2028,0,0
-BRDA:1000,2028,1,7
-BRDA:1001,2058,0,0
-BRDA:1001,2058,1,7
-BRDA:1002,2088,0,0
-BRDA:1002,2088,1,7
-BRDA:1004,2118,0,0
-BRDA:1004,2118,1,7
-BRDA:1005,2148,0,0
-BRDA:1005,2148,1,7
-BRDA:1006,2178,0,0
-BRDA:1006,2178,1,7
-BRDA:1008,2208,0,0
-BRDA:1008,2208,1,7
-BRDA:1009,2238,0,0
-BRDA:1009,2238,1,7
-BRDA:1010,2268,0,0
-BRDA:1010,2268,1,7
-BRDA:1012,2298,0,0
-BRDA:1012,2298,1,7
-BRDA:1013,2328,0,0
-BRDA:1013,2328,1,7
-BRDA:1014,2358,0,0
-BRDA:1014,2358,1,7
-BRDA:1016,2388,0,0
-BRDA:1016,2388,1,7
-BRDA:1017,2418,0,0
-BRDA:1017,2418,1,7
-BRDA:1018,2448,0,0
-BRDA:1018,2448,1,7
-BRDA:1020,2478,0,0
-BRDA:1020,2478,1,7
-BRDA:1021,2508,0,0
-BRDA:1021,2508,1,7
-BRDA:1022,2538,0,0
-BRDA:1022,2538,1,7
-BRDA:1024,2568,0,0
-BRDA:1024,2568,1,7
-BRDA:1025,2598,0,0
-BRDA:1025,2598,1,7
-BRDA:1026,2625,0,0
-BRDA:1026,2625,1,7
-BRDA:1028,2652,0,0
-BRDA:1028,2652,1,7
-BRDA:1029,2679,0,0
-BRDA:1029,2679,1,7
-BRDA:1030,2706,0,0
-BRDA:1030,2706,1,7
+DA:1034,7
+DA:1035,7
+BRDA:913,20,0,0
+BRDA:913,20,1,7
+BRDA:914,48,0,0
+BRDA:914,48,1,7
+BRDA:915,78,0,0
+BRDA:915,78,1,7
+BRDA:916,108,0,0
+BRDA:916,108,1,7
+BRDA:918,138,0,0
+BRDA:918,138,1,7
+BRDA:919,168,0,0
+BRDA:919,168,1,7
+BRDA:920,198,0,0
+BRDA:920,198,1,7
+BRDA:922,228,0,0
+BRDA:922,228,1,7
+BRDA:923,258,0,0
+BRDA:923,258,1,7
+BRDA:924,288,0,0
+BRDA:924,288,1,7
+BRDA:926,318,0,0
+BRDA:926,318,1,7
+BRDA:927,348,0,0
+BRDA:927,348,1,7
+BRDA:928,378,0,0
+BRDA:928,378,1,7
+BRDA:930,408,0,0
+BRDA:930,408,1,7
+BRDA:931,438,0,0
+BRDA:931,438,1,7
+BRDA:932,468,0,0
+BRDA:932,468,1,7
+BRDA:934,498,0,0
+BRDA:934,498,1,7
+BRDA:935,528,0,0
+BRDA:935,528,1,7
+BRDA:936,558,0,0
+BRDA:936,558,1,7
+BRDA:938,588,0,0
+BRDA:938,588,1,7
+BRDA:939,618,0,0
+BRDA:939,618,1,7
+BRDA:940,648,0,0
+BRDA:940,648,1,7
+BRDA:942,678,0,0
+BRDA:942,678,1,7
+BRDA:943,708,0,0
+BRDA:943,708,1,7
+BRDA:944,738,0,0
+BRDA:944,738,1,7
+BRDA:946,768,0,0
+BRDA:946,768,1,7
+BRDA:947,798,0,0
+BRDA:947,798,1,7
+BRDA:948,828,0,0
+BRDA:948,828,1,7
+BRDA:950,858,0,0
+BRDA:950,858,1,7
+BRDA:951,888,0,0
+BRDA:951,888,1,7
+BRDA:952,918,0,0
+BRDA:952,918,1,7
+BRDA:954,948,0,0
+BRDA:954,948,1,7
+BRDA:955,978,0,0
+BRDA:955,978,1,7
+BRDA:956,1008,0,0
+BRDA:956,1008,1,7
+BRDA:958,1038,0,0
+BRDA:958,1038,1,7
+BRDA:959,1068,0,0
+BRDA:959,1068,1,7
+BRDA:960,1098,0,0
+BRDA:960,1098,1,7
+BRDA:962,1128,0,0
+BRDA:962,1128,1,7
+BRDA:963,1158,0,0
+BRDA:963,1158,1,7
+BRDA:964,1188,0,0
+BRDA:964,1188,1,7
+BRDA:966,1218,0,0
+BRDA:966,1218,1,7
+BRDA:967,1248,0,0
+BRDA:967,1248,1,7
+BRDA:968,1278,0,0
+BRDA:968,1278,1,7
+BRDA:970,1308,0,0
+BRDA:970,1308,1,7
+BRDA:971,1338,0,0
+BRDA:971,1338,1,7
+BRDA:972,1368,0,0
+BRDA:972,1368,1,7
+BRDA:974,1398,0,0
+BRDA:974,1398,1,7
+BRDA:975,1428,0,0
+BRDA:975,1428,1,7
+BRDA:976,1458,0,0
+BRDA:976,1458,1,7
+BRDA:978,1488,0,0
+BRDA:978,1488,1,7
+BRDA:979,1518,0,0
+BRDA:979,1518,1,7
+BRDA:980,1548,0,0
+BRDA:980,1548,1,7
+BRDA:982,1578,0,0
+BRDA:982,1578,1,7
+BRDA:983,1608,0,0
+BRDA:983,1608,1,7
+BRDA:984,1638,0,0
+BRDA:984,1638,1,7
+BRDA:986,1668,0,0
+BRDA:986,1668,1,7
+BRDA:987,1698,0,0
+BRDA:987,1698,1,7
+BRDA:988,1728,0,0
+BRDA:988,1728,1,7
+BRDA:990,1758,0,0
+BRDA:990,1758,1,7
+BRDA:991,1788,0,0
+BRDA:991,1788,1,7
+BRDA:992,1818,0,0
+BRDA:992,1818,1,7
+BRDA:994,1848,0,0
+BRDA:994,1848,1,7
+BRDA:995,1878,0,0
+BRDA:995,1878,1,7
+BRDA:996,1908,0,0
+BRDA:996,1908,1,7
+BRDA:998,1938,0,0
+BRDA:998,1938,1,7
+BRDA:999,1968,0,0
+BRDA:999,1968,1,7
+BRDA:1000,1998,0,0
+BRDA:1000,1998,1,7
+BRDA:1002,2028,0,0
+BRDA:1002,2028,1,7
+BRDA:1003,2058,0,0
+BRDA:1003,2058,1,7
+BRDA:1004,2088,0,0
+BRDA:1004,2088,1,7
+BRDA:1006,2118,0,0
+BRDA:1006,2118,1,7
+BRDA:1007,2148,0,0
+BRDA:1007,2148,1,7
+BRDA:1008,2178,0,0
+BRDA:1008,2178,1,7
+BRDA:1010,2208,0,0
+BRDA:1010,2208,1,7
+BRDA:1011,2238,0,0
+BRDA:1011,2238,1,7
+BRDA:1012,2268,0,0
+BRDA:1012,2268,1,7
+BRDA:1014,2298,0,0
+BRDA:1014,2298,1,7
+BRDA:1015,2328,0,0
+BRDA:1015,2328,1,7
+BRDA:1016,2358,0,0
+BRDA:1016,2358,1,7
+BRDA:1018,2388,0,0
+BRDA:1018,2388,1,7
+BRDA:1019,2418,0,0
+BRDA:1019,2418,1,7
+BRDA:1020,2448,0,0
+BRDA:1020,2448,1,7
+BRDA:1022,2478,0,0
+BRDA:1022,2478,1,7
+BRDA:1023,2508,0,0
+BRDA:1023,2508,1,7
+BRDA:1024,2538,0,0
+BRDA:1024,2538,1,7
+BRDA:1026,2568,0,0
+BRDA:1026,2568,1,7
+BRDA:1027,2598,0,0
+BRDA:1027,2598,1,7
+BRDA:1028,2625,0,0
+BRDA:1028,2625,1,7
+BRDA:1030,2652,0,0
+BRDA:1030,2652,1,7
+BRDA:1031,2679,0,0
+BRDA:1031,2679,1,7
+BRDA:1032,2706,0,0
+BRDA:1032,2706,1,7
 FN:20,System.Void server.Services.MealPlan.MealPlanGenerator::.ctor(server.Core.EF.RepositoryInterfaces.IFoodItemRepository,server.Core.EF.RepositoryInterfaces.IMealRepository,server.Core.EF.RepositoryInterfaces.IRecipeRepository,server.Core.EF.RepositoryInterfaces.IUserRepository)
 FNDA:6,System.Void server.Services.MealPlan.MealPlanGenerator::.ctor(server.Core.EF.RepositoryInterfaces.IFoodItemRepository,server.Core.EF.RepositoryInterfaces.IMealRepository,server.Core.EF.RepositoryInterfaces.IRecipeRepository,server.Core.EF.RepositoryInterfaces.IUserRepository)
 DA:21,6
@@ -3582,15 +3662,13 @@ FN:12,System.Void server.Services.MealPlan.MealPlanGenerator::.cctor()
 FNDA:1,System.Void server.Services.MealPlan.MealPlanGenerator::.cctor()
 DA:13,1
 DA:14,1
-FN:888,System.Boolean server.Services.MealPlan.MealPlanGenerator/<>c__DisplayClass29_0::<OrderRecipesByRecency>b__0(server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO)
-FNDA:847,System.Boolean server.Services.MealPlan.MealPlanGenerator/<>c__DisplayClass29_0::<OrderRecipesByRecency>b__0(server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO)
-DA:889,847
-FN:192,System.Void server.Services.MealPlan.MealPlanGenerator/<CalculateIdealIntake>d__11::MoveNext()
+FN:890,System.Boolean server.Services.MealPlan.MealPlanGenerator/<>c__DisplayClass29_0::<OrderRecipesByRecency>b__0(server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO)
+FNDA:863,System.Boolean server.Services.MealPlan.MealPlanGenerator/<>c__DisplayClass29_0::<OrderRecipesByRecency>b__0(server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO)
+DA:891,863
+FN:194,System.Void server.Services.MealPlan.MealPlanGenerator/<CalculateIdealIntake>d__11::MoveNext()
 FNDA:7,System.Void server.Services.MealPlan.MealPlanGenerator/<CalculateIdealIntake>d__11::MoveNext()
-DA:193,7
 DA:195,7
-DA:198,7
-DA:199,7
+DA:197,7
 DA:200,7
 DA:201,7
 DA:202,7
@@ -3619,22 +3697,23 @@ DA:224,7
 DA:225,7
 DA:226,7
 DA:227,7
+DA:228,7
 DA:229,7
-DA:230,7
-FN:61,System.Void server.Services.MealPlan.MealPlanGenerator/<Create7DayMealPlan>d__8::MoveNext()
+DA:231,7
+DA:232,7
+FN:62,System.Void server.Services.MealPlan.MealPlanGenerator/<Create7DayMealPlan>d__8::MoveNext()
 FNDA:8,System.Void server.Services.MealPlan.MealPlanGenerator/<Create7DayMealPlan>d__8::MoveNext()
-DA:62,8
-DA:65,8
-DA:68,8
+DA:63,8
+DA:66,8
 DA:69,8
 DA:70,8
-DA:73,8
-DA:74,16
-DA:75,8
-DA:76,8
-DA:77,8
-DA:78,8
-DA:79,0
+DA:71,8
+DA:74,8
+DA:75,15
+DA:76,7
+DA:77,7
+DA:78,7
+DA:79,7
 DA:80,0
 DA:81,0
 DA:82,0
@@ -3644,43 +3723,43 @@ DA:85,0
 DA:86,0
 DA:87,0
 DA:88,0
-DA:90,8
-DA:92,51
-DA:93,44
-DA:94,44
-DA:95,38
-DA:96,38
-DA:97,38
-DA:98,38
-DA:99,1
-DA:100,1
-DA:101,1
-DA:102,1
-DA:103,1
-DA:104,1
-DA:105,1
-DA:106,1
-DA:107,1
-DA:108,1
-DA:110,37
-DA:112,89
-DA:113,46
-DA:114,46
-DA:115,46
-DA:116,46
-DA:117,0
-DA:118,0
-DA:119,0
-DA:120,0
-DA:121,0
-DA:122,0
-DA:123,0
-DA:124,0
-DA:125,0
-DA:126,0
-DA:128,46
-DA:129,43
-DA:131,7
+DA:89,0
+DA:91,7
+DA:93,42
+DA:94,35
+DA:95,35
+DA:96,29
+DA:97,29
+DA:98,29
+DA:99,29
+DA:100,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:104,0
+DA:105,0
+DA:106,0
+DA:107,0
+DA:108,0
+DA:109,0
+DA:111,29
+DA:113,83
+DA:114,49
+DA:115,49
+DA:116,49
+DA:117,49
+DA:118,1
+DA:119,1
+DA:120,1
+DA:121,1
+DA:122,1
+DA:123,1
+DA:124,1
+DA:125,1
+DA:126,1
+DA:127,1
+DA:129,48
+DA:130,34
 DA:132,7
 DA:133,7
 DA:134,7
@@ -3689,119 +3768,118 @@ DA:136,7
 DA:137,7
 DA:138,7
 DA:139,7
-DA:140,8
-BRDA:69,227,0,0
-BRDA:69,227,1,8
-BRDA:74,437,1,8
-BRDA:78,354,0,0
-BRDA:78,354,1,8
-BRDA:92,785,1,44
-BRDA:94,469,0,38
-BRDA:98,543,0,1
-BRDA:98,543,1,37
-BRDA:112,733,1,46
-BRDA:116,663,0,0
-BRDA:116,663,1,46
-BRDA:94,469,1,89
-BRDA:112,733,0,43
-BRDA:74,437,0,51
-BRDA:92,756,0,7
-BRDA:92,756,1,44
-BRDA:92,785,0,7
-FN:409,System.Void server.Services.MealPlan.MealPlanGenerator/<CreateInitialMealPlan>d__19::MoveNext()
+DA:140,7
+DA:141,8
+BRDA:70,227,0,0
+BRDA:70,227,1,8
+BRDA:75,437,1,7
+BRDA:79,354,0,0
+BRDA:79,354,1,7
+BRDA:93,785,1,35
+BRDA:95,469,0,29
+BRDA:99,543,0,0
+BRDA:99,543,1,29
+BRDA:113,733,1,49
+BRDA:117,663,0,1
+BRDA:117,663,1,48
+BRDA:95,469,1,83
+BRDA:113,733,0,34
+BRDA:75,437,0,42
+BRDA:93,756,0,7
+BRDA:93,756,1,35
+BRDA:93,785,0,7
+FN:411,System.Void server.Services.MealPlan.MealPlanGenerator/<CreateInitialMealPlan>d__19::MoveNext()
 FNDA:8,System.Void server.Services.MealPlan.MealPlanGenerator/<CreateInitialMealPlan>d__19::MoveNext()
-DA:410,8
-DA:411,8
-DA:414,128
-DA:415,56
-DA:416,56
+DA:412,8
+DA:413,8
+DA:416,128
 DA:417,56
 DA:418,56
 DA:419,56
+DA:420,56
 DA:421,56
-DA:422,56
 DA:423,56
 DA:424,56
-DA:427,56
-DA:428,42
+DA:425,56
+DA:426,56
+DA:429,56
 DA:430,42
-DA:431,42
-DA:434,42
-DA:435,42
+DA:432,42
+DA:433,42
 DA:436,42
 DA:437,42
 DA:438,42
 DA:439,42
-DA:442,42
-DA:443,42
-DA:446,56
-DA:447,42
+DA:440,42
+DA:441,42
+DA:444,42
+DA:445,42
+DA:448,56
 DA:449,42
-DA:450,42
+DA:451,42
 DA:452,42
-DA:453,42
 DA:454,42
 DA:455,42
 DA:456,42
 DA:457,42
+DA:458,42
 DA:459,42
-DA:460,42
-DA:463,56
-DA:464,43
+DA:461,42
+DA:462,42
+DA:465,56
 DA:466,43
-DA:467,43
+DA:468,43
 DA:469,43
-DA:470,43
 DA:471,43
 DA:472,43
 DA:473,43
 DA:474,43
+DA:475,43
 DA:476,43
-DA:477,43
-DA:479,56
-DA:480,42
+DA:478,43
+DA:479,43
+DA:481,56
 DA:482,42
-DA:483,42
+DA:484,42
 DA:485,42
-DA:486,42
 DA:487,42
 DA:488,42
 DA:489,42
 DA:490,42
+DA:491,42
 DA:492,42
-DA:493,42
-DA:496,56
-DA:497,56
-DA:499,8
-DA:500,8
-BRDA:414,3071,1,56
-BRDA:427,1891,0,42
-BRDA:431,1962,0,0
-BRDA:431,1962,1,42
-BRDA:427,1891,1,56
-BRDA:446,2168,0,42
-BRDA:450,2239,0,0
-BRDA:450,2239,1,42
-BRDA:446,2168,1,56
-BRDA:463,2445,0,43
-BRDA:467,2516,0,0
-BRDA:467,2516,1,43
-BRDA:463,2445,1,56
-BRDA:479,2722,0,42
-BRDA:483,2793,0,0
-BRDA:483,2793,1,42
-BRDA:479,2722,1,56
-BRDA:414,3071,0,8
-FN:555,System.Void server.Services.MealPlan.MealPlanGenerator/<CreatePlannedMeal>d__22::MoveNext()
+DA:494,42
+DA:495,42
+DA:498,56
+DA:499,56
+DA:501,8
+DA:502,8
+BRDA:416,3071,1,56
+BRDA:429,1891,0,42
+BRDA:433,1962,0,0
+BRDA:433,1962,1,42
+BRDA:429,1891,1,56
+BRDA:448,2168,0,42
+BRDA:452,2239,0,0
+BRDA:452,2239,1,42
+BRDA:448,2168,1,56
+BRDA:465,2445,0,43
+BRDA:469,2516,0,0
+BRDA:469,2516,1,43
+BRDA:465,2445,1,56
+BRDA:481,2722,0,42
+BRDA:485,2793,0,0
+BRDA:485,2793,1,42
+BRDA:481,2722,1,56
+BRDA:416,3071,0,8
+FN:557,System.Void server.Services.MealPlan.MealPlanGenerator/<CreatePlannedMeal>d__22::MoveNext()
 FNDA:224,System.Void server.Services.MealPlan.MealPlanGenerator/<CreatePlannedMeal>d__22::MoveNext()
-DA:556,224
-DA:559,224
-DA:560,56
-DA:561,56
+DA:558,224
+DA:561,224
 DA:562,56
-DA:563,278
-DA:564,55
-DA:565,55
+DA:563,56
+DA:564,56
+DA:565,278
 DA:566,55
 DA:567,55
 DA:568,55
@@ -3809,8 +3887,8 @@ DA:569,55
 DA:570,55
 DA:571,55
 DA:572,55
-DA:574,56
-DA:575,56
+DA:573,55
+DA:574,55
 DA:576,56
 DA:577,56
 DA:578,56
@@ -3820,8 +3898,8 @@ DA:581,56
 DA:582,56
 DA:583,56
 DA:584,56
-DA:586,168
-DA:587,168
+DA:585,56
+DA:586,56
 DA:588,168
 DA:589,168
 DA:590,168
@@ -3832,15 +3910,17 @@ DA:594,168
 DA:595,168
 DA:596,168
 DA:597,168
-DA:600,224
+DA:598,168
+DA:599,168
 DA:602,224
-DA:603,224
-BRDA:559,53,0,56
-BRDA:563,665,1,55
-BRDA:563,665,0,56
-BRDA:559,53,1,168
-BRDA:600,912,0,224
-BRDA:600,912,1,0
+DA:604,224
+DA:605,224
+BRDA:561,53,0,56
+BRDA:565,665,1,55
+BRDA:565,665,0,56
+BRDA:561,53,1,168
+BRDA:602,912,0,224
+BRDA:602,912,1,0
 FN:29,System.Void server.Services.MealPlan.MealPlanGenerator/<Generate7DayMealPlan>d__7::MoveNext()
 FNDA:7,System.Void server.Services.MealPlan.MealPlanGenerator/<Generate7DayMealPlan>d__7::MoveNext()
 DA:30,7
@@ -3848,100 +3928,101 @@ DA:31,7
 DA:32,7
 DA:33,7
 DA:36,7
-DA:38,7
+DA:37,7
 DA:39,7
 DA:40,7
 DA:41,7
-DA:43,7
+DA:42,7
 DA:44,7
-DA:47,7
-DA:49,16
-DA:50,8
+DA:45,7
+DA:48,7
+DA:50,16
 DA:51,8
-DA:52,15
-DA:53,1
+DA:52,8
+DA:53,15
 DA:54,1
-DA:56,7
+DA:55,1
 DA:57,7
 DA:58,7
 DA:59,7
+DA:60,7
 BRDA:32,223,0,0
 BRDA:32,223,1,7
-BRDA:36,277,0,0
-BRDA:36,277,1,7
-BRDA:49,1055,1,8
-BRDA:52,974,1,1
-BRDA:53,990,0,0
-BRDA:53,990,1,1
-BRDA:53,1008,0,0
-BRDA:53,1008,1,1
-BRDA:52,974,0,7
-BRDA:49,1055,0,7
-BRDA:56,1072,0,7
-BRDA:56,1072,1,0
-BRDA:56,1095,0,0
-BRDA:56,1095,1,7
-FN:277,System.Void server.Services.MealPlan.MealPlanGenerator/<GetPreviousIntake>d__14::MoveNext()
+BRDA:37,289,0,0
+BRDA:37,289,1,7
+BRDA:50,1085,1,8
+BRDA:53,991,1,1
+BRDA:54,1007,0,0
+BRDA:54,1007,1,1
+BRDA:54,1015,0,1
+BRDA:54,1015,1,0
+BRDA:54,1038,0,0
+BRDA:54,1038,1,1
+BRDA:53,991,0,7
+BRDA:50,1085,0,7
+BRDA:57,1102,0,7
+BRDA:57,1102,1,0
+BRDA:57,1125,0,0
+BRDA:57,1125,1,7
+FN:279,System.Void server.Services.MealPlan.MealPlanGenerator/<GetPreviousIntake>d__14::MoveNext()
 FNDA:7,System.Void server.Services.MealPlan.MealPlanGenerator/<GetPreviousIntake>d__14::MoveNext()
-DA:278,7
-DA:279,7
 DA:280,7
 DA:281,7
-DA:283,210
-DA:284,98
-DA:285,98
+DA:282,7
+DA:283,7
+DA:285,210
+DA:286,98
 DA:287,98
-DA:288,91
+DA:289,98
 DA:290,91
-DA:291,91
-DA:293,7
-DA:294,77
-DA:295,28
+DA:292,91
+DA:293,91
+DA:295,7
+DA:296,77
 DA:297,28
-DA:298,140
 DA:299,28
-DA:300,28
-DA:301,326
-DA:302,121
-DA:303,121
-DA:304,121
-DA:305,28
-DA:306,28
-DA:307,84
-DA:308,0
-DA:309,0
+DA:300,140
+DA:301,28
+DA:302,28
+DA:303,324
+DA:304,120
+DA:305,120
+DA:306,120
+DA:307,28
+DA:308,28
+DA:309,84
 DA:310,0
-DA:312,28
-DA:313,7
-DA:315,98
-DA:316,98
-DA:317,7
-DA:318,7
-BRDA:278,16,0,7
-BRDA:283,1310,1,98
-BRDA:287,250,0,91
-BRDA:287,250,1,7
-BRDA:278,16,1,7
-BRDA:294,1202,1,28
-BRDA:294,305,1,0
-BRDA:294,305,2,28
-BRDA:298,865,1,28
-BRDA:301,803,1,121
-BRDA:301,803,0,28
-BRDA:298,865,0,28
-BRDA:294,305,3,0
-BRDA:307,1133,1,0
-BRDA:307,1133,0,28
-BRDA:294,305,0,35
-BRDA:294,1202,0,7
-BRDA:283,1310,0,7
-FN:369,System.Void server.Services.MealPlan.MealPlanGenerator/<GetSavedRecipes>d__17::MoveNext()
+DA:311,0
+DA:312,0
+DA:314,28
+DA:315,7
+DA:317,98
+DA:318,98
+DA:319,7
+DA:320,7
+BRDA:280,16,0,7
+BRDA:285,1310,1,98
+BRDA:289,250,0,91
+BRDA:289,250,1,7
+BRDA:280,16,1,7
+BRDA:296,1202,1,28
+BRDA:296,305,1,0
+BRDA:296,305,2,28
+BRDA:300,865,1,28
+BRDA:303,803,1,120
+BRDA:303,803,0,28
+BRDA:300,865,0,28
+BRDA:296,305,3,0
+BRDA:309,1133,1,0
+BRDA:309,1133,0,28
+BRDA:296,305,0,35
+BRDA:296,1202,0,7
+BRDA:285,1310,0,7
+FN:371,System.Void server.Services.MealPlan.MealPlanGenerator/<GetSavedRecipes>d__17::MoveNext()
 FNDA:7,System.Void server.Services.MealPlan.MealPlanGenerator/<GetSavedRecipes>d__17::MoveNext()
-DA:370,7
-DA:371,7
-DA:372,959
-DA:373,469
-DA:374,469
+DA:372,7
+DA:373,7
+DA:374,959
 DA:375,469
 DA:376,469
 DA:377,469
@@ -3950,18 +4031,18 @@ DA:379,469
 DA:380,469
 DA:381,469
 DA:382,469
+DA:383,469
 DA:384,469
-DA:385,469
-DA:386,7
-DA:387,7
-BRDA:372,518,1,469
-BRDA:375,248,0,0
-BRDA:375,248,1,469
-BRDA:372,518,0,7
-FN:837,System.Void server.Services.MealPlan.MealPlanGenerator/<InsertMeal>d__28::MoveNext()
+DA:386,469
+DA:387,469
+DA:388,7
+DA:389,7
+BRDA:374,518,1,469
+BRDA:377,248,0,0
+BRDA:377,248,1,469
+BRDA:374,518,0,7
+FN:839,System.Void server.Services.MealPlan.MealPlanGenerator/<InsertMeal>d__28::MoveNext()
 FNDA:141,System.Void server.Services.MealPlan.MealPlanGenerator/<InsertMeal>d__28::MoveNext()
-DA:838,141
-DA:839,141
 DA:840,141
 DA:841,141
 DA:842,141
@@ -3970,10 +4051,10 @@ DA:844,141
 DA:845,141
 DA:846,141
 DA:847,141
-DA:851,141
-DA:852,705
+DA:848,141
+DA:849,141
 DA:853,141
-DA:854,141
+DA:854,705
 DA:855,141
 DA:856,141
 DA:857,141
@@ -3982,245 +4063,247 @@ DA:859,141
 DA:860,141
 DA:861,141
 DA:862,141
+DA:863,141
 DA:864,141
-DA:865,141
 DA:866,141
 DA:867,141
 DA:868,141
 DA:869,141
 DA:870,141
 DA:871,141
-BRDA:852,463,1,141
-BRDA:852,463,0,141
-BRDA:870,689,0,0
-BRDA:870,689,1,141
-FN:825,System.Void server.Services.MealPlan.MealPlanGenerator/<InsertPlan>d__27::MoveNext()
+DA:872,141
+DA:873,141
+BRDA:854,463,1,141
+BRDA:854,463,0,141
+BRDA:872,689,0,0
+BRDA:872,689,1,141
+FN:827,System.Void server.Services.MealPlan.MealPlanGenerator/<InsertPlan>d__27::MoveNext()
 FNDA:7,System.Void server.Services.MealPlan.MealPlanGenerator/<InsertPlan>d__27::MoveNext()
-DA:826,7
-DA:827,119
-DA:828,49
-DA:829,84
-DA:830,84
-DA:831,85
+DA:828,7
+DA:829,119
+DA:830,49
+DA:831,84
 DA:832,84
-DA:833,49
-DA:834,7
-DA:835,7
-BRDA:827,665,1,49
-BRDA:829,123,0,35
-BRDA:829,123,1,49
-BRDA:830,256,0,35
-BRDA:830,256,1,49
-BRDA:831,392,0,36
-BRDA:831,392,1,49
-BRDA:832,528,0,35
-BRDA:832,528,1,49
-BRDA:827,665,0,7
-FN:873,System.Void server.Services.MealPlan.MealPlanGenerator/<OrderRecipesByRecency>d__29::MoveNext()
+DA:833,85
+DA:834,84
+DA:835,49
+DA:836,7
+DA:837,7
+BRDA:829,665,1,49
+BRDA:831,123,0,35
+BRDA:831,123,1,49
+BRDA:832,256,0,35
+BRDA:832,256,1,49
+BRDA:833,392,0,36
+BRDA:833,392,1,49
+BRDA:834,528,0,35
+BRDA:834,528,1,49
+BRDA:829,665,0,7
+FN:875,System.Void server.Services.MealPlan.MealPlanGenerator/<OrderRecipesByRecency>d__29::MoveNext()
 FNDA:7,System.Void server.Services.MealPlan.MealPlanGenerator/<OrderRecipesByRecency>d__29::MoveNext()
-DA:874,7
 DA:876,7
 DA:878,7
-DA:881,434
-DA:882,210
-DA:883,210
+DA:880,7
+DA:883,434
 DA:884,210
-DA:885,686
-DA:886,28
-DA:887,140
+DA:885,210
+DA:886,210
+DA:887,686
 DA:888,28
+DA:889,140
 DA:890,28
-DA:891,28
 DA:892,28
 DA:893,28
 DA:894,28
 DA:895,28
 DA:896,28
-DA:897,210
-DA:899,959
-DA:900,469
-DA:901,441
-DA:903,7
-DA:904,7
+DA:897,28
+DA:898,28
+DA:899,210
+DA:901,959
+DA:902,469
+DA:903,441
 DA:905,7
 DA:906,7
-BRDA:881,754,1,210
-BRDA:885,676,1,28
-BRDA:887,618,1,28
-BRDA:890,523,0,28
-BRDA:890,523,1,0
-BRDA:890,552,0,28
-BRDA:890,552,1,28
-BRDA:887,618,0,28
-BRDA:885,676,0,210
-BRDA:881,754,0,7
-BRDA:899,858,1,469
-BRDA:900,820,0,441
-BRDA:900,820,1,469
-BRDA:899,858,0,7
-LF:802
-LH:775
-BRF:459
+DA:907,7
+DA:908,7
+BRDA:883,754,1,210
+BRDA:887,676,1,28
+BRDA:889,618,1,28
+BRDA:892,523,0,28
+BRDA:892,523,1,0
+BRDA:892,552,0,28
+BRDA:892,552,1,28
+BRDA:889,618,0,28
+BRDA:887,676,0,210
+BRDA:883,754,0,7
+BRDA:901,858,1,469
+BRDA:902,820,0,441
+BRDA:902,820,1,469
+BRDA:901,858,0,7
+LF:804
+LH:777
+BRF:463
 BRH:311
 FNF:27
 FNH:27
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Services/MealPlanAlgorithm/NutrientTargets.cs
 FN:4,System.Single server.Services.MealPlan.NutrientTargets::get_Protein()
-FNDA:394101,System.Single server.Services.MealPlan.NutrientTargets::get_Protein()
-DA:5,394101
+FNDA:384510,System.Single server.Services.MealPlan.NutrientTargets::get_Protein()
+DA:5,384510
 FN:7,System.Single server.Services.MealPlan.NutrientTargets::get_Carbohydrates()
-FNDA:395161,System.Single server.Services.MealPlan.NutrientTargets::get_Carbohydrates()
-DA:8,395161
+FNDA:385486,System.Single server.Services.MealPlan.NutrientTargets::get_Carbohydrates()
+DA:8,385486
 FN:8,System.Single server.Services.MealPlan.NutrientTargets::get_Sugars()
-FNDA:394009,System.Single server.Services.MealPlan.NutrientTargets::get_Sugars()
-DA:9,394009
+FNDA:384424,System.Single server.Services.MealPlan.NutrientTargets::get_Sugars()
+DA:9,384424
 FN:9,System.Single server.Services.MealPlan.NutrientTargets::get_Fibres()
-FNDA:394233,System.Single server.Services.MealPlan.NutrientTargets::get_Fibres()
-DA:10,394233
+FNDA:384620,System.Single server.Services.MealPlan.NutrientTargets::get_Fibres()
+DA:10,384620
 FN:12,System.Single server.Services.MealPlan.NutrientTargets::get_TotalFat()
-FNDA:394009,System.Single server.Services.MealPlan.NutrientTargets::get_TotalFat()
-DA:13,394009
+FNDA:384452,System.Single server.Services.MealPlan.NutrientTargets::get_TotalFat()
+DA:13,384452
 FN:13,System.Single server.Services.MealPlan.NutrientTargets::get_SaturatedFat()
-FNDA:394009,System.Single server.Services.MealPlan.NutrientTargets::get_SaturatedFat()
-DA:14,394009
+FNDA:384422,System.Single server.Services.MealPlan.NutrientTargets::get_SaturatedFat()
+DA:14,384422
 FN:14,System.Single server.Services.MealPlan.NutrientTargets::get_MonounsaturatedFat()
-FNDA:393977,System.Single server.Services.MealPlan.NutrientTargets::get_MonounsaturatedFat()
-DA:15,393977
+FNDA:384408,System.Single server.Services.MealPlan.NutrientTargets::get_MonounsaturatedFat()
+DA:15,384408
 FN:15,System.Single server.Services.MealPlan.NutrientTargets::get_PolyunsaturatedFat()
-FNDA:393945,System.Single server.Services.MealPlan.NutrientTargets::get_PolyunsaturatedFat()
-DA:16,393945
+FNDA:384490,System.Single server.Services.MealPlan.NutrientTargets::get_PolyunsaturatedFat()
+DA:16,384490
 FN:16,System.Single server.Services.MealPlan.NutrientTargets::get_TransFat()
-FNDA:393917,System.Single server.Services.MealPlan.NutrientTargets::get_TransFat()
-DA:17,393917
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_TransFat()
+DA:17,384340
 FN:19,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminA()
-FNDA:394113,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminA()
-DA:20,394113
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminA()
+DA:20,384340
 FN:20,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminB6()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminB6()
-DA:21,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminB6()
+DA:21,384340
 FN:21,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminB12()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminB12()
-DA:22,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminB12()
+DA:22,384340
 FN:22,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminC()
-FNDA:393995,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminC()
-DA:23,393995
+FNDA:384480,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminC()
+DA:23,384480
 FN:23,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminD()
-FNDA:394135,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminD()
-DA:24,394135
+FNDA:384536,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminD()
+DA:24,384536
 FN:24,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminE()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminE()
-DA:25,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_VitaminE()
+DA:25,384340
 FN:25,System.Single server.Services.MealPlan.NutrientTargets::get_Thiamin()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Thiamin()
-DA:26,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Thiamin()
+DA:26,384340
 FN:26,System.Single server.Services.MealPlan.NutrientTargets::get_Riboflavin()
-FNDA:394135,System.Single server.Services.MealPlan.NutrientTargets::get_Riboflavin()
-DA:27,394135
+FNDA:384536,System.Single server.Services.MealPlan.NutrientTargets::get_Riboflavin()
+DA:27,384536
 FN:27,System.Single server.Services.MealPlan.NutrientTargets::get_Niacin()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Niacin()
-DA:28,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Niacin()
+DA:28,384340
 FN:28,System.Single server.Services.MealPlan.NutrientTargets::get_Folate()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Folate()
-DA:29,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Folate()
+DA:29,384340
 FN:31,System.Single server.Services.MealPlan.NutrientTargets::get_Salt()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Salt()
-DA:32,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Salt()
+DA:32,384340
 FN:32,System.Single server.Services.MealPlan.NutrientTargets::get_Potassium()
-FNDA:394135,System.Single server.Services.MealPlan.NutrientTargets::get_Potassium()
-DA:33,394135
+FNDA:384536,System.Single server.Services.MealPlan.NutrientTargets::get_Potassium()
+DA:33,384536
 FN:33,System.Single server.Services.MealPlan.NutrientTargets::get_Magnesium()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Magnesium()
-DA:34,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Magnesium()
+DA:34,384340
 FN:34,System.Single server.Services.MealPlan.NutrientTargets::get_Iron()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Iron()
-DA:35,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Iron()
+DA:35,384340
 FN:35,System.Single server.Services.MealPlan.NutrientTargets::get_Zinc()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Zinc()
-DA:36,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Zinc()
+DA:36,384340
 FN:36,System.Single server.Services.MealPlan.NutrientTargets::get_Phosphorus()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Phosphorus()
-DA:37,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Phosphorus()
+DA:37,384340
 FN:37,System.Single server.Services.MealPlan.NutrientTargets::get_Copper()
-FNDA:393911,System.Single server.Services.MealPlan.NutrientTargets::get_Copper()
-DA:38,393911
+FNDA:384340,System.Single server.Services.MealPlan.NutrientTargets::get_Copper()
+DA:38,384340
 FN:38,System.Single server.Services.MealPlan.NutrientTargets::get_Iodine()
-FNDA:394107,System.Single server.Services.MealPlan.NutrientTargets::get_Iodine()
-DA:39,394107
+FNDA:384648,System.Single server.Services.MealPlan.NutrientTargets::get_Iodine()
+DA:39,384648
 FN:39,System.Single server.Services.MealPlan.NutrientTargets::get_Selenium()
-FNDA:393905,System.Single server.Services.MealPlan.NutrientTargets::get_Selenium()
-DA:40,393905
+FNDA:384326,System.Single server.Services.MealPlan.NutrientTargets::get_Selenium()
+DA:40,384326
 FN:40,System.Single server.Services.MealPlan.NutrientTargets::get_Calcium()
-FNDA:393905,System.Single server.Services.MealPlan.NutrientTargets::get_Calcium()
-DA:41,393905
+FNDA:384326,System.Single server.Services.MealPlan.NutrientTargets::get_Calcium()
+DA:41,384326
 FN:43,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::op_Addition(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-FNDA:46300,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::op_Addition(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-DA:44,46300
-DA:45,46300
-DA:46,46300
-DA:47,46300
-DA:48,46300
-DA:49,46300
-DA:50,46300
-DA:51,46300
-DA:52,46300
-DA:53,46300
-DA:54,46300
-DA:55,46300
-DA:56,46300
-DA:57,46300
-DA:58,46300
-DA:59,46300
-DA:60,46300
-DA:61,46300
-DA:62,46300
-DA:63,46300
-DA:64,46300
-DA:65,46300
-DA:66,46300
-DA:67,46300
-DA:68,46300
-DA:69,46300
-DA:70,46300
-DA:71,46300
-DA:72,46300
-DA:73,46300
-DA:74,46300
-DA:75,46300
+FNDA:45103,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::op_Addition(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
+DA:44,45103
+DA:45,45103
+DA:46,45103
+DA:47,45103
+DA:48,45103
+DA:49,45103
+DA:50,45103
+DA:51,45103
+DA:52,45103
+DA:53,45103
+DA:54,45103
+DA:55,45103
+DA:56,45103
+DA:57,45103
+DA:58,45103
+DA:59,45103
+DA:60,45103
+DA:61,45103
+DA:62,45103
+DA:63,45103
+DA:64,45103
+DA:65,45103
+DA:66,45103
+DA:67,45103
+DA:68,45103
+DA:69,45103
+DA:70,45103
+DA:71,45103
+DA:72,45103
+DA:73,45103
+DA:74,45103
+DA:75,45103
 FN:77,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::ToNutrientTargets(server.Core.EF.DTO.FoodItemAmountDTO)
-FNDA:122,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::ToNutrientTargets(server.Core.EF.DTO.FoodItemAmountDTO)
-DA:78,122
-DA:79,122
-DA:80,122
-DA:81,122
-DA:82,122
-DA:83,122
-DA:84,122
-DA:85,122
-DA:86,122
-DA:87,122
-DA:88,122
-DA:89,122
-DA:90,122
-DA:91,122
-DA:92,122
-DA:93,122
-DA:94,122
-DA:95,122
-DA:96,122
-DA:97,122
-DA:98,122
-DA:99,122
-DA:100,122
-DA:101,122
-DA:102,122
-DA:103,122
-DA:104,122
-DA:105,122
-DA:106,122
-DA:107,122
-DA:108,122
-DA:109,122
+FNDA:121,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::ToNutrientTargets(server.Core.EF.DTO.FoodItemAmountDTO)
+DA:78,121
+DA:79,121
+DA:80,121
+DA:81,121
+DA:82,121
+DA:83,121
+DA:84,121
+DA:85,121
+DA:86,121
+DA:87,121
+DA:88,121
+DA:89,121
+DA:90,121
+DA:91,121
+DA:92,121
+DA:93,121
+DA:94,121
+DA:95,121
+DA:96,121
+DA:97,121
+DA:98,121
+DA:99,121
+DA:100,121
+DA:101,121
+DA:102,121
+DA:103,121
+DA:104,121
+DA:105,121
+DA:106,121
+DA:107,121
+DA:108,121
+DA:109,121
 FN:111,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::op_Division(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
 FNDA:1,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::op_Division(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
 DA:112,1
@@ -4290,140 +4373,140 @@ DA:175,1
 DA:176,1
 DA:177,1
 FN:179,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::op_Multiply(server.Services.MealPlan.NutrientTargets,System.Single)
-FNDA:40057,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::op_Multiply(server.Services.MealPlan.NutrientTargets,System.Single)
-DA:180,40057
-DA:181,40057
-DA:182,40057
-DA:183,40057
-DA:184,40057
-DA:185,40057
-DA:186,40057
-DA:187,40057
-DA:188,40057
-DA:189,40057
-DA:190,40057
-DA:191,40057
-DA:192,40057
-DA:193,40057
-DA:194,40057
-DA:195,40057
-DA:196,40057
-DA:197,40057
-DA:198,40057
-DA:199,40057
-DA:200,40057
-DA:201,40057
-DA:202,40057
-DA:203,40057
-DA:204,40057
-DA:205,40057
-DA:206,40057
-DA:207,40057
-DA:208,40057
-DA:209,40057
-DA:210,40057
-DA:211,40057
+FNDA:39078,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.NutrientTargets::op_Multiply(server.Services.MealPlan.NutrientTargets,System.Single)
+DA:180,39078
+DA:181,39078
+DA:182,39078
+DA:183,39078
+DA:184,39078
+DA:185,39078
+DA:186,39078
+DA:187,39078
+DA:188,39078
+DA:189,39078
+DA:190,39078
+DA:191,39078
+DA:192,39078
+DA:193,39078
+DA:194,39078
+DA:195,39078
+DA:196,39078
+DA:197,39078
+DA:198,39078
+DA:199,39078
+DA:200,39078
+DA:201,39078
+DA:202,39078
+DA:203,39078
+DA:204,39078
+DA:205,39078
+DA:206,39078
+DA:207,39078
+DA:208,39078
+DA:209,39078
+DA:210,39078
+DA:211,39078
 FN:214,System.Boolean server.Services.MealPlan.NutrientTargets::op_GreaterThanOrEqual(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-FNDA:140,System.Boolean server.Services.MealPlan.NutrientTargets::op_GreaterThanOrEqual(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-DA:215,140
-DA:216,140
-DA:217,184
-DA:218,96
-DA:219,96
-DA:220,96
-DA:221,96
-DA:222,98
-DA:223,94
-DA:224,94
-DA:225,97
-DA:226,91
-DA:227,91
-DA:228,91
-DA:229,91
-DA:230,91
-DA:231,91
-DA:232,91
-DA:233,91
-DA:234,91
-DA:235,91
-DA:236,91
-DA:237,91
-DA:238,91
-DA:239,91
-DA:240,91
-DA:241,91
-DA:242,94
-DA:243,88
-DA:244,88
-DA:245,88
-DA:246,140
+FNDA:125,System.Boolean server.Services.MealPlan.NutrientTargets::op_GreaterThanOrEqual(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
+DA:215,125
+DA:216,125
+DA:217,166
+DA:218,84
+DA:219,84
+DA:220,85
+DA:221,83
+DA:222,84
+DA:223,87
+DA:224,77
+DA:225,77
+DA:226,77
+DA:227,77
+DA:228,77
+DA:229,77
+DA:230,77
+DA:231,77
+DA:232,77
+DA:233,77
+DA:234,77
+DA:235,77
+DA:236,77
+DA:237,77
+DA:238,77
+DA:239,77
+DA:240,77
+DA:241,77
+DA:242,84
+DA:243,70
+DA:244,70
+DA:245,70
+DA:246,125
 BRDA:216,17,0,0
-BRDA:216,17,1,140
-BRDA:217,42,0,44
-BRDA:217,42,1,96
+BRDA:216,17,1,125
+BRDA:217,42,0,41
+BRDA:217,42,1,84
 BRDA:218,67,0,0
-BRDA:218,67,1,96
+BRDA:218,67,1,84
 BRDA:219,94,0,0
-BRDA:219,94,1,96
-BRDA:220,121,0,0
-BRDA:220,121,1,96
+BRDA:219,94,1,84
+BRDA:220,121,0,1
+BRDA:220,121,1,83
 BRDA:221,148,0,0
-BRDA:221,148,1,96
-BRDA:222,175,0,2
-BRDA:222,175,1,94
-BRDA:223,202,0,0
-BRDA:223,202,1,94
+BRDA:221,148,1,83
+BRDA:222,175,0,1
+BRDA:222,175,1,82
+BRDA:223,202,0,5
+BRDA:223,202,1,77
 BRDA:224,229,0,0
-BRDA:224,229,1,94
-BRDA:225,256,0,3
-BRDA:225,256,1,91
+BRDA:224,229,1,77
+BRDA:225,256,0,0
+BRDA:225,256,1,77
 BRDA:226,283,0,0
-BRDA:226,283,1,91
+BRDA:226,283,1,77
 BRDA:227,310,0,0
-BRDA:227,310,1,91
+BRDA:227,310,1,77
 BRDA:228,337,0,0
-BRDA:228,337,1,91
+BRDA:228,337,1,77
 BRDA:229,364,0,0
-BRDA:229,364,1,91
+BRDA:229,364,1,77
 BRDA:230,391,0,0
-BRDA:230,391,1,91
+BRDA:230,391,1,77
 BRDA:231,418,0,0
-BRDA:231,418,1,91
+BRDA:231,418,1,77
 BRDA:232,445,0,0
-BRDA:232,445,1,91
+BRDA:232,445,1,77
 BRDA:233,472,0,0
-BRDA:233,472,1,91
+BRDA:233,472,1,77
 BRDA:234,499,0,0
-BRDA:234,499,1,91
+BRDA:234,499,1,77
 BRDA:235,526,0,0
-BRDA:235,526,1,91
+BRDA:235,526,1,77
 BRDA:236,553,0,0
-BRDA:236,553,1,91
+BRDA:236,553,1,77
 BRDA:237,580,0,0
-BRDA:237,580,1,91
+BRDA:237,580,1,77
 BRDA:238,607,0,0
-BRDA:238,607,1,91
+BRDA:238,607,1,77
 BRDA:239,634,0,0
-BRDA:239,634,1,91
+BRDA:239,634,1,77
 BRDA:240,658,0,0
-BRDA:240,658,1,91
+BRDA:240,658,1,77
 BRDA:241,682,0,0
-BRDA:241,682,1,91
-BRDA:242,706,0,3
-BRDA:242,706,1,88
+BRDA:241,682,1,77
+BRDA:242,706,0,7
+BRDA:242,706,1,70
 BRDA:243,730,0,0
-BRDA:243,730,1,88
+BRDA:243,730,1,70
 BRDA:244,754,0,0
-BRDA:244,754,1,88
+BRDA:244,754,1,70
 FN:249,System.Boolean server.Services.MealPlan.NutrientTargets::op_LessThanOrEqual(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-FNDA:51,System.Boolean server.Services.MealPlan.NutrientTargets::op_LessThanOrEqual(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-DA:250,51
-DA:251,51
-DA:252,51
-DA:253,51
-DA:254,51
-DA:255,51
-DA:256,95
+FNDA:42,System.Boolean server.Services.MealPlan.NutrientTargets::op_LessThanOrEqual(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
+DA:250,42
+DA:251,42
+DA:252,42
+DA:253,42
+DA:254,42
+DA:255,42
+DA:256,77
 DA:257,7
 DA:258,7
 DA:259,7
@@ -4448,18 +4531,18 @@ DA:277,7
 DA:278,7
 DA:279,7
 DA:280,7
-DA:281,51
+DA:281,42
 BRDA:251,17,0,0
-BRDA:251,17,1,51
+BRDA:251,17,1,42
 BRDA:252,42,0,0
-BRDA:252,42,1,51
+BRDA:252,42,1,42
 BRDA:253,67,0,0
-BRDA:253,67,1,51
+BRDA:253,67,1,42
 BRDA:254,94,0,0
-BRDA:254,94,1,51
+BRDA:254,94,1,42
 BRDA:255,121,0,0
-BRDA:255,121,1,51
-BRDA:256,148,0,44
+BRDA:255,121,1,42
+BRDA:256,148,0,35
 BRDA:256,148,1,7
 BRDA:257,175,0,0
 BRDA:257,175,1,7
@@ -4508,10 +4591,10 @@ BRDA:278,730,1,7
 BRDA:279,754,0,0
 BRDA:279,754,1,7
 FN:284,System.Boolean server.Services.MealPlan.NutrientTargets::op_GreaterThan(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-FNDA:51,System.Boolean server.Services.MealPlan.NutrientTargets::op_GreaterThan(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
-DA:285,51
-DA:286,51
-DA:287,51
+FNDA:42,System.Boolean server.Services.MealPlan.NutrientTargets::op_GreaterThan(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
+DA:285,42
+DA:286,42
+DA:287,42
 FN:289,System.Boolean server.Services.MealPlan.NutrientTargets::op_LessThan(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
 FNDA:3,System.Boolean server.Services.MealPlan.NutrientTargets::op_LessThan(server.Services.MealPlan.NutrientTargets,server.Services.MealPlan.NutrientTargets)
 DA:290,3
@@ -4605,195 +4688,195 @@ BRDA:318,817,1,1
 BRDA:319,844,0,0
 BRDA:319,844,1,1
 FN:324,System.Int32 server.Services.MealPlan.NutrientTargets::lowerCount(server.Services.MealPlan.NutrientTargets)
-FNDA:1530,System.Int32 server.Services.MealPlan.NutrientTargets::lowerCount(server.Services.MealPlan.NutrientTargets)
-DA:325,1530
-DA:326,1530
-DA:327,1531
-DA:328,2171
-DA:329,1531
-DA:330,1719
-DA:331,1531
-DA:332,1531
-DA:333,1562
-DA:334,1548
-DA:335,1531
-DA:336,1653
-DA:337,1531
-DA:338,1531
-DA:339,1604
-DA:340,1720
-DA:341,1531
-DA:342,1531
-DA:343,1713
-DA:344,1531
-DA:345,1531
-DA:346,1531
-DA:347,1672
-DA:348,1531
-DA:349,1531
-DA:350,1531
-DA:351,1531
-DA:352,1531
-DA:353,1657
-DA:354,1531
-DA:355,1531
-DA:356,1530
-DA:357,1530
+FNDA:1585,System.Int32 server.Services.MealPlan.NutrientTargets::lowerCount(server.Services.MealPlan.NutrientTargets)
+DA:325,1585
+DA:326,1585
+DA:327,1586
+DA:328,2149
+DA:329,1586
+DA:330,1748
+DA:331,1601
+DA:332,1586
+DA:333,1616
+DA:334,1671
+DA:335,1586
+DA:336,1586
+DA:337,1586
+DA:338,1586
+DA:339,1709
+DA:340,1749
+DA:341,1586
+DA:342,1586
+DA:343,1742
+DA:344,1586
+DA:345,1586
+DA:346,1586
+DA:347,1713
+DA:348,1586
+DA:349,1586
+DA:350,1586
+DA:351,1586
+DA:352,1586
+DA:353,1775
+DA:354,1586
+DA:355,1586
+DA:356,1585
+DA:357,1585
 BRDA:327,19,0,1
-BRDA:327,19,1,1530
-BRDA:328,41,0,641
-BRDA:328,41,1,1530
+BRDA:327,19,1,1585
+BRDA:328,41,0,564
+BRDA:328,41,1,1585
 BRDA:329,63,0,1
-BRDA:329,63,1,1530
-BRDA:330,87,0,189
-BRDA:330,87,1,1530
-BRDA:331,111,0,1
-BRDA:331,111,1,1530
+BRDA:329,63,1,1585
+BRDA:330,87,0,163
+BRDA:330,87,1,1585
+BRDA:331,111,0,16
+BRDA:331,111,1,1585
 BRDA:332,135,0,1
-BRDA:332,135,1,1530
-BRDA:333,159,0,32
-BRDA:333,159,1,1530
-BRDA:334,183,0,18
-BRDA:334,183,1,1530
+BRDA:332,135,1,1585
+BRDA:333,159,0,31
+BRDA:333,159,1,1585
+BRDA:334,183,0,86
+BRDA:334,183,1,1585
 BRDA:335,207,0,1
-BRDA:335,207,1,1530
-BRDA:336,231,0,123
-BRDA:336,231,1,1530
+BRDA:335,207,1,1585
+BRDA:336,231,0,1
+BRDA:336,231,1,1585
 BRDA:337,255,0,1
-BRDA:337,255,1,1530
+BRDA:337,255,1,1585
 BRDA:338,279,0,1
-BRDA:338,279,1,1530
-BRDA:339,303,0,74
-BRDA:339,303,1,1530
-BRDA:340,327,0,190
-BRDA:340,327,1,1530
+BRDA:338,279,1,1585
+BRDA:339,303,0,124
+BRDA:339,303,1,1585
+BRDA:340,327,0,164
+BRDA:340,327,1,1585
 BRDA:341,351,0,1
-BRDA:341,351,1,1530
+BRDA:341,351,1,1585
 BRDA:342,375,0,1
-BRDA:342,375,1,1530
-BRDA:343,399,0,183
-BRDA:343,399,1,1530
+BRDA:342,375,1,1585
+BRDA:343,399,0,157
+BRDA:343,399,1,1585
 BRDA:344,423,0,1
-BRDA:344,423,1,1530
+BRDA:344,423,1,1585
 BRDA:345,447,0,1
-BRDA:345,447,1,1530
+BRDA:345,447,1,1585
 BRDA:346,471,0,1
-BRDA:346,471,1,1530
-BRDA:347,495,0,142
-BRDA:347,495,1,1530
+BRDA:346,471,1,1585
+BRDA:347,495,0,128
+BRDA:347,495,1,1585
 BRDA:348,519,0,1
-BRDA:348,519,1,1530
+BRDA:348,519,1,1585
 BRDA:349,543,0,1
-BRDA:349,543,1,1530
+BRDA:349,543,1,1585
 BRDA:350,567,0,1
-BRDA:350,567,1,1530
+BRDA:350,567,1,1585
 BRDA:351,591,0,1
-BRDA:351,591,1,1530
+BRDA:351,591,1,1585
 BRDA:352,615,0,1
-BRDA:352,615,1,1530
-BRDA:353,639,0,127
-BRDA:353,639,1,1530
+BRDA:352,615,1,1585
+BRDA:353,639,0,190
+BRDA:353,639,1,1585
 BRDA:354,663,0,1
-BRDA:354,663,1,1530
+BRDA:354,663,1,1585
 BRDA:355,687,0,1
-BRDA:355,687,1,1530
+BRDA:355,687,1,1585
 FN:359,System.Int32 server.Services.MealPlan.NutrientTargets::HigherCount(server.Services.MealPlan.NutrientTargets)
-FNDA:931,System.Int32 server.Services.MealPlan.NutrientTargets::HigherCount(server.Services.MealPlan.NutrientTargets)
-DA:360,931
-DA:361,931
-DA:362,1170
-DA:363,1264
-DA:364,1142
-DA:365,932
-DA:366,1269
-DA:367,1426
-DA:368,1118
-DA:369,1057
-DA:370,1070
-DA:371,965
-DA:372,932
-DA:373,932
-DA:374,932
-DA:375,932
-DA:376,932
-DA:377,932
-DA:378,932
-DA:379,1132
-DA:380,932
-DA:381,1100
-DA:382,932
-DA:383,932
-DA:384,932
-DA:385,932
-DA:386,1015
-DA:387,957
-DA:388,936
-DA:389,939
-DA:390,946
-DA:391,931
-DA:392,931
-BRDA:362,19,0,239
-BRDA:362,19,1,931
-BRDA:363,41,0,333
-BRDA:363,41,1,931
-BRDA:364,63,0,211
-BRDA:364,63,1,931
+FNDA:814,System.Int32 server.Services.MealPlan.NutrientTargets::HigherCount(server.Services.MealPlan.NutrientTargets)
+DA:360,814
+DA:361,814
+DA:362,1051
+DA:363,1106
+DA:364,1003
+DA:365,815
+DA:366,1064
+DA:367,1233
+DA:368,953
+DA:369,906
+DA:370,948
+DA:371,847
+DA:372,815
+DA:373,815
+DA:374,815
+DA:375,815
+DA:376,815
+DA:377,815
+DA:378,815
+DA:379,1000
+DA:380,815
+DA:381,954
+DA:382,815
+DA:383,815
+DA:384,815
+DA:385,815
+DA:386,915
+DA:387,841
+DA:388,817
+DA:389,821
+DA:390,824
+DA:391,814
+DA:392,814
+BRDA:362,19,0,237
+BRDA:362,19,1,814
+BRDA:363,41,0,292
+BRDA:363,41,1,814
+BRDA:364,63,0,189
+BRDA:364,63,1,814
 BRDA:365,87,0,1
-BRDA:365,87,1,931
-BRDA:366,111,0,338
-BRDA:366,111,1,931
-BRDA:367,135,0,495
-BRDA:367,135,1,931
-BRDA:368,159,0,187
-BRDA:368,159,1,931
-BRDA:369,183,0,126
-BRDA:369,183,1,931
-BRDA:370,207,0,139
-BRDA:370,207,1,931
-BRDA:371,231,0,34
-BRDA:371,231,1,931
+BRDA:365,87,1,814
+BRDA:366,111,0,250
+BRDA:366,111,1,814
+BRDA:367,135,0,419
+BRDA:367,135,1,814
+BRDA:368,159,0,139
+BRDA:368,159,1,814
+BRDA:369,183,0,92
+BRDA:369,183,1,814
+BRDA:370,207,0,134
+BRDA:370,207,1,814
+BRDA:371,231,0,33
+BRDA:371,231,1,814
 BRDA:372,255,0,1
-BRDA:372,255,1,931
+BRDA:372,255,1,814
 BRDA:373,279,0,1
-BRDA:373,279,1,931
+BRDA:373,279,1,814
 BRDA:374,303,0,1
-BRDA:374,303,1,931
+BRDA:374,303,1,814
 BRDA:375,327,0,1
-BRDA:375,327,1,931
+BRDA:375,327,1,814
 BRDA:376,351,0,1
-BRDA:376,351,1,931
+BRDA:376,351,1,814
 BRDA:377,375,0,1
-BRDA:377,375,1,931
+BRDA:377,375,1,814
 BRDA:378,399,0,1
-BRDA:378,399,1,931
-BRDA:379,423,0,201
-BRDA:379,423,1,931
+BRDA:378,399,1,814
+BRDA:379,423,0,186
+BRDA:379,423,1,814
 BRDA:380,447,0,1
-BRDA:380,447,1,931
-BRDA:381,471,0,169
-BRDA:381,471,1,931
+BRDA:380,447,1,814
+BRDA:381,471,0,140
+BRDA:381,471,1,814
 BRDA:382,495,0,1
-BRDA:382,495,1,931
+BRDA:382,495,1,814
 BRDA:383,519,0,1
-BRDA:383,519,1,931
+BRDA:383,519,1,814
 BRDA:384,543,0,1
-BRDA:384,543,1,931
+BRDA:384,543,1,814
 BRDA:385,567,0,1
-BRDA:385,567,1,931
-BRDA:386,591,0,84
-BRDA:386,591,1,931
-BRDA:387,615,0,26
-BRDA:387,615,1,931
-BRDA:388,639,0,5
-BRDA:388,639,1,931
-BRDA:389,663,0,8
-BRDA:389,663,1,931
-BRDA:390,687,0,15
-BRDA:390,687,1,931
+BRDA:385,567,1,814
+BRDA:386,591,0,101
+BRDA:386,591,1,814
+BRDA:387,615,0,27
+BRDA:387,615,1,814
+BRDA:388,639,0,3
+BRDA:388,639,1,814
+BRDA:389,663,0,7
+BRDA:389,663,1,814
+BRDA:390,687,0,10
+BRDA:390,687,1,814
 LF:354
 LH:354
 BRF:290
-BRH:209
+BRH:210
 FNF:40
 FNH:40
 end_of_record
@@ -4802,8 +4885,8 @@ FN:4,System.Nullable`1<System.Int32> server.Services.MealPlan.PlannedMeal::get_I
 FNDA:224,System.Nullable`1<System.Int32> server.Services.MealPlan.PlannedMeal::get_Id()
 DA:5,224
 FN:5,server.Core.EF.MealType server.Services.MealPlan.PlannedMeal::get_MealType()
-FNDA:4907,server.Core.EF.MealType server.Services.MealPlan.PlannedMeal::get_MealType()
-DA:6,4907
+FNDA:4606,server.Core.EF.MealType server.Services.MealPlan.PlannedMeal::get_MealType()
+DA:6,4606
 FN:6,System.Int32 server.Services.MealPlan.PlannedMeal::get_UserID()
 FNDA:365,System.Int32 server.Services.MealPlan.PlannedMeal::get_UserID()
 DA:7,365
@@ -4811,78 +4894,78 @@ FN:7,System.DateTime server.Services.MealPlan.PlannedMeal::get_Date()
 FNDA:365,System.DateTime server.Services.MealPlan.PlannedMeal::get_Date()
 DA:8,365
 FN:8,System.Collections.Generic.List`1<System.Int32> server.Services.MealPlan.PlannedMeal::get_CategoryIDs()
-FNDA:727,System.Collections.Generic.List`1<System.Int32> server.Services.MealPlan.PlannedMeal::get_CategoryIDs()
-DA:9,727
+FNDA:721,System.Collections.Generic.List`1<System.Int32> server.Services.MealPlan.PlannedMeal::get_CategoryIDs()
+DA:9,721
 FN:9,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO> server.Services.MealPlan.PlannedMeal::get_FoodItemMeals()
-FNDA:13954,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO> server.Services.MealPlan.PlannedMeal::get_FoodItemMeals()
-DA:10,13954
+FNDA:13552,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO> server.Services.MealPlan.PlannedMeal::get_FoodItemMeals()
+DA:10,13552
 FN:10,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.PlannedMeal::get_RecipeMeals()
-FNDA:14457,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.PlannedMeal::get_RecipeMeals()
-DA:11,14457
+FNDA:14049,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Services.MealPlan.PlannedMeal::get_RecipeMeals()
+DA:11,14049
 FN:23,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.PlannedMeal::CalculateNutrientSums()
-FNDA:6753,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.PlannedMeal::CalculateNutrientSums()
-DA:24,6753
-DA:25,6753
-DA:26,13506
-DA:27,6753
-DA:28,6753
-DA:29,33765
-DA:30,6753
-DA:31,6753
-DA:32,6753
-DA:33,6753
-DA:34,6753
-DA:35,6753
-BRDA:26,18,0,6753
-BRDA:26,18,1,6753
-BRDA:27,50,0,6753
-BRDA:29,118,1,6753
-BRDA:29,118,0,6753
-BRDA:27,50,1,6753
+FNDA:6552,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.PlannedMeal::CalculateNutrientSums()
+DA:24,6552
+DA:25,6552
+DA:26,13104
+DA:27,6552
+DA:28,6552
+DA:29,32760
+DA:30,6552
+DA:31,6552
+DA:32,6552
+DA:33,6552
+DA:34,6552
+DA:35,6552
+BRDA:26,18,0,6552
+BRDA:26,18,1,6552
+BRDA:27,50,0,6552
+BRDA:29,118,1,6552
+BRDA:29,118,0,6552
+BRDA:27,50,1,6552
 FN:37,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.PlannedMeal::sumNutrientsInFoodItems(System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>)
-FNDA:13506,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.PlannedMeal::sumNutrientsInFoodItems(System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>)
-DA:38,13506
-DA:39,13506
-DA:40,97058
-DA:41,28270
-DA:42,28270
-DA:43,28270
-DA:44,28270
-DA:45,28270
-DA:46,28270
-DA:47,28270
-DA:48,28270
-DA:49,28270
-DA:50,28270
-DA:51,28270
-DA:52,28270
-DA:53,28270
-DA:54,28270
-DA:55,28270
-DA:56,28270
-DA:57,28270
-DA:58,28270
-DA:59,28270
-DA:60,28270
-DA:61,28270
-DA:62,28270
-DA:63,28270
-DA:64,28270
-DA:65,28270
-DA:66,28270
-DA:67,28270
-DA:68,28270
-DA:69,28270
-DA:70,28270
-DA:71,28270
-DA:72,28270
-DA:73,28270
-DA:74,28270
-DA:75,28270
-DA:76,13506
-DA:77,13506
-BRDA:40,584,1,28270
-BRDA:40,584,0,13506
+FNDA:13104,server.Services.MealPlan.NutrientTargets server.Services.MealPlan.PlannedMeal::sumNutrientsInFoodItems(System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>)
+DA:38,13104
+DA:39,13104
+DA:40,94544
+DA:41,27616
+DA:42,27616
+DA:43,27616
+DA:44,27616
+DA:45,27616
+DA:46,27616
+DA:47,27616
+DA:48,27616
+DA:49,27616
+DA:50,27616
+DA:51,27616
+DA:52,27616
+DA:53,27616
+DA:54,27616
+DA:55,27616
+DA:56,27616
+DA:57,27616
+DA:58,27616
+DA:59,27616
+DA:60,27616
+DA:61,27616
+DA:62,27616
+DA:63,27616
+DA:64,27616
+DA:65,27616
+DA:66,27616
+DA:67,27616
+DA:68,27616
+DA:69,27616
+DA:70,27616
+DA:71,27616
+DA:72,27616
+DA:73,27616
+DA:74,27616
+DA:75,27616
+DA:76,13104
+DA:77,13104
+BRDA:40,584,1,27616
+BRDA:40,584,0,13104
 FN:12,System.Void server.Services.MealPlan.PlannedMeal::.ctor(System.Nullable`1<System.Int32>,server.Core.EF.MealType,System.Int32,System.DateTime,System.Collections.Generic.List`1<System.Int32>,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>)
 FNDA:448,System.Void server.Services.MealPlan.PlannedMeal::.ctor(System.Nullable`1<System.Int32>,server.Core.EF.MealType,System.Int32,System.DateTime,System.Collections.Generic.List`1<System.Int32>,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>)
 DA:13,448
@@ -4979,6 +5062,7 @@ DA:94,0
 DA:95,0
 DA:96,0
 DA:97,0
+DA:98,0
 DA:99,0
 DA:100,0
 DA:101,0
@@ -5063,7 +5147,6 @@ DA:179,0
 DA:180,0
 DA:181,0
 DA:182,0
-DA:183,0
 DA:184,0
 DA:185,0
 DA:186,0
@@ -5085,10 +5168,10 @@ DA:201,0
 DA:202,0
 DA:203,0
 DA:204,0
+DA:205,0
 DA:206,0
 DA:207,0
 DA:208,0
-DA:209,0
 DA:210,0
 DA:211,0
 DA:212,0
@@ -5110,10 +5193,10 @@ DA:227,0
 DA:228,0
 DA:229,0
 DA:230,0
+DA:231,0
 DA:232,0
 DA:233,0
 DA:234,0
-DA:235,0
 DA:236,0
 DA:237,0
 DA:238,0
@@ -5135,8 +5218,8 @@ DA:253,0
 DA:254,0
 DA:255,0
 DA:256,0
+DA:257,0
 DA:258,0
-DA:259,0
 DA:260,0
 DA:261,0
 DA:262,0
@@ -5158,6 +5241,7 @@ DA:277,0
 DA:278,0
 DA:279,0
 DA:280,0
+DA:281,0
 DA:282,0
 DA:283,0
 DA:284,0
@@ -5178,7 +5262,6 @@ DA:298,0
 DA:299,0
 DA:300,0
 DA:301,0
-DA:302,0
 DA:303,0
 DA:304,0
 DA:305,0
@@ -5200,10 +5283,10 @@ DA:320,0
 DA:321,0
 DA:322,0
 DA:323,0
+DA:324,0
 DA:325,0
 DA:326,0
 DA:327,0
-DA:328,0
 DA:329,0
 DA:330,0
 DA:331,0
@@ -5225,6 +5308,7 @@ DA:346,0
 DA:347,0
 DA:348,0
 DA:349,0
+DA:350,0
 DA:351,0
 DA:352,0
 DA:353,0
@@ -5506,7 +5590,6 @@ DA:628,0
 DA:629,0
 DA:630,0
 DA:631,0
-DA:632,0
 DA:633,0
 DA:634,0
 DA:635,0
@@ -5521,13 +5604,13 @@ DA:643,0
 DA:644,0
 DA:645,0
 DA:646,0
-DA:647,0
 DA:648,0
 DA:649,0
 DA:650,0
 DA:651,0
 DA:652,0
 DA:653,0
+DA:654,0
 DA:655,0
 DA:656,0
 DA:657,0
@@ -5535,7 +5618,6 @@ DA:658,0
 DA:659,0
 DA:660,0
 DA:661,0
-DA:662,0
 DA:663,0
 DA:664,0
 DA:665,0
@@ -5556,27 +5638,28 @@ DA:680,0
 DA:681,0
 DA:682,0
 DA:683,0
+DA:684,0
 DA:685,0
 DA:686,0
 DA:687,0
-DA:688,0
 DA:689,0
 DA:690,0
 DA:691,0
 DA:692,0
 DA:693,0
 DA:694,0
+DA:695,0
 DA:696,0
 DA:697,0
 DA:698,0
 DA:699,0
 DA:700,0
 DA:701,0
+DA:702,0
 DA:703,0
 DA:704,0
 DA:705,0
 DA:706,0
-DA:707,0
 DA:708,0
 DA:709,0
 DA:710,0
@@ -5587,9 +5670,9 @@ DA:714,0
 DA:715,0
 DA:716,0
 DA:717,0
-DA:718,0
 DA:719,0
 DA:720,0
+DA:721,0
 DA:722,0
 DA:723,0
 DA:724,0
@@ -5605,80 +5688,22 @@ DA:733,0
 DA:734,0
 DA:735,0
 DA:736,0
-DA:737,0
 DA:738,0
 DA:739,0
+DA:740,0
 DA:741,0
-DA:742,0
 DA:743,0
-DA:744,0
-DA:745,0
-DA:746,0
-DA:747,0
-DA:748,0
-DA:749,0
-DA:750,0
-DA:752,0
-DA:753,0
-DA:754,0
-DA:755,0
-DA:756,0
-DA:757,0
-DA:758,0
-DA:759,0
-DA:760,0
-DA:761,0
-DA:762,0
-DA:763,0
-DA:764,0
-DA:765,0
-DA:766,0
-DA:767,0
-DA:768,0
-DA:769,0
-DA:771,0
-DA:772,0
-DA:773,0
-DA:774,0
-DA:776,0
-LF:737
+LF:706
 LH:0
 BRF:0
 BRH:0
 FNF:1
 FNH:0
 end_of_record
-SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/Avoidance/Avoidance.cs
-FN:4,System.Int32 server.Infrastructure.Avoidance::get_Id()
-FNDA:0,System.Int32 server.Infrastructure.Avoidance::get_Id()
-DA:5,0
-FN:5,System.String server.Infrastructure.Avoidance::get_Keyword()
-FNDA:0,System.String server.Infrastructure.Avoidance::get_Keyword()
-DA:6,0
-FN:6,server.Infrastructure.User server.Infrastructure.Avoidance::get_User()
-FNDA:0,server.Infrastructure.User server.Infrastructure.Avoidance::get_User()
-DA:7,0
-FN:8,System.Void server.Infrastructure.Avoidance::.ctor(System.String,server.Infrastructure.User)
-FNDA:0,System.Void server.Infrastructure.Avoidance::.ctor(System.String,server.Infrastructure.User)
-DA:9,0
-DA:10,0
-DA:11,0
-DA:12,0
-DA:13,0
-FN:15,System.Void server.Infrastructure.Avoidance::.ctor()
-FNDA:0,System.Void server.Infrastructure.Avoidance::.ctor()
-DA:16,0
-LF:9
-LH:0
-BRF:0
-BRH:0
-FNF:5
-FNH:0
-end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/Category/Category.cs
 FN:5,System.Int32 server.Infrastructure.Category::get_Id()
-FNDA:697,System.Int32 server.Infrastructure.Category::get_Id()
-DA:6,697
+FNDA:701,System.Int32 server.Infrastructure.Category::get_Id()
+DA:6,701
 FN:6,System.String server.Infrastructure.Category::get_Name()
 FNDA:223,System.String server.Infrastructure.Category::get_Name()
 DA:7,223
@@ -5756,206 +5781,206 @@ FNH:4
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/FoodItem/FoodItem.cs
 FN:5,System.Int32 server.Infrastructure.FoodItem::get_Id()
-FNDA:66211,System.Int32 server.Infrastructure.FoodItem::get_Id()
-DA:6,66211
+FNDA:66210,System.Int32 server.Infrastructure.FoodItem::get_Id()
+DA:6,66210
 FN:6,System.String server.Infrastructure.FoodItem::get_Name()
-FNDA:6145,System.String server.Infrastructure.FoodItem::get_Name()
-DA:7,6145
+FNDA:6143,System.String server.Infrastructure.FoodItem::get_Name()
+DA:7,6143
 FN:7,System.Single server.Infrastructure.FoodItem::get_Calories()
-FNDA:6117,System.Single server.Infrastructure.FoodItem::get_Calories()
-DA:8,6117
+FNDA:6115,System.Single server.Infrastructure.FoodItem::get_Calories()
+DA:8,6115
 FN:8,System.Single server.Infrastructure.FoodItem::get_Protein()
-FNDA:6116,System.Single server.Infrastructure.FoodItem::get_Protein()
-DA:9,6116
+FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Protein()
+DA:9,6114
 FN:11,System.Single server.Infrastructure.FoodItem::get_Carbohydrates()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Carbohydrates()
-DA:12,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Carbohydrates()
+DA:12,6112
 FN:12,System.Single server.Infrastructure.FoodItem::get_Sugars()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Sugars()
-DA:13,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Sugars()
+DA:13,6112
 FN:13,System.Single server.Infrastructure.FoodItem::get_Fibres()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Fibres()
-DA:14,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Fibres()
+DA:14,6112
 FN:16,System.Single server.Infrastructure.FoodItem::get_TotalFat()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_TotalFat()
-DA:17,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_TotalFat()
+DA:17,6112
 FN:17,System.Single server.Infrastructure.FoodItem::get_SaturatedFat()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_SaturatedFat()
-DA:18,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_SaturatedFat()
+DA:18,6112
 FN:18,System.Single server.Infrastructure.FoodItem::get_MonounsaturatedFat()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_MonounsaturatedFat()
-DA:19,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_MonounsaturatedFat()
+DA:19,6112
 FN:19,System.Single server.Infrastructure.FoodItem::get_PolyunsaturatedFat()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_PolyunsaturatedFat()
-DA:20,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_PolyunsaturatedFat()
+DA:20,6112
 FN:20,System.Single server.Infrastructure.FoodItem::get_TransFat()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_TransFat()
-DA:21,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_TransFat()
+DA:21,6112
 FN:23,System.Single server.Infrastructure.FoodItem::get_VitaminA()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_VitaminA()
-DA:24,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_VitaminA()
+DA:24,6112
 FN:24,System.Single server.Infrastructure.FoodItem::get_VitaminB6()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_VitaminB6()
-DA:25,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_VitaminB6()
+DA:25,6112
 FN:25,System.Single server.Infrastructure.FoodItem::get_VitaminB12()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_VitaminB12()
-DA:26,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_VitaminB12()
+DA:26,6112
 FN:26,System.Single server.Infrastructure.FoodItem::get_VitaminC()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_VitaminC()
-DA:27,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_VitaminC()
+DA:27,6112
 FN:27,System.Single server.Infrastructure.FoodItem::get_VitaminD()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_VitaminD()
-DA:28,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_VitaminD()
+DA:28,6112
 FN:28,System.Single server.Infrastructure.FoodItem::get_VitaminE()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_VitaminE()
-DA:29,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_VitaminE()
+DA:29,6112
 FN:29,System.Single server.Infrastructure.FoodItem::get_Thiamin()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Thiamin()
-DA:30,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Thiamin()
+DA:30,6112
 FN:30,System.Single server.Infrastructure.FoodItem::get_Riboflavin()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Riboflavin()
-DA:31,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Riboflavin()
+DA:31,6112
 FN:31,System.Single server.Infrastructure.FoodItem::get_Niacin()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Niacin()
-DA:32,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Niacin()
+DA:32,6112
 FN:32,System.Single server.Infrastructure.FoodItem::get_Folate()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Folate()
-DA:33,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Folate()
+DA:33,6112
 FN:35,System.Single server.Infrastructure.FoodItem::get_Salt()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Salt()
-DA:36,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Salt()
+DA:36,6112
 FN:36,System.Single server.Infrastructure.FoodItem::get_Potassium()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Potassium()
-DA:37,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Potassium()
+DA:37,6112
 FN:37,System.Single server.Infrastructure.FoodItem::get_Magnesium()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Magnesium()
-DA:38,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Magnesium()
+DA:38,6112
 FN:38,System.Single server.Infrastructure.FoodItem::get_Iron()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Iron()
-DA:39,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Iron()
+DA:39,6112
 FN:39,System.Single server.Infrastructure.FoodItem::get_Zinc()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Zinc()
-DA:40,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Zinc()
+DA:40,6112
 FN:40,System.Single server.Infrastructure.FoodItem::get_Phosphorus()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Phosphorus()
-DA:41,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Phosphorus()
+DA:41,6112
 FN:41,System.Single server.Infrastructure.FoodItem::get_Copper()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Copper()
-DA:42,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Copper()
+DA:42,6112
 FN:42,System.Single server.Infrastructure.FoodItem::get_Iodine()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Iodine()
-DA:43,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Iodine()
+DA:43,6112
 FN:43,System.Single server.Infrastructure.FoodItem::get_Selenium()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Selenium()
-DA:44,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Selenium()
+DA:44,6112
 FN:44,System.Single server.Infrastructure.FoodItem::get_Calcium()
-FNDA:6114,System.Single server.Infrastructure.FoodItem::get_Calcium()
-DA:45,6114
+FNDA:6112,System.Single server.Infrastructure.FoodItem::get_Calcium()
+DA:45,6112
 FN:119,server.Core.EF.DTO.FoodItemDTO server.Infrastructure.FoodItem::ToDTO()
-FNDA:3774,server.Core.EF.DTO.FoodItemDTO server.Infrastructure.FoodItem::ToDTO()
-DA:120,3774
-DA:121,3774
-DA:122,3774
-DA:123,3774
-DA:124,3774
-DA:125,3774
-DA:126,3774
-DA:127,3774
-DA:128,3774
-DA:129,3774
-DA:130,3774
-DA:131,3774
-DA:132,3774
-DA:133,3774
-DA:134,3774
-DA:135,3774
-DA:136,3774
-DA:137,3774
-DA:138,3774
-DA:139,3774
-DA:140,3774
-DA:141,3774
-DA:142,3774
-DA:143,3774
-DA:144,3774
-DA:145,3774
-DA:146,3774
-DA:147,3774
-DA:148,3774
-DA:149,3774
-DA:150,3774
-DA:151,3774
-DA:152,3774
-DA:153,3774
+FNDA:3773,server.Core.EF.DTO.FoodItemDTO server.Infrastructure.FoodItem::ToDTO()
+DA:120,3773
+DA:121,3773
+DA:122,3773
+DA:123,3773
+DA:124,3773
+DA:125,3773
+DA:126,3773
+DA:127,3773
+DA:128,3773
+DA:129,3773
+DA:130,3773
+DA:131,3773
+DA:132,3773
+DA:133,3773
+DA:134,3773
+DA:135,3773
+DA:136,3773
+DA:137,3773
+DA:138,3773
+DA:139,3773
+DA:140,3773
+DA:141,3773
+DA:142,3773
+DA:143,3773
+DA:144,3773
+DA:145,3773
+DA:146,3773
+DA:147,3773
+DA:148,3773
+DA:149,3773
+DA:150,3773
+DA:151,3773
+DA:152,3773
+DA:153,3773
 FN:47,System.Void server.Infrastructure.FoodItem::.ctor(System.String,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)
-FNDA:2307,System.Void server.Infrastructure.FoodItem::.ctor(System.String,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)
-DA:48,2307
-DA:49,2307
-DA:50,2307
-DA:51,2307
-DA:52,2307
-DA:53,2307
-DA:54,2307
-DA:55,2307
-DA:56,2307
-DA:57,2307
-DA:58,2307
-DA:59,2307
-DA:60,2307
-DA:61,2307
-DA:62,2307
-DA:63,2307
-DA:64,2307
-DA:65,2307
-DA:66,2307
-DA:67,2307
-DA:68,2307
-DA:69,2307
-DA:70,2307
-DA:71,2307
-DA:72,2307
-DA:73,2307
-DA:74,2307
-DA:75,2307
-DA:76,2307
-DA:77,2307
-DA:78,2307
-DA:79,2307
-DA:80,2307
-DA:81,2307
-DA:82,2307
-DA:83,2307
-DA:84,2307
-DA:85,2307
-DA:86,2307
-DA:87,2307
-DA:88,2307
-DA:89,2307
-DA:90,2307
-DA:91,2307
-DA:92,2307
-DA:93,2307
-DA:94,2307
-DA:95,2307
-DA:96,2307
-DA:97,2307
-DA:98,2307
-DA:99,2307
-DA:100,2307
-DA:101,2307
-DA:102,2307
-DA:103,2307
-DA:104,2307
-DA:105,2307
-DA:106,2307
-DA:107,2307
-DA:108,2307
-DA:109,2307
-DA:110,2307
-DA:111,2307
-DA:112,2307
-DA:113,2307
-DA:114,2307
+FNDA:2306,System.Void server.Infrastructure.FoodItem::.ctor(System.String,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)
+DA:48,2306
+DA:49,2306
+DA:50,2306
+DA:51,2306
+DA:52,2306
+DA:53,2306
+DA:54,2306
+DA:55,2306
+DA:56,2306
+DA:57,2306
+DA:58,2306
+DA:59,2306
+DA:60,2306
+DA:61,2306
+DA:62,2306
+DA:63,2306
+DA:64,2306
+DA:65,2306
+DA:66,2306
+DA:67,2306
+DA:68,2306
+DA:69,2306
+DA:70,2306
+DA:71,2306
+DA:72,2306
+DA:73,2306
+DA:74,2306
+DA:75,2306
+DA:76,2306
+DA:77,2306
+DA:78,2306
+DA:79,2306
+DA:80,2306
+DA:81,2306
+DA:82,2306
+DA:83,2306
+DA:84,2306
+DA:85,2306
+DA:86,2306
+DA:87,2306
+DA:88,2306
+DA:89,2306
+DA:90,2306
+DA:91,2306
+DA:92,2306
+DA:93,2306
+DA:94,2306
+DA:95,2306
+DA:96,2306
+DA:97,2306
+DA:98,2306
+DA:99,2306
+DA:100,2306
+DA:101,2306
+DA:102,2306
+DA:103,2306
+DA:104,2306
+DA:105,2306
+DA:106,2306
+DA:107,2306
+DA:108,2306
+DA:109,2306
+DA:110,2306
+DA:111,2306
+DA:112,2306
+DA:113,2306
+DA:114,2306
 FN:116,System.Void server.Infrastructure.FoodItem::.ctor()
 FNDA:0,System.Void server.Infrastructure.FoodItem::.ctor()
 DA:117,0
@@ -5968,26 +5993,26 @@ FNH:34
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/FoodItem/FoodItemRepository.cs
 FN:6,System.Void server.Infrastructure.FoodItemRepository::.ctor(server.Infrastructure.NourishNexusContext)
-FNDA:60,System.Void server.Infrastructure.FoodItemRepository::.ctor(server.Infrastructure.NourishNexusContext)
-DA:7,60
-DA:8,60
-DA:9,60
-DA:10,60
-FN:346,System.Int32 server.Infrastructure.FoodItemRepository/<>c::<ReadAllByMealId>b__9_3(System.Tuple`2<System.Single,System.Int32>)
-FNDA:13,System.Int32 server.Infrastructure.FoodItemRepository/<>c::<ReadAllByMealId>b__9_3(System.Tuple`2<System.Single,System.Int32>)
-DA:347,13
-FN:356,System.Int32 server.Infrastructure.FoodItemRepository/<>c::<ReadAllByRecipeId>b__10_3(System.Tuple`2<System.Single,System.Int32>)
-FNDA:67343,System.Int32 server.Infrastructure.FoodItemRepository/<>c::<ReadAllByRecipeId>b__10_3(System.Tuple`2<System.Single,System.Int32>)
-DA:357,67343
+FNDA:61,System.Void server.Infrastructure.FoodItemRepository::.ctor(server.Infrastructure.NourishNexusContext)
+DA:7,61
+DA:8,61
+DA:9,61
+DA:10,61
+FN:340,System.Int32 server.Infrastructure.FoodItemRepository/<>c::<ReadAllByMealId>b__8_3(System.Tuple`2<System.Single,System.Int32>)
+FNDA:13,System.Int32 server.Infrastructure.FoodItemRepository/<>c::<ReadAllByMealId>b__8_3(System.Tuple`2<System.Single,System.Int32>)
+DA:341,13
+FN:350,System.Int32 server.Infrastructure.FoodItemRepository/<>c::<ReadAllByRecipeId>b__9_3(System.Tuple`2<System.Single,System.Int32>)
+FNDA:67333,System.Int32 server.Infrastructure.FoodItemRepository/<>c::<ReadAllByRecipeId>b__9_3(System.Tuple`2<System.Single,System.Int32>)
+DA:351,67333
 FN:12,System.Void server.Infrastructure.FoodItemRepository/<CreateAsync>d__2::MoveNext()
-FNDA:1293,System.Void server.Infrastructure.FoodItemRepository/<CreateAsync>d__2::MoveNext()
-DA:13,1293
-DA:14,1293
-DA:15,1293
-DA:16,1293
-DA:17,1293
-DA:19,1305
-DA:21,1283
+FNDA:1295,System.Void server.Infrastructure.FoodItemRepository/<CreateAsync>d__2::MoveNext()
+DA:13,1295
+DA:14,1295
+DA:15,1295
+DA:16,1295
+DA:17,1295
+DA:19,1307
+DA:21,1285
 DA:22,2
 DA:23,2
 DA:24,2
@@ -6020,50 +6045,50 @@ DA:50,2
 DA:51,2
 DA:52,2
 DA:53,2
-DA:55,1279
-DA:56,1279
-DA:57,1279
-DA:58,1279
-DA:59,1279
-DA:60,1279
-DA:61,1279
-DA:62,1279
-DA:63,1279
-DA:64,1279
-DA:65,1279
-DA:66,1279
-DA:67,1279
-DA:68,1279
-DA:69,1279
-DA:70,1279
-DA:71,1279
-DA:72,1279
-DA:73,1279
-DA:74,1279
-DA:75,1279
-DA:76,1279
-DA:77,1279
-DA:78,1279
-DA:79,1279
-DA:80,1279
-DA:81,1279
-DA:82,1279
-DA:83,1279
-DA:84,1279
-DA:85,1279
-DA:86,1279
-DA:87,1279
-DA:88,1279
-DA:90,1279
-DA:92,1279
-DA:94,1279
-DA:95,1293
+DA:55,1281
+DA:56,1281
+DA:57,1281
+DA:58,1281
+DA:59,1281
+DA:60,1281
+DA:61,1281
+DA:62,1281
+DA:63,1281
+DA:64,1281
+DA:65,1281
+DA:66,1281
+DA:67,1281
+DA:68,1281
+DA:69,1281
+DA:70,1281
+DA:71,1281
+DA:72,1281
+DA:73,1281
+DA:74,1281
+DA:75,1281
+DA:76,1281
+DA:77,1281
+DA:78,1281
+DA:79,1281
+DA:80,1281
+DA:81,1281
+DA:82,1281
+DA:83,1281
+DA:84,1281
+DA:85,1281
+DA:86,1281
+DA:87,1281
+DA:88,1281
+DA:90,1281
+DA:92,1281
+DA:94,1281
+DA:95,1295
 BRDA:19,409,0,12
-BRDA:19,409,1,1281
+BRDA:19,409,1,1283
 BRDA:21,452,0,2
 BRDA:21,476,0,2
 BRDA:21,476,1,2
-BRDA:21,452,1,1279
+BRDA:21,452,1,1281
 FN:317,System.Void server.Infrastructure.FoodItemRepository/<ReadAllAsync>d__6::MoveNext()
 FNDA:2,System.Void server.Infrastructure.FoodItemRepository/<ReadAllAsync>d__6::MoveNext()
 DA:318,2
@@ -6072,37 +6097,40 @@ DA:320,2
 DA:321,2
 DA:322,2
 DA:323,2
-FN:341,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByMealId>d__9::MoveNext()
-FNDA:87,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByMealId>d__9::MoveNext()
+FN:335,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByMealId>d__8::MoveNext()
+FNDA:87,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByMealId>d__8::MoveNext()
+DA:336,87
+DA:337,87
+DA:338,87
+DA:339,87
+DA:340,87
 DA:342,87
-DA:343,87
-DA:344,87
-DA:345,87
-DA:346,87
-DA:348,87
-FN:335,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByRecipeIDAsync>d__8::MoveNext()
-FNDA:0,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByRecipeIDAsync>d__8::MoveNext()
-DA:336,0
-DA:337,0
-DA:338,0
-DA:339,0
-FN:350,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByRecipeId>d__10::MoveNext()
-FNDA:556,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByRecipeId>d__10::MoveNext()
-DA:351,556
+FN:344,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByRecipeId>d__9::MoveNext()
+FNDA:556,System.Void server.Infrastructure.FoodItemRepository/<ReadAllByRecipeId>d__9::MoveNext()
+DA:345,556
+DA:346,556
+DA:347,556
+DA:348,556
+DA:349,556
+DA:350,556
 DA:352,556
-DA:353,556
-DA:354,556
-DA:355,556
-DA:356,556
-DA:358,556
-FN:360,System.Void server.Infrastructure.FoodItemRepository/<ReadAllBySearchWord>d__11::MoveNext()
-FNDA:1,System.Void server.Infrastructure.FoodItemRepository/<ReadAllBySearchWord>d__11::MoveNext()
-DA:361,1
+FN:354,System.Void server.Infrastructure.FoodItemRepository/<ReadAllBySearchWord>d__10::MoveNext()
+FNDA:2,System.Void server.Infrastructure.FoodItemRepository/<ReadAllBySearchWord>d__10::MoveNext()
+DA:355,2
+DA:356,2
+DA:357,1
+DA:358,1
+DA:359,1
+DA:360,1
 DA:362,1
 DA:363,1
 DA:364,1
 DA:365,1
 DA:366,1
+DA:367,1
+DA:368,2
+BRDA:356,80,0,1
+BRDA:356,80,1,1
 FN:326,System.Void server.Infrastructure.FoodItemRepository/<ReadByIDAsync>d__7::MoveNext()
 FNDA:2,System.Void server.Infrastructure.FoodItemRepository/<ReadByIDAsync>d__7::MoveNext()
 DA:327,2
@@ -6127,22 +6155,22 @@ DA:313,1
 DA:314,2
 BRDA:303,333,0,1
 BRDA:303,333,1,1
-FN:376,System.Void server.Infrastructure.FoodItemRepository/<RemoveFoodItemRecipesByFoodItemID>d__13::MoveNext()
-FNDA:1,System.Void server.Infrastructure.FoodItemRepository/<RemoveFoodItemRecipesByFoodItemID>d__13::MoveNext()
-DA:377,1
-DA:378,1
+FN:378,System.Void server.Infrastructure.FoodItemRepository/<RemoveFoodItemRecipesByFoodItemID>d__12::MoveNext()
+FNDA:1,System.Void server.Infrastructure.FoodItemRepository/<RemoveFoodItemRecipesByFoodItemID>d__12::MoveNext()
 DA:379,1
 DA:380,1
 DA:381,1
 DA:382,1
-FN:368,System.Void server.Infrastructure.FoodItemRepository/<RemoveFoodItemRecipesByRecipeID>d__12::MoveNext()
-FNDA:0,System.Void server.Infrastructure.FoodItemRepository/<RemoveFoodItemRecipesByRecipeID>d__12::MoveNext()
-DA:369,0
-DA:370,0
+DA:383,1
+DA:384,1
+FN:370,System.Void server.Infrastructure.FoodItemRepository/<RemoveFoodItemRecipesByRecipeID>d__11::MoveNext()
+FNDA:0,System.Void server.Infrastructure.FoodItemRepository/<RemoveFoodItemRecipesByRecipeID>d__11::MoveNext()
 DA:371,0
 DA:372,0
 DA:373,0
 DA:374,0
+DA:375,0
+DA:376,0
 FN:97,System.Void server.Infrastructure.FoodItemRepository/<UpdateAsync>d__3::MoveNext()
 FNDA:33,System.Void server.Infrastructure.FoodItemRepository/<UpdateAsync>d__3::MoveNext()
 DA:98,33
@@ -6435,11 +6463,11 @@ BRDA:275,844,1,0
 BRDA:278,745,0,0
 BRDA:278,745,1,0
 BRDA:275,844,0,0
-LF:296
-LH:265
-BRF:142
-BRH:105
-FNF:15
+LF:299
+LH:272
+BRF:144
+BRH:107
+FNF:14
 FNH:12
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/Meal/FoodItemMeal.cs
@@ -6520,11 +6548,11 @@ DA:8,30
 DA:9,30
 DA:10,30
 DA:11,30
-FN:242,System.Void server.Infrastructure.MealRepository/<CategoryIDsToCategories>d__11::MoveNext()
-FNDA:153,System.Void server.Infrastructure.MealRepository/<CategoryIDsToCategories>d__11::MoveNext()
-DA:243,153
-DA:244,153
-DA:245,153
+FN:295,System.Void server.Infrastructure.MealRepository/<CategoryIDsToCategories>d__12::MoveNext()
+FNDA:153,System.Void server.Infrastructure.MealRepository/<CategoryIDsToCategories>d__12::MoveNext()
+DA:296,153
+DA:297,153
+DA:298,153
 FN:13,System.Void server.Infrastructure.MealRepository/<CreateAsync>d__2::MoveNext()
 FNDA:161,System.Void server.Infrastructure.MealRepository/<CreateAsync>d__2::MoveNext()
 DA:14,161
@@ -6634,6 +6662,65 @@ BRDA:201,16,0,0
 BRDA:201,16,1,0
 BRDA:211,1828,1,0
 BRDA:211,1828,0,0
+FN:239,System.Void server.Infrastructure.MealRepository/<ReadAllWithFoodByUserAndDateRangeAsync>d__11::MoveNext()
+FNDA:0,System.Void server.Infrastructure.MealRepository/<ReadAllWithFoodByUserAndDateRangeAsync>d__11::MoveNext()
+DA:240,0
+DA:241,0
+DA:242,0
+DA:243,0
+DA:244,0
+DA:245,0
+DA:246,0
+DA:248,0
+DA:250,0
+DA:251,0
+DA:252,0
+DA:253,0
+DA:254,0
+DA:255,0
+DA:256,0
+DA:257,0
+DA:258,0
+DA:259,0
+DA:260,0
+DA:262,0
+DA:263,0
+DA:264,0
+DA:265,0
+DA:266,0
+DA:267,0
+DA:268,0
+DA:269,0
+DA:270,0
+DA:272,0
+DA:273,0
+DA:274,0
+DA:275,0
+DA:276,0
+DA:277,0
+DA:278,0
+DA:279,0
+DA:280,0
+DA:281,0
+DA:282,0
+DA:283,0
+DA:284,0
+DA:285,0
+DA:287,0
+DA:288,0
+DA:289,0
+DA:290,0
+DA:291,0
+BRDA:240,16,0,0
+BRDA:240,16,1,0
+BRDA:250,2704,1,0
+BRDA:250,832,1,0
+BRDA:250,832,2,0
+BRDA:250,832,3,0
+BRDA:273,2563,1,0
+BRDA:273,2563,0,0
+BRDA:250,832,0,0
+BRDA:250,2704,0,0
 FN:164,System.Void server.Infrastructure.MealRepository/<ReadByIDAsync>d__8::MoveNext()
 FNDA:2,System.Void server.Infrastructure.MealRepository/<ReadByIDAsync>d__8::MoveNext()
 DA:165,2
@@ -6793,11 +6880,11 @@ BRDA:106,3638,0,0
 BRDA:106,3638,1,142
 BRDA:103,3859,0,142
 BRDA:95,2853,1,146
-LF:181
+LF:228
 LH:116
-BRF:76
+BRF:86
 BRH:51
-FNF:11
+FNF:12
 FNH:9
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/Meal/RecipeMeal.cs
@@ -6835,40 +6922,37 @@ FNH:4
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/NourishNexusContext.cs
 FN:4,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.User> server.Infrastructure.NourishNexusContext::get_Users()
-FNDA:326,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.User> server.Infrastructure.NourishNexusContext::get_Users()
-DA:5,326
-FN:5,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Avoidance> server.Infrastructure.NourishNexusContext::get_Avoidances()
-FNDA:0,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Avoidance> server.Infrastructure.NourishNexusContext::get_Avoidances()
-DA:6,0
-FN:6,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItem> server.Infrastructure.NourishNexusContext::get_FoodItems()
-FNDA:3461,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItem> server.Infrastructure.NourishNexusContext::get_FoodItems()
-DA:7,3461
-FN:7,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Recipe> server.Infrastructure.NourishNexusContext::get_Recipes()
-FNDA:855,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Recipe> server.Infrastructure.NourishNexusContext::get_Recipes()
-DA:8,855
-FN:8,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Meal> server.Infrastructure.NourishNexusContext::get_Meals()
-FNDA:1041,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Meal> server.Infrastructure.NourishNexusContext::get_Meals()
-DA:9,1041
-FN:9,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Category> server.Infrastructure.NourishNexusContext::get_Categories()
-FNDA:295,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Category> server.Infrastructure.NourishNexusContext::get_Categories()
-DA:10,295
-FN:10,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItemRecipe> server.Infrastructure.NourishNexusContext::get_FoodItemRecipes()
-FNDA:2998,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItemRecipe> server.Infrastructure.NourishNexusContext::get_FoodItemRecipes()
-DA:11,2998
-FN:11,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItemMeal> server.Infrastructure.NourishNexusContext::get_FoodItemMeals()
+FNDA:324,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.User> server.Infrastructure.NourishNexusContext::get_Users()
+DA:5,324
+FN:5,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItem> server.Infrastructure.NourishNexusContext::get_FoodItems()
+FNDA:3463,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItem> server.Infrastructure.NourishNexusContext::get_FoodItems()
+DA:6,3463
+FN:6,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Recipe> server.Infrastructure.NourishNexusContext::get_Recipes()
+FNDA:856,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Recipe> server.Infrastructure.NourishNexusContext::get_Recipes()
+DA:7,856
+FN:7,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Meal> server.Infrastructure.NourishNexusContext::get_Meals()
+FNDA:1040,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Meal> server.Infrastructure.NourishNexusContext::get_Meals()
+DA:8,1040
+FN:8,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Category> server.Infrastructure.NourishNexusContext::get_Categories()
+FNDA:293,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.Category> server.Infrastructure.NourishNexusContext::get_Categories()
+DA:9,293
+FN:9,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItemRecipe> server.Infrastructure.NourishNexusContext::get_FoodItemRecipes()
+FNDA:3034,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItemRecipe> server.Infrastructure.NourishNexusContext::get_FoodItemRecipes()
+DA:10,3034
+FN:10,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItemMeal> server.Infrastructure.NourishNexusContext::get_FoodItemMeals()
 FNDA:95,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.FoodItemMeal> server.Infrastructure.NourishNexusContext::get_FoodItemMeals()
-DA:12,95
-FN:12,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.RecipeMeal> server.Infrastructure.NourishNexusContext::get_RecipeMeals()
+DA:11,95
+FN:11,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.RecipeMeal> server.Infrastructure.NourishNexusContext::get_RecipeMeals()
 FNDA:407,Microsoft.EntityFrameworkCore.DbSet`1<server.Infrastructure.RecipeMeal> server.Infrastructure.NourishNexusContext::get_RecipeMeals()
-DA:13,407
-FN:14,System.Void server.Infrastructure.NourishNexusContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<server.Infrastructure.NourishNexusContext>)
+DA:12,407
+FN:13,System.Void server.Infrastructure.NourishNexusContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<server.Infrastructure.NourishNexusContext>)
 FNDA:372,System.Void server.Infrastructure.NourishNexusContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<server.Infrastructure.NourishNexusContext>)
-DA:15,372
-LF:10
+DA:14,372
+LF:9
 LH:9
 BRF:0
 BRH:0
-FNF:10
+FNF:9
 FNH:9
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/Recipe/FoodItemRecipe.cs
@@ -6876,24 +6960,24 @@ FN:4,System.Int32 server.Infrastructure.FoodItemRecipe::get_Id()
 FNDA:1,System.Int32 server.Infrastructure.FoodItemRecipe::get_Id()
 DA:5,1
 FN:5,System.Single server.Infrastructure.FoodItemRecipe::get_Amount()
-FNDA:2506,System.Single server.Infrastructure.FoodItemRecipe::get_Amount()
-DA:6,2506
+FNDA:2542,System.Single server.Infrastructure.FoodItemRecipe::get_Amount()
+DA:6,2542
 FN:6,server.Infrastructure.FoodItem server.Infrastructure.FoodItemRecipe::get_FoodItem()
-FNDA:2506,server.Infrastructure.FoodItem server.Infrastructure.FoodItemRecipe::get_FoodItem()
-DA:7,2506
+FNDA:2542,server.Infrastructure.FoodItem server.Infrastructure.FoodItemRecipe::get_FoodItem()
+DA:7,2542
 FN:7,server.Infrastructure.Recipe server.Infrastructure.FoodItemRecipe::get_Recipe()
-FNDA:2504,server.Infrastructure.Recipe server.Infrastructure.FoodItemRecipe::get_Recipe()
-DA:8,2504
+FNDA:2540,server.Infrastructure.Recipe server.Infrastructure.FoodItemRecipe::get_Recipe()
+DA:8,2540
 FN:21,server.Core.EF.DTO.FoodItemRecipeDTO server.Infrastructure.FoodItemRecipe::ToDTO()
 FNDA:1,server.Core.EF.DTO.FoodItemRecipeDTO server.Infrastructure.FoodItemRecipe::ToDTO()
 DA:22,1
 FN:10,System.Void server.Infrastructure.FoodItemRecipe::.ctor(server.Infrastructure.FoodItem,server.Infrastructure.Recipe,System.Single)
-FNDA:5006,System.Void server.Infrastructure.FoodItemRecipe::.ctor(server.Infrastructure.FoodItem,server.Infrastructure.Recipe,System.Single)
-DA:11,5006
-DA:12,2503
-DA:13,2503
-DA:14,2503
-DA:15,2503
+FNDA:5078,System.Void server.Infrastructure.FoodItemRecipe::.ctor(server.Infrastructure.FoodItem,server.Infrastructure.Recipe,System.Single)
+DA:11,5078
+DA:12,2539
+DA:13,2539
+DA:14,2539
+DA:15,2539
 FN:18,System.Void server.Infrastructure.FoodItemRecipe::.ctor()
 FNDA:0,System.Void server.Infrastructure.FoodItemRecipe::.ctor()
 DA:19,0
@@ -6906,75 +6990,75 @@ FNH:6
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/Recipe/Recipe.cs
 FN:3,System.Int32 server.Infrastructure.Recipe::get_Id()
-FNDA:8674,System.Int32 server.Infrastructure.Recipe::get_Id()
-DA:4,8674
+FNDA:8678,System.Int32 server.Infrastructure.Recipe::get_Id()
+DA:4,8678
 FN:4,System.String server.Infrastructure.Recipe::get_Title()
-FNDA:1940,System.String server.Infrastructure.Recipe::get_Title()
-DA:5,1940
+FNDA:1948,System.String server.Infrastructure.Recipe::get_Title()
+DA:5,1948
 FN:5,System.Boolean server.Infrastructure.Recipe::get_IsPublic()
-FNDA:1282,System.Boolean server.Infrastructure.Recipe::get_IsPublic()
-DA:6,1282
+FNDA:1288,System.Boolean server.Infrastructure.Recipe::get_IsPublic()
+DA:6,1288
 FN:6,System.String server.Infrastructure.Recipe::get_Description()
-FNDA:1940,System.String server.Infrastructure.Recipe::get_Description()
-DA:7,1940
+FNDA:1948,System.String server.Infrastructure.Recipe::get_Description()
+DA:7,1948
 FN:7,System.String server.Infrastructure.Recipe::get_Method()
-FNDA:1940,System.String server.Infrastructure.Recipe::get_Method()
-DA:8,1940
+FNDA:1948,System.String server.Infrastructure.Recipe::get_Method()
+DA:8,1948
 FN:8,System.Int32 server.Infrastructure.Recipe::get_AuthorId()
-FNDA:1287,System.Int32 server.Infrastructure.Recipe::get_AuthorId()
-DA:9,1287
+FNDA:1293,System.Int32 server.Infrastructure.Recipe::get_AuthorId()
+DA:9,1293
 FN:9,System.Collections.Generic.List`1<server.Infrastructure.Category> server.Infrastructure.Recipe::get_Categories()
-FNDA:1271,System.Collections.Generic.List`1<server.Infrastructure.Category> server.Infrastructure.Recipe::get_Categories()
-DA:10,1271
+FNDA:1276,System.Collections.Generic.List`1<server.Infrastructure.Category> server.Infrastructure.Recipe::get_Categories()
+DA:10,1276
 FN:10,System.Boolean server.Infrastructure.Recipe::get_IsBreakfast()
-FNDA:1261,System.Boolean server.Infrastructure.Recipe::get_IsBreakfast()
-DA:11,1261
+FNDA:1266,System.Boolean server.Infrastructure.Recipe::get_IsBreakfast()
+DA:11,1266
 FN:11,System.Boolean server.Infrastructure.Recipe::get_IsLunch()
-FNDA:1261,System.Boolean server.Infrastructure.Recipe::get_IsLunch()
-DA:12,1261
+FNDA:1266,System.Boolean server.Infrastructure.Recipe::get_IsLunch()
+DA:12,1266
 FN:12,System.Boolean server.Infrastructure.Recipe::get_IsDinner()
-FNDA:1261,System.Boolean server.Infrastructure.Recipe::get_IsDinner()
-DA:13,1261
+FNDA:1266,System.Boolean server.Infrastructure.Recipe::get_IsDinner()
+DA:13,1266
 FN:13,System.Boolean server.Infrastructure.Recipe::get_IsSnack()
-FNDA:1261,System.Boolean server.Infrastructure.Recipe::get_IsSnack()
-DA:14,1261
+FNDA:1266,System.Boolean server.Infrastructure.Recipe::get_IsSnack()
+DA:14,1266
 FN:14,System.Collections.Generic.List`1<server.Infrastructure.User> server.Infrastructure.Recipe::get_Users()
-FNDA:638,System.Collections.Generic.List`1<server.Infrastructure.User> server.Infrastructure.Recipe::get_Users()
-DA:15,638
+FNDA:639,System.Collections.Generic.List`1<server.Infrastructure.User> server.Infrastructure.Recipe::get_Users()
+DA:15,639
 FN:36,server.Core.EF.DTO.RecipeDTO server.Infrastructure.Recipe::ToDTO()
-FNDA:623,server.Core.EF.DTO.RecipeDTO server.Infrastructure.Recipe::ToDTO()
-DA:37,623
-DA:38,623
-DA:39,623
-DA:40,623
-DA:41,623
-DA:42,623
-DA:43,623
-DA:44,664
-DA:45,623
-DA:46,623
-DA:47,623
-DA:48,623
-DA:49,623
+FNDA:627,server.Core.EF.DTO.RecipeDTO server.Infrastructure.Recipe::ToDTO()
+DA:37,627
+DA:38,627
+DA:39,627
+DA:40,627
+DA:41,627
+DA:42,627
+DA:43,627
+DA:44,668
+DA:45,627
+DA:46,627
+DA:47,627
+DA:48,627
+DA:49,627
 FN:16,System.Void server.Infrastructure.Recipe::.ctor(System.String,System.Boolean,System.String,System.String,System.Int32,System.Collections.Generic.List`1<server.Infrastructure.Category>,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
-FNDA:638,System.Void server.Infrastructure.Recipe::.ctor(System.String,System.Boolean,System.String,System.String,System.Int32,System.Collections.Generic.List`1<server.Infrastructure.Category>,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
-DA:17,638
-DA:18,638
-DA:19,638
-DA:20,638
-DA:21,638
-DA:22,638
-DA:23,638
-DA:24,638
-DA:25,638
-DA:26,638
-DA:27,638
-DA:28,638
-DA:29,638
-DA:30,638
+FNDA:639,System.Void server.Infrastructure.Recipe::.ctor(System.String,System.Boolean,System.String,System.String,System.Int32,System.Collections.Generic.List`1<server.Infrastructure.Category>,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+DA:17,639
+DA:18,639
+DA:19,639
+DA:20,639
+DA:21,639
+DA:22,639
+DA:23,639
+DA:24,639
+DA:25,639
+DA:26,639
+DA:27,639
+DA:28,639
+DA:29,639
+DA:30,639
 FN:32,System.Void server.Infrastructure.Recipe::.ctor()
-FNDA:27,System.Void server.Infrastructure.Recipe::.ctor()
-DA:33,27
+FNDA:30,System.Void server.Infrastructure.Recipe::.ctor()
+DA:33,30
 LF:40
 LH:40
 BRF:0
@@ -6984,19 +7068,19 @@ FNH:15
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/Recipe/RecipeRepository.cs
 FN:8,System.Void server.Infrastructure.RecipeRepository::.ctor(server.Infrastructure.NourishNexusContext)
-FNDA:38,System.Void server.Infrastructure.RecipeRepository::.ctor(server.Infrastructure.NourishNexusContext)
-DA:9,38
-DA:10,38
-DA:11,38
-DA:12,38
-FN:200,System.Int32 server.Infrastructure.RecipeRepository/<>c::<ReadAllByMealId>b__11_5(System.Tuple`2<System.Single,System.Int32>)
-FNDA:7789,System.Int32 server.Infrastructure.RecipeRepository/<>c::<ReadAllByMealId>b__11_5(System.Tuple`2<System.Single,System.Int32>)
-DA:201,7789
-FN:257,System.Void server.Infrastructure.RecipeRepository/<CategoryIDsToCategories>d__14::MoveNext()
-FNDA:5,System.Void server.Infrastructure.RecipeRepository/<CategoryIDsToCategories>d__14::MoveNext()
-DA:258,5
-DA:259,5
-DA:260,5
+FNDA:37,System.Void server.Infrastructure.RecipeRepository::.ctor(server.Infrastructure.NourishNexusContext)
+DA:9,37
+DA:10,37
+DA:11,37
+DA:12,37
+FN:192,System.Int32 server.Infrastructure.RecipeRepository/<>c::<ReadAllByMealId>b__10_5(System.Tuple`2<System.Single,System.Int32>)
+FNDA:7789,System.Int32 server.Infrastructure.RecipeRepository/<>c::<ReadAllByMealId>b__10_5(System.Tuple`2<System.Single,System.Int32>)
+DA:193,7789
+FN:261,System.Void server.Infrastructure.RecipeRepository/<CategoryIDsToCategories>d__13::MoveNext()
+FNDA:5,System.Void server.Infrastructure.RecipeRepository/<CategoryIDsToCategories>d__13::MoveNext()
+DA:262,5
+DA:263,5
+DA:264,5
 FN:14,System.Void server.Infrastructure.RecipeRepository/<CreateAsync>d__2::MoveNext()
 FNDA:25,System.Void server.Infrastructure.RecipeRepository/<CreateAsync>d__2::MoveNext()
 DA:15,25
@@ -7074,22 +7158,14 @@ DA:164,1
 DA:165,1
 DA:166,1
 DA:167,1
-FN:186,System.Void server.Infrastructure.RecipeRepository/<ReadAllByCategoryIDAsync>d__10::MoveNext()
-FNDA:1,System.Void server.Infrastructure.RecipeRepository/<ReadAllByCategoryIDAsync>d__10::MoveNext()
-DA:187,1
-DA:188,1
-DA:189,1
-DA:190,1
-DA:191,1
-DA:192,1
-FN:195,System.Void server.Infrastructure.RecipeRepository/<ReadAllByMealId>d__11::MoveNext()
-FNDA:115,System.Void server.Infrastructure.RecipeRepository/<ReadAllByMealId>d__11::MoveNext()
-DA:196,115
-DA:197,115
-DA:198,115
-DA:199,115
-DA:200,115
-DA:202,115
+FN:187,System.Void server.Infrastructure.RecipeRepository/<ReadAllByMealId>d__10::MoveNext()
+FNDA:115,System.Void server.Infrastructure.RecipeRepository/<ReadAllByMealId>d__10::MoveNext()
+DA:188,115
+DA:189,115
+DA:190,115
+DA:191,115
+DA:192,115
+DA:194,115
 FN:147,System.Void server.Infrastructure.RecipeRepository/<ReadAllPublicAsync>d__6::MoveNext()
 FNDA:1,System.Void server.Infrastructure.RecipeRepository/<ReadAllPublicAsync>d__6::MoveNext()
 DA:148,1
@@ -7119,51 +7195,64 @@ DA:173,471
 DA:174,471
 DA:175,471
 DA:176,471
-FN:243,System.Void server.Infrastructure.RecipeRepository/<ReadPublicBySearchWord>d__13::MoveNext()
-FNDA:1,System.Void server.Infrastructure.RecipeRepository/<ReadPublicBySearchWord>d__13::MoveNext()
+FN:236,System.Void server.Infrastructure.RecipeRepository/<ReadPublicBySearchWord>d__12::MoveNext()
+FNDA:3,System.Void server.Infrastructure.RecipeRepository/<ReadPublicBySearchWord>d__12::MoveNext()
+DA:237,3
+DA:238,3
+DA:239,1
+DA:240,1
+DA:241,1
+DA:242,1
+DA:243,1
 DA:244,1
 DA:245,1
-DA:246,1
-DA:247,1
-DA:248,1
-DA:249,1
-DA:250,1
-DA:251,1
-FN:204,System.Void server.Infrastructure.RecipeRepository/<ReadSavedBySearchWord>d__12::MoveNext()
-FNDA:3,System.Void server.Infrastructure.RecipeRepository/<ReadSavedBySearchWord>d__12::MoveNext()
-DA:205,3
-DA:206,3
+DA:247,2
+DA:248,2
+DA:249,2
+DA:250,2
+DA:251,2
+DA:252,2
+DA:253,2
+DA:254,2
+DA:255,3
+BRDA:238,80,0,1
+BRDA:238,80,1,2
+FN:196,System.Void server.Infrastructure.RecipeRepository/<ReadSavedBySearchWord>d__11::MoveNext()
+FNDA:3,System.Void server.Infrastructure.RecipeRepository/<ReadSavedBySearchWord>d__11::MoveNext()
+DA:197,3
+DA:198,3
+DA:199,3
+DA:200,3
+DA:201,3
+DA:203,3
+DA:204,0
 DA:207,3
-DA:208,3
 DA:209,3
-DA:211,3
-DA:212,0
-DA:215,3
-DA:217,3
+DA:210,2
+DA:211,2
+DA:212,2
+DA:213,2
+DA:214,2
+DA:215,2
+DA:216,2
+DA:217,2
 DA:218,2
-DA:219,2
-DA:220,2
-DA:221,2
-DA:222,2
-DA:223,2
-DA:224,2
-DA:225,2
+DA:221,1
+DA:222,1
+DA:223,1
+DA:224,1
+DA:225,1
+DA:226,1
+DA:227,1
 DA:228,1
 DA:229,1
-DA:230,1
-DA:231,1
-DA:232,1
-DA:233,1
-DA:234,1
-DA:235,1
-DA:236,1
-DA:240,3
-BRDA:211,412,0,0
-BRDA:211,412,1,3
-BRDA:217,468,0,2
-BRDA:217,468,1,1
-BRDA:217,493,0,2
-BRDA:217,493,1,1
+DA:233,3
+BRDA:203,412,0,0
+BRDA:203,412,1,3
+BRDA:209,468,0,2
+BRDA:209,468,1,1
+BRDA:209,493,0,2
+BRDA:209,493,1,1
 FN:114,System.Void server.Infrastructure.RecipeRepository/<RemoveAsync>d__4::MoveNext()
 FNDA:2,System.Void server.Infrastructure.RecipeRepository/<RemoveAsync>d__4::MoveNext()
 DA:115,2
@@ -7286,32 +7375,32 @@ BRDA:103,2753,0,0
 BRDA:103,2753,1,1
 BRDA:100,2974,0,1
 BRDA:93,1968,1,6
-LF:183
-LH:176
-BRF:90
-BRH:57
-FNF:15
-FNH:15
+LF:188
+LH:181
+BRF:92
+BRH:59
+FNF:14
+FNH:14
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Infrastructure/User/User.cs
 FN:4,System.Int32 server.Infrastructure.User::get_Id()
 FNDA:483,System.Int32 server.Infrastructure.User::get_Id()
 DA:5,483
 FN:7,System.String server.Infrastructure.User::get_Nickname()
-FNDA:170,System.String server.Infrastructure.User::get_Nickname()
-DA:8,170
+FNDA:169,System.String server.Infrastructure.User::get_Nickname()
+DA:8,169
 FN:10,System.String server.Infrastructure.User::get_Email()
-FNDA:170,System.String server.Infrastructure.User::get_Email()
-DA:11,170
+FNDA:169,System.String server.Infrastructure.User::get_Email()
+DA:11,169
 FN:11,System.Byte[] server.Infrastructure.User::get_PasswordHash()
-FNDA:270,System.Byte[] server.Infrastructure.User::get_PasswordHash()
-DA:12,270
+FNDA:268,System.Byte[] server.Infrastructure.User::get_PasswordHash()
+DA:12,268
 FN:12,System.Byte[] server.Infrastructure.User::get_PasswordSalt()
-FNDA:270,System.Byte[] server.Infrastructure.User::get_PasswordSalt()
-DA:13,270
+FNDA:268,System.Byte[] server.Infrastructure.User::get_PasswordSalt()
+DA:13,268
 FN:14,System.Collections.Generic.List`1<server.Infrastructure.Recipe> server.Infrastructure.User::get_SavedRecipes()
-FNDA:176,System.Collections.Generic.List`1<server.Infrastructure.Recipe> server.Infrastructure.User::get_SavedRecipes()
-DA:15,176
+FNDA:175,System.Collections.Generic.List`1<server.Infrastructure.Recipe> server.Infrastructure.User::get_SavedRecipes()
+DA:15,175
 FN:16,System.Nullable`1<System.Single> server.Infrastructure.User::get_BreakfastCalories()
 FNDA:13,System.Nullable`1<System.Single> server.Infrastructure.User::get_BreakfastCalories()
 DA:17,13
@@ -7723,15 +7812,15 @@ DA:284,7
 DA:285,7
 DA:286,7
 FN:138,System.Void server.Infrastructure.User::.ctor(System.String,System.String,System.Byte[],System.Byte[],System.Collections.Generic.List`1<server.Infrastructure.Recipe>)
-FNDA:135,System.Void server.Infrastructure.User::.ctor(System.String,System.String,System.Byte[],System.Byte[],System.Collections.Generic.List`1<server.Infrastructure.Recipe>)
-DA:139,135
-DA:140,135
-DA:141,135
-DA:142,135
-DA:143,135
-DA:144,135
-DA:145,135
-DA:146,135
+FNDA:134,System.Void server.Infrastructure.User::.ctor(System.String,System.String,System.Byte[],System.Byte[],System.Collections.Generic.List`1<server.Infrastructure.Recipe>)
+DA:139,134
+DA:140,134
+DA:141,134
+DA:142,134
+DA:143,134
+DA:144,134
+DA:145,134
+DA:146,134
 FN:148,System.Void server.Infrastructure.User::.ctor()
 FNDA:0,System.Void server.Infrastructure.User::.ctor()
 DA:149,0
@@ -8183,13 +8272,13 @@ FNH:10
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Core/Option.cs
 FN:7,T server.Core.Option`1::get_Value()
-FNDA:2017,T server.Core.Option`1::get_Value()
-DA:8,2017
+FNDA:1999,T server.Core.Option`1::get_Value()
+DA:8,1999
 BRDA:8,12,0,0
-BRDA:8,12,1,2017
+BRDA:8,12,1,1999
 FN:9,System.Boolean server.Core.Option`1::get_IsNone()
-FNDA:1027,System.Boolean server.Core.Option`1::get_IsNone()
-DA:10,1027
+FNDA:1010,System.Boolean server.Core.Option`1::get_IsNone()
+DA:10,1010
 FN:11,System.Boolean server.Core.Option`1::get_IsSome()
 FNDA:234,System.Boolean server.Core.Option`1::get_IsSome()
 DA:12,234
@@ -8200,46 +8289,16 @@ FN:20,server.Core.Option`1<T> server.Core.Option`1::op_Implicit(T)
 FNDA:738,server.Core.Option`1<T> server.Core.Option`1::op_Implicit(T)
 DA:21,738
 FN:14,System.Void server.Core.Option`1::.ctor(T)
-FNDA:1263,System.Void server.Core.Option`1::.ctor(T)
-DA:15,1263
-DA:16,1263
-DA:17,1263
+FNDA:1246,System.Void server.Core.Option`1::.ctor(T)
+DA:15,1246
+DA:16,1246
+DA:17,1246
 LF:8
 LH:7
 BRF:2
 BRH:1
 FNF:6
 FNH:5
-end_of_record
-SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Core/EF/DTO/AvoidanceDTO.cs
-FN:3,System.Int32 server.Core.EF.DTO.AvoidanceDTO::get_Id()
-FNDA:0,System.Int32 server.Core.EF.DTO.AvoidanceDTO::get_Id()
-DA:4,0
-FN:4,System.String server.Core.EF.DTO.AvoidanceDTO::get_Keyword()
-FNDA:0,System.String server.Core.EF.DTO.AvoidanceDTO::get_Keyword()
-DA:5,0
-FN:5,System.Int32 server.Core.EF.DTO.AvoidanceDTO::get_UserId()
-FNDA:0,System.Int32 server.Core.EF.DTO.AvoidanceDTO::get_UserId()
-DA:6,0
-FN:2,System.Void server.Core.EF.DTO.AvoidanceDTO::.ctor(System.Int32,System.String,System.Int32)
-FNDA:0,System.Void server.Core.EF.DTO.AvoidanceDTO::.ctor(System.Int32,System.String,System.Int32)
-DA:3,0
-DA:7,0
-FN:11,System.String server.Core.EF.DTO.AvoidanceCreateDTO::get_Keyword()
-FNDA:0,System.String server.Core.EF.DTO.AvoidanceCreateDTO::get_Keyword()
-DA:12,0
-FN:13,System.Int32 server.Core.EF.DTO.AvoidanceCreateDTO::get_UserId()
-FNDA:0,System.Int32 server.Core.EF.DTO.AvoidanceCreateDTO::get_UserId()
-DA:14,0
-FN:18,System.Int32 server.Core.EF.DTO.AvoidanceUpdateDTO::get_Id()
-FNDA:0,System.Int32 server.Core.EF.DTO.AvoidanceUpdateDTO::get_Id()
-DA:19,0
-LF:8
-LH:0
-BRF:0
-BRH:0
-FNF:7
-FNH:0
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Core/EF/DTO/CategoryDTO.cs
 FN:3,System.Int32 server.Core.EF.DTO.CategoryDTO::get_Id()
@@ -8256,8 +8315,8 @@ FNDA:17,System.Void server.Core.EF.DTO.CategoryDTO::.ctor(System.Int32,System.St
 DA:3,17
 DA:7,17
 FN:11,System.String server.Core.EF.DTO.CategoryCreateDTO::get_Name()
-FNDA:28,System.String server.Core.EF.DTO.CategoryCreateDTO::get_Name()
-DA:12,28
+FNDA:34,System.String server.Core.EF.DTO.CategoryCreateDTO::get_Name()
+DA:12,34
 FN:16,System.Int32 server.Core.EF.DTO.CategoryUpdateDTO::get_Id()
 FNDA:0,System.Int32 server.Core.EF.DTO.CategoryUpdateDTO::get_Id()
 DA:17,0
@@ -8270,198 +8329,198 @@ FNH:5
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Core/EF/DTO/FoodItemDTO.cs
 FN:3,System.Int32 server.Core.EF.DTO.FoodItemDTO::get_Id()
-FNDA:3784,System.Int32 server.Core.EF.DTO.FoodItemDTO::get_Id()
-DA:4,3784
+FNDA:3783,System.Int32 server.Core.EF.DTO.FoodItemDTO::get_Id()
+DA:4,3783
 FN:4,System.String server.Core.EF.DTO.FoodItemDTO::get_Name()
-FNDA:3783,System.String server.Core.EF.DTO.FoodItemDTO::get_Name()
-DA:5,3783
+FNDA:3784,System.String server.Core.EF.DTO.FoodItemDTO::get_Name()
+DA:5,3784
 FN:5,System.Single server.Core.EF.DTO.FoodItemDTO::get_Calories()
-FNDA:5395,System.Single server.Core.EF.DTO.FoodItemDTO::get_Calories()
-DA:6,5395
+FNDA:5366,System.Single server.Core.EF.DTO.FoodItemDTO::get_Calories()
+DA:6,5366
 FN:6,System.Single server.Core.EF.DTO.FoodItemDTO::get_Protein()
-FNDA:32180,System.Single server.Core.EF.DTO.FoodItemDTO::get_Protein()
-DA:7,32180
+FNDA:31526,System.Single server.Core.EF.DTO.FoodItemDTO::get_Protein()
+DA:7,31526
 FN:7,System.Single server.Core.EF.DTO.FoodItemDTO::get_Carbohydrates()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Carbohydrates()
-DA:8,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Carbohydrates()
+DA:8,31519
 FN:8,System.Single server.Core.EF.DTO.FoodItemDTO::get_Sugars()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Sugars()
-DA:9,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Sugars()
+DA:9,31519
 FN:9,System.Single server.Core.EF.DTO.FoodItemDTO::get_Fibres()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Fibres()
-DA:10,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Fibres()
+DA:10,31519
 FN:10,System.Single server.Core.EF.DTO.FoodItemDTO::get_TotalFat()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_TotalFat()
-DA:11,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_TotalFat()
+DA:11,31519
 FN:11,System.Single server.Core.EF.DTO.FoodItemDTO::get_SaturatedFat()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_SaturatedFat()
-DA:12,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_SaturatedFat()
+DA:12,31519
 FN:12,System.Single server.Core.EF.DTO.FoodItemDTO::get_MonounsaturatedFat()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_MonounsaturatedFat()
-DA:13,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_MonounsaturatedFat()
+DA:13,31519
 FN:13,System.Single server.Core.EF.DTO.FoodItemDTO::get_PolyunsaturatedFat()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_PolyunsaturatedFat()
-DA:14,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_PolyunsaturatedFat()
+DA:14,31519
 FN:14,System.Single server.Core.EF.DTO.FoodItemDTO::get_TransFat()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_TransFat()
-DA:15,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_TransFat()
+DA:15,31519
 FN:15,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminA()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminA()
-DA:16,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminA()
+DA:16,31519
 FN:16,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminB6()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminB6()
-DA:17,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminB6()
+DA:17,31519
 FN:17,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminB12()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminB12()
-DA:18,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminB12()
+DA:18,31519
 FN:18,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminC()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminC()
-DA:19,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminC()
+DA:19,31519
 FN:19,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminD()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminD()
-DA:20,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminD()
+DA:20,31519
 FN:20,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminE()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminE()
-DA:21,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_VitaminE()
+DA:21,31519
 FN:21,System.Single server.Core.EF.DTO.FoodItemDTO::get_Thiamin()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Thiamin()
-DA:22,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Thiamin()
+DA:22,31519
 FN:22,System.Single server.Core.EF.DTO.FoodItemDTO::get_Riboflavin()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Riboflavin()
-DA:23,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Riboflavin()
+DA:23,31519
 FN:23,System.Single server.Core.EF.DTO.FoodItemDTO::get_Niacin()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Niacin()
-DA:24,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Niacin()
+DA:24,31519
 FN:24,System.Single server.Core.EF.DTO.FoodItemDTO::get_Folate()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Folate()
-DA:25,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Folate()
+DA:25,31519
 FN:25,System.Single server.Core.EF.DTO.FoodItemDTO::get_Salt()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Salt()
-DA:26,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Salt()
+DA:26,31519
 FN:26,System.Single server.Core.EF.DTO.FoodItemDTO::get_Potassium()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Potassium()
-DA:27,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Potassium()
+DA:27,31519
 FN:27,System.Single server.Core.EF.DTO.FoodItemDTO::get_Magnesium()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Magnesium()
-DA:28,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Magnesium()
+DA:28,31519
 FN:28,System.Single server.Core.EF.DTO.FoodItemDTO::get_Iron()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Iron()
-DA:29,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Iron()
+DA:29,31519
 FN:29,System.Single server.Core.EF.DTO.FoodItemDTO::get_Zinc()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Zinc()
-DA:30,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Zinc()
+DA:30,31519
 FN:30,System.Single server.Core.EF.DTO.FoodItemDTO::get_Phosphorus()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Phosphorus()
-DA:31,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Phosphorus()
+DA:31,31519
 FN:31,System.Single server.Core.EF.DTO.FoodItemDTO::get_Copper()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Copper()
-DA:32,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Copper()
+DA:32,31519
 FN:32,System.Single server.Core.EF.DTO.FoodItemDTO::get_Iodine()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Iodine()
-DA:33,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Iodine()
+DA:33,31519
 FN:33,System.Single server.Core.EF.DTO.FoodItemDTO::get_Selenium()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Selenium()
-DA:34,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Selenium()
+DA:34,31519
 FN:34,System.Single server.Core.EF.DTO.FoodItemDTO::get_Calcium()
-FNDA:32175,System.Single server.Core.EF.DTO.FoodItemDTO::get_Calcium()
-DA:35,32175
+FNDA:31519,System.Single server.Core.EF.DTO.FoodItemDTO::get_Calcium()
+DA:35,31519
 FN:2,System.Void server.Core.EF.DTO.FoodItemDTO::.ctor(System.Int32,System.String,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)
-FNDA:3778,System.Void server.Core.EF.DTO.FoodItemDTO::.ctor(System.Int32,System.String,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)
-DA:3,3778
-DA:36,3778
+FNDA:3777,System.Void server.Core.EF.DTO.FoodItemDTO::.ctor(System.Int32,System.String,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)
+DA:3,3777
+DA:36,3777
 FN:39,System.String server.Core.EF.DTO.FoodItemCreateDTO::get_Name()
-FNDA:5281,System.String server.Core.EF.DTO.FoodItemCreateDTO::get_Name()
-DA:40,5281
+FNDA:5291,System.String server.Core.EF.DTO.FoodItemCreateDTO::get_Name()
+DA:40,5291
 FN:40,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Calories()
-FNDA:2616,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Calories()
-DA:41,2616
+FNDA:2622,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Calories()
+DA:41,2622
 FN:41,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Protein()
-FNDA:2615,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Protein()
-DA:42,2615
+FNDA:2621,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Protein()
+DA:42,2621
 FN:42,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Carbohydrates()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Carbohydrates()
-DA:43,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Carbohydrates()
+DA:43,2598
 FN:43,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Sugars()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Sugars()
-DA:44,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Sugars()
+DA:44,2598
 FN:44,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Fibres()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Fibres()
-DA:45,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Fibres()
+DA:45,2598
 FN:45,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_TotalFat()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_TotalFat()
-DA:46,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_TotalFat()
+DA:46,2598
 FN:46,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_SaturatedFat()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_SaturatedFat()
-DA:47,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_SaturatedFat()
+DA:47,2598
 FN:47,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_MonounsaturatedFat()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_MonounsaturatedFat()
-DA:48,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_MonounsaturatedFat()
+DA:48,2598
 FN:48,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_PolyunsaturatedFat()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_PolyunsaturatedFat()
-DA:49,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_PolyunsaturatedFat()
+DA:49,2598
 FN:49,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_TransFat()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_TransFat()
-DA:50,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_TransFat()
+DA:50,2598
 FN:50,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminA()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminA()
-DA:51,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminA()
+DA:51,2598
 FN:51,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminB6()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminB6()
-DA:52,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminB6()
+DA:52,2598
 FN:52,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminB12()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminB12()
-DA:53,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminB12()
+DA:53,2598
 FN:53,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminC()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminC()
-DA:54,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminC()
+DA:54,2598
 FN:54,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminD()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminD()
-DA:55,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminD()
+DA:55,2598
 FN:55,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminE()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminE()
-DA:56,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_VitaminE()
+DA:56,2598
 FN:56,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Thiamin()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Thiamin()
-DA:57,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Thiamin()
+DA:57,2598
 FN:57,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Riboflavin()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Riboflavin()
-DA:58,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Riboflavin()
+DA:58,2598
 FN:58,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Niacin()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Niacin()
-DA:59,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Niacin()
+DA:59,2598
 FN:59,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Folate()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Folate()
-DA:60,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Folate()
+DA:60,2598
 FN:60,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Salt()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Salt()
-DA:61,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Salt()
+DA:61,2598
 FN:61,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Potassium()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Potassium()
-DA:62,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Potassium()
+DA:62,2598
 FN:62,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Magnesium()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Magnesium()
-DA:63,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Magnesium()
+DA:63,2598
 FN:63,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Iron()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Iron()
-DA:64,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Iron()
+DA:64,2598
 FN:64,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Zinc()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Zinc()
-DA:65,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Zinc()
+DA:65,2598
 FN:65,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Phosphorus()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Phosphorus()
-DA:66,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Phosphorus()
+DA:66,2598
 FN:66,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Copper()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Copper()
-DA:67,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Copper()
+DA:67,2598
 FN:67,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Iodine()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Iodine()
-DA:68,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Iodine()
+DA:68,2598
 FN:68,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Selenium()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Selenium()
-DA:69,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Selenium()
+DA:69,2598
 FN:69,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Calcium()
-FNDA:2596,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Calcium()
-DA:70,2596
+FNDA:2598,System.Nullable`1<System.Single> server.Core.EF.DTO.FoodItemCreateDTO::get_Calcium()
+DA:70,2598
 FN:74,System.Int32 server.Core.EF.DTO.FoodItemUpdateDTO::get_Id()
 FNDA:128,System.Int32 server.Core.EF.DTO.FoodItemUpdateDTO::get_Id()
 DA:75,128
@@ -8490,11 +8549,11 @@ FN:92,System.Int32 server.Core.EF.DTO.FoodItemRecipeCreateDTO::get_RecipeID()
 FNDA:1,System.Int32 server.Core.EF.DTO.FoodItemRecipeCreateDTO::get_RecipeID()
 DA:93,1
 FN:97,System.Single server.Core.EF.DTO.FoodItemAmountDTO::get_Amount()
-FNDA:36057,System.Single server.Core.EF.DTO.FoodItemAmountDTO::get_Amount()
-DA:98,36057
+FNDA:35339,System.Single server.Core.EF.DTO.FoodItemAmountDTO::get_Amount()
+DA:98,35339
 FN:98,server.Core.EF.DTO.FoodItemDTO server.Core.EF.DTO.FoodItemAmountDTO::get_FoodItem()
-FNDA:827614,server.Core.EF.DTO.FoodItemDTO server.Core.EF.DTO.FoodItemAmountDTO::get_FoodItem()
-DA:99,827614
+FNDA:808584,server.Core.EF.DTO.FoodItemDTO server.Core.EF.DTO.FoodItemAmountDTO::get_FoodItem()
+DA:99,808584
 LF:76
 LH:75
 BRF:0
@@ -8564,11 +8623,25 @@ FNDA:1,System.Void server.Core.EF.DTO.MealWithFoodDTO::.ctor(server.Core.EF.DTO.
 DA:33,1
 DA:34,1
 DA:38,1
-LF:23
+FN:41,server.Core.EF.DTO.MealDTO server.Core.EF.DTO.MealWithAllFoodDTO::get_Meal()
+FNDA:0,server.Core.EF.DTO.MealDTO server.Core.EF.DTO.MealWithAllFoodDTO::get_Meal()
+DA:42,0
+FN:42,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO> server.Core.EF.DTO.MealWithAllFoodDTO::get_FoodItems()
+FNDA:0,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO> server.Core.EF.DTO.MealWithAllFoodDTO::get_FoodItems()
+DA:43,0
+FN:43,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Core.EF.DTO.MealWithAllFoodDTO::get_Recipes()
+FNDA:0,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO> server.Core.EF.DTO.MealWithAllFoodDTO::get_Recipes()
+DA:44,0
+FN:39,System.Void server.Core.EF.DTO.MealWithAllFoodDTO::.ctor(server.Core.EF.DTO.MealDTO,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>)
+FNDA:0,System.Void server.Core.EF.DTO.MealWithAllFoodDTO::.ctor(server.Core.EF.DTO.MealDTO,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO>)
+DA:40,0
+DA:41,0
+DA:45,0
+LF:29
 LH:23
 BRF:0
 BRH:0
-FNF:19
+FNF:23
 FNH:19
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Core/EF/DTO/NutritionDTOs.cs
@@ -8584,42 +8657,42 @@ FNH:1
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Core/EF/DTO/RecipeDTO.cs
 FN:3,System.Int32 server.Core.EF.DTO.RecipeDTO::get_Id()
-FNDA:2985,System.Int32 server.Core.EF.DTO.RecipeDTO::get_Id()
-DA:4,2985
+FNDA:3029,System.Int32 server.Core.EF.DTO.RecipeDTO::get_Id()
+DA:4,3029
 FN:4,System.String server.Core.EF.DTO.RecipeDTO::get_Title()
-FNDA:646,System.String server.Core.EF.DTO.RecipeDTO::get_Title()
-DA:5,646
+FNDA:650,System.String server.Core.EF.DTO.RecipeDTO::get_Title()
+DA:5,650
 FN:5,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsPublic()
-FNDA:646,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsPublic()
-DA:6,646
+FNDA:650,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsPublic()
+DA:6,650
 FN:6,System.String server.Core.EF.DTO.RecipeDTO::get_Description()
-FNDA:646,System.String server.Core.EF.DTO.RecipeDTO::get_Description()
-DA:7,646
+FNDA:650,System.String server.Core.EF.DTO.RecipeDTO::get_Description()
+DA:7,650
 FN:7,System.String server.Core.EF.DTO.RecipeDTO::get_Method()
-FNDA:646,System.String server.Core.EF.DTO.RecipeDTO::get_Method()
-DA:8,646
+FNDA:650,System.String server.Core.EF.DTO.RecipeDTO::get_Method()
+DA:8,650
 FN:8,System.Int32 server.Core.EF.DTO.RecipeDTO::get_AuthorId()
-FNDA:646,System.Int32 server.Core.EF.DTO.RecipeDTO::get_AuthorId()
-DA:9,646
+FNDA:650,System.Int32 server.Core.EF.DTO.RecipeDTO::get_AuthorId()
+DA:9,650
 FN:9,System.Collections.Generic.List`1<System.Int32> server.Core.EF.DTO.RecipeDTO::get_CategoryIDs()
-FNDA:643,System.Collections.Generic.List`1<System.Int32> server.Core.EF.DTO.RecipeDTO::get_CategoryIDs()
-DA:10,643
+FNDA:647,System.Collections.Generic.List`1<System.Int32> server.Core.EF.DTO.RecipeDTO::get_CategoryIDs()
+DA:10,647
 FN:10,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsBreakfast()
-FNDA:2071,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsBreakfast()
-DA:11,2071
+FNDA:2003,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsBreakfast()
+DA:11,2003
 FN:11,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsLunch()
-FNDA:2348,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsLunch()
-DA:12,2348
+FNDA:2277,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsLunch()
+DA:12,2277
 FN:12,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsDinner()
-FNDA:1135,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsDinner()
-DA:13,1135
+FNDA:1057,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsDinner()
+DA:13,1057
 FN:13,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsSnack()
-FNDA:1524,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsSnack()
-DA:14,1524
+FNDA:1456,System.Boolean server.Core.EF.DTO.RecipeDTO::get_IsSnack()
+DA:14,1456
 FN:2,System.Void server.Core.EF.DTO.RecipeDTO::.ctor(System.Int32,System.String,System.Boolean,System.String,System.String,System.Int32,System.Collections.Generic.List`1<System.Int32>,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
-FNDA:634,System.Void server.Core.EF.DTO.RecipeDTO::.ctor(System.Int32,System.String,System.Boolean,System.String,System.String,System.Int32,System.Collections.Generic.List`1<System.Int32>,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
-DA:3,634
-DA:15,634
+FNDA:638,System.Void server.Core.EF.DTO.RecipeDTO::.ctor(System.Int32,System.String,System.Boolean,System.String,System.String,System.Int32,System.Collections.Generic.List`1<System.Int32>,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+DA:3,638
+DA:15,638
 FN:18,System.String server.Core.EF.DTO.RecipeCreateDTO::get_Title()
 FNDA:112,System.String server.Core.EF.DTO.RecipeCreateDTO::get_Title()
 DA:19,112
@@ -8669,11 +8742,11 @@ FN:43,System.Int32 server.Core.EF.DTO.RecipeMealCreateDTO::get_MealID()
 FNDA:146,System.Int32 server.Core.EF.DTO.RecipeMealCreateDTO::get_MealID()
 DA:44,146
 FN:46,System.Single server.Core.EF.DTO.RecipeAmountDTO::get_Amount()
-FNDA:1492,System.Single server.Core.EF.DTO.RecipeAmountDTO::get_Amount()
-DA:47,1492
+FNDA:1507,System.Single server.Core.EF.DTO.RecipeAmountDTO::get_Amount()
+DA:47,1507
 FN:48,System.Single server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO::get_Amount()
-FNDA:23779,System.Single server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO::get_Amount()
-DA:49,23779
+FNDA:23050,System.Single server.Core.EF.DTO.RecipeAmountWithFoodItemsDTO::get_Amount()
+DA:49,23050
 LF:31
 LH:30
 BRF:0
@@ -9338,39 +9411,123 @@ BRH:0
 FNF:214
 FNH:209
 end_of_record
+SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Core/EF/DTO/Week.cs
+FN:4,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Monday()
+FNDA:1,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Monday()
+DA:5,1
+FN:5,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Tuesday()
+FNDA:1,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Tuesday()
+DA:6,1
+FN:6,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Wednesday()
+FNDA:1,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Wednesday()
+DA:7,1
+FN:7,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Thursday()
+FNDA:1,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Thursday()
+DA:8,1
+FN:8,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Friday()
+FNDA:1,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Friday()
+DA:9,1
+FN:9,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Saturday()
+FNDA:1,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Saturday()
+DA:10,1
+FN:10,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Sunday()
+FNDA:1,server.Core.EF.DTO.Day server.Core.EF.DTO.Week::get_Sunday()
+DA:11,1
+FN:2,System.Void server.Core.EF.DTO.Week::.ctor(server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day)
+FNDA:1,System.Void server.Core.EF.DTO.Week::.ctor(server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day,server.Core.EF.DTO.Day)
+DA:3,1
+DA:4,1
+DA:12,1
+FN:15,System.Single server.Core.EF.DTO.Day::get_Calories()
+FNDA:2,System.Single server.Core.EF.DTO.Day::get_Calories()
+DA:16,2
+FN:16,server.Core.EF.DTO.Meal server.Core.EF.DTO.Day::get_Breakfast()
+FNDA:2,server.Core.EF.DTO.Meal server.Core.EF.DTO.Day::get_Breakfast()
+DA:17,2
+FN:17,server.Core.EF.DTO.Meal server.Core.EF.DTO.Day::get_Lunch()
+FNDA:2,server.Core.EF.DTO.Meal server.Core.EF.DTO.Day::get_Lunch()
+DA:18,2
+FN:18,server.Core.EF.DTO.Meal server.Core.EF.DTO.Day::get_Dinner()
+FNDA:2,server.Core.EF.DTO.Meal server.Core.EF.DTO.Day::get_Dinner()
+DA:19,2
+FN:19,server.Core.EF.DTO.Meal server.Core.EF.DTO.Day::get_Snacks()
+FNDA:2,server.Core.EF.DTO.Meal server.Core.EF.DTO.Day::get_Snacks()
+DA:20,2
+FN:13,System.Void server.Core.EF.DTO.Day::.ctor(System.Single,server.Core.EF.DTO.Meal,server.Core.EF.DTO.Meal,server.Core.EF.DTO.Meal,server.Core.EF.DTO.Meal)
+FNDA:2,System.Void server.Core.EF.DTO.Day::.ctor(System.Single,server.Core.EF.DTO.Meal,server.Core.EF.DTO.Meal,server.Core.EF.DTO.Meal,server.Core.EF.DTO.Meal)
+DA:14,2
+DA:15,2
+DA:21,2
+FN:24,System.Nullable`1<System.Int32> server.Core.EF.DTO.Meal::get_Id()
+FNDA:2,System.Nullable`1<System.Int32> server.Core.EF.DTO.Meal::get_Id()
+DA:25,2
+FN:25,System.Single server.Core.EF.DTO.Meal::get_Calories()
+FNDA:2,System.Single server.Core.EF.DTO.Meal::get_Calories()
+DA:26,2
+FN:26,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO> server.Core.EF.DTO.Meal::get_FoodItems()
+FNDA:2,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO> server.Core.EF.DTO.Meal::get_FoodItems()
+DA:27,2
+FN:27,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeCalories> server.Core.EF.DTO.Meal::get_Recipes()
+FNDA:2,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeCalories> server.Core.EF.DTO.Meal::get_Recipes()
+DA:28,2
+FN:22,System.Void server.Core.EF.DTO.Meal::.ctor(System.Nullable`1<System.Int32>,System.Single,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeCalories>)
+FNDA:2,System.Void server.Core.EF.DTO.Meal::.ctor(System.Nullable`1<System.Int32>,System.Single,System.Collections.Generic.List`1<server.Core.EF.DTO.FoodItemAmountDTO>,System.Collections.Generic.List`1<server.Core.EF.DTO.RecipeCalories>)
+DA:23,2
+DA:24,2
+DA:29,2
+FN:31,server.Core.EF.DTO.RecipeDTO server.Core.EF.DTO.RecipeCalories::get_Recipe()
+FNDA:0,server.Core.EF.DTO.RecipeDTO server.Core.EF.DTO.RecipeCalories::get_Recipe()
+DA:32,0
+FN:32,System.Single server.Core.EF.DTO.RecipeCalories::get_Calories()
+FNDA:0,System.Single server.Core.EF.DTO.RecipeCalories::get_Calories()
+DA:33,0
+FN:33,System.Single server.Core.EF.DTO.RecipeCalories::get_Amount()
+FNDA:0,System.Single server.Core.EF.DTO.RecipeCalories::get_Amount()
+DA:34,0
+FN:30,System.Void server.Core.EF.DTO.RecipeCalories::.ctor(server.Core.EF.DTO.RecipeDTO,System.Single,System.Single)
+FNDA:0,System.Void server.Core.EF.DTO.RecipeCalories::.ctor(server.Core.EF.DTO.RecipeDTO,System.Single,System.Single)
+DA:31,0
+DA:35,0
+LF:30
+LH:25
+BRF:0
+BRH:0
+FNF:23
+FNH:19
+end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Controllers/AuthController.cs
-FN:43,System.Boolean server.Controllers.AuthController::VerifyPassword(System.String,System.Byte[],System.Byte[])
+FN:51,System.Boolean server.Controllers.AuthController::VerifyPassword(System.String,System.Byte[],System.Byte[])
 FNDA:2,System.Boolean server.Controllers.AuthController::VerifyPassword(System.String,System.Byte[],System.Byte[])
-DA:44,2
-DA:45,2
-DA:46,2
-DA:47,2
-DA:48,2
-DA:49,2
-DA:51,2
-FN:53,System.String server.Controllers.AuthController::CreateToken(server.Core.EF.DTO.UserDTO)
+DA:52,2
+DA:53,2
+DA:54,2
+DA:55,2
+DA:56,2
+DA:57,2
+DA:59,2
+FN:61,System.String server.Controllers.AuthController::CreateToken(server.Core.EF.DTO.UserDTO)
 FNDA:1,System.String server.Controllers.AuthController::CreateToken(server.Core.EF.DTO.UserDTO)
-DA:54,1
-DA:55,1
-DA:56,1
-DA:57,1
-DA:58,1
-DA:59,1
-DA:60,1
 DA:62,1
 DA:63,1
+DA:64,1
 DA:65,1
 DA:66,1
 DA:67,1
 DA:68,1
-DA:69,1
 DA:70,1
 DA:71,1
-DA:72,1
 DA:73,1
 DA:74,1
-BRDA:62,107,0,0
-BRDA:62,107,1,1
+DA:75,1
+DA:76,1
+DA:77,1
+DA:78,1
+DA:79,1
+DA:80,1
+DA:81,1
+DA:82,1
+BRDA:70,107,0,0
+BRDA:70,107,1,1
 FN:15,System.Void server.Controllers.AuthController::.ctor(Microsoft.Extensions.Logging.ILogger`1<server.Controllers.AuthController>,server.Core.EF.RepositoryInterfaces.IUserRepository,Microsoft.Extensions.Configuration.IConfiguration)
 FNDA:2,System.Void server.Controllers.AuthController::.ctor(Microsoft.Extensions.Logging.ILogger`1<server.Controllers.AuthController>,server.Core.EF.RepositoryInterfaces.IUserRepository,Microsoft.Extensions.Configuration.IConfiguration)
 DA:16,2
@@ -9382,26 +9539,31 @@ DA:21,2
 FN:25,System.Void server.Controllers.AuthController/<Login>d__4::MoveNext()
 FNDA:2,System.Void server.Controllers.AuthController/<Login>d__4::MoveNext()
 DA:26,2
-DA:27,3
-DA:28,1
-DA:29,1
+DA:28,2
+DA:29,3
 DA:30,1
 DA:31,1
-DA:32,2
-BRDA:27,164,0,1
-BRDA:27,164,1,1
-FN:34,System.Void server.Controllers.AuthController/<VerifyCredentials>d__5::MoveNext()
-FNDA:2,System.Void server.Controllers.AuthController/<VerifyCredentials>d__5::MoveNext()
-DA:35,2
-DA:36,2
-DA:37,2
-DA:38,2
+DA:32,1
+DA:33,1
+DA:35,0
+DA:36,0
+DA:37,0
+DA:38,0
 DA:40,2
-DA:41,2
-BRDA:37,176,0,0
-BRDA:37,176,1,2
-LF:45
-LH:45
+BRDA:29,174,0,1
+BRDA:29,174,1,1
+FN:42,System.Void server.Controllers.AuthController/<VerifyCredentials>d__5::MoveNext()
+FNDA:2,System.Void server.Controllers.AuthController/<VerifyCredentials>d__5::MoveNext()
+DA:43,2
+DA:44,2
+DA:45,2
+DA:46,2
+DA:48,2
+DA:49,2
+BRDA:45,176,0,0
+BRDA:45,176,1,2
+LF:50
+LH:46
 BRF:6
 BRH:4
 FNF:5
@@ -9415,30 +9577,31 @@ DA:11,6
 DA:12,6
 DA:13,6
 DA:14,6
-FN:34,System.Void server.Controllers.CategoryController/<GetAllCategories>d__4::MoveNext()
+FN:35,System.Void server.Controllers.CategoryController/<GetAllCategories>d__4::MoveNext()
 FNDA:1,System.Void server.Controllers.CategoryController/<GetAllCategories>d__4::MoveNext()
-DA:35,1
-DA:37,1
+DA:36,1
 DA:38,1
 DA:39,1
-DA:41,0
+DA:40,1
 DA:42,0
 DA:43,0
 DA:44,0
-DA:46,1
-FN:51,System.Void server.Controllers.CategoryController/<GetCategoryById>d__5::MoveNext()
+DA:45,0
+DA:47,1
+FN:52,System.Void server.Controllers.CategoryController/<GetCategoryById>d__5::MoveNext()
 FNDA:2,System.Void server.Controllers.CategoryController/<GetCategoryById>d__5::MoveNext()
-DA:52,2
-DA:54,2
+DA:53,2
 DA:55,2
-DA:57,3
-DA:58,1
-DA:60,0
+DA:56,2
+DA:58,3
+DA:59,1
 DA:61,0
 DA:62,0
-DA:64,2
-BRDA:57,180,0,1
-BRDA:57,180,1,1
+DA:63,0
+DA:64,0
+DA:66,2
+BRDA:58,180,0,1
+BRDA:58,180,1,1
 FN:17,System.Void server.Controllers.CategoryController/<Post>d__3::MoveNext()
 FNDA:3,System.Void server.Controllers.CategoryController/<Post>d__3::MoveNext()
 DA:18,3
@@ -9450,12 +9613,13 @@ DA:24,1
 DA:26,0
 DA:27,0
 DA:28,0
-DA:30,3
+DA:29,0
+DA:31,3
 BRDA:22,224,0,1
 BRDA:22,224,1,2
-BRDA:23,253,0,1
-BRDA:23,253,1,1
-LF:33
+BRDA:23,256,0,1
+BRDA:23,256,1,1
+LF:35
 LH:23
 BRF:6
 BRH:6
@@ -9480,40 +9644,43 @@ DA:41,1
 DA:43,0
 DA:44,0
 DA:45,0
-DA:47,2
+DA:46,0
+DA:48,2
 BRDA:40,180,0,1
 BRDA:40,180,1,1
-FN:64,System.Void server.Controllers.FoodItemController/<GetByMeal>d__6::MoveNext()
+FN:66,System.Void server.Controllers.FoodItemController/<GetByMeal>d__6::MoveNext()
 FNDA:1,System.Void server.Controllers.FoodItemController/<GetByMeal>d__6::MoveNext()
-DA:65,1
 DA:67,1
-DA:68,1
 DA:69,1
-DA:71,0
-DA:72,0
+DA:70,1
+DA:71,1
 DA:73,0
-DA:75,1
-FN:50,System.Void server.Controllers.FoodItemController/<GetByRecipe>d__5::MoveNext()
+DA:74,0
+DA:75,0
+DA:76,0
+DA:78,1
+FN:51,System.Void server.Controllers.FoodItemController/<GetByRecipe>d__5::MoveNext()
 FNDA:1,System.Void server.Controllers.FoodItemController/<GetByRecipe>d__5::MoveNext()
-DA:51,1
-DA:53,1
+DA:52,1
 DA:54,1
 DA:55,1
-DA:57,0
+DA:56,1
 DA:58,0
 DA:59,0
-DA:61,1
-FN:78,System.Void server.Controllers.FoodItemController/<GetBySearchWord>d__7::MoveNext()
+DA:60,0
+DA:61,0
+DA:63,1
+FN:81,System.Void server.Controllers.FoodItemController/<GetBySearchWord>d__7::MoveNext()
 FNDA:1,System.Void server.Controllers.FoodItemController/<GetBySearchWord>d__7::MoveNext()
-DA:79,1
-DA:81,1
 DA:82,1
-DA:83,1
-DA:85,0
-DA:86,0
-DA:87,0
+DA:84,1
+DA:85,1
+DA:86,1
 DA:88,0
-DA:90,1
+DA:89,0
+DA:90,0
+DA:91,0
+DA:93,1
 FN:17,System.Void server.Controllers.FoodItemController/<SetFoodItemsInRecipe>d__3::MoveNext()
 FNDA:2,System.Void server.Controllers.FoodItemController/<SetFoodItemsInRecipe>d__3::MoveNext()
 DA:18,2
@@ -9528,7 +9695,7 @@ DA:28,1
 DA:30,2
 BRDA:22,172,0,1
 BRDA:22,172,1,1
-LF:49
+LF:52
 LH:36
 BRF:4
 BRH:4
@@ -9537,13 +9704,13 @@ FNH:6
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Controllers/MealController.cs
 FN:14,System.Void server.Controllers.MealController::.ctor(Microsoft.Extensions.Logging.ILogger`1<server.Controllers.MealController>,server.Core.EF.RepositoryInterfaces.IMealRepository,server.Services.IMealService)
-FNDA:10,System.Void server.Controllers.MealController::.ctor(Microsoft.Extensions.Logging.ILogger`1<server.Controllers.MealController>,server.Core.EF.RepositoryInterfaces.IMealRepository,server.Services.IMealService)
-DA:15,10
-DA:16,10
-DA:17,10
-DA:18,10
-DA:19,10
-DA:20,10
+FNDA:13,System.Void server.Controllers.MealController::.ctor(Microsoft.Extensions.Logging.ILogger`1<server.Controllers.MealController>,server.Core.EF.RepositoryInterfaces.IMealRepository,server.Services.IMealService)
+DA:15,13
+DA:16,13
+DA:17,13
+DA:18,13
+DA:19,13
+DA:20,13
 FN:59,System.Void server.Controllers.MealController/<GetById>d__6::MoveNext()
 FNDA:2,System.Void server.Controllers.MealController/<GetById>d__6::MoveNext()
 DA:60,2
@@ -9559,16 +9726,36 @@ DA:72,2
 BRDA:64,180,0,1
 BRDA:64,180,1,1
 FN:90,System.Void server.Controllers.MealController/<GetByUserAndDate>d__8::MoveNext()
-FNDA:0,System.Void server.Controllers.MealController/<GetByUserAndDate>d__8::MoveNext()
-DA:91,0
-DA:93,0
-DA:94,0
-DA:95,0
+FNDA:1,System.Void server.Controllers.MealController/<GetByUserAndDate>d__8::MoveNext()
+DA:91,1
+DA:93,1
+DA:94,1
+DA:95,1
 DA:97,0
 DA:98,0
 DA:99,0
 DA:100,0
-DA:102,0
+DA:102,1
+FN:119,System.Void server.Controllers.MealController/<GetDayByUserAndDate>d__10::MoveNext()
+FNDA:1,System.Void server.Controllers.MealController/<GetDayByUserAndDate>d__10::MoveNext()
+DA:120,1
+DA:122,1
+DA:123,1
+DA:125,0
+DA:126,0
+DA:127,0
+DA:128,0
+DA:130,1
+FN:105,System.Void server.Controllers.MealController/<GetWeekByUserAndDate>d__9::MoveNext()
+FNDA:1,System.Void server.Controllers.MealController/<GetWeekByUserAndDate>d__9::MoveNext()
+DA:106,1
+DA:108,1
+DA:109,1
+DA:111,0
+DA:112,0
+DA:113,0
+DA:114,0
+DA:116,1
 FN:75,System.Void server.Controllers.MealController/<GetWithFoodByUserAndDate>d__7::MoveNext()
 FNDA:1,System.Void server.Controllers.MealController/<GetWithFoodByUserAndDate>d__7::MoveNext()
 DA:76,1
@@ -9617,12 +9804,12 @@ DA:54,1
 DA:56,2
 BRDA:48,166,0,1
 BRDA:48,166,1,1
-LF:57
-LH:40
+LF:73
+LH:53
 BRF:12
 BRH:12
-FNF:6
-FNH:5
+FNF:8
+FNH:8
 end_of_record
 SF:/Users/adrian/Documents/ITU/6_Semester/BachelorProjekt/NourishNexus/server/Controllers/PlanningController.cs
 FN:13,System.Void server.Controllers.PlanningController::.ctor(Microsoft.Extensions.Logging.ILogger`1<server.Controllers.PlanningController>,server.Services.MealPlan.IMealPlanGenerator,server.Services.MealPlan.IntakeTargetCalculator,server.Core.EF.RepositoryInterfaces.IUserRepository)
