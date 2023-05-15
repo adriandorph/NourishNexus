@@ -11,7 +11,9 @@ Azure DevOps: https://dev.azure.com/NourishNexus/NourishNexus
 
 Production url: https://nourishnexus.dk
 
+## Credit
 
+The data from the data.csv file is from DTU's food item database, Frida at https://frida.fooddata.dk/?lang=en
 
 ## How to run
 
