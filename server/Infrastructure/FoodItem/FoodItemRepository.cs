@@ -332,12 +332,6 @@ public class FoodItemRepository : IFoodItemRepository
         return await items.FirstOrDefaultAsync();
     }
 
-    public async Task<IReadOnlyCollection<FoodItemRecipeDTO>> ReadAllByRecipeIDAsync(int recipeID)
-        => await _context.FoodItemRecipes
-            .Where(fir => fir.Recipe.Id == recipeID)
-            .Select(fir => fir.ToDTO())
-            .ToListAsync();
-
     public async Task<IReadOnlyCollection<FoodItemAmountDTO>> ReadAllByMealId(int mealID)
         => (await _context.FoodItemMeals
             .Include(f => f.Meal)
@@ -373,7 +367,7 @@ public class FoodItemRepository : IFoodItemRepository
             .ToListAsync();
     }
     
-    public async Task<Response> RemoveFoodItemRecipesByRecipeID(int recipeID)
+    private async Task<Response> RemoveFoodItemRecipesByRecipeID(int recipeID)
     {
         var toBeDeleted = await _context.FoodItemRecipes.Where(fir => fir.Recipe.Id == recipeID).ToListAsync();
         _context.FoodItemRecipes.RemoveRange(toBeDeleted);
@@ -381,7 +375,7 @@ public class FoodItemRepository : IFoodItemRepository
         return Response.Deleted;
     }
 
-    public async Task<Response> RemoveFoodItemRecipesByFoodItemID(int foodItemID)
+    private async Task<Response> RemoveFoodItemRecipesByFoodItemID(int foodItemID)
     {
         var toBeDeleted = await _context.FoodItemRecipes.Where(fir => fir.FoodItem.Id == foodItemID).ToListAsync();
         _context.FoodItemRecipes.RemoveRange(toBeDeleted);

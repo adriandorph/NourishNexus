@@ -19,70 +19,227 @@
         Week @CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
     </button>
 </div>
-<div id="topday">
-<h1>@GetDateString()</h1>
-</div>
-<div id="calories">
-<p class="total-calories">Total Calories: @FloatFormat(TotalCalories())</p>
-</div>
-@if(meals == null){
+
+@if(day == null){
     <p>Loading</p> 
 }
 else
 {
-    @foreach (var meal in meals)
-    {
-        <div class="meal-box">
-            <div class="meal-box-header d-flex justify-content-between">
-                <span id="mealtype"> @MealTypeToString(meal.MealType)</span>
-                <span class="calories-heading" id="mealkcal">@FloatFormat(MealCalories(meal)) kcal</span>
-            </div>
+    <div id="topday">
+    <h1>@GetDateString()</h1>
+    </div>
+    <div id="calories">
+    <p class="total-calories">Total Calories: @FloatFormat(day.Calories)</p>
+    </div>
 
-            <div class="ingredient-box-container mt-3">
-                @if (meal.FoodItems.Any())
+    
+    <div class="meal-box">
+        <div class="meal-box-header d-flex justify-content-between">
+            <span id="mealtype"> Breakfast</span>
+            <span class="calories-heading" id="mealkcal">@FloatFormat(day.Breakfast.Calories) kcal</span>
+        </div>
+
+        <div class="ingredient-box-container mt-3">
+            @if (day.Breakfast.FoodItems.Any())
+            {
+                @foreach (var foodItem in day.Breakfast.FoodItems)
                 {
-                    @foreach (var foodItem in meal.FoodItems)
-                    {
-                        <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
-                            <div>
-                                <span class="ingredient-name">@foodItem.FoodItem!.Name</span>
+                    <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                        <div>
+                            <span class="ingredient-name">@foodItem.FoodItem!.Name</span>
+                        </div>
+                        <span>
+                        <span class="calorie-amount">@FloatFormat(Scale(foodItem.FoodItem.Calories, foodItem.Amount)) kcal</span>
+                        <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveFoodItem(day.Breakfast, foodItem)"><i>X</i></button>
+                        </span>
+                    </div>
+                }
+            }
+
+            @if (day.Breakfast.Recipes.Any())
+            {
+                @foreach (var recipe in day.Breakfast.Recipes)
+                {
+                    
+                    <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                        <a @onclick="() => ViewRecipe(recipe.Recipe.Id, recipe.Amount)">
+                            <div id="recipetitle">
+                                <span class="ingredient-name">@recipe.Recipe!.Title</span>
                             </div>
-                            <span>
-                            <span class="calorie-amount">@FloatFormat(Scale(foodItem.Amount, foodItem.FoodItem.Calories)) kcal</span>
-                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveFoodItem(meal, foodItem)"><i>X</i></button>
-                            </span>
-                        </div>
-                    }
+                        </a>
+                        <span>
+                            <span class="calorie-amount">@FloatFormat(recipe.Calories) kcal</span>
+    
+                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(day.Breakfast, recipe)"><i>X</i></button>
+                        </span>
+                    </div>
+                    
                 }
-
-                @if (meal.Recipes.Any())
-                {
-                    @foreach (var recipe in meal.Recipes)
-                    {
-                        
-                        <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
-                            <a @onclick="() => ViewRecipe(recipe.Recipe.Id, recipe.Amount)">
-                                <div id="recipetitle">
-                                    <span class="ingredient-name">@recipe.Recipe!.Title</span>
-                                </div>
-                            </a>
-                            <span>
-                                <span class="calorie-amount">@FloatFormat(RecipeCalories(recipe)) kcal</span>
-        
-                                <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(meal, recipe)"><i>X</i></button>
-                            </span>
-                        </div>
-                        
-                    }
-                }
-                <div id="addfood">
-                <button class="btn btn-primary mt-2" @onclick="async () => await HandleAddFood(meal.Id, meal.MealType)">
-                   <i class="oi oi-plus"></i> Add Food
-                </button>
-                </div>
+            }
+            <div id="addfood">
+            <button class="btn btn-primary mt-2" @onclick="async () => await HandleAddFood(day.Breakfast.Id, MealType.BREAKFAST)">
+                <i class="oi oi-plus"></i> Add Food
+            </button>
             </div>
         </div>
-    }
+    </div>
+
+
+
+    <div class="meal-box">
+        <div class="meal-box-header d-flex justify-content-between">
+            <span id="mealtype">Lunch</span>
+            <span class="calories-heading" id="mealkcal">@FloatFormat(day.Lunch.Calories) kcal</span>
+        </div>
+
+        <div class="ingredient-box-container mt-3">
+            @if (day.Lunch.FoodItems.Any())
+            {
+                @foreach (var foodItem in day.Lunch.FoodItems)
+                {
+                    <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                        <div>
+                            <span class="ingredient-name">@foodItem.FoodItem!.Name</span>
+                        </div>
+                        <span>
+                        <span class="calorie-amount">@FloatFormat(Scale(foodItem.FoodItem.Calories, foodItem.Amount)) kcal</span>
+                        <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveFoodItem(day.Lunch, foodItem)"><i>X</i></button>
+                        </span>
+                    </div>
+                }
+            }
+
+            @if (day.Lunch.Recipes.Any())
+            {
+                @foreach (var recipe in day.Lunch.Recipes)
+                {
+                    
+                    <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                        <a @onclick="() => ViewRecipe(recipe.Recipe.Id, recipe.Amount)">
+                            <div id="recipetitle">
+                                <span class="ingredient-name">@recipe.Recipe!.Title</span>
+                            </div>
+                        </a>
+                        <span>
+                            <span class="calorie-amount">@FloatFormat(recipe.Calories) kcal</span>
+    
+                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(day.Lunch, recipe)"><i>X</i></button>
+                        </span>
+                    </div>
+                    
+                }
+            }
+            <div id="addfood">
+            <button class="btn btn-primary mt-2" @onclick="async () => await HandleAddFood(day.Lunch.Id, MealType.LUNCH)">
+                <i class="oi oi-plus"></i> Add Food
+            </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="meal-box">
+        <div class="meal-box-header d-flex justify-content-between">
+            <span id="mealtype">Dinner</span>
+            <span class="calories-heading" id="mealkcal">@FloatFormat(day.Dinner.Calories) kcal</span>
+        </div>
+
+        <div class="ingredient-box-container mt-3">
+            @if (day.Dinner.FoodItems.Any())
+            {
+                @foreach (var foodItem in day.Dinner.FoodItems)
+                {
+                    <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                        <div>
+                            <span class="ingredient-name">@foodItem.FoodItem!.Name</span>
+                        </div>
+                        <span>
+                        <span class="calorie-amount">@FloatFormat(Scale(foodItem.FoodItem.Calories, foodItem.Amount)) kcal</span>
+                        <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveFoodItem(day.Breakfast, foodItem)"><i>X</i></button>
+                        </span>
+                    </div>
+                }
+            }
+
+            @if (day.Dinner.Recipes.Any())
+            {
+                @foreach (var recipe in day.Dinner.Recipes)
+                {
+                    
+                    <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                        <a @onclick="() => ViewRecipe(recipe.Recipe.Id, recipe.Amount)">
+                            <div id="recipetitle">
+                                <span class="ingredient-name">@recipe.Recipe!.Title</span>
+                            </div>
+                        </a>
+                        <span>
+                            <span class="calorie-amount">@FloatFormat(recipe.Calories) kcal</span>
+    
+                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(day.Dinner, recipe)"><i>X</i></button>
+                        </span>
+                    </div>
+                    
+                }
+            }
+            <div id="addfood">
+            <button class="btn btn-primary mt-2" @onclick="async () => await HandleAddFood(day.Dinner.Id, MealType.DINNER)">
+                <i class="oi oi-plus"></i> Add Food
+            </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="meal-box">
+        <div class="meal-box-header d-flex justify-content-between">
+            <span id="mealtype">Snacks</span>
+            <span class="calories-heading" id="mealkcal">@FloatFormat(day.Snacks.Calories) kcal</span>
+        </div>
+
+        <div class="ingredient-box-container mt-3">
+            @if (day.Snacks.FoodItems.Any())
+            {
+                @foreach (var foodItem in day.Snacks.FoodItems)
+                {
+                    <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                        <div>
+                            <span class="ingredient-name">@foodItem.FoodItem!.Name</span>
+                        </div>
+                        <span>
+                        <span class="calorie-amount">@FloatFormat(Scale(foodItem.FoodItem.Calories, foodItem.Amount)) kcal</span>
+                        <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveFoodItem(day.Breakfast, foodItem)"><i>X</i></button>
+                        </span>
+                    </div>
+                }
+            }
+
+            @if (day.Snacks.Recipes.Any())
+            {
+                @foreach (var recipe in day.Snacks.Recipes)
+                {
+                    
+                    <div class="ingredient-box d-flex justify-content-between mb-2 rounded">
+                        <a @onclick="() => ViewRecipe(recipe.Recipe.Id, recipe.Amount)">
+                            <div id="recipetitle">
+                                <span class="ingredient-name">@recipe.Recipe!.Title</span>
+                            </div>
+                        </a>
+                        <span>
+                            <span class="calorie-amount">@FloatFormat(recipe.Calories) kcal</span>
+    
+                            <button class="btn btn-outline-danger btn-sm" @onclick="async () => await HandleRemoveRecipe(day.Snacks, recipe)"><i>X</i></button>
+                        </span>
+                    </div>
+                    
+                }
+            }
+            <div id="addfood">
+            <button class="btn btn-primary mt-2" @onclick="async () => await HandleAddFood(day.Snacks.Id, MealType.SNACK)">
+                <i class="oi oi-plus"></i> Add Food
+            </button>
+            </div>
+        </div>
+    </div>
 }
 
 <br>
@@ -94,10 +251,7 @@ else
     public string dateString {get; set;} = "today";
     private int userID;
     private DateTime date {get; set;} = DateTime.Now;
-    private List<MealWithFood> meals { get; set; } = new List<MealWithFood>();
-    
-
-    private record MealWithFood(int? Id, MealType MealType, List<FoodItemAmountDTO> FoodItems, List<RecipeAmountWithFoodItemsDTO> Recipes);
+    private Day? day {get; set;} = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -107,7 +261,7 @@ else
         var userClaim = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
         var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
         int.TryParse(userIdClaim!.Value, out userID);
-        await LoadMeals();
+        day = await MealService.GetDay(userID, date);
     }
 
     private string MealTypeToString(MealType type)
@@ -123,25 +277,6 @@ else
     {
         CultureInfo.CurrentCulture = new CultureInfo("en-US");
         return date.ToLongDateString();
-    }
-
-
-    private float TotalCalories()
-    {
-        var sum = 0.0f;
-        foreach(var meal in meals) sum += MealCalories(meal);
-        return sum;
-    }
-
-    private float MealCalories(MealWithFood meal)
-    {
-        float sum = 0.0f;
-        foreach(var foodItem in meal.FoodItems) sum += foodItem.Amount * foodItem.FoodItem!.Calories;
-        foreach(var recipe in meal.Recipes)
-        {
-            sum += RecipeCalories(recipe);
-        }
-        return sum;
     }
 
     private float RecipeCalories(RecipeAmountWithFoodItemsDTO recipe)
@@ -253,7 +388,7 @@ else
 
     private string FloatFormat(float f) => $"{(f):0.##}";
 
-    private async Task HandleRemoveFoodItem(MealWithFood meal, FoodItemAmountDTO foodItem)
+    private async Task HandleRemoveFoodItem(Meal meal, FoodItemAmountDTO foodItem)
     {
         var foodItemMeals = meal.FoodItems
             .Where(f => f != foodItem)
@@ -271,11 +406,11 @@ else
             FoodItemMeals = foodItemMeals
         };
         await MealService.UpdateMeal(mealUpdate);
-        await LoadMeals();
+        day = await MealService.GetDay(userID, date);
         StateHasChanged();
     }
 
-    private async Task HandleRemoveRecipe(MealWithFood meal, RecipeAmountWithFoodItemsDTO recipe)
+    private async Task HandleRemoveRecipe(Meal meal, RecipeCalories recipe)
     {
         var recipeMeals = meal.Recipes
             .Where(r => r != recipe)
@@ -293,10 +428,11 @@ else
             RecipeMeals = recipeMeals
         };
         await MealService.UpdateMeal(mealUpdate);
-        await LoadMeals();
+        day = await MealService.GetDay(userID, date);
         StateHasChanged();
     }
 
+/*
     private async Task LoadMeals()
     {
         meals.Clear();
@@ -344,6 +480,7 @@ else
         }
         else meals.Add(new MealWithFood(null, MealType.SNACK, new List<FoodItemAmountDTO>(), new List<RecipeAmountWithFoodItemsDTO>()));
     }
+    */
 
     private void ViewRecipe(int id, float scale)
     {

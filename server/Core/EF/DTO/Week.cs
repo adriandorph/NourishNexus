@@ -22,7 +22,14 @@ public record Day
 
 public record Meal
 (
+    int? Id,
     float Calories,
-    List<FoodItemDTO> foodItems,
-    List<RecipeDTO> recipes
+    List<FoodItemAmountDTO> FoodItems,
+    List<RecipeCalories> Recipes
+);
+
+public record RecipeCalories(
+    RecipeDTO Recipe,
+    float Calories,
+    float Amount
 );

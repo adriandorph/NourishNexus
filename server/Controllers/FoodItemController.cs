@@ -42,7 +42,8 @@ public class FoodItemController : ControllerBase
         }
         catch (Exception e)
         {
-            return StatusCode(500, e.Message);        
+             _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");      
         }
     }
 
@@ -56,7 +57,8 @@ public class FoodItemController : ControllerBase
         }
         catch (Exception e)
         {
-            return StatusCode(500, e.Message);        
+             _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");       
         }
     }
 
@@ -70,7 +72,8 @@ public class FoodItemController : ControllerBase
         }
         catch (Exception e)
         {
-            return StatusCode(500, e.Message);        
+             _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");      
         }
     }
 

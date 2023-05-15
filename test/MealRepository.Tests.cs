@@ -44,6 +44,9 @@ public class MealRepositoryTests
         context.FoodItems.Add(_foodItem2);
         context.Recipes.Add(_recipe);
         context.SaveChanges();
+        context.FoodItemRecipes.Add(new FoodItemRecipe(_foodItem1, _recipe, 1));
+        context.FoodItemRecipes.Add(new FoodItemRecipe(_foodItem2, _recipe, 1));
+        context.SaveChanges();
 
         _context = context;
         _repo = new MealRepository(_context);
@@ -557,6 +560,4 @@ public class MealRepositoryTests
         //Assert
         Assert.Empty(list.AsEnumerable());
     }
-
-    
 }

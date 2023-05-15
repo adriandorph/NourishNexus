@@ -114,4 +114,18 @@ public class MealController : ControllerBase
             return StatusCode(500, "Internal Server Error");
         }
     }
+
+    [HttpGet("day/{userID}/{date}")]
+    public async Task<IActionResult> GetDayByUserAndDate(int userID, DateTime date)
+    {
+        try
+        {
+            return await _service.GetDayByUserAndDate(userID, date);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
 }

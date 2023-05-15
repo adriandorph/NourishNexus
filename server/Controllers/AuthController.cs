@@ -24,11 +24,19 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginRequest credentials)
     {
-        if (!(await VerifyCredentials(credentials))) return Unauthorized();
-        var res = await _userRepo.ReadByEmailAsync(credentials.Email);
-        var user = res.Value; 
-        string token = CreateToken(user);
-        return await Task.FromResult(Ok(token));
+        try
+        {
+            if (!(await VerifyCredentials(credentials))) return Unauthorized();
+            var res = await _userRepo.ReadByEmailAsync(credentials.Email);
+            var user = res.Value;
+            string token = CreateToken(user);
+            return await Task.FromResult(Ok(token));
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
     }
 
     private async Task<bool> VerifyCredentials(LoginRequest credentials)
