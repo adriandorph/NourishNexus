@@ -3,13 +3,15 @@ Design and Implementation of a Personalized Meal Planning Webapp with Nutritiona
 
 ## Resources
 
+Production url: https://nourishnexus.dk
+
 Google drive: https://drive.google.com/drive/folders/1asFmWhll3NPPb0TKMrkeHLnq51C29-cM
 
 LaTex report: https://www.overleaf.com/read/mvvsfbyktffz
 
 Azure DevOps: https://dev.azure.com/NourishNexus/NourishNexus
 
-Production url: https://nourishnexus.dk
+Figma: https://www.figma.com/files/team/1353348789531098334/NourishNexus
 
 ## Credit
 
