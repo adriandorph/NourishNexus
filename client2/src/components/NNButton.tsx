@@ -28,7 +28,7 @@ function NNButton(props: NNButtonProps) {
                     backgroundColor: props.color, 
                     color: props.textColor,
                     fontSize: `${props.sizePX}px`,
-                    borderRadius: `${props.sizePX / 1.5}px`,
+                    borderRadius: `${props.sizePX}px`,
                     padding: `${props.sizePX / 4}px ${props.sizePX / 1.5}px`,
                     boxShadow: isHovered ? `0px 0px ${props.sizePX / 4}px ${props.sizePX / 16}px ${props.color}80` : 'none'
                 }} 
