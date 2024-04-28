@@ -23,7 +23,7 @@ function LoginPage() {
                     value={email} 
                     onChange={(e: any)=>setEmail(e.target.value)}
                     title='E-mail'
-                    type='text' />
+                    type='email' />
                 <InputField 
                     placeholder='Password' 
                     value={password} 
