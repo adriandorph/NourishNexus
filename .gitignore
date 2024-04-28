@@ -357,3 +357,6 @@ Frida_Dataset_June2022.ods
 data.csv
 server/Migrations/20230323220634_InitialCreate.cs
 server/Migrations/20230323220634_InitialCreate.Designer.cs
+
+
+.DS_Store
