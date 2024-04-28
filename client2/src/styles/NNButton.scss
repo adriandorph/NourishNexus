@@ -1,0 +1,12 @@
+@import 'global.scss';
+
+.nnbutton {
+    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow 0.1s ease;
+}
