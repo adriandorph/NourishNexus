@@ -1,0 +1,42 @@
+@import 'global.scss';
+
+a {
+    all: unset;
+    text-decoration: underline;
+}
+
+a:hover {
+    cursor: pointer;
+    text-shadow: 0px 0px 2px $text-color;
+}
+
+.sign-up {
+    font-size: 10px;
+    margin-top: 40px;
+}
+
+input {
+    all: unset;
+    margin-left: 10px;
+    min-width: 200px;
+    width: 25svw;
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: rgba($color: $text-color, $alpha: .75);
+}
+
+.input-title {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.input-field {
+    width: fit-content;
+    border-radius: 20px;
+    background-color: $secondary-color;
+    padding: 10px;
+    border: none;
+}
+

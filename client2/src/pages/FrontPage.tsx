@@ -1,7 +1,7 @@
-import AuthFooter from '../../components/AuthFooter.tsx'
-import Logo from '../../components/Logo.tsx'
+import AuthFooter from '../components/AuthFooter.tsx'
+import Logo from '../components/Logo.tsx'
 
-import '../../styles/FrontPage.scss'
+import '../styles/FrontPage.scss'
 
 function FrontPage() {
     return (

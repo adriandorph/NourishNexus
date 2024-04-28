@@ -3,3 +3,14 @@ $text-color: #FFFFFF;
 $primary-color: #86E981;
 $secondary-color: #366933;
 $accent-color: #DBAC34;
+
+:root {
+    color: $text-color;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
