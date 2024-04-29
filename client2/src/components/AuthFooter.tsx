@@ -1,5 +1,5 @@
-import global from '../global.ts';
-import NNButton from './NNButton.tsx';
+import global from '../global';
+import NNButton from './NNButton';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AuthFooter.scss';
 

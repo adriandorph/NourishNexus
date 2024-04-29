@@ -1,8 +1,8 @@
 import './styles/app.scss'
-import FrontPage from './pages/FrontPage.tsx'
-import LoginPage from './pages/LoginPage.tsx'
-import SignupPage from './pages/SignupPage.tsx'
-import NotFound from './pages/NotFound.tsx'
+import FrontPage from './pages/FrontPage'
+import LoginPage from './pages/LoginPage'
+import SignupPage from './pages/SignupPage'
+import NotFound from './pages/NotFound'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 

@@ -1,23 +1,37 @@
 import { useState } from "react";
-import InputField from "../components/InputField.tsx";
-import Logo from "../components/Logo.tsx";
-import NNButton from "../components/NNButton.tsx";
-import global from "../global.ts";
+import { useNavigate } from "react-router-dom";
+import InputField from "../components/InputField";
+import Logo from "../components/Logo";
+import NNButton from "../components/NNButton";
+import global from "../global";
 import '../styles/LoginPage.scss'
+import apiClient from "../services/apiClient";
+import authService from "../services/authService";
+
 
 function SignupPage() {
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
-    function handleSignup() {
-        console.log('email:', email)
-        console.log('nickname:', nickname)
-        console.log('password:', password)
-        console.log('confirm password:', confirmPassword)
+    async function handleSignup() {
+        console.log('email:', email);
+        console.log('nickname:', nickname);
+        console.log('password:', password);
+        console.log('confirm password:', confirmPassword);
+    
+        const success = await postUser(email, nickname, password, confirmPassword);
+        if (success) {
+            const isAuthenticated = await authService.authenticate(email, password);
+            if (isAuthenticated) {
+                navigate('/profile');
+            } else {
+                console.log('Login failed');
+            }
+        }
     }
-
 
     return (
         <div className='centered-container'>
@@ -60,5 +74,20 @@ function SignupPage() {
         </div>
     );
 }
+
+async function postUser(email: string, nickname: string, password: string, confirmPassword: string): Promise<boolean> { 
+    const res = await apiClient.postNoAuth(
+        `${import.meta.env.VITE_API_URL}/user`, 
+        { 
+            email: email, 
+            nickname: nickname, 
+            password: password, 
+            confirmPassword: confirmPassword
+        }
+    );
+    return res.status === 200;
+}
+
+
 
 export default SignupPage;

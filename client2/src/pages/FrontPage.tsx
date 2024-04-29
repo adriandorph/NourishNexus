@@ -1,5 +1,5 @@
-import AuthFooter from '../components/AuthFooter.tsx'
-import Logo from '../components/Logo.tsx'
+import AuthFooter from '../components/AuthFooter'
+import Logo from '../components/Logo'
 
 import '../styles/FrontPage.scss'
 

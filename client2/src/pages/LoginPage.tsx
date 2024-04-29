@@ -1,17 +1,23 @@
-import Logo from '../components/Logo.tsx'
-import NNButton from '../components/NNButton.tsx'
-import InputField from '../components/InputField.tsx';
-import global from '../global.ts';
+import Logo from '../components/Logo'
+import NNButton from '../components/NNButton'
+import InputField from '../components/InputField';
+import global from '../global';
 import { useState } from 'react';
 import '../styles/LoginPage.scss'
+import authService from '../services/authService';
+import { useNavigate } from 'react-router';
 
 function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
-    function handleLogin() {
+    async function handleLogin() {
         console.log('email:', email)
         console.log('password:', password)
+        if (await authService.authenticate(email, password)) {
+            navigate('/search');
+        }
     }
 
     return (
