@@ -1,5 +1,11 @@
-.logo {
+.default {
     min-width: 25svw;
     width: 40svh;
+    height: auto;
+}
+
+.small {
+    min-width: 15svw;
+    width: 25svh;
     height: auto;
 }

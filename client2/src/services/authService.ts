@@ -1,6 +1,5 @@
 import apiClient from "./apiClient";
 import { useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie';
 
 export interface AuthService {
     authenticate: (email: string, password: string) => Promise<boolean>;
@@ -17,7 +16,7 @@ async function authenticate(email: string, password: string): Promise<boolean> {
             return false;
         } else {
             console.log('Login successful');
-            setAccessToken(res.data.access_token);
+            setAccessToken(res.data);
             return true;
         }
     });
@@ -37,9 +36,7 @@ function handleAuthorization(): boolean {
 function getAccessToken(): string | undefined {
     if (typeof window !== 'undefined') {
         const local = localStorage.getItem('access_token');
-        const session = Cookies.get('access_token');
         if (local) return local;
-        if (session) return session;
     }
     return undefined;
 }
@@ -47,14 +44,12 @@ function getAccessToken(): string | undefined {
 function clearAccessToken() {
     if (typeof window !== 'undefined') {
         localStorage.clear();
-        Cookies.remove('access_token');
     }
 }
 
 function setAccessToken(token: string) {
     if (typeof window !== 'undefined') {
         localStorage.setItem('access_token', token);
-        Cookies.set('access_token', token);
     }
 }
 

@@ -16,7 +16,7 @@ function LoginPage() {
         console.log('email:', email)
         console.log('password:', password)
         if (await authService.authenticate(email, password)) {
-            navigate('/search');
+            navigate('/discover');
         }
     }
 
