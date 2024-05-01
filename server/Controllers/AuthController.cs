@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            if (!(await VerifyCredentials(credentials))) return Unauthorized();
+            if (!await VerifyCredentials(credentials)) return Unauthorized();
             var res = await _userRepo.ReadByEmailAsync(credentials.Email);
             var user = res.Value;
             string token = CreateToken(user);

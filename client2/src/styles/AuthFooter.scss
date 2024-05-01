@@ -3,7 +3,7 @@
 .button-bar {
     display: flex;
     justify-content: center;
-    gap: 20%;
+    gap: min(20%, 200px);
     position: fixed;
     bottom: 0;
     left: 0;

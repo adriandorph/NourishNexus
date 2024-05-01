@@ -1,0 +1,23 @@
+@import 'global.scss';
+
+input {
+    all: unset;
+    margin-left: 10px;
+    margin-right: 10px;
+    min-width: 200px;
+    max-width: 300px;
+    width: 60svw;
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: rgba($color: $text-color, $alpha: .75);
+}
+
+.search-bar {
+    width: fit-content;
+    border-radius: 20px;
+    background-color: $secondary-color;
+    padding: 10px;
+    border: none;
+}

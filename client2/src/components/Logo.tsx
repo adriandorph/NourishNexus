@@ -2,9 +2,16 @@ import logo from '../assets/logo.png'
 
 import '../styles/Logo.scss'
 
-function Logo() {
+export interface LogoProps {
+    size?: string
+}
+
+function Logo(props: LogoProps) {
+
+    const size = props.size || 'default'
+
     return (
-    <img className='logo' src={logo} alt='logo' />
+        <img className={size} src={logo} alt='logo' />
     )
 }
 
