@@ -1,5 +1,4 @@
 import apiClient from "./apiClient";
-import { useNavigate } from "react-router-dom";
 
 export interface AuthService {
     authenticate: (email: string, password: string) => Promise<boolean>;
@@ -27,8 +26,6 @@ function handleAuthorization(): boolean {
     if (token) {
         return true;
     } else {
-        const navigate = useNavigate();
-        navigate('/login');
         return false;
     }
 }

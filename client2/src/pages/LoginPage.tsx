@@ -12,10 +12,14 @@ function LoginPage() {
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
 
+    const emailPlaceholder = 'user@nourishnexus.yum'
+    const passwordPlaceholder = 'N0t4S1mpleP@ssw0rd!'
+
     async function handleLogin() {
-        console.log('email:', email)
-        console.log('password:', password)
-        if (await authService.authenticate(email, password)) {
+        if (email === emailPlaceholder && password === passwordPlaceholder) {
+            navigate('/nicetry')
+            return
+        } else if (await authService.authenticate(email, password)) {
             navigate('/discover');
         }
     }
@@ -25,13 +29,13 @@ function LoginPage() {
             <Logo/>
             <div className='input-fields'>
                 <InputField 
-                    placeholder='E-mail' 
+                    placeholder='user@nourishnexus.yum' 
                     value={email} 
                     onChange={(e: any)=>setEmail(e.target.value)}
                     title='E-mail'
                     type='email' />
                 <InputField 
-                    placeholder='Password' 
+                    placeholder='N0t4S1mpleP@ssw0rd!' 
                     value={password} 
                     onChange={(e: any)=>setPassword(e.target.value)}
                     title='Password'
