@@ -1,0 +1,74 @@
+@import 'global.scss';
+.recipe-card-small {
+    position:relative;
+    height: 160px;
+    width: 225px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    height: 100%;
+    width: 100%;
+    background-color: rgba($secondary-color, 0.5);
+}
+.description {
+    font-size: 14px;
+    color: $text-color;
+    margin-left: 15px;
+    margin-right: 10px;
+    margin-top: 10px;
+    opacity: 1;
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 5; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    
+}
+.card-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.card-footer {
+    z-index: 1;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    bottom:0;
+    left: 0;
+    right: 0;
+    height: fit-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    p {
+        font-size: 14px;
+        color: $text-color;
+        margin:0;
+    }
+    .card-profile-picture {
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        object-fit: cover;
+        overflow: hidden;
+    }
+}
+
+.transparent {
+    background-color: rgba($background-color, 0.8);
+}
+
+.not-transparent {
+    background-color: $secondary-color;
+}
