@@ -1,16 +1,1 @@
-@import 'global.scss';
-
-.button-bar {
-    display: flex;
-    justify-content: center;
-    gap: min(20%, 200px);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: fit-content;
-    background-color: $secondary-color;
-    padding: 10px 0 10px 0;
-    z-index: 1;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-}
+@import "Footer.scss";

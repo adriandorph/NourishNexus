@@ -12,7 +12,7 @@ function RecipeCardSmall(props: RecipeCardSmallProps) {
             return (
                 <>
                 <div className="card-body">
-                    <img className="card-image" src="pasta.jpg" alt="" />
+                    <img className="card-image" src="vodka-pasta.jpg.webp" alt="" />
                 </div>
                 <div className="card-footer transparent">
                     <p>{recipe.title}</p>
