@@ -1,0 +1,149 @@
+@import 'global.scss';
+
+.recipe-card-small {
+    position:relative;
+    height: 160px;
+    width: 225px;
+    min-width: 225px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.recipe-card-big {
+    position:relative;
+    height: 250px;
+    width: 350px;
+    min-width: 350px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    height: 100%;
+    width: 100%;
+    background-color: rgba($secondary-color, 0.5);
+}
+.description {
+    font-size: 14px;
+    color: $text-color;
+    margin-left: 15px;
+    margin-right: 10px;
+    margin-top: 10px;
+    opacity: 1;
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 5;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+.description.medium{
+    -webkit-line-clamp: 6;
+}
+
+.description.big{
+    -webkit-line-clamp: 7;
+}
+
+.card-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.card-footer {
+    z-index: 1;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    bottom:0;
+    left: 0;
+    right: 0;
+    height: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    p {
+        font-size: 14px;
+        color: $text-color;
+        margin:0;
+        max-width: 85%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+.card-footer-big {
+    z-index: 1;
+    position: absolute;
+    bottom:0;
+    left: 0;
+    right: 0;
+    height: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.recipe-name {
+    font-size: 20px;
+    color: $text-color;
+    margin:0;
+    max-width: 100%;
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+.card-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-profile-picture {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.author-name {
+    font-size: 9px;
+    color: $text-color;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.transparent {
+    background-color: rgba($background-color, 0.8);
+}
+
+.not-transparent {
+    background-color: $secondary-color;
+}
+
+.footer-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}

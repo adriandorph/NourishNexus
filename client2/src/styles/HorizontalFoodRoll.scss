@@ -1,0 +1,70 @@
+@import 'global.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.container-arrows {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100svw;
+}
+
+h2 {
+    font-size: 24px;
+    color: $text-color;
+    margin-left: 10px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.roll {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    gap: 10px;
+    height: fit-content;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.roll.show {
+    mask: linear-gradient(to left, transparent, $background-color 30px, $background-color calc(100% - 30px), transparent);
+    mask-border-width: 200px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.hide {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .roll {
+        mask: linear-gradient(to left, transparent, $background-color 30px, $background-color calc(100% - 30px), transparent);
+        mask-border-width: 200px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    h2 {
+        margin-left: 20% !important;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+    display: none;
+}
