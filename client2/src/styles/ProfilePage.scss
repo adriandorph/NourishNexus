@@ -1,0 +1,145 @@
+@import 'global.scss';
+
+.top-controls-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: 20px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 5svh;
+}
+
+.picture {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+}
+
+.profile-picture {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.name {
+    font-size: 40px;
+    max-width: 80%;
+}
+
+.divider {
+    width: 350px;
+    height: 1px;
+    background-color: $accent-color;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.divider-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 340px;
+}
+
+.bio {
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    max-width: 350px;
+    height: fit-content;
+    background-color: $secondary-color;
+    border-radius: 15px;
+    padding-top: 7.5px;
+    padding-bottom: 7.5px;
+    p {
+        margin: 0;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+.recipes {
+    display: flex;
+    flex-direction: column;
+    width: min(fit-content, 80%);
+    align-items: center;
+    margin-top: 50px;
+}
+
+.recipes-label {
+    width: 350px;
+    font-size: 25px;
+
+    h4 {
+        left: 0;
+        margin: 0;
+    }
+}
+
+.recipes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    gap: 20px;
+    width: 350px;
+    margin-top: 20px;
+}
+
+.hide {
+    display: none;
+}
+
+@media screen and (min-width: 801px) {
+    .recipes-label {
+        width: 700px;
+    }
+
+    .recipes-container {
+        width: 720px;
+    }
+
+    .divider {
+        width: 700px;
+    }
+
+    .bio {
+        max-width: 400px;
+    }
+    .divider-buttons {
+        width: 690px;
+    }
+}
+@media screen and (min-width: 1212px) {
+    .recipes-label {
+        width: 1090px;
+    }
+
+    .recipes-container {
+        width: 1090px;
+    }
+    
+    .divider {
+        width: 1090px;
+    }
+    .divider-buttons {
+        width: 1070px;
+    }
+}
+
+

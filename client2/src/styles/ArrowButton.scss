@@ -1,0 +1,33 @@
+@import 'global.scss';
+
+.arrow-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    padding:5px;
+    background-color: $accent-color;
+    cursor: pointer;
+}
+
+.rectangle {
+    width: 15px;
+    height: 3px;
+    background-color: $text-color;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+
+    border-right: solid 10px $text-color;
+    border-top: solid 7px transparent;
+    border-bottom: solid 7px transparent;
+
+}
+
+.right {
+    transform: rotate(180deg);
+}

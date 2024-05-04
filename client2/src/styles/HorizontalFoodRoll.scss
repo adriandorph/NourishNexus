@@ -12,6 +12,13 @@
     margin-bottom: 10px;
 }
 
+.container-arrows {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100svw;
+}
+
 h2 {
     font-size: 24px;
     color: $text-color;
@@ -27,17 +34,28 @@ h2 {
     overflow-y: hidden;
     overflow-x: scroll;
     gap: 10px;
-    width: calc(100svw - 20px);
     height: fit-content;
     padding-right: 10px;
     padding-left: 10px;
 }
 
+.roll.show {
+    mask: linear-gradient(to left, transparent, $background-color 30px, $background-color calc(100% - 30px), transparent);
+    mask-border-width: 200px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.hide {
+    display: none;
+}
+
 @media screen and (min-width: 768px) {
     .roll {
-        width: calc(100svw - 20px);
         mask: linear-gradient(to left, transparent, $background-color 30px, $background-color calc(100% - 30px), transparent);
         mask-border-width: 200px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
     
     h2 {
@@ -48,4 +66,5 @@ h2 {
 ::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
+    display: none;
 }

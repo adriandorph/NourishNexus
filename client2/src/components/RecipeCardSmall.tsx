@@ -1,44 +1,31 @@
-import { Recipe } from "../types/recipe";
-import "../styles/RecipeCardSmall.scss";
+import { ThumbnailRecipe } from "../types/recipe";
+import "../styles/RecipeCard.scss";
+import { User } from "../types/user";
+import { useNavigate } from "react-router-dom";
 
 export interface RecipeCardSmallProps {
-    recipe: Recipe;
+    recipe: ThumbnailRecipe;
+    author: User;
 }
 
 function RecipeCardSmall(props: RecipeCardSmallProps) {
+    const navigate = useNavigate()
 
-    const content = (recipe: Recipe) => {
-        if (false){ //if recipe has an image
-            return (
-                <>
-                <div className="card-body">
-                    <img className="card-image" src="vodka-pasta.jpg.webp" alt="" />
-                </div>
-                <div className="card-footer transparent">
-                    <p>{recipe.title}</p>
-                    <img className="card-profile-picture" src="pb.jpeg" alt="" />
-                </div>
-                </>
-            );
-        } else {
-            return (
-                <>
-                <div className="card-body">
-                    <div className="description">
-                        {props.recipe.description}
-                    </div>
-                </div>
-                <div className="card-footer not-transparent">
-                    <p>{recipe.title}</p>
-                    <img className="card-profile-picture" src="pb.jpeg" alt="" />
-                </div>
-                </>
-            );
-        }
-    }
+    const hasImage = props.recipe.picture !== undefined || props.recipe.picture !== "";
+    const footerTransparent = hasImage ? "transparent" : "not-transparent";
+    
     return (
         <div className="recipe-card-small">
-            {content(props.recipe)}
+            <div className="card-body">
+                {hasImage && <img className="card-image" src={props.recipe.picture} alt="" />} 
+                {!hasImage && <div className="description">{props.recipe.description}</div>}
+            </div>
+            <div className={`card-footer ${footerTransparent}`}>
+                <p>{props.recipe.title}</p>
+                <img className="card-profile-picture" src={props.author.profilePicture} alt="" onClick={
+                    () => navigate('/profile')
+                }/>
+            </div>
         </div>
     );
 }
