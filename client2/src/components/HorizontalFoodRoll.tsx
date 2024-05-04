@@ -13,30 +13,23 @@ function HorizontalFoodRoll({recipes, title, autoRoll}: HorizontalFoodRollProps)
     const [enableScroll, setEnableScroll] = useState(true);
     const enableScrollRef = useRef(enableScroll);
 
+    const [scrollDirection, setScrollDirection] = useState(1);
+    const scrollDirectionRef = useRef(scrollDirection);
+
     useEffect(() => {
         enableScrollRef.current = enableScroll; // Update the ref value
     }, [enableScroll]);
 
     useEffect(() => {
-        if (autoRoll) {
-        let timeoutId: NodeJS.Timeout | undefined;
+        scrollDirectionRef.current = scrollDirection; // Update the ref value
+    }, [scrollDirection]);
 
-        const handleInfiniteScroll = async () => {
-            try {
-                timeoutId = await infiniteScroll(1);
-            } catch (error) {
-                console.error("Error occurred during infinite scroll:", error);
+    useEffect(() => {
+        setInterval(() => {
+            if (autoRoll) {
+                scroll();
             }
-        };
-
-        handleInfiniteScroll();
-
-        return () => {
-            if (timeoutId) {
-                clearTimeout(timeoutId); // Cleanup: Clear the timeout
-            }
-        };
-    }
+        }, 50);
     }, []);
 
     async function incrementScrollLeft(distance: number) {
@@ -44,9 +37,7 @@ function HorizontalFoodRoll({recipes, title, autoRoll}: HorizontalFoodRollProps)
         roll.scrollLeft -= distance;
 
         if (roll.scrollLeft <= 0) {
-            return infiniteScroll(1);    
-        } else {
-            return infiniteScroll(-1);
+            setScrollDirection(1);
         }
     }
 
@@ -55,21 +46,17 @@ function HorizontalFoodRoll({recipes, title, autoRoll}: HorizontalFoodRollProps)
         roll.scrollLeft += distance;
 
         if (roll.scrollLeft + roll.clientWidth + 10 >= roll.scrollWidth) {
-            return infiniteScroll(-1);    
-        } else {
-            return infiniteScroll(1);
+           setScrollDirection(-1);  
         }
     }
 
-    async function infiniteScroll(scrollDirection: number = 1) {
+    async function scroll() {
         if (enableScrollRef.current) {
-            return setTimeout(() => {
-                if (scrollDirection === 1) {
-                    incrementScrollRight(1);
-                } else {
-                    incrementScrollLeft(1);
-                }
-            }, 50);
+            if (scrollDirectionRef.current === 1) {
+                incrementScrollRight(1);
+            } else {
+                incrementScrollLeft(1);
+            }
         }
     }
 
@@ -84,9 +71,7 @@ function HorizontalFoodRoll({recipes, title, autoRoll}: HorizontalFoodRollProps)
                 className="roll" 
                 onMouseEnter={() => {setEnableScroll(false)}} 
                 onMouseLeave={() => {
-                    setTimeout(() => {
-                        setEnableScroll(true);
-                    }, 2000);
+                    setEnableScroll(true);
                 }}
                 >
                 {recipeCards}
