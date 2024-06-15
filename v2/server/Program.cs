@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using server.Services;
 using server.Services.DataSource;
 using server.Services.Recipe;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +29,9 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 builder.Services.AddSingleton<IRecipeRepository, RecipeRepository>();
 builder.Services.AddSingleton<IFoodItemRepository, FoodItemRepository>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
 
+builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IRecipeService, RecipeService>();
 
 var app = builder.Build();

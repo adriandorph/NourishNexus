@@ -6,11 +6,14 @@ public class UserRepository(IMongoDatabase mongoDB) : IUserRepository
 {
     private readonly IMongoDatabase _mongoDB = mongoDB;
 
-    public async Task<UserModel> CreateUser(UserModel user)
+    public async Task<UserModel?> CreateUser(UserModel user)
     {
+        // Insert user into database
         var collection = _mongoDB.GetCollection<UserModel>("Users");
         await collection.InsertOneAsync(user);
-        return user;
+        var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
+
+        return await collection.Find(filter).FirstOrDefaultAsync();
     }
 
     public async Task UpdateUser(UserModel user)
@@ -27,10 +30,16 @@ public class UserRepository(IMongoDatabase mongoDB) : IUserRepository
         await collection.DeleteOneAsync(filter);
     }
 
-    public async Task<UserModel> GetUserById(string userId)
+    public async Task<UserModel?> GetUserById(string userId)
     {
         var collection = _mongoDB.GetCollection<UserModel>("Users");
         var filter = Builders<UserModel>.Filter.Eq("Id", userId);
+        return await collection.Find(filter).FirstOrDefaultAsync();
+    }
+    public async Task<UserModel?> GetUserByEmail(string email)
+    {
+        var collection = _mongoDB.GetCollection<UserModel>("Users");
+        var filter = Builders<UserModel>.Filter.Eq("Email", email);
         return await collection.Find(filter).FirstOrDefaultAsync();
     }
 

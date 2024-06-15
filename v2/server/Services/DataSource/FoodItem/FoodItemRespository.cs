@@ -11,7 +11,9 @@ public class FoodItemRepository(IMongoDatabase mongoDB) : IFoodItemRepository
     {
         var collection = _mongoDB.GetCollection<FoodItemModel>("FoodItems");
         await collection.InsertOneAsync(foodItem);
-        return foodItem;
+
+        var filter = Builders<FoodItemModel>.Filter.Eq("Id", foodItem.Id);
+        return await collection.Find(filter).FirstOrDefaultAsync();
     }
 
     public async Task UpdateFoodItem(FoodItemModel foodItem)
