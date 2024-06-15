@@ -10,7 +10,9 @@ public class RecipeRepository(IMongoDatabase mongoDB) : IRecipeRepository
     {
         var collection = _mongoDB.GetCollection<RecipeModel>("Recipes");
         await collection.InsertOneAsync(recipe);
-        return recipe;
+
+        var filter = Builders<RecipeModel>.Filter.Eq("Id", recipe.Id);
+        return await collection.Find(filter).FirstOrDefaultAsync();
     }
 
     public async Task UpdateRecipe(RecipeModel recipe)

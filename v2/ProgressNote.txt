@@ -1,2 +1,2 @@
-Du er i gang med at lave hele backenden forfra med MongoDB
-Du har lige lavet modeller til MongoDB og skal igang med at forbinde server til database
+I gang med at lave hele backenden forfra med MongoDB
+Færdig med auth lav authorization
