@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server", "server\server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{84ACCE07-8689-4A0E-9395-68C1951D3C6D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2", "v2", "{9AA1D30C-B934-4BE9-BA90-0CDD657F0A67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server", "v2\server\server.csproj", "{CD486D2F-5634-41CD-BB98-2A83DB8DDA80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{84ACCE07-8689-4A0E-9395-68C1951D3C6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84ACCE07-8689-4A0E-9395-68C1951D3C6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84ACCE07-8689-4A0E-9395-68C1951D3C6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD486D2F-5634-41CD-BB98-2A83DB8DDA80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD486D2F-5634-41CD-BB98-2A83DB8DDA80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD486D2F-5634-41CD-BB98-2A83DB8DDA80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD486D2F-5634-41CD-BB98-2A83DB8DDA80}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD486D2F-5634-41CD-BB98-2A83DB8DDA80} = {9AA1D30C-B934-4BE9-BA90-0CDD657F0A67}
 	EndGlobalSection
 EndGlobal
