@@ -1,6 +1,4 @@
-using server.Core.Enums;
-
-namespace server.Core.FoodItem;
+namespace server.Core;
 
 /// <summary>
 /// Conversion multiplier from grams to a different unit.

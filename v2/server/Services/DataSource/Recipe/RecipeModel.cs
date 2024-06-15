@@ -1,11 +1,8 @@
-namespace server.Services.DataSource.Recipe;
-
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using System.ComponentModel.DataAnnotations;
-using server.Core.Recipe;
-using server.Core.Nutrition;
+using server.Core;
 
+namespace server.Services.DataSource;
 public class RecipeModel
 {
     [BsonId]

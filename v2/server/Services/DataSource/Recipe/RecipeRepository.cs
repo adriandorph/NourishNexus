@@ -1,6 +1,6 @@
 using MongoDB.Driver;
 
-namespace server.Services.DataSource.Recipe;
+namespace server.Services.DataSource;
 
 public class RecipeRepository(IMongoClient mongoClient)
 {

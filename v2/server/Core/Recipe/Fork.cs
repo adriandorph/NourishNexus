@@ -1,4 +1,4 @@
-namespace server.Core.Recipe;
+namespace server.Core;
 public class Fork
 {
     public string? ForkedFromRecipeId { get; set; }

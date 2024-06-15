@@ -1,6 +1,6 @@
 using MongoDB.Driver;
 
-namespace server.Services.DataSource.User;
+namespace server.Services.DataSource;
 
 public class UserRepository(IMongoClient mongoClient){
     private readonly IMongoDatabase _mongoDB = mongoClient.GetDatabase("Users");

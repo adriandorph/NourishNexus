@@ -1,4 +1,4 @@
-namespace server.Core.Enums;
+namespace server.Core;
 
 public enum Visibility {
     Public,

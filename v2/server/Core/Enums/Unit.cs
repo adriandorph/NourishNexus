@@ -1,9 +1,7 @@
-namespace server.Core.Enums
-{
-    public enum Unit {
-        Unit,
-        Gram,
-        Kcal,
-        
-    }
+namespace server.Core;
+public enum Unit {
+    Unit,
+    Gram,
+    Kcal,
+
 }

@@ -1,8 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using server.Core.Enums;
-using server.Core.FoodItem;
-using server.Core.Nutrition;
+using server.Core;
 
 namespace server.Services.DataSource.FoodItem;
 

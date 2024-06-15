@@ -1,6 +1,4 @@
-namespace server.Core.Nutrition;
-
-using server.Core.Enums;
+namespace server.Core;
 public class Nutrient
 {
     public NutrientType NutrientType { get; set; }
