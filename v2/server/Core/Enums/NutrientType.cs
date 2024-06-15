@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Extensions;
 
-namespace server.Core.Enums;
+namespace server.Core;
 public enum NutrientType {
         Calories,
         Protein,
