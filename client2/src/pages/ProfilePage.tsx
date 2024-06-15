@@ -185,7 +185,7 @@ function ProfilePage() {
                 <div className='recipes-container'>
                     {profile.recipes.map((recipe) => {
                         return (
-                            <RecipeCardBig recipe={recipe} author={profile.user}/>
+                            <RecipeCardBig key={recipe.id} recipe={recipe} author={profile.user}/>
                         );
                     })}
                 </div>

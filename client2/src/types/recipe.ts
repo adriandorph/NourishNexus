@@ -3,7 +3,9 @@ export type Recipe = {
     authorId: number;
     authorName: string;
     title: string;
+    picture: string;
     isPublic: boolean;
+    accessiblity: string
     description: string;
     method: string;
     categoryIDs: number[];
