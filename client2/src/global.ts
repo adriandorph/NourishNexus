@@ -12,7 +12,7 @@ const global: Global = {
     primaryColor: '#86E981',
     secondaryColor: '#366933',
     textColor: '#FFFFFF',
-    accentColor: '#DBAC34'
+    accentColor: '#ffc445'
 }
 
 export default global;
