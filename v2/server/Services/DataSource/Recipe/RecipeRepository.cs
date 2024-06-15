@@ -2,9 +2,9 @@ using MongoDB.Driver;
 
 namespace server.Services.DataSource;
 
-public class RecipeRepository(IMongoClient mongoClient)
+public class RecipeRepository(IMongoDatabase mongoDB) : IRecipeRepository
 {
-    private readonly IMongoDatabase _mongoDB = mongoClient.GetDatabase("Recipes");
+    private readonly IMongoDatabase _mongoDB = mongoDB;
 
     public async Task<RecipeModel> CreateRecipe(RecipeModel recipe)
     {

@@ -2,7 +2,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using server.Core;
 
-namespace server.Services.DataSource.FoodItem;
+namespace server.Services.DataSource;
 
 public class FoodItemModel
 {

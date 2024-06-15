@@ -2,7 +2,7 @@ using Microsoft.OpenApi.Extensions;
 
 namespace server.Core;
 public enum NutrientType {
-        Calories,
+        Energy,
         Protein,
         Fat,
         Carbohydrates,
@@ -14,7 +14,7 @@ public enum NutrientType {
 public static class NutrientTypeExtensions {
     public static Unit GetUnit(this NutrientType nutrientType) {
         return nutrientType switch {
-            NutrientType.Calories => Unit.Kcal,
+            NutrientType.Energy => Unit.Kcal,
             NutrientType.Protein => Unit.Gram,
             NutrientType.Fat => Unit.Gram,
             NutrientType.Carbohydrates => Unit.Gram,
