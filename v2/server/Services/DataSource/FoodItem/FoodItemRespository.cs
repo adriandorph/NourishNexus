@@ -1,40 +1,48 @@
 using MongoDB.Driver;
+using server.Services.DataSource;
 
-namespace server.Services.DataSource.FoodItem;
+namespace server.Services.DataSource;
 
-public class FoodItemRepository(IMongoClient mongoClient){
-    private readonly IMongoDatabase _mongoDB = mongoClient.GetDatabase("FoodItems");
+public class FoodItemRepository(IMongoDatabase mongoDB) : IFoodItemRepository
+{
+    private readonly IMongoDatabase _mongoDB = mongoDB;
 
-    public async Task<FoodItemModel> CreateFoodItem(FoodItemModel foodItem){
+    public async Task<FoodItemModel> CreateFoodItem(FoodItemModel foodItem)
+    {
         var collection = _mongoDB.GetCollection<FoodItemModel>("FoodItems");
         await collection.InsertOneAsync(foodItem);
         return foodItem;
     }
 
-    public async Task UpdateFoodItem(FoodItemModel foodItem){
+    public async Task UpdateFoodItem(FoodItemModel foodItem)
+    {
         var collection = _mongoDB.GetCollection<FoodItemModel>("FoodItems");
         var filter = Builders<FoodItemModel>.Filter.Eq("Id", foodItem.Id);
         await collection.ReplaceOneAsync(filter, foodItem);
     }
 
-    public async Task DeleteFoodItem(string foodItemId){
+    public async Task DeleteFoodItem(string foodItemId)
+    {
         var collection = _mongoDB.GetCollection<FoodItemModel>("FoodItems");
         var filter = Builders<FoodItemModel>.Filter.Eq("Id", foodItemId);
         await collection.DeleteOneAsync(filter);
     }
 
-    public async Task<FoodItemModel> GetFoodItemById(string foodItemId){
+    public async Task<FoodItemModel> GetFoodItemById(string foodItemId)
+    {
         var collection = _mongoDB.GetCollection<FoodItemModel>("FoodItems");
         var filter = Builders<FoodItemModel>.Filter.Eq("Id", foodItemId);
         return await collection.Find(filter).FirstOrDefaultAsync();
     }
 
-    public async Task<List<FoodItemModel>> GetAllFoodItems(){
+    public async Task<List<FoodItemModel>> GetAllFoodItems()
+    {
         var collection = _mongoDB.GetCollection<FoodItemModel>("FoodItems");
         return await collection.Find(_ => true).ToListAsync();
     }
 
-    public async Task<List<FoodItemModel>> GetFoodItemsByIds(List<string> foodItemIds){
+    public async Task<List<FoodItemModel>> GetFoodItemsByIds(List<string> foodItemIds)
+    {
         var collection = _mongoDB.GetCollection<FoodItemModel>("FoodItems");
         var filter = Builders<FoodItemModel>.Filter.In("Id", foodItemIds);
         return await collection.Find(filter).ToListAsync();
