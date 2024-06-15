@@ -5,6 +5,7 @@ namespace server.Core.Recipe
 {
     public class Ingredient
     {
+        public int Id { get; set; }
         public string Name { get; set; } = "Ingredient Name";
         public float? Quantity { get; set; }
         public Unit? Unit { get; set; }
