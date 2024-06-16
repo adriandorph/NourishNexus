@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server.Services;
-using server.Services.DataSource;
 
 namespace server.Controllers;
 
@@ -12,6 +12,7 @@ public class UserController(IUserService userService, ILogger<UserController> lo
     private readonly ILogger<UserController> _logger = logger;
 
     [HttpPost(Name = "SignUp")]
+    [AllowAnonymous]
     public async Task<IActionResult> SignUp([FromBody] SignUpDto user)
     {
         try {
