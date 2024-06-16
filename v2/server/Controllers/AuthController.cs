@@ -64,19 +64,20 @@ public class AuthController(
 
     private string CreateToken(UserModel user)
     {
-        List<Claim> claims = 
+        List<Claim> claims =
         [
-            new(ClaimTypes.Email, user.Email!),
-            new(ClaimTypes.Name, user.Username!),
-            new(ClaimTypes.NameIdentifier, user.Id!)
+            new Claim(ClaimTypes.Email, user.Email!),
+            new Claim(ClaimTypes.Name, user.Username!),
+            new Claim(ClaimTypes.NameIdentifier, user.Id!)
         ];
 
-        var secret = _configuration.GetSection("Jwt:Secret").Value ?? throw new Exception("Jwt secrets not configured");
+        var secret = _configuration["Jwt:Secret"] ?? throw new Exception("Jwt secret not configured");
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secret));
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-        var token = new JwtSecurityToken
-        (
+        var token = new JwtSecurityToken(
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Audience"],
             claims: claims,
             expires: DateTime.Now.AddDays(1),
             signingCredentials: creds
