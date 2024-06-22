@@ -1,0 +1,10 @@
+global using server.Core;
+global using server.Core.Enums;
+global using System.Text;
+global using System.Collections.Generic;
+global using System.ComponentModel.DataAnnotations;
+global using MongoDB.Driver;
+global using MongoDB.Bson;
+global using MongoDB.Bson.Serialization.Attributes;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,3 @@
-using server.Core;
-
 namespace server.Services.DataSource.UserSource;
 
 public interface IUserRepository

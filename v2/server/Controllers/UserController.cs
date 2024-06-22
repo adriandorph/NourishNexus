@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using server.Services.UserManagement;
 using server.Services.UserManagement.Models;
 

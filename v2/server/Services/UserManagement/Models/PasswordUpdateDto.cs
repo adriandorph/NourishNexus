@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace server.Services.UserManagement.Models;
 public record PasswordUpdateDto
 {

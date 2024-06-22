@@ -1,6 +1,4 @@
 
-using MongoDB.Driver;
-
 namespace server.Services.DataSource.Authentication;
 
 public class AuthenticationRepository(IMongoDatabase mongoDB) : IAuthenticationRepository
