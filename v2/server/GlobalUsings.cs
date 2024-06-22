@@ -1,5 +1,5 @@
-global using server.Core;
-global using server.Core.Enums;
+global using server.Core.Model;
+global using server.Core.Model.Enums;
 global using System.Text;
 global using System.Collections.Generic;
 global using System.ComponentModel.DataAnnotations;

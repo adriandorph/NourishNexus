@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using server.Services.DataSource;
+using server.Core.Infrastructure.MongoDB;
+using server.Core.Services.RecipeManagement;
+using server.Core.Services.UserManagement;
+
 using server.Services.RecipeManagement;
 using server.Services.UserManagement;
-using server.Services.DataSource.RecipeSource;
-using server.Services.DataSource.UserSource;
-using server.Services.DataSource.FoodItemSource;
-using server.Services.DataSource.Authentication;
+
+using server.Infrastructure.MongoDB;
 
 namespace server.Config;
 

@@ -1,9 +1,8 @@
 using System.Net;
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Mvc;
-using server.Services.UserManagement.Models;
-using server.Services.DataSource.UserSource;
-using server.Services.DataSource.Authentication;
+using server.Core.Infrastructure.MongoDB;
+using server.Core.Services.UserManagement;
+using server.Core.Services.UserManagement.DTOs;
 
 namespace server.Services.UserManagement;
 

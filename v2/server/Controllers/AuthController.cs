@@ -2,8 +2,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using server.Services.DataSource.UserSource;
-using server.Services.DataSource.Authentication;
+using server.Core.Infrastructure.MongoDB;
 
 namespace server.Controllers;
 
