@@ -1,6 +1,4 @@
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using server.Core;
 using server.Services.UserManagement.Models;
 
 namespace server.Services.UserManagement;

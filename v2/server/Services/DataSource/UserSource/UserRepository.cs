@@ -1,6 +1,3 @@
-using MongoDB.Driver;
-using server.Core;
-
 namespace server.Services.DataSource.UserSource;
 
 public class UserRepository(IMongoDatabase mongoDB) : IUserRepository 

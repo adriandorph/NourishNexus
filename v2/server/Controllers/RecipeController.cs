@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using server.Core;
 using server.Services.RecipeManagement;
 
 namespace server.Controllers;

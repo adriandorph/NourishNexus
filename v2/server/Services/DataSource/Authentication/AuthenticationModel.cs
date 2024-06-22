@@ -1,6 +1,3 @@
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
 namespace server.Services.DataSource.Authentication;
 public class AuthenticationModel
 {

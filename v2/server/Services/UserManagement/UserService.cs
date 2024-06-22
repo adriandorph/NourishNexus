@@ -1,10 +1,9 @@
 using System.Net;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
+using server.Services.UserManagement.Models;
 using server.Services.DataSource.UserSource;
 using server.Services.DataSource.Authentication;
-using server.Core;
-using server.Services.UserManagement.Models;
 
 namespace server.Services.UserManagement;
 
