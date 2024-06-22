@@ -1,10 +1,9 @@
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using server.Core;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace server.Services.DataSource;
-public class RecipeModel
-{
+namespace server.Core;
+
+public class Recipe {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } = "";

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Services;
+namespace server.Services.UserManagement.Models;
 public record PasswordUpdateDto
 {
     [Required, EmailAddress]

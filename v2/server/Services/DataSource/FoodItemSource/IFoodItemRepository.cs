@@ -1,4 +1,4 @@
-namespace server.Services.DataSource;
+namespace server.Services.DataSource.FoodItemSource;
 public interface IFoodItemRepository
 {
     Task<FoodItemModel> CreateFoodItem(FoodItemModel foodItem);

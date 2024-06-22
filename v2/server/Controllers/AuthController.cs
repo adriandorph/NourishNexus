@@ -3,8 +3,10 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using server.Services.DataSource;
 using System.IdentityModel.Tokens.Jwt;
+using server.Services.DataSource.UserSource;
+using server.Services.DataSource.Authentication;
+using server.Core;
 
 namespace server.Controllers;
 
@@ -43,7 +45,7 @@ public class AuthController(
         }
     }
 
-    private async Task<bool> VerifyCredentials(LoginRequest credentials, UserModel user)
+    private async Task<bool> VerifyCredentials(LoginRequest credentials, User user)
     {
         if (user.Id == null) return false;
 
@@ -62,7 +64,7 @@ public class AuthController(
         return computedHash.SequenceEqual(passwordHash);
     }
 
-    private string CreateToken(UserModel user)
+    private string CreateToken(User user)
     {
         List<Claim> claims =
         [

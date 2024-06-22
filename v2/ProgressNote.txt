@@ -1,2 +1,3 @@
 I gang med at lave hele backenden forfra med MongoDB
-Færdig med auth lav authorization
+Færdig med authorization men ikke testet
+Lav create recipe page osv og forbind med backenden

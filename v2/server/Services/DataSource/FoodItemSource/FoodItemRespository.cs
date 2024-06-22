@@ -1,7 +1,6 @@
 using MongoDB.Driver;
-using server.Services.DataSource;
 
-namespace server.Services.DataSource;
+namespace server.Services.DataSource.FoodItemSource;
 
 public class FoodItemRepository(IMongoDatabase mongoDB) : IFoodItemRepository
 {

@@ -1,4 +1,4 @@
-namespace server.Services.DataSource;
+namespace server.Services.DataSource.Authentication;
 public interface IAuthenticationRepository
 {
     Task<AuthenticationModel?> CreateAuthentication(AuthenticationModel authentication);
