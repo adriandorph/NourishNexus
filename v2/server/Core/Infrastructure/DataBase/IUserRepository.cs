@@ -1,10 +1,10 @@
-namespace server.Core.Infrastructure.MongoDB;
+namespace server.Core.Infrastructure.DataBase;
 
 public interface IUserRepository
 {
     Task<User?> CreateUser(User user);
-    Task UpdateUser(User user);
-    Task DeleteUser(string userId);
+    Task<User?> UpdateUser(User user);
+    Task<bool> DeleteUser(string userId);
     Task<User?> GetUserById(string userId);
     Task<User?> GetUserByEmail(string email);
     Task<List<User>> GetAllUsers();

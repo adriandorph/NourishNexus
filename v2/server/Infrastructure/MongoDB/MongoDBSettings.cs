@@ -1,4 +1,4 @@
-namespace server.Core.Infrastructure.MongoDB;
+namespace server.Infrastructure.MongoDB;
 public class MongoDBSettings
 {
     public string ConnectionString { get; set; } = "";

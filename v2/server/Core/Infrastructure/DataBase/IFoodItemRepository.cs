@@ -1,4 +1,4 @@
-namespace server.Core.Infrastructure.MongoDB;
+namespace server.Core.Infrastructure.DataBase;
 public interface IFoodItemRepository
 {
     Task<FoodItem> CreateFoodItem(FoodItem foodItem);

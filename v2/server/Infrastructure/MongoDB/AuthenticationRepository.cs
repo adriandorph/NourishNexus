@@ -1,4 +1,4 @@
-using server.Core.Infrastructure.MongoDB;
+using server.Core.Infrastructure.DataBase;
 
 namespace server.Infrastructure.MongoDB;
 
@@ -32,10 +32,21 @@ public class AuthenticationRepository(IMongoDatabase mongoDB) : IAuthenticationR
         return await collection.Find(filter).FirstOrDefaultAsync();
     }
 
-    public async Task UpdateAuthentication(AuthenticationModel authentication)
+    public async Task<bool> UpdateAuthentication(AuthenticationModel authentication)
     {
+        if (authentication.UserId == null) return false;
+        var existingAuthentication = await GetAuthenticationByUserId(authentication.UserId);
+        
+        if (existingAuthentication == null) 
+            return await CreateAuthentication(authentication) != null;
+
+        existingAuthentication.PasswordHash = authentication.PasswordHash;
+        existingAuthentication.PasswordSalt = authentication.PasswordSalt;    
+
         var collection = _mongoDB.GetCollection<AuthenticationModel>("Authentication");
         var filter = Builders<AuthenticationModel>.Filter.Eq("UserId", authentication.UserId);
-        await collection.ReplaceOneAsync(filter, authentication);
+        var result = await collection.ReplaceOneAsync(filter, existingAuthentication);
+        
+        return result.IsAcknowledged && result.MatchedCount > 0;
     }
 }

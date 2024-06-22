@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using server.Core.Infrastructure.MongoDB;
+using server.Core.Infrastructure.DataBase;
 using server.Core.Services.RecipeManagement;
 using server.Core.Services.UserManagement;
+using server.Core.Services.Authentication;
 
 using server.Services.RecipeManagement;
 using server.Services.UserManagement;
+using server.Services.Authentication;
 
 using server.Infrastructure.MongoDB;
 
@@ -54,9 +56,11 @@ public class Startup (IConfiguration configuration)
         services.AddSingleton<IFoodItemRepository, FoodItemRepository>();
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddSingleton<IImageRepository, ImageRepository>();
 
         services.AddSingleton<IUserService, UserService>();
         services.AddSingleton<IRecipeService, RecipeService>();
+        services.AddSingleton<IAuthenticationService, AuthenticationService>();
     }
 
     private static void ConfigureRequestPipeline(WebApplication app)

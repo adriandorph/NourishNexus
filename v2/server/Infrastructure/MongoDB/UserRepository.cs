@@ -1,4 +1,4 @@
-using server.Core.Infrastructure.MongoDB;
+using server.Core.Infrastructure.DataBase;
 
 namespace server.Infrastructure.MongoDB;
 
@@ -16,18 +16,21 @@ public class UserRepository(IMongoDatabase mongoDB) : IUserRepository
         return await collection.Find(filter).FirstOrDefaultAsync();
     }
 
-    public async Task UpdateUser(User user)
+    public async Task<User?> UpdateUser(User user)
     {
         var collection = _mongoDB.GetCollection<User>("Users");
         var filter = Builders<User>.Filter.Eq("Id", user.Id);
-        await collection.ReplaceOneAsync(filter, user);
+        var result = await collection.ReplaceOneAsync(filter, user);
+
+        return result.IsAcknowledged && result.MatchedCount > 0 ? user : null; 
     }
 
-    public async Task DeleteUser(string userId)
+    public async Task<bool> DeleteUser(string userId)
     {
         var collection = _mongoDB.GetCollection<User>("Users");
         var filter = Builders<User>.Filter.Eq("Id", userId);
-        await collection.DeleteOneAsync(filter);
+        var result = await collection.DeleteOneAsync(filter);
+        return result.IsAcknowledged && result.DeletedCount > 0;
     }
 
     public async Task<User?> GetUserById(string userId)

@@ -1,4 +1,4 @@
-using server.Core.Infrastructure.MongoDB;
+using server.Core.Infrastructure.DataBase;
 
 namespace server.Infrastructure.MongoDB;
 
