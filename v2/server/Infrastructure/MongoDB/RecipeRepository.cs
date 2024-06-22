@@ -1,4 +1,4 @@
-using server.Core.Infrastructure.MongoDB;
+using server.Core.Infrastructure.DataBase;
 
 namespace server.Infrastructure.MongoDB;
 
@@ -6,7 +6,7 @@ public class RecipeRepository(IMongoDatabase mongoDB) : IRecipeRepository
 {
     private readonly IMongoDatabase _mongoDB = mongoDB;
 
-    public async Task<Recipe> CreateRecipe(Recipe recipe)
+    public async Task<Recipe?> CreateRecipe(Recipe recipe)
     {
         var collection = _mongoDB.GetCollection<Recipe>("Recipes");
         await collection.InsertOneAsync(recipe);
@@ -15,21 +15,27 @@ public class RecipeRepository(IMongoDatabase mongoDB) : IRecipeRepository
         return await collection.Find(filter).FirstOrDefaultAsync();
     }
 
-    public async Task UpdateRecipe(Recipe recipe)
+    public async Task<Recipe?> UpdateRecipe(Recipe recipe)
     {
         var collection = _mongoDB.GetCollection<Recipe>("Recipes");
         var filter = Builders<Recipe>.Filter.Eq("Id", recipe.Id);
-        await collection.ReplaceOneAsync(filter, recipe);
+        var result = await collection.ReplaceOneAsync(filter, recipe);
+
+        var success = result.IsAcknowledged && result.MatchedCount > 0;
+        return success ? recipe : null;
     }
 
-    public async Task DeleteRecipe(string recipeId)
+    public async Task<bool> DeleteRecipe(string recipeId)
     {
         var collection = _mongoDB.GetCollection<Recipe>("Recipes");
         var filter = Builders<Recipe>.Filter.Eq("Id", recipeId);
-        await collection.DeleteOneAsync(filter);
+        var result = await collection.DeleteOneAsync(filter);
+
+        var success = result.IsAcknowledged && result.DeletedCount > 0;
+        return success;
     }
 
-    public async Task<Recipe> GetRecipeById(string recipeId)
+    public async Task<Recipe?> GetRecipeById(string recipeId)
     {
         var collection = _mongoDB.GetCollection<Recipe>("Recipes");
         var filter = Builders<Recipe>.Filter.Eq("Id", recipeId);

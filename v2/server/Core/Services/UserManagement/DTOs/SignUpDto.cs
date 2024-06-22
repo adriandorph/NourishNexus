@@ -1,6 +1,6 @@
 namespace server.Core.Services.UserManagement.DTOs;
 
-public record SignUpDto
+public record SignUpDTO
 {
     [Required]
     public string? Nickname {get; set;}
