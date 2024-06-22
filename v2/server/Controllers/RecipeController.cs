@@ -1,4 +1,4 @@
-using server.Services.RecipeManagement;
+using server.Core.Services.RecipeManagement;
 
 namespace server.Controllers;
 

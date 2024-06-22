@@ -1,5 +1,5 @@
-using server.Services.UserManagement;
-using server.Services.UserManagement.Models;
+using server.Core.Services.UserManagement;
+using server.Core.Services.UserManagement.DTOs;
 
 namespace server.Controllers;
 
