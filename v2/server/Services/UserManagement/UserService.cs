@@ -1,9 +1,12 @@
 using System.Net;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
-using server.Services.DataSource;
+using server.Services.DataSource.UserSource;
+using server.Services.DataSource.Authentication;
+using server.Core;
+using server.Services.UserManagement.Models;
 
-namespace server.Services;
+namespace server.Services.UserManagement;
 
 public class UserService(IUserRepository userRepo, IAuthenticationRepository authRepo) : IUserService
 {
@@ -24,7 +27,7 @@ public class UserService(IUserRepository userRepo, IAuthenticationRepository aut
             return createdUserResult;
         }
 
-        if (okResult.Value is not UserModel createdUser)
+        if (okResult.Value is not User createdUser)
         {
             return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
         }
@@ -40,7 +43,7 @@ public class UserService(IUserRepository userRepo, IAuthenticationRepository aut
         return new OkObjectResult(createdUser);
     }
 
-    public async Task<IActionResult> UpdateUser(UserModel user)
+    public async Task<IActionResult> UpdateUser(User user)
     {
         await _userRepo.UpdateUser(user);
         return new OkResult();
@@ -74,13 +77,13 @@ public class UserService(IUserRepository userRepo, IAuthenticationRepository aut
         return new OkResult();
     }
 
-    public async Task<List<UserModel>> GetAllUsers() => await _userRepo.GetAllUsers();
+    public async Task<List<User>> GetAllUsers() => await _userRepo.GetAllUsers();
 
-    public async Task<UserModel?> GetUserByEmail(string email) => await _userRepo.GetUserByEmail(email);
+    public async Task<User?> GetUserByEmail(string email) => await _userRepo.GetUserByEmail(email);
 
-    public async Task<UserModel?> GetUserById(string userId) => await _userRepo.GetUserById(userId);
+    public async Task<User?> GetUserById(string userId) => await _userRepo.GetUserById(userId);
 
-    public async Task<List<UserModel>> GetUsersByIds(List<string> userIds) => await _userRepo.GetUsersByIds(userIds);
+    public async Task<List<User>> GetUsersByIds(List<string> userIds) => await _userRepo.GetUsersByIds(userIds);
 
 
     private static (byte[] passwordHash, byte[] passwordSalt) CreatePasswordHash(string password)
@@ -93,7 +96,7 @@ public class UserService(IUserRepository userRepo, IAuthenticationRepository aut
 
     private async Task<IActionResult> CreateUser(SignUpDto signUpRequest)
     {
-        var user = new UserModel
+        var user = new User
         {
             Email = signUpRequest.Email,
             Username = signUpRequest.Nickname
@@ -111,7 +114,7 @@ public class UserService(IUserRepository userRepo, IAuthenticationRepository aut
         return new OkObjectResult(createdUser);
     }
 
-    private async Task<AuthenticationModel?> CreateAuthentication(SignUpDto signUpRequest, UserModel user)
+    private async Task<AuthenticationModel?> CreateAuthentication(SignUpDto signUpRequest, User user)
     {
         var (passwordHash, passwordSalt) = CreatePasswordHash(signUpRequest.Password!);
 

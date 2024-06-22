@@ -1,4 +1,4 @@
-namespace server.Core;
+namespace server.Core.Enums;
 public enum Unit {
     Unit,
     Gram,

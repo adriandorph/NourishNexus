@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using server.Services.DataSource;
-using server.Services.Recipe;
+using server.Core;
+using server.Services.RecipeManagement;
 
 namespace server.Controllers;
 
@@ -14,7 +14,7 @@ public class RecipeController(IRecipeService recipeService, ILogger<RecipeContro
 
     [HttpPost(Name = "CreateRecipe")]
     [AllowAnonymous]
-    public async Task<RecipeModel> CreateRecipe()
+    public async Task<Recipe> CreateRecipe()
     {
         return await _recipeService.CreateRecipe();
     }

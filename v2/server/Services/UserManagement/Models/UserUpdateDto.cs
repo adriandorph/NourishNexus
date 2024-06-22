@@ -1,4 +1,4 @@
-namespace server.Services.User;
+namespace server.Services.UserManagement.Models;
 
 public record UserUpdateDto
 {

@@ -1,15 +1,16 @@
 using server.Core;
-using server.Services.DataSource;
+using server.Core.Enums;
+using server.Services.DataSource.RecipeSource;
 
-namespace server.Services.Recipe;
+namespace server.Services.RecipeManagement;
 
 public class RecipeService(IRecipeRepository recipeRepository) : IRecipeService
 {
     private readonly IRecipeRepository _recipeRepository = recipeRepository;
 
-    public Task<RecipeModel> CreateRecipe()
+    public Task<Recipe> CreateRecipe()
     {
-        var recipe = new RecipeModel
+        var recipe = new Recipe
         {
             AuthorId = "123",
             Title = "Buns",
