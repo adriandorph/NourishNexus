@@ -11,6 +11,6 @@ public class Recipe {
     public string? ImageId { get; set; }
     public string? Steps { get; set; }
     public Accessibility Accessibility { get; set; }
-    public Ingredient[] Ingredients { get; set; } = [];
-    public Nutrient[] TotalNutrients { get; set; } = [];
+    public List<Ingredient> Ingredients { get; set; } = [];
+    public List<Nutrient> TotalNutrients { get; set; } = [];
 }

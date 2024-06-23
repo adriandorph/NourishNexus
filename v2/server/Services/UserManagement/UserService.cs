@@ -79,7 +79,7 @@ public class UserService(
 
     public async Task<User?> UpdateUserDetailsAsync(UpdateUserDetailsDTO updateUserDetailsDTO)
     {
-        var user = await _userRepo.GetUserById(updateUserDetailsDTO.UserId);
+        var user = await _userRepo.GetUserByIdAsync(updateUserDetailsDTO.UserId);
         if (user == null) return null;
 
         if (updateUserDetailsDTO.Email != null) user.Email = updateUserDetailsDTO.Email;
@@ -92,7 +92,7 @@ public class UserService(
     public async Task<Image?> UpdateProfilePictureAsync(UpdateProfilePictureDTO updateProfilePictureDTO)
     {
         //TODO: Add authorization check so only the user can update their profile picture
-        var user = await _userRepo.GetUserById(updateProfilePictureDTO.UserId);
+        var user = await _userRepo.GetUserByIdAsync(updateProfilePictureDTO.UserId);
         if (user == null) return null;
 
         if (user.ProfilePictureId != null)
@@ -123,7 +123,7 @@ public class UserService(
     public async Task<bool> DeleteProfilePictureAsync(string userId) 
     {
         //TODO: Add authorization check so only the user can delete their profile picture
-        var user = await _userRepo.GetUserById(userId);
+        var user = await _userRepo.GetUserByIdAsync(userId);
         if (user == null || user.ProfilePictureId == null) return false;
 
         return await _imageRepo.DeleteImageAsync(user.ProfilePictureId);
@@ -133,7 +133,7 @@ public class UserService(
 
     public async Task<User?> GetUserByEmailAsync(string email) => await _userRepo.GetUserByEmail(email);
 
-    public async Task<User?> GetUserByIdAsync(string userId) => await _userRepo.GetUserById(userId);
+    public async Task<User?> GetUserByIdAsync(string userId) => await _userRepo.GetUserByIdAsync(userId);
 
     public async Task<List<User>> GetUsersByIdsAsync(List<string> userIds) => await _userRepo.GetUsersByIds(userIds);
 
