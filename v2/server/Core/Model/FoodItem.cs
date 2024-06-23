@@ -14,15 +14,15 @@ public class FoodItem
     public Source Source { get; set; }
     public string? AuthorId { get; set; }
     public string? Description { get; set; }
-    public bool HasNutrition { get { return Nutrients.Length > 0; } }
+    public bool HasNutrition { get { return Nutrients.Count > 0; } }
     
     /// <summary>
     /// Nutrients are per gram of the food item.
     /// </summary>
-    public Nutrient[] Nutrients { get; set; } = [];
+    public List<Nutrient> Nutrients { get; set; } = [];
 
     /// <summary>
     /// Unit conversions are from grams to a different unit.
     /// </summary>
-    public UnitConversion[] UnitConversions { get; set; } = [];
+    public List<UnitConversion> UnitConversions { get; set; } = [];
 }

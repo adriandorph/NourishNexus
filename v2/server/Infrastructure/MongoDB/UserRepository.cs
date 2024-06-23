@@ -33,7 +33,7 @@ public class UserRepository(IMongoDatabase mongoDB) : IUserRepository
         return result.IsAcknowledged && result.DeletedCount > 0;
     }
 
-    public async Task<User?> GetUserById(string userId)
+    public async Task<User?> GetUserByIdAsync(string userId)
     {
         var collection = _mongoDB.GetCollection<User>("Users");
         var filter = Builders<User>.Filter.Eq("Id", userId);

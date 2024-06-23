@@ -5,12 +5,14 @@ using server.Core.Infrastructure.DataBase;
 using server.Core.Services.RecipeManagement;
 using server.Core.Services.UserManagement;
 using server.Core.Services.Authentication;
+using server.Core.Services.SavedRecipes;
 
 using server.Services.RecipeManagement;
 using server.Services.UserManagement;
 using server.Services.Authentication;
 
 using server.Infrastructure.MongoDB;
+using server.Services.SaveRecipe;
 
 namespace server.Config;
 
@@ -21,28 +23,41 @@ public class Startup (IConfiguration configuration)
     public void Start()
     {
         var builder = WebApplication.CreateBuilder();
+
+        // Add services to the container.
+        ConfigureAuthentication(builder.Services);
+        ConfigureAuthorization(builder.Services);
+
+        ConfigureControllerServices(builder.Services);
+        ConfigureInfrastructure(builder.Services);
         ConfigureServices(builder.Services);
+        
         var app = builder.Build();
         ConfigureRequestPipeline(app);
         app.Run();
     }
 
-    private void ConfigureServices(IServiceCollection services)
+    private static void ConfigureControllerServices(IServiceCollection services)
     {
-        // Add services to the container.
-        ConfigureAuthentication(services);
-        ConfigureAuthorization(services);
-
         services.AddControllers();
-
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+    }
 
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddSingleton<IUserService, UserService>();
+        services.AddSingleton<IRecipeService, RecipeService>();
+        services.AddSingleton<IAuthenticationService, AuthenticationService>();
+        services.AddSingleton<ISavedRecipeService, SaveRecipeService>();
+    }
+
+    private void ConfigureInfrastructure(IServiceCollection services)
+    {
         // Configure MongoDB settings
         services.Configure<MongoDBSettings>(_configuration.GetSection("MongoDB"));
-
 
         // Register MongoDB client
         services.AddSingleton<IMongoDatabase>(sp =>
@@ -57,10 +72,6 @@ public class Startup (IConfiguration configuration)
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
         services.AddSingleton<IImageRepository, ImageRepository>();
-
-        services.AddSingleton<IUserService, UserService>();
-        services.AddSingleton<IRecipeService, RecipeService>();
-        services.AddSingleton<IAuthenticationService, AuthenticationService>();
     }
 
     private static void ConfigureRequestPipeline(WebApplication app)
