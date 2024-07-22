@@ -18,7 +18,7 @@ public class RecipeController(IRecipeService recipeService, ILogger<RecipeContro
         try {
             var result = await _recipeService.CreateRecipeAsync(recipeCreateDTO);
             if (result == null) return BadRequest();
-            return Ok(result);
+            return CreatedAtAction(nameof(GetRecipe), new {result.Id}, result.ToDTO());
         } catch (Exception e) {
             _logger.LogError(e, "Error creating recipe");
             return StatusCode(500, "Error creating recipe");
@@ -33,7 +33,7 @@ public class RecipeController(IRecipeService recipeService, ILogger<RecipeContro
         try {
             var result = await _recipeService.UpdateRecipeAsync(recipeUpdateDTO);
             if (result == null) return BadRequest();
-            return Ok(result);
+            return Ok(result.ToDTO());
         } catch (Exception e) {
             _logger.LogError(e, "Error updating recipe");
             return StatusCode(500, "Error updating recipe");
@@ -45,7 +45,7 @@ public class RecipeController(IRecipeService recipeService, ILogger<RecipeContro
     {
         try {
             var result = await _recipeService.GetRecipeAsync(recipeId);
-            return result != null ? Ok(result) : NotFound();
+            return result != null ? Ok(result.ToDTO()) : NotFound();
         } catch (Exception e) {
             _logger.LogError(e, "Error getting recipe");
             return StatusCode(500, "Error getting recipe");

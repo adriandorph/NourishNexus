@@ -2,11 +2,12 @@ import { useState } from 'react';
 import '../styles/NNButton.scss';
 
 interface NNButtonProps {
-    onClick: () => void;
+    onClick?: () => void;
     text: string;
     color: string;
     textColor: string;
     sizePX: number;
+    type?: 'button' | 'submit';
 }
 
 function NNButton(props: NNButtonProps) {
@@ -22,8 +23,9 @@ function NNButton(props: NNButtonProps) {
 
     return (
         <>
-            <div 
-                className="nnbutton" 
+            <button 
+                className="nnbutton"
+                type={props.type || 'button'}
                 style={{
                     backgroundColor: props.color, 
                     color: props.textColor,
@@ -37,7 +39,7 @@ function NNButton(props: NNButtonProps) {
                 onMouseLeave={handleMouseLeave}
             >
                 {props.text}
-            </div>
+            </button>
         </>
     );
 }

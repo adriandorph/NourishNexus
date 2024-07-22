@@ -6,6 +6,6 @@ namespace server.Core.Services.RecipeManagement.DTOs
         string? Description,
         string? Steps,
         [Required] string Accessibility,
-        [Required] List<Ingredient> Ingredients
+        [Required] List<IngredientDTO> Ingredients
     );
 }

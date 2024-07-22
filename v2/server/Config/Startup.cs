@@ -31,6 +31,7 @@ public class Startup (IConfiguration configuration)
         ConfigureControllerServices(builder.Services);
         ConfigureInfrastructure(builder.Services);
         ConfigureServices(builder.Services);
+        ConfigureCors(builder.Services);
         
         var app = builder.Build();
         ConfigureRequestPipeline(app);
@@ -85,6 +86,8 @@ public class Startup (IConfiguration configuration)
 
         //app.UseHttpsRedirection();
 
+        app.UseCors("AllowOrigin");
+
         app.UseAuthorization();
 
         app.MapControllers();
@@ -132,5 +135,25 @@ public class Startup (IConfiguration configuration)
         services.AddAuthorizationBuilder()
             .AddPolicy("Admin", policy => policy.RequireRole("Admin"))
             .AddPolicy("User", policy => policy.RequireRole("User"));
+    }
+
+    private static void ConfigureCors(IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: "AllowOrigin",
+                pol =>
+                {
+                    pol.WithOrigins(
+                        "https://localhost:7138",
+                        "http://client.localhost",
+                        "http://localhost:5173",
+                        "http://127.0.0.1:5173"
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+                });
+        });
     }
 }

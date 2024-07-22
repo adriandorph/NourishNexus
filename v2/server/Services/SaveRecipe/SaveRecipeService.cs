@@ -16,7 +16,8 @@ public class SaveRecipeService(
         if (user == null) return null;
 
         var recipeIds = user.SavedRecipeIds;
-        return await _recipeRepo.GetRecipedByIds(recipeIds);
+
+        return await GetSavedAndAuthoredRecipes(userId, recipeIds);
     }
 
     public async Task<List<Recipe>?> SaveRecipeAsync(string recipeId, string userId)
@@ -26,15 +27,20 @@ public class SaveRecipeService(
 
         var recipe = await _recipeRepo.GetRecipeById(recipeId);
         if (recipe == null) return null;
-        
-        if (user.SavedRecipeIds.Contains(recipeId))
-            return await _recipeRepo.GetRecipedByIds(user.SavedRecipeIds);
+
+        var authoredRecipes = await _recipeRepo.GetRecipesByAuthorId(userId);
+
+        if (authoredRecipes.Exists(ar => ar.AuthorId == userId) || user.SavedRecipeIds.Contains(recipeId))
+        {
+            var savedRecipes = await _recipeRepo.GetRecipeByIds(user.SavedRecipeIds);
+            return [.. savedRecipes, .. authoredRecipes];
+        }
 
         user.SavedRecipeIds.Add(recipeId);
         var updatedUser = await _userRepo.UpdateUser(user);
         if (updatedUser == null) return null;
         
-        return await _recipeRepo.GetRecipedByIds(updatedUser.SavedRecipeIds);
+        return await GetSavedAndAuthoredRecipes(userId, updatedUser.SavedRecipeIds);
     }
 
     public async Task<List<Recipe>?> UnsaveRecipeAsync(string userId, string recipeId)
@@ -50,7 +56,13 @@ public class SaveRecipeService(
         var updatedUser = await _userRepo.UpdateUser(user);
         if (updatedUser == null) return null;
 
-        var savedRecipes = await _recipeRepo.GetRecipedByIds(updatedUser.SavedRecipeIds);
-        return savedRecipes;
+        return await GetSavedAndAuthoredRecipes(userId, updatedUser.SavedRecipeIds);
+    }
+
+    private async Task<List<Recipe>> GetSavedAndAuthoredRecipes(string userId, List<string> recipeIds)
+    {
+        var savedRecipes = await _recipeRepo.GetRecipeByIds(recipeIds);
+        var authoredRecipes = await _recipeRepo.GetRecipesByAuthorId(userId);
+        return [.. savedRecipes, .. authoredRecipes];
     }
 }

@@ -20,7 +20,7 @@ public static class AccessibilityExtensions {
         };
     }
 
-    public static Accessibility GetAccessibilityEnum(this string accessibility) {
+    public static Accessibility ToAccessibility(this string accessibility) {
         return accessibility switch {
             "Public" => Accessibility.Public,
             "Private" => Accessibility.Private,

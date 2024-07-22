@@ -55,7 +55,7 @@ public class RecipeRepository(IMongoDatabase mongoDB) : IRecipeRepository
         return await collection.Find(filter).ToListAsync();
     }
 
-    public async Task<List<Recipe>> GetRecipedByIds(List<string> recipeIds) {
+    public async Task<List<Recipe>> GetRecipeByIds(List<string> recipeIds) {
         var collection = _mongoDB.GetCollection<Recipe>("Recipes");
         var filter = Builders<Recipe>.Filter.In("Id", recipeIds);
         return await collection.Find(filter).ToListAsync();
