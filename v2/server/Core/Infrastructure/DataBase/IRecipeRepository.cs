@@ -8,5 +8,5 @@ public interface IRecipeRepository
     Task<Recipe?> GetRecipeById(string recipeId);
     Task<List<Recipe>> GetAllRecipes();
     Task<List<Recipe>> GetRecipesByAuthorId(string authorId);
-    Task<List<Recipe>> GetRecipedByIds(List<string> recipeIds);
+    Task<List<Recipe>> GetRecipeByIds(List<string> recipeIds);
 }

@@ -16,10 +16,11 @@ public class RecipeService(
         var recipe = new Recipe
         {
             Title = recipeCreateDTO.Title,
+            AuthorId = recipeCreateDTO.AuthorId,
             Description = recipeCreateDTO.Description,
             Steps = recipeCreateDTO.Steps,
-            Accessibility = recipeCreateDTO.Accessibility.GetAccessibilityEnum(),
-            Ingredients = recipeCreateDTO.Ingredients
+            Accessibility = recipeCreateDTO.Accessibility.ToAccessibility(),
+            Ingredients = recipeCreateDTO.Ingredients.Select(Ingredient.FromDTO).ToList()
         };
 
         return await _recipeRepository.CreateRecipe(recipe);
@@ -33,8 +34,8 @@ public class RecipeService(
         recipe.Title = recipeUpdateDTO.Title;
         recipe.Description = recipeUpdateDTO.Description;
         recipe.Steps = recipeUpdateDTO.Steps;
-        recipe.Accessibility = recipeUpdateDTO.Accessibility.GetAccessibilityEnum();
-        recipe.Ingredients = recipeUpdateDTO.Ingredients;
+        recipe.Accessibility = recipeUpdateDTO.Accessibility.ToAccessibility();
+        recipe.Ingredients = recipeUpdateDTO.Ingredients.Select(Ingredient.FromDTO).ToList();
 
         return await _recipeRepository.UpdateRecipe(recipe);
     }

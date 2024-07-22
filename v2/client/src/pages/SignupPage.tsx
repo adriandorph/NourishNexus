@@ -16,7 +16,8 @@ function SignupPage() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
-    async function handleSignup() {
+    async function handleSignup(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
         console.log('email:', email);
         console.log('nickname:', nickname);
         console.log('password:', password);
@@ -34,7 +35,7 @@ function SignupPage() {
     }
 
     return (
-        <div className='centered-container'>
+        <form className='centered-container' onSubmit={(e:any) => handleSignup(e)}>
             <Logo/>
             <div className='input-fields'>
                 <InputField 
@@ -62,8 +63,8 @@ function SignupPage() {
                     title='Confirm Password'
                     type='password' />
             </div>
-            <NNButton 
-                onClick={handleSignup} 
+            <NNButton
+                type='submit'
                 text='sign up' 
                 color={global.primaryColor} 
                 textColor='black' 
@@ -71,7 +72,7 @@ function SignupPage() {
             <div className='sign-up'>
                 Already have an account? <a href='/authenticate'>Log in here</a>
             </div>
-        </div>
+        </form>
     );
 }
 
@@ -87,7 +88,5 @@ async function postUser(email: string, nickname: string, password: string, confi
     );
     return res.status === 200;
 }
-
-
 
 export default SignupPage;

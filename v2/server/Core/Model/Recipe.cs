@@ -13,4 +13,46 @@ public class Recipe {
     public Accessibility Accessibility { get; set; }
     public List<Ingredient> Ingredients { get; set; } = [];
     public List<Nutrient> TotalNutrients { get; set; } = [];
+
+    public RecipeDTO ToDTO()
+    => new (
+        Id,
+        AuthorId,
+        Fork,
+        Title,
+        Description,
+        ImageId,
+        Steps,
+        Accessibility.GetDescription(),
+        Ingredients.Select(ingredient => ingredient.ToDTO()).ToList(),
+        TotalNutrients.Select(nutrient => nutrient.ToDTO()).ToList()
+    );
+
+    public static Recipe FromDTO(RecipeDTO dto)
+    => new()
+    {
+        Id = dto.Id,
+        AuthorId = dto.AuthorId,
+        Fork = dto.Fork,
+        Title = dto.Title,
+        Description = dto.Description,
+        ImageId = dto.ImageId,
+        Steps = dto.Steps,
+        Accessibility = dto.Accessibility.ToAccessibility(),
+        Ingredients = dto.Ingredients.Select(Ingredient.FromDTO).ToList(),
+        TotalNutrients = dto.TotalNutrients.Select(Nutrient.FromDTO).ToList()
+    };
 }
+
+public record RecipeDTO(
+    [Required] string Id,
+    [Required] string? AuthorId,
+    Fork? Fork,
+    [Required] string Title,
+    string? Description,
+    string? ImageId,
+    string? Steps,
+    [Required] string Accessibility,
+    [Required] List<IngredientDTO> Ingredients,
+    [Required] List<NutrientDTO> TotalNutrients
+);

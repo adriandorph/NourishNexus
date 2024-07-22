@@ -1,17 +1,11 @@
+import IngredientsMethod from '../components/recipe/IngredientsMethod/IngredientsMethod'
 import '../styles/RecipePage.scss'
+import { Recipe, exampleRecipe } from '../types/recipe'
 
 
 function RecipePage() {
 
-    const recipe = {
-        id: 1,
-        authorId: 1,
-        title: "Vodka Pasta",
-        description: "A very great and nice pasta recipe with vodka and pasta and tomato sauce and parmesan cheese and some green stuff on top. This is a very traditional very authentic pasta with some vodka. It is very Italian and it has a lot of nice italian flavor buildt into it but sadly it is not very healthy. It is very good though and I hope you enjoy it. It is very easy to make and it",
-        method: "Take the vodka and splash it into the tomato sauce and katapult it into the pasta.",
-        picture: "vodka-pasta.jpg.webp",
-        accessiblity: "public"
-    }
+    const recipe: Recipe = exampleRecipe;
 
     return (
     <div className='centered-container'>
@@ -33,21 +27,7 @@ function RecipePage() {
                 <div className='description-divider'></div>
                 <div className='description text'>{recipe.description}</div>
             </div>
-            <div className='ingredients-method-container'>
-                <div className='ingredients-method-navigator'>
-                    <div className='navigator-tab'>
-                        <div className='tab-label'>Ingredients</div>
-                        <div className='tab-selected'></div>
-                    </div>
-                    <div className='navigator-tab'>
-                        <div className='tab-label'>Method</div>
-                        <div className='tab-selected selected'></div>
-                    </div>
-                </div>
-                <div className='ingredients-method-text'>
-                    {recipe.method}
-                </div>
-            </div>
+            <IngredientsMethod ingredients={recipe.ingredietns} method={recipe.method} />
         </div>
     </div>
     )
