@@ -29,7 +29,18 @@ const IngredientsMethod = ({ ingredients, method }: IngredientsMethodProps) => {
             </div>
             <div className='ingredients-method-text'>
                 {selectedTab !== 'ingredients' && method}
-                {selectedTab === 'ingredients' && ingredients.map((ingredient, index) => <IngredientComponent key={index} ingredient={ingredient} />)}
+                {selectedTab === 'ingredients' && 
+                    <div className='ingredients'>
+                        <div className='ingredients-ingredients'>
+                            {ingredients.map((ingredient, index) => <IngredientComponent key={index} ingredient={ingredient} />)}
+                        </div>
+                        <div className='total-nutrition-details'>
+
+                            
+
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     )

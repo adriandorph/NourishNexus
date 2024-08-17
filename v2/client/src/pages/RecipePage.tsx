@@ -27,7 +27,7 @@ function RecipePage() {
                 <div className='description-divider'></div>
                 <div className='description text'>{recipe.description}</div>
             </div>
-            <IngredientsMethod ingredients={recipe.ingredietns} method={recipe.method} />
+            <IngredientsMethod ingredients={recipe.ingredients} method={recipe.method} />
         </div>
     </div>
     )
