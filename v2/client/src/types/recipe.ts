@@ -1,6 +1,6 @@
 import { Author, exampleAuthor } from "./author";
 import { Ingredient, exampleIngredient } from "./ingredient";
-import { Nutrient, exampleNutrient } from "./nutrient";
+import { Nutrient, exampleNutrient, exampleNutrientCarbs, exampleNutrientEnergy, exampleNutrientFat, exampleNutrientProtein } from "./nutrient";
 
 export type Recipe = {
     id: string;
@@ -12,7 +12,7 @@ export type Recipe = {
     picture: string;
     method: string;
     accessiblity: "Public" | "Private" | "Friends" | "Followers" | "Restricted";
-    ingredietns: Ingredient[];
+    ingredients: Ingredient[];
     totalNutrients: Nutrient[];
 }
 
@@ -35,6 +35,6 @@ export const exampleRecipe: Recipe = {
     method: "Take the vodka and splash it into the tomato sauce and katapult it into the pasta.",
     picture: "vodka-pasta.jpg.webp",
     accessiblity: "Public",
-    ingredietns: [exampleIngredient],
-    totalNutrients: [exampleNutrient]
+    ingredients: [exampleIngredient, exampleIngredient, exampleIngredient],
+    totalNutrients: [exampleNutrient, exampleNutrientEnergy, exampleNutrientProtein, exampleNutrientCarbs, exampleNutrientFat]
 }

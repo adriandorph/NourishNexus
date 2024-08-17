@@ -1,4 +1,4 @@
-import { Nutrient, exampleNutrient } from './nutrient';
+import { Nutrient, exampleNutrient, exampleNutrientEnergy, exampleNutrientProtein, exampleNutrientCarbs, exampleNutrientFat} from './nutrient';
 
 export type Ingredient = {
     name: string;
@@ -9,9 +9,9 @@ export type Ingredient = {
 }
 
 export const exampleIngredient: Ingredient = {
-    name: 'example ingredient',
-    quantity: '1',
-    unit: 'unit',
+    name: 'Example Ingredient',
+    quantity: '400',
+    unit: 'g',
     hasNutrition: true,
-    Nutrients: [exampleNutrient]
+    Nutrients: [exampleNutrient, exampleNutrientEnergy, exampleNutrientProtein, exampleNutrientCarbs, exampleNutrientFat]
 };

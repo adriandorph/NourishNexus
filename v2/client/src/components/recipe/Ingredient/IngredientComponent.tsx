@@ -1,15 +1,45 @@
 import { Ingredient } from "../../../types/ingredient";
+import { Nutrient } from "../../../types/nutrient";
 import './IngredientComponent.scss';
 
 interface IngredientProps {
     ingredient: Ingredient;
 }
 
+const findNutrientAmount = (nutrientType: string, nutrients: Nutrient[]): string => {
+    for (let i = 0; i < nutrients.length; i++) {
+        if (nutrients[i].nutrientType === nutrientType) {
+            return nutrients[i].amount.toString();
+        }
+    }
+    return '?';
+}
+
 const IngredientComponent = ({ ingredient }:IngredientProps) => {
-    //TODO: Make
     return (
         <div className='ingredient-container'>
-            {ingredient.name}
+            <div className='ingredient-name-amount'>{ingredient.name} • {ingredient.quantity}{ingredient.unit}</div>
+            {ingredient.hasNutrition && <div className='ingredient-macros'>
+                <div className='macro'>
+                    <div className="macro-amount">{findNutrientAmount('energy', ingredient.Nutrients)} kcal</div>
+                    <div className="macro-name">Energy</div>
+                </div>
+                <div className='macro-separator'/>
+                <div className='macro'>
+                    <div className="macro-amount">{findNutrientAmount('protein', ingredient.Nutrients)}g</div>
+                    <div className="macro-name">Protein</div>
+                </div>
+                <div className='macro-separator'/>
+                <div className='macro'>
+                    <div className="macro-amount">{findNutrientAmount('carbs', ingredient.Nutrients)}g</div>
+                    <div className="macro-name">Carbs</div>
+                </div>
+                <div className='macro-separator'/>
+                <div className='macro'>
+                    <div className="macro-amount">{findNutrientAmount('fat', ingredient.Nutrients)}g</div>
+                    <div className="macro-name">Fat</div>
+                </div>
+            </div>}
         </div>
     )
 }
