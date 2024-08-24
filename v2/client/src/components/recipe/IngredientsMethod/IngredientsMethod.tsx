@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Ingredient } from '../../../types/ingredient';
-import IngredientComponent from '../Ingredient/IngredientComponent';
+import IngredientComponent from '../../Ingredient/Ingredient/IngredientComponent';
 import './IngredientsMethod.scss';
+import NutritionDetails from '../../NutritionDetails/NutritionDetails';
+import { Nutrient } from '../../../types/nutrient';
 
 interface IngredientsMethodProps {
     ingredients: Ingredient[];
@@ -13,6 +15,19 @@ const IngredientsMethod = ({ ingredients, method }: IngredientsMethodProps) => {
 
     const tabSelectClass = (tab: string): string => {
         return tab === selectedTab ? 'tab-selected selected' : 'tab-selected';
+    }
+
+    const totalNutrients = (ingredients: Ingredient[]): Nutrient[] => {
+        const sumNutrients = new Map<string, Nutrient>();
+        ingredients.forEach((ingredient) => {
+            ingredient.nutrients.forEach((nutrient) => {
+                const newNutrient = sumNutrients.get(nutrient.nutrientType) 
+                || {nutrientType: nutrient.nutrientType, amount: 0, unit: nutrient.unit};
+                newNutrient.amount += nutrient.amount;
+                sumNutrients.set(nutrient.nutrientType, newNutrient);
+            });
+        });
+        return Array.from(sumNutrients.entries()).map(([_, value]) => value);
     }
 
     return (
@@ -35,9 +50,8 @@ const IngredientsMethod = ({ ingredients, method }: IngredientsMethodProps) => {
                             {ingredients.map((ingredient, index) => <IngredientComponent key={index} ingredient={ingredient} />)}
                         </div>
                         <div className='total-nutrition-details'>
-
-                            
-
+                            <div className='total-nutrition-details-label'>Total Nutrition</div>
+                            <NutritionDetails nutrients={totalNutrients(ingredients)} enableHideNutrients={true}/>
                         </div>
                     </div>
                 }

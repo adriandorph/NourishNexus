@@ -12,7 +12,7 @@ function SearchBar(props: SearchBarProps) {
             <input 
                 type='text' 
                 placeholder={props.placeholder} 
-                onChange={props.onChange} 
+                onChange={(e) => props.onChange(e.target.value)}
             />
         </div>
     );

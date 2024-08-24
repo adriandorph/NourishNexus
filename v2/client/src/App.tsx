@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound'
 import DiscoverPage from './pages/DiscoverPage'
 import NiceTry from './pages/NiceTry'
 import RecipePage from './pages/RecipePage'
+import IngredientNavigatorPage from './pages/IngredientNavigatorPage/IngredientNavigatorPage'
+import IngredientPage from './pages/IngredientPage/IngredientPage'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ProfilePage from './pages/ProfilePage'
@@ -20,7 +22,9 @@ function App() {
                 <Route path="/discover" Component={DiscoverPage} />
                 <Route path="/profile" Component={ProfilePage} />
                 <Route path="/nicetry" Component={NiceTry} />
-                <Route path="/recipe" Component={RecipePage}></Route>
+                <Route path="/recipe" Component={RecipePage} />
+                <Route path="/ingredients" Component={IngredientNavigatorPage} />
+                <Route path="/ingredient/:id" Component={IngredientPage} />
 
                 <Route path="*" Component={NotFound} />
             </Routes>
