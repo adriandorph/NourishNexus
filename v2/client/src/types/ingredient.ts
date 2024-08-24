@@ -5,7 +5,7 @@ export type Ingredient = {
     quantity: string;
     unit: string;
     hasNutrition: boolean;
-    Nutrients: Nutrient[];
+    nutrients: Nutrient[];
 }
 
 export const exampleIngredient: Ingredient = {
@@ -13,5 +13,5 @@ export const exampleIngredient: Ingredient = {
     quantity: '400',
     unit: 'g',
     hasNutrition: true,
-    Nutrients: [exampleNutrient, exampleNutrientEnergy, exampleNutrientProtein, exampleNutrientCarbs, exampleNutrientFat]
+    nutrients: [exampleNutrient, exampleNutrientEnergy, exampleNutrientProtein, exampleNutrientCarbs, exampleNutrientFat]
 };

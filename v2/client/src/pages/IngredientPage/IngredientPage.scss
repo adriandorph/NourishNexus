@@ -1,0 +1,46 @@
+@import '../../styles/global.scss';
+
+.ingredient-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ingredient-page-name {
+    font-size: 25px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.ingredient-page-nutrition-details {
+    margin-top: 30px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ingredient-page-control-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+@media screen and (min-width: 800px) {
+    .ingredient-page-container {
+        width: 750px;
+        margin-top: 30px;
+    }
+
+    .centered {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

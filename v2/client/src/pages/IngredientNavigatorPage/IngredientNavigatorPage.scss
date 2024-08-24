@@ -1,0 +1,46 @@
+@import '../../styles/global.scss';
+
+.ingredient-navigator-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ingredient-navigator-title {
+    font-size: 25px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.ingredient-navigator-search-results {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ingredient-navigator-option {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 800px) {
+    .ingredient-navigator-container {
+        width: 750px;
+        margin-top: 30px;
+    }
+
+    .centered {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

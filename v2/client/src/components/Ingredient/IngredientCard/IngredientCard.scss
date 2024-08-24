@@ -1,0 +1,17 @@
+@import '../../../styles/global.scss';
+
+.ingredient-card {
+    padding: 15px 0px 20px 20px;
+
+    display: flex;
+    justify-content: start;
+
+    width: min(85svw, 400px);
+    border: 1px solid $secondary-color;
+    border-radius: 20px;
+}
+
+.ingredient-card:hover {
+    background-color: $secondary-color;
+    color: $primary-color;
+}
