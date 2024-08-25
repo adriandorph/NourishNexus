@@ -5,7 +5,7 @@ import SignupPage from './pages/SignupPage'
 import NotFound from './pages/NotFound'
 import DiscoverPage from './pages/DiscoverPage'
 import NiceTry from './pages/NiceTry'
-import RecipePage from './pages/RecipePage'
+import RecipePage from './pages/RecipePage/RecipePage'
 import IngredientNavigatorPage from './pages/IngredientNavigatorPage/IngredientNavigatorPage'
 import IngredientPage from './pages/IngredientPage/IngredientPage'
 
@@ -22,7 +22,7 @@ function App() {
                 <Route path="/discover" Component={DiscoverPage} />
                 <Route path="/profile" Component={ProfilePage} />
                 <Route path="/nicetry" Component={NiceTry} />
-                <Route path="/recipe" Component={RecipePage} />
+                <Route path="/recipe/:id" Component={RecipePage} />
                 <Route path="/ingredients" Component={IngredientNavigatorPage} />
                 <Route path="/ingredient/:id" Component={IngredientPage} />
 

@@ -71,3 +71,23 @@
     justify-content: start;
     width: 100%;
 }
+
+.add-ingredient-button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.ingredient-row {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.remove {
+    width: 16px;
+    height: 16px;
+}

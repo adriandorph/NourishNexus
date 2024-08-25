@@ -1,0 +1,14 @@
+@import '../../styles/global.scss';
+
+.nn-text-area {
+    all: unset;
+    transition: height 0.5s;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    background-color: inherit;
+    border: 1px solid $secondary-color;
+    border-radius: 10px;
+    padding: 2px 5px 2px 5px;
+    width: calc(100% - 20px);
+}
