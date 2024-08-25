@@ -1,4 +1,8 @@
-@import 'global.scss';
+@import '../../styles/global.scss';
+
+textarea {
+    all: unset;
+}
 
 .image-replacement {
     background-color: black;
@@ -13,6 +17,27 @@
 .image-title {
     position: relative;
     height: min(60svw, 450px)
+}
+
+.image-top-buttons-container {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.image-top-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    z-index: 3;
+    margin-top: 10px;
+}
+
+.image-top-buttons-cluster {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 .image-title-divider {
@@ -65,12 +90,20 @@
 
 .text {
     font-size: 15px;
+    height: fit-content;
+    text-wrap: wrap;
+    word-wrap: break-word;
+    white-space: normal;
+    text-overflow: clip;
+    overflow: visible;
+    display: block;
 }
 
 .details {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10ox;
@@ -82,6 +115,19 @@
     display: flex;
     justify-content: space-between;
     height: 40px;
+    width: 100%;
+}
+
+
+.recipe-save-cancel {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 100%;
+    max-width: 300px;
 }
 
 @media screen and (min-width: 800px) {
@@ -96,5 +142,9 @@
 
     .image {
         height: 450px;
+    }
+
+    .image-top-buttons {
+        margin-top: 20px;
     }
 }
