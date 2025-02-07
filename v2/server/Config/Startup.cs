@@ -53,6 +53,8 @@ public class Startup (IConfiguration configuration)
         services.AddSingleton<IRecipeService, RecipeService>();
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<ISavedRecipeService, SaveRecipeService>();
+        services.AddSingleton<IRecipeAssembler, RecipeAssembler>();
+        services.AddSingleton<IRecipeControllerService, RecipeControllerService>();
     }
 
     private void ConfigureInfrastructure(IServiceCollection services)

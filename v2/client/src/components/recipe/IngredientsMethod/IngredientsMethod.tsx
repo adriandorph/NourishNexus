@@ -7,22 +7,20 @@ import { Nutrient } from '../../../types/nutrient';
 import NNTextArea from '../../NNTextArea/NNTextArea';
 import NNButton from '../../NNButton';
 import global from '../../../global';
-import { useNavigate } from 'react-router';
 import removeSVG from '../../../assets/remove.svg';
 import IconButton from '../../IconButton/IconButton';
+import { Recipe } from '../../../types/recipe';
 
 interface IngredientsMethodProps {
-    ingredients: Ingredient[];
-    method: string;
+    recipe: Recipe;
     isEditing: boolean;
     onChangeMethod: (method: string) => void;
     onRemoveIngredient: (ingredient: Ingredient) => void;
+    onAddIngredient: () => void;
 }
 
-const IngredientsMethod = ({ ingredients, method, isEditing, onChangeMethod, onRemoveIngredient }: IngredientsMethodProps) => {
+const IngredientsMethod = ({ recipe, isEditing, onChangeMethod, onRemoveIngredient, onAddIngredient }: IngredientsMethodProps) => {
     const [selectedTab, setSelectedTab] = useState('ingredients');
-
-    const navigate = useNavigate();
 
     const tabSelectClass = (tab: string): string => {
         return tab === selectedTab ? 'tab-selected selected' : 'tab-selected';
@@ -41,13 +39,6 @@ const IngredientsMethod = ({ ingredients, method, isEditing, onChangeMethod, onR
         return Array.from(sumNutrients.entries()).map(([_, value]) => value);
     }
 
-    const handleAddIngredient = () => {
-        //TODO
-        //Save edited recipe to sessionStorage
-        //Redirect to ingredients page
-        navigate('/ingredients');
-    }
-
     return (
         <div className='ingredients-method-container'>
             <div className='ingredients-method-navigator'>
@@ -61,12 +52,12 @@ const IngredientsMethod = ({ ingredients, method, isEditing, onChangeMethod, onR
                 </div>
             </div>
             <div className='ingredients-method-text'>
-                {selectedTab !== 'ingredients' && isEditing !== true && method}
-                {selectedTab !== 'ingredients' && isEditing && <NNTextArea value={method} onChange={onChangeMethod} />}
+                {selectedTab !== 'ingredients' && isEditing !== true && recipe.method}
+                {selectedTab !== 'ingredients' && isEditing && <NNTextArea value={recipe.method} onChange={onChangeMethod} />}
                 {selectedTab === 'ingredients' && 
                     <div className='ingredients'>
                         <div className='ingredients-ingredients'>
-                            {ingredients.map((ingredient, index) => 
+                            {recipe.ingredients.map((ingredient, index) => 
                             <div className='ingredient-row' key={index}>
                                 {isEditing && <IconButton src={removeSVG} alt={'remove'} onClick={() => {onRemoveIngredient(ingredient)}} />}
                                 <IngredientComponent key={index} ingredient={ingredient} />
@@ -80,12 +71,12 @@ const IngredientsMethod = ({ ingredients, method, isEditing, onChangeMethod, onR
                                     color={global.secondaryColor} 
                                     textColor={global.textColor} 
                                     sizePX={12}
-                                    onClick={handleAddIngredient} />
+                                    onClick={onAddIngredient} />
                             </div> 
                         }
                         <div className='total-nutrition-details'>
                             <div className='total-nutrition-details-label'>Total Nutrition</div>
-                            <NutritionDetails nutrients={totalNutrients(ingredients)} enableHideNutrients={true}/>
+                            <NutritionDetails nutrients={totalNutrients(recipe.ingredients)} enableHideNutrients={true}/>
                         </div>
                     </div>
                 }

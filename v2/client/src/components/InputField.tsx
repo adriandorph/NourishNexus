@@ -9,6 +9,7 @@ interface InputFieldProps {
 }
 
 function InputField(props : InputFieldProps) {
+
     return (
         <div>
             <div className='input-title'>{props.title}</div>
@@ -20,7 +21,6 @@ function InputField(props : InputFieldProps) {
                     onChange={props.onChange} 
                 />
             </div>
-            
         </div>
     );
 }

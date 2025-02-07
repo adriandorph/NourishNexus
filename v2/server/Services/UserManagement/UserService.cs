@@ -113,10 +113,10 @@ public class UserService(
     public async Task<bool> DeleteUserAsync(string userId)
     {
         //TODO: Remove all references to the user from other collections
-        //TODO: Delete the profile picture
         await DeleteProfilePictureAsync(userId);
         await _userRepo.DeleteUser(userId);
         await _authRepo.DeleteAuthentication(userId);
+        await _imageRepo.DeleteImageAsync(userId);
         return true;
     }
 

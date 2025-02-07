@@ -1,7 +1,7 @@
 @import '../../styles/global.scss';
 
-textarea {
-    all: unset;
+.recipe-container {
+    width: 100%;
 }
 
 .image-replacement {
@@ -16,7 +16,7 @@ textarea {
 
 .image-title {
     position: relative;
-    height: min(60svw, 450px)
+    height: 60svw
 }
 
 .image-top-buttons-container {
@@ -67,6 +67,15 @@ textarea {
     margin-top: 5px;
     margin-bottom: 10px;
     font-size: 30px;
+}
+
+input.title {
+    all: unset;
+    margin-left: 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    width: calc(100% - 30px);
 }
 
 .description-container {
@@ -122,12 +131,20 @@ textarea {
 .recipe-save-cancel {
     display: flex;
     justify-content: space-around;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     margin-right: 5px;
     margin-left: 5px;
     width: 100%;
     max-width: 300px;
+}
+
+.delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: max-content;
+    margin: 40px;
 }
 
 @media screen and (min-width: 800px) {
@@ -142,6 +159,11 @@ textarea {
 
     .image {
         height: 450px;
+    }
+
+    .image-title {
+        position: relative;
+        height: min(60svw, 450px)
     }
 
     .image-top-buttons {

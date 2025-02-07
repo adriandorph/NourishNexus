@@ -1,12 +1,10 @@
-import { useEffect } from 'react';
 import HorizontalFoodRoll from '../components/HorizontalFoodRoll';
 import Logo from '../components/Logo';
 import SearchBar from '../components/SearchBar';
 import Footer from '../components/Footer';
 import '../styles/DiscoverPage.scss';
-import authService from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-import { Recipe, ThumbnailRecipe } from '../types/recipe';
+import { ThumbnailRecipe } from '../types/recipe';
 import { User } from '../types/user';
 
 function DiscoverPage() {
@@ -131,12 +129,6 @@ function DiscoverPage() {
             }
         ]
     }
-
-    /*useEffect(() => {
-        if(!authService.handleAuthorization()) {
-            navigate('/authenticate')
-        }
-    }, [])*/
     
     return (
         <>

@@ -37,6 +37,7 @@ public class RecipeRepository(IMongoDatabase mongoDB) : IRecipeRepository
 
     public async Task<Recipe?> GetRecipeById(string recipeId)
     {
+        if (!IsValidId(recipeId)) return null;
         var collection = _mongoDB.GetCollection<Recipe>("Recipes");
         var filter = Builders<Recipe>.Filter.Eq("Id", recipeId);
         return await collection.Find(filter).FirstOrDefaultAsync();
@@ -59,5 +60,10 @@ public class RecipeRepository(IMongoDatabase mongoDB) : IRecipeRepository
         var collection = _mongoDB.GetCollection<Recipe>("Recipes");
         var filter = Builders<Recipe>.Filter.In("Id", recipeIds);
         return await collection.Find(filter).ToListAsync();
+    }
+
+    private static bool IsValidId(string id) {
+        //24 digit hex string
+        return id.Length == 24 && id.All(c => char.IsLetterOrDigit(c));
     }
 }

@@ -16,14 +16,22 @@ public class RecipeService(
         var recipe = new Recipe
         {
             Title = recipeCreateDTO.Title,
+            Fork = recipeCreateDTO.Fork,
             AuthorId = recipeCreateDTO.AuthorId,
             Description = recipeCreateDTO.Description,
+
             Steps = recipeCreateDTO.Steps,
             Accessibility = recipeCreateDTO.Accessibility.ToAccessibility(),
-            Ingredients = recipeCreateDTO.Ingredients.Select(Ingredient.FromDTO).ToList()
+            Ingredients = recipeCreateDTO.Ingredients?.Select(Ingredient.FromDTO).ToList() ?? [],
         };
 
-        return await _recipeRepository.CreateRecipe(recipe);
+        
+        var createdRecipe = await _recipeRepository.CreateRecipe(recipe);
+        if (createdRecipe == null) return null;
+        if (recipeCreateDTO.ImageBase64 == null) return createdRecipe;
+
+        var createdImage = await CreateImage(recipeCreateDTO.ImageBase64, createdRecipe);
+        return await _recipeRepository.GetRecipeById(createdRecipe.Id);
     }
 
     public async Task<Recipe?> UpdateRecipeAsync(RecipeUpdateDTO recipeUpdateDTO)
@@ -36,6 +44,20 @@ public class RecipeService(
         recipe.Steps = recipeUpdateDTO.Steps;
         recipe.Accessibility = recipeUpdateDTO.Accessibility.ToAccessibility();
         recipe.Ingredients = recipeUpdateDTO.Ingredients.Select(Ingredient.FromDTO).ToList();
+
+        if (recipeUpdateDTO.ImageBase64 == null && recipe.ImageId != null)
+        {
+            await _imageRepository.DeleteImageAsync(recipe.ImageId);
+            recipe.ImageId = null;
+        }
+        else if (recipeUpdateDTO.ImageBase64 != null)
+        {
+            var image = await UpdateImageAsync(new UpdateRecipeImageDTO(
+                recipe.Id,
+                recipeUpdateDTO.ImageBase64
+            ));
+            recipe.ImageId = image?.Id;
+        }
 
         return await _recipeRepository.UpdateRecipe(recipe);
     }
@@ -54,6 +76,8 @@ public class RecipeService(
             //Update image
             var existingImage = await _imageRepository.GetImageByIdAsync(recipe.ImageId);
             if (existingImage == null) return await CreateImage(updateRecipeImageDTO.ImageBase64, recipe);
+            else if (existingImage.ImageBase64 == updateRecipeImageDTO.ImageBase64) 
+                return existingImage;
 
             existingImage.ImageBase64 = updateRecipeImageDTO.ImageBase64;
             return await _imageRepository.UpdateImageAsync(existingImage);
